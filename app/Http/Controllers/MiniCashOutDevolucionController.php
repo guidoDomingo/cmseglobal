@@ -1,0 +1,59 @@
+<?php
+
+namespace App\Http\Controllers;
+
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use App\Services\MiniCashOutDevolucionServices;
+
+
+
+class MiniCashOutDevolucionController extends Controller
+{
+
+    public function __construct(Request $request)
+    {
+        $atm_id = (isset($request->atm_id)) ? $request->atm_id : null;
+        $this->services =  new MiniCashOutDevolucionServices($atm_id);
+    }
+
+    public function successMini(Request $request){
+
+        $id = $request->id;
+
+       $response = $this->services->successMini($id);
+
+       return $response;
+    }
+
+    public function cancelMin(Request $request){
+        $id     = $request->id;
+        $motivo = $request->motivo;
+
+        $response = $this->services->cancelMin($id,$motivo);
+ 
+        return $response;
+    }
+
+    public function getDataMini(){
+
+        $result = $this->services->getDatamini();
+        return view('reporting.index',compact('target','status','status_id','tipo','tipo_id'))->with($result);
+    }
+
+    public function getDataminiSearch(){
+
+        $input = \Request::all();
+        $result = $this->services->getDataMiniSearch($input);
+        return view('reporting.index',compact('target','status','status_id','tipo','tipo_id','amountView','transactionsCount'))->with($result);
+
+    }
+    public function dataModal(Request $request){
+
+        $result = $this->services->dataModal($request->id);
+        return $result;
+    }
+
+
+}
