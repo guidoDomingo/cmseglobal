@@ -64,7 +64,7 @@ class PointOfSaleVoucherController extends Controller
             return redirect('/');
         }
 
-        $voucherTypes = PosSaleVoucherType::where('point_of_sale_id', $posId)->with('VoucherType')->get()->lists('VoucherType.description', 'id');
+        $voucherTypes = PosSaleVoucherType::where('point_of_sale_id', $posId)->with('VoucherType')->get()->pluck('VoucherType.description', 'id');
 
         $data = [
             'voucherTypes' => $voucherTypes,
@@ -216,7 +216,7 @@ class PointOfSaleVoucherController extends Controller
             return redirect('/');
         }
 
-        $voucherTypes = PosSaleVoucherType::where('point_of_sale_id', $id)->with('VoucherType')->get()->lists('VoucherType.description', 'id');
+        $voucherTypes = PosSaleVoucherType::where('point_of_sale_id', $id)->with('VoucherType')->get()->pluck('VoucherType.description', 'id');
         $posVoucher = PosSaleVoucher::with('voucherType')->find($pos_voucher_type_id);
         $pos    = Pos::find($id);
 

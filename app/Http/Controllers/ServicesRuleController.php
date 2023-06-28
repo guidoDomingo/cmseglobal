@@ -36,7 +36,7 @@ class ServicesRuleController extends Controller
             return redirect('/');
         }
         
-        $owners = Owner::all()->lists('name','id');
+        $owners = Owner::all()->pluck('name','id');
 
         $name = $request->get('name');
         $servicesRules = ServiceRule::filterAndPaginate($name);
@@ -58,10 +58,10 @@ class ServicesRuleController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $owners = Owner::all()->lists('name','id');
+        $owners = Owner::all()->pluck('name','id');
         $owners->prepend('Ninguno', '0');
         
-        $services   = ServiciosMarca::all()->lists('descripcion','marca_id');
+        $services   = ServiciosMarca::all()->pluck('descripcion','marca_id');
         $services->prepend('Ninguno','-1');      
         
         return view('services_rule.create', compact('owners','services'));
@@ -154,10 +154,10 @@ class ServicesRuleController extends Controller
             return redirect('/');
         }
 
-        $owners = Owner::all()->lists('name','id');
+        $owners = Owner::all()->pluck('name','id');
         $owners->prepend('Ninguno', '0');
         
-        $services   = ServiciosMarca::all()->lists('descripcion','marca_id');
+        $services   = ServiciosMarca::all()->pluck('descripcion','marca_id');
         $services->prepend('Ninguno','-1');
         
         if($servicio = ServiceRule::find($idservice_rule)){

@@ -86,6 +86,8 @@ class AlquilerController extends Controller
                     select SERIAL, CLIENTE, DEPOSITO, 'FK' as nombre from LISTADO_SERIALES_PROYECTOFK_ALQUILADOS
         "));
 
+        dd($seriales);
+
         foreach ($grupos as $key => $grupo) {
             $data_select[$grupo->id] = $grupo->description . ' | ' . $grupo->ruc;
         }

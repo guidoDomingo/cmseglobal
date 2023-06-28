@@ -34,11 +34,11 @@ class AtmHasCampaignController extends Controller
      
         $campaign_id    = $request->get('campaign_id');
         $campaign       = Campaign::find($campaign_id);
-        $atms_list      = \DB::table('atms')->orderBy('id','asc')->whereNull('deleted_at')->lists('name','id');   //listado de atm
-        // $providers      = \DB::table('promotions_providers')->lists('name','id');
-        $business_list       = \DB::table('business')->lists('description','id');
+        $atms_list      = \DB::table('atms')->orderBy('id','asc')->whereNull('deleted_at')->pluck('name','id');   //listado de atm
+        // $providers      = \DB::table('promotions_providers')->pluck('name','id');
+        $business_list       = \DB::table('business')->pluck('description','id');
 
-        $branches       = \DB::table('promotions_branches')->lists('name','id');
+        $branches       = \DB::table('promotions_branches')->pluck('name','id');
         $asociaciones   = AtmHasCampaign::where('atm_has_campaigns.campaigns_id',$campaign_id)
         ->select(['atm_has_campaigns.id','atm_has_campaigns.atm_id as atm_id','atms.name as atm_name','atm_has_campaigns.promotions_branches_id as id_branch','promotions_branches.name as branch_name'])
         ->join('atms', 'atms.id', '=', 'atm_has_campaigns.atm_id')

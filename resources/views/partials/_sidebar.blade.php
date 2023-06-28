@@ -191,7 +191,7 @@
                                         <a href="{{ route('miniterminales.index') }}">
                                             <i class="fa fa-building"></i><span>Housing</span>
                                         </a>
-                                        <a href="{{ route('devices.show') }}">
+                                        <a href="{{ route('devices.showGet') }}">
                                             <i class="fa fa-server"></i><span>Listado de dispositivos</span>
                                         </a>
                                     </li>

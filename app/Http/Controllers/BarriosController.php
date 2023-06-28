@@ -57,7 +57,7 @@ class BarriosController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $ciudades = \DB::table('ciudades')->orderBy('id','asc')->lists('descripcion','id');
+        $ciudades = \DB::table('ciudades')->orderBy('id','asc')->pluck('descripcion','id');
 
         return view('barrios.create', compact('ciudades'));
     }
@@ -182,7 +182,7 @@ class BarriosController extends Controller
         }
 
         if($barrio = Barrio::find($id)){
-            $ciudades = \DB::table('ciudades')->orderBy('id','asc')->lists('descripcion','id');
+            $ciudades = \DB::table('ciudades')->orderBy('id','asc')->pluck('descripcion','id');
             $data = [
                 'barrio' => $barrio,
                 'ciudades' => $ciudades,

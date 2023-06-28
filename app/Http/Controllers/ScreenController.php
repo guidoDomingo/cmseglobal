@@ -68,19 +68,19 @@ class ScreenController extends Controller
         }
 
         if (!is_null($appId)) {
-            $app = Applications::where('id', $appId)->lists('name', 'id');
+            $app = Applications::where('id', $appId)->pluck('name', 'id');
         } else {
             // Rodri decia que esto debia ser por usuarios - Yo estoy en desacuerdo
             if ($this->user->hasRole('security_admin') || $this->user->isSuperuser()) {
-                $app = Applications::lists('name', 'id');
+                $app = Applications::pluck('name', 'id');
                 // TODO filter by owner_id - Angel request
 //                $serviceProvider = 
             } else {
-                $app = Applications::where('owner_id', $this->user->owner_id)->lists('name', 'id');
+                $app = Applications::where('owner_id', $this->user->owner_id)->pluck('name', 'id');
             }
         }
 
-        $serviceProvider = WebServiceProvider::orderBy('name')->lists('name', 'id');
+        $serviceProvider = WebServiceProvider::orderBy('name')->pluck('name', 'id');
 
         $data = [
             'applications' => $app,
@@ -116,7 +116,7 @@ class ScreenController extends Controller
         if ($input['service_provider_id'] == "") {
             $input['service_provider_id'] = null;
         }
-        $input['version_hash'] = Str::quickRandom(40);
+        $input['version_hash'] = Str::random(40);
         try {
             // It's alive!
             Screens::create($input);
@@ -159,18 +159,18 @@ class ScreenController extends Controller
         if ($screen = Screens::find($id)) {
             $appId = $request->get('app_id');
             if (!is_null($appId)) {
-                $app = Applications::where('id', $appId)->lists('name', 'id');
+                $app = Applications::where('id', $appId)->pluck('name', 'id');
             } else {
                 if ($this->user->hasRole('security_admin') || $this->user->isSuperuser()) {
-                    $app = Applications::lists('name', 'id');
+                    $app = Applications::pluck('name', 'id');
                     // TODO filter by owner_id - Angel request
 //                $serviceProvider =
                 } else {
-                    $app = Applications::where('owner_id', $this->user->owner_id)->lists('name', 'id');
+                    $app = Applications::where('owner_id', $this->user->owner_id)->pluck('name', 'id');
                 }
             }
 
-            $serviceProvider = WebServiceProvider::orderBy('name')->lists('name', 'id');
+            $serviceProvider = WebServiceProvider::orderBy('name')->pluck('name', 'id');
 
             $data = [
                 'applications' => $app,
@@ -209,7 +209,7 @@ class ScreenController extends Controller
             if ($input['service_provider_id'] == "") {
                 $input['service_provider_id'] = null;
             }
-            $input['version_hash'] = Str::quickRandom(40);
+            $input['version_hash'] = Str::random(40);
 
             $screen->fill($input);
             try {

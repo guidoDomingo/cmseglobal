@@ -73,8 +73,8 @@ class ScreenObjectsController extends Controller
         }
         $screenId = $request->get('screen_id');
         if ($screenId > -1){
-            $screens = Screens::where('id', $screenId)->lists('name', 'id');
-            $objects = ObjectType::all()->lists('name', 'id');
+            $screens = Screens::where('id', $screenId)->pluck('name', 'id');
+            $objects = ObjectType::all()->pluck('name', 'id');
             $data = [
                 'screens' => $screens,
                 'objects' => $objects,
@@ -104,7 +104,7 @@ class ScreenObjectsController extends Controller
 
         $inputObj = $request->all();
         $inputObj['html'] = $inputObj['hdn_html'];
-        $inputObj['version_hash'] = Str::quickRandom(40);
+        $inputObj['version_hash'] = Str::random(40);
         $screenObject = ScreenObjects::create($inputObj);
 
         /********** DATA FOR RESOURCES PATH **************/
@@ -237,7 +237,7 @@ class ScreenObjectsController extends Controller
 
         if ($screenObject = ScreenObjects::find($id)){
             $objectTypeId = $screenObject->object_type_id;
-            $screens = Screens::where('id', $screenObject->screen_id)->lists('name', 'id');
+            $screens = Screens::where('id', $screenObject->screen_id)->pluck('name', 'id');
             $screen = Screens::find($screenObject->screen_id);
             $object = ObjectType::find($objectTypeId);
 
@@ -275,7 +275,7 @@ class ScreenObjectsController extends Controller
 
         $inputObj = $request->all();
         $inputObj['html'] = $inputObj['hdn_html'];
-        $inputObj['version_hash'] = Str::quickRandom(40);
+        $inputObj['version_hash'] = Str::random(40);
         if ($screenObject = ScreenObjects::find($id)){
             $screenObject->fill($inputObj);
             $screenObject->save();

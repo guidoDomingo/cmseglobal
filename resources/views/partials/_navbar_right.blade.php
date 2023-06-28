@@ -39,7 +39,7 @@
                 <!-- Menu Footer-->
                 <li class="user-footer">
                     <div class="pull-left">
-                        <a href="{{ route('users.show', ['id' => \Sentinel::getUser()->id]) }}"
+                        <a href="{{ route('users.showProfile', ['id' => \Sentinel::getUser()->id]) }}"
                            class="btn btn-success btn-flat">Perfil</a>
                     </div>
                     <div class="pull-right">

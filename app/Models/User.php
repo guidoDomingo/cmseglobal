@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Cartalyst\Sentinel\Users\EloquentUser;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Collection;
@@ -35,6 +36,18 @@ class User extends EloquentUser
         'phone_number',
         'created_by'
     ];
+
+     // Mutador (mutator) para establecer el campo `last_login` como instancia de Carbon
+     public function setLastLoginAttribute($value)
+     {
+         $this->attributes['last_login'] = Carbon::parse($value);
+     }
+ 
+     // Accesor (accessor) para obtener el campo `last_login` como instancia de Carbon
+     public function getLastLoginAttribute($value)
+     {
+         return Carbon::parse($value);
+     }
 
     protected $loginNames = ['username'];
     /**

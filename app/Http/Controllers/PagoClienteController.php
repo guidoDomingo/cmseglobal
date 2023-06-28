@@ -75,7 +75,7 @@ class PagoClienteController extends Controller
             $group =  \DB::table('mt_pago_clientes')
             ->selectRaw('DISTINCT group_id')
             ->whereRaw("created_at BETWEEN '$hoy' AND '$tomorrow'")
-            ->lists('group_id');
+            ->pluck('group_id');
 
             $groups = implode(', ', $group);
 

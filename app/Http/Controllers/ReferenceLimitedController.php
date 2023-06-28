@@ -54,9 +54,9 @@ class ReferenceLimitedController extends Controller
             return redirect('/');
         }
 
-        $serviciosRules = ServiceRule::all()->lists('description','idservice_rule');
+        $serviciosRules = ServiceRule::all()->pluck('description','idservice_rule');
         $serviciosRules->prepend('Ninguno', '0');
-        $parametrosRules= ParamsRule::all()->lists('description','idparam_rules');
+        $parametrosRules= ParamsRule::all()->pluck('description','idparam_rules');
         $parametrosRules->prepend('Ninguno', '0');
         return view('references_limited.create', compact('parametrosRules','serviciosRules'));
     }
@@ -108,8 +108,8 @@ class ReferenceLimitedController extends Controller
         }
 
         if($reference_limited = \DB::table('reference_limited')->where('service_rule_id', $idparam_rules)->where('current_params_rule_id', $current_params_rule_id)->where('reference', $reference)->first()){
-            $serviciosRules = ServiceRule::all()->lists('description','idservice_rule');
-            $parametrosRules= ParamsRule::all()->lists('description','idparam_rules');            
+            $serviciosRules = ServiceRule::all()->pluck('description','idservice_rule');
+            $parametrosRules= ParamsRule::all()->pluck('description','idparam_rules');            
             $frequency =$reference_limited->frequency_last_updated;
             $data = [
                 'reference_limited' => $reference_limited,

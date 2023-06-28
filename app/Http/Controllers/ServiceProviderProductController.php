@@ -35,7 +35,7 @@ class ServiceProviderProductController extends Controller
      */
     public function create()
     {
-        $wsproviders = WebServiceProvider::all()->lists('name', 'id');
+        $wsproviders = WebServiceProvider::all()->pluck('name', 'id');
         $data = ['wsproviders' => $wsproviders];
         return view('wsproducts.create', $data);
     }
@@ -85,7 +85,7 @@ class ServiceProviderProductController extends Controller
      */
     public function edit($id)
     {
-        $wsproviders = WebServiceProvider::all()->lists('name', 'id');
+        $wsproviders = WebServiceProvider::all()->pluck('name', 'id');
         $wsproduct = ServiceProviderProduct::find($id);
         $data = [
             'wsproviders' => $wsproviders,

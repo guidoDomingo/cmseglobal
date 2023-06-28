@@ -122,7 +122,7 @@ class DepositoCuotaServices extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-                    ->lists('id_atm');
+                    ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -132,7 +132,7 @@ class DepositoCuotaServices extends Controller
 
             $atm_id = implode(', ', $atms);
 
-            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $boleta_deposito_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $boleta_deposito_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $boleta_deposito_id)->first();
 
@@ -267,7 +267,7 @@ class DepositoCuotaServices extends Controller
                 //->where('atms.owner_id', 44)
                 ->where('atms.id', $atm_id)
                 ->whereNull('atms.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -279,7 +279,7 @@ class DepositoCuotaServices extends Controller
 
             $recibo=\DB::table('mt_recibos_pagos_miniterminales')->where('id', $boleta_id)->first();
 
-            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo->recibo_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo->recibo_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo->recibo_id)->first();
 
@@ -403,7 +403,7 @@ class DepositoCuotaServices extends Controller
             ->orderBy('cuotas.numero_cuota', 'ASC')
             ->orderBy('cuotas.fecha_vencimiento', 'ASC')
             ->take($cant_cuota)
-            ->lists('cuotas.numero_cuota');
+            ->pluck('cuotas.numero_cuota');
                         
             $cuotas_pendientes = implode(';', $cuotas);
             \Log::info('[Deposito de Cuota] Cuotas a cobrar', ['cuotas' => $cuotas_pendientes, 'housing_id' => $housing]);    
@@ -608,7 +608,7 @@ class DepositoCuotaServices extends Controller
                 ->orderBy('cuotas.numero_cuota', 'ASC')
                 ->orderBy('cuotas.fecha_vencimiento', 'ASC')
                 ->take($cant_cuota)
-            ->lists('cuotas.numero_cuota');
+            ->pluck('cuotas.numero_cuota');
                         
             $cuotas_pendientes = implode(';', $cuotas);
             \Log::info('[Deposito de Cuota] Cuotas a cobrar', ['cuotas' => $cuotas_pendientes, 'housing_id' => $housing]);    

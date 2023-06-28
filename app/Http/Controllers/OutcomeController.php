@@ -65,11 +65,11 @@ class OutcomeController extends Controller
 
         if ($this->user->hasRole('security_admin') || $this->user->hasRole('superuser')) {
             \Log::info("Securty admin or SuperUser - Display all providers");
-            $providers = Provider::lists('business_name', 'id');
-            $owners = Owner::lists('name', 'id');
+            $providers = Provider::pluck('business_name', 'id');
+            $owners = Owner::pluck('name', 'id');
         }else{
             \Log::info("Display providers for Owner_id: {$this->user->owner_id}");
-            $providers = Provider::where('owner_id', $this->user->owner_id)->lists('business_name', 'id');
+            $providers = Provider::where('owner_id', $this->user->owner_id)->pluck('business_name', 'id');
             $owners = null;
         }
         $data = [
@@ -147,11 +147,11 @@ class OutcomeController extends Controller
         if ($outcome = Outcomes::find($id)){
             if ($this->user->hasRole('security_admin') || $this->user->hasRole('superuser')) {
                 \Log::info("Securty admin or SuperUser - Display all providers");
-                $providers = Provider::lists('business_name', 'id');
-                $owners = Owner::lists('name', 'id');
+                $providers = Provider::pluck('business_name', 'id');
+                $owners = Owner::pluck('name', 'id');
             }else{
                 \Log::info("Display providers for Owner_id: {$this->user->owner_id}");
-                $providers = Provider::where('owner_id', $this->user->owner_id)->lists('business_name', 'id');
+                $providers = Provider::where('owner_id', $this->user->owner_id)->pluck('business_name', 'id');
                 $owners = null;
             }
             $data = [

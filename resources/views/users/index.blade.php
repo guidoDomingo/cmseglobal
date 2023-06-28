@@ -64,7 +64,7 @@
                                     <td>
                                         @if (Sentinel::hasAccess('users.add|edit'))
                                             <a class="btn btn-info btn-flat btn-row" title="Ver"
-                                               href="{{ route('users.show', ['id' => $user->id]) }}"><i class="fa fa-search"></i></a>
+                                               href="{{ route('users.showProfile', ['id' => $user->id]) }}"><i class="fa fa-search"></i></a>
                                             <a class="btn btn-success btn-flat btn-row" title="Editar"
                                                href="{{ route('users.edit',$user->id)}}"><i
                                                         class="fa fa-pencil"></i></a>

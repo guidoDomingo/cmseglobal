@@ -21,7 +21,7 @@ Sucursales
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-        <a href="{{ route('groups.branches.create',['id' => $groupId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+        <a href="{{ route('groups.branches.create',['groupId' => $groupId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">
           {!! Form::model(Request::only(['description']),['route' => ['groups.branches',$groupId], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}

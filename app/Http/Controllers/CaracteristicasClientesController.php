@@ -68,13 +68,13 @@ class CaracteristicasClientesController extends Controller
             return redirect('/');
         }
 
-        $bancos          = \DB::table('clientes_bancos')->lists('descripcion','id');
+        $bancos          = \DB::table('clientes_bancos')->pluck('descripcion','id');
         $banco_id        = 0;
-        $tipo_cuentas    = \DB::table('clientes_tipo_cuenta')->lists('descripcion','id');
+        $tipo_cuentas    = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id');
         $tipo_cuentas_id = 0;
-        $canales         = \DB::table('canal')->lists('descripcion','id');
+        $canales         = \DB::table('canal')->pluck('descripcion','id');
         $canal_id        = 0;
-        $categorias      = \DB::table('categorias')->lists('descripcion','id');
+        $categorias      = \DB::table('categorias')->pluck('descripcion','id');
         $categoria_id    = 0;
 
         return view('caracteristicas_clientes.create', compact('bancos','banco_id','tipo_cuentas','tipo_cuentas_id','canales','canal_id','categorias','categoria_id','group_id'));
@@ -216,10 +216,10 @@ class CaracteristicasClientesController extends Controller
             $group_id = $id; 
             $grupo = Group::where('id',$caracteristica->group_id)->first();
 
-            $bancos          = \DB::table('clientes_bancos')->lists('descripcion','id');
-            $tipo_cuentas    = \DB::table('clientes_tipo_cuenta')->lists('descripcion','id');
-            $canales         = \DB::table('canal')->lists('descripcion','id');
-            $categorias      = \DB::table('categorias')->lists('descripcion','id');
+            $bancos          = \DB::table('clientes_bancos')->pluck('descripcion','id');
+            $tipo_cuentas    = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id');
+            $canales         = \DB::table('canal')->pluck('descripcion','id');
+            $categorias      = \DB::table('categorias')->pluck('descripcion','id');
 
             $data = [
                 'grupo'          =>$grupo,

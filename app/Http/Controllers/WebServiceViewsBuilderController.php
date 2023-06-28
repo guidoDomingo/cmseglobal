@@ -41,26 +41,26 @@ class WebServiceViewsBuilderController extends Controller
 
 
         $screen_objects = \DB::table('screen_objects')->where('screen_id', $screen_id)
-            ->lists('name','id');
+            ->pluck('name','id');
         $screen_objects[0] = 'Ninguno';
 
         //get service request
         $service_requests = \DB::table('service_provider_product_service_request')
             ->join('service_requests','service_requests.id','=','service_provider_product_service_request.service_request_id')
             ->where('service_provider_product_id',$wsproduct_id)
-            ->lists('keyword','id');
+            ->pluck('keyword','id');
 
         //get service models
         $models = \DB::table('services_model')
             ->where('service_id',$wsproduct_id)
-            ->lists('key','key');
+            ->pluck('key','key');
 
         //get service views
         $screens = \DB::table('services_views_description')
             ->where('service_id',$wsproduct_id)
-            ->lists('description','id');
+            ->pluck('description','id');
 
-        $objects_types = \DB::table('screens_mask')->lists('value','value');
+        $objects_types = \DB::table('screens_mask')->pluck('value','value');
 
         return view('webservicesbuilderviews.create',compact('wsproduct_id','wsscreen_id','screen_objects','objects_types','service_requests','models','screens'));
     }
@@ -148,26 +148,26 @@ class WebServiceViewsBuilderController extends Controller
         $screen_id = $view->screen_id;
 
         $screen_objects = \DB::table('screen_objects')->where('screen_id', $screen_id)
-            ->lists('name','id');
+            ->pluck('name','id');
         $screen_objects[0] = 'Ninguno';
 
         //get service request
         $service_requests = \DB::table('service_provider_product_service_request')
             ->join('service_requests','service_requests.id','=','service_provider_product_service_request.service_request_id')
             ->where('service_provider_product_id',$wsproduct_id)
-            ->lists('keyword','id');
+            ->pluck('keyword','id');
 
         //get service models
         $models = \DB::table('services_model')
             ->where('service_id',$wsproduct_id)
-            ->lists('key','key');
+            ->pluck('key','key');
 
         //get service views
         $screens = \DB::table('services_views_description')
             ->where('service_id',$wsproduct_id)
-            ->lists('description','id');
+            ->pluck('description','id');
 
-        $objects_types = \DB::table('screens_mask')->lists('value','value');
+        $objects_types = \DB::table('screens_mask')->pluck('value','value');
 
         $service_view = \DB::table('services_views')
             ->select('services_views.id','screen_id','tipo','longitud_min','longitud_max','valorMinimo','requerido','oculto','editable','err_msg','services_views.model as service_model','controller','object_id','value','view_id','request_service_id','endpoint','services_controllers.model as controller_model','on_success_path','on_fail_path')

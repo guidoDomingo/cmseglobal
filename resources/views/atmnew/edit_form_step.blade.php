@@ -224,7 +224,7 @@
                                                 {!! Form::hidden('abm','v2') !!}
 
                                             @else
-                                                {!! Form::model($credencial_ondanet,['route' => ['credentials.ondanet.update', $credencial_ondanet->id ] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevaCredencialOndanet-form']) !!}
+                                                {!! Form::model($credencial_ondanet,['route' => ['credentials.ondanet.update.id', $credencial_ondanet->id ] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevaCredencialOndanet-form']) !!}
                                                 {{-- {!! Form::hidden('id',$contrato->id) !!} --}}
                                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                                 {!! Form::hidden('abm','v2') !!}

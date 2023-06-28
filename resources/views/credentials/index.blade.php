@@ -46,7 +46,7 @@
                                     <td>{{ $credential->updated_at }}</td>
                                     <td>
                                         @if (Sentinel::hasAccess('atms.add|edit'))
-                                        <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('atm.credentials.edit',['atm_id' => $credential->atm_id, 'credential_id' =>$credential->id])}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('atm.credentials.edit',['atm' => $credential->atm_id, 'credential' =>$credential->id])}}"><i class="fa fa-pencil"></i></a>
 
                                         @endif
                                         @if (Sentinel::hasAccess('atms.delete'))

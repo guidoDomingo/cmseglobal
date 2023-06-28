@@ -69,11 +69,11 @@ class CobranzaController extends Controller
             ->where('atms_per_users.user_id', $this->user->id)
             ->whereIn('atms.owner_id', [16, 21, 25])
             ->orderBy('atms.id', 'asc')
-        ->lists('name', 'id');
+        ->pluck('name', 'id');
 
         $tipo_pago = \DB::table('tipo_pago')
         ->orderBy('id', 'asc')
-        ->lists('descripcion', 'id');
+        ->pluck('descripcion', 'id');
 
         $bancos = [];
 
@@ -82,7 +82,7 @@ class CobranzaController extends Controller
         $grupos = \DB::table('business_groups')
         ->orderBy('id', 'asc')
         ->whereNull('deleted_at')
-        ->lists('description','id');
+        ->pluck('description','id');
         
 
 

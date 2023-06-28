@@ -174,7 +174,7 @@ class DepositoBoletaServices
                     ->whereRaw($where)
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
             
             \Log::info(json_decode(json_encode($atms), true));
 
@@ -341,7 +341,7 @@ class DepositoBoletaServices
                     ->whereRaw($where)
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
             
             if(empty($atms)){
                 $response['message'] = 'El siguiente ATM no tiene reglas de Limite';
@@ -582,7 +582,7 @@ class DepositoBoletaServices
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
                         ->take($i)
-                    ->lists('movements.destination_operation_id');
+                    ->pluck('movements.destination_operation_id');
 
                     $ventasondanet = implode(';', $idventasondanet);
                     \Log::info('[Deposito de Boleta] Ventas a cobrar', ['ventasondanet' => $ventasondanet]);
@@ -653,7 +653,7 @@ class DepositoBoletaServices
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
                         ->take($i)
-                        ->lists('movements.id');
+                        ->pluck('movements.id');
 
                         $venta = implode(', ', $idventas);
 
@@ -691,7 +691,7 @@ class DepositoBoletaServices
                             ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('movements.destination_operation_id','ASC')
                             ->take($i)
-                            ->lists('movements.id');
+                            ->pluck('movements.id');
 
                             foreach($idventas as $venta){
                                 \DB::table('miniterminales_sales')
@@ -717,7 +717,7 @@ class DepositoBoletaServices
                             ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('movements.destination_operation_id','ASC')
                             ->take($cobradostotal)
-                            ->lists('movements.id');
+                            ->pluck('movements.id');
 
                             foreach($salescobradas as $salecobrada){
                                 $result=\DB::table('miniterminales_sales')
@@ -742,7 +742,7 @@ class DepositoBoletaServices
                                 ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                                 ->orderBy('movements.destination_operation_id','ASC')
                                 ->take(1)
-                                ->lists('movements.id');
+                                ->pluck('movements.id');
 
                                 $sale = implode(', ', $salefaltante);
 
@@ -779,7 +779,7 @@ class DepositoBoletaServices
                         ->whereNull('movements.deleted_at')
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
-                        ->lists('movements.destination_operation_id');
+                        ->pluck('movements.destination_operation_id');
                         $ventasondanet = implode(';', $idventasondanet);
                         \Log::info('[Deposito de Boleta] Ventas a cobrar', ['ventasondanet' => $ventasondanet]);
 
@@ -833,7 +833,7 @@ class DepositoBoletaServices
                             ->whereNull('movements.deleted_at')
                             ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('movements.destination_operation_id','ASC')
-                        ->lists('movements.id');
+                        ->pluck('movements.id');
 
                         foreach($idventas as $venta){
                             \DB::table('miniterminales_sales')
@@ -1039,7 +1039,7 @@ class DepositoBoletaServices
                         ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('m.destination_operation_id','ASC')
                         ->take($i)
-                    ->lists('m.destination_operation_id');
+                    ->pluck('m.destination_operation_id');
 
                     $ventasondanet = implode(';', $idventasondanet);*/
 
@@ -1111,7 +1111,7 @@ class DepositoBoletaServices
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
                             ->take($i)
-                        ->lists('m.id');
+                        ->pluck('m.id');
 
                         $venta = implode(', ', $idventas);
 
@@ -1196,7 +1196,7 @@ class DepositoBoletaServices
                                 ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                                 ->orderBy('m.destination_operation_id','ASC')
                                 ->take($i)
-                            ->lists('m.id');
+                            ->pluck('m.id');
 
                             foreach($idventas as $venta){
                                 \DB::table('mt_sales')
@@ -1221,7 +1221,7 @@ class DepositoBoletaServices
                                 ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                                 ->orderBy('m.destination_operation_id','ASC')
                                 ->take($cobradostotal)
-                            ->lists('m.id');
+                            ->pluck('m.id');
 
                             foreach($salescobradas as $salecobrada){
                                 $result=\DB::table('mt_sales')
@@ -1270,7 +1270,7 @@ class DepositoBoletaServices
                                     ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                                     ->orderBy('m.destination_operation_id','ASC')
                                     ->take(1)
-                                ->lists('m.id');
+                                ->pluck('m.id');
 
                                 $sale = implode(', ', $salefaltante);
 
@@ -1317,7 +1317,7 @@ class DepositoBoletaServices
                             ->whereNull('m.deleted_at')
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
-                        ->lists('m.destination_operation_id');
+                        ->pluck('m.destination_operation_id');
                         $ventasondanet = implode(';', $idventasondanet);*/
 
                         $idventasondanet = \DB::table('mt_sales')
@@ -1381,7 +1381,7 @@ class DepositoBoletaServices
                             ->whereNull('m.deleted_at')
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
-                        ->lists('m.id');
+                        ->pluck('m.id');
 
                         foreach($idventas as $venta){
                             \DB::table('mt_sales')

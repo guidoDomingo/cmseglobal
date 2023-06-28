@@ -73,7 +73,7 @@ class AppVersionController extends Controller
             ->where("application_id","=",$appId)
             ->where("screen_type","=",7)
             ->orderBy("name")
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
 
         $service_providers = DB::table('service_providers')
             ->where('deleted_at',null)
@@ -214,7 +214,7 @@ class AppVersionController extends Controller
             ->where("application_id","=",$appId)
             ->where("screen_type","=",7)
             ->orderBy("name")
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
 
         $service_providers = DB::table('service_providers')
             ->where('deleted_at',null)

@@ -58,11 +58,11 @@ class WebServiceController extends Controller
             return redirect('/');
         }
 
-        $wsproviders = WebServiceProvider::all()->lists('name', 'id');
+        $wsproviders = WebServiceProvider::all()->pluck('name', 'id');
         $app_categories = \DB::table('app_categories')
             ->select('name', 'id')
             ->orderBy("name")
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
         $data = ['wsproviders' => $wsproviders,
             'app_categories' => $app_categories];
         return view('webservices.create', $data);
@@ -140,14 +140,14 @@ class WebServiceController extends Controller
             return redirect('/');
         }
 
-        $wsproviders = WebServiceProvider::all()->lists('name', 'id');
+        $wsproviders = WebServiceProvider::all()->pluck('name', 'id');
         $app_categories = \DB::table('app_categories')
             ->select('name', 'id')
             ->orderBy("name")
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
         $webservice = WebService::where('id',$id)->first();
         $requests = WebServiceRequest::where('service_id',$id)->get();
-        $wsproducts = ServiceProviderProduct::where('service_provider_id',$webservice->service_provider_id)->get()->lists('description','id');
+        $wsproducts = ServiceProviderProduct::where('service_provider_id',$webservice->service_provider_id)->get()->pluck('description','id');
         $data = [
             'wsproviders' => $wsproviders,
             'webservice' => $webservice,

@@ -57,7 +57,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -96,14 +96,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $pdvs = Pos::orderBy('description')
@@ -331,7 +331,7 @@ class ReportServices
                                     $query->where('branches.user_id', $input['user_id']);
                                 }
                             })
-                            ->lists('atm_id', 'atm_id');
+                            ->pluck('atm_id', 'atm_id');
                         $atm_id = '(';
                         foreach ($atms as $id_atm => $atm) {
                             $atm_id .= $atm . ', ';
@@ -635,7 +635,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -672,21 +672,21 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             // $branches   = Branch::orderBy('description')->where(function($query) use($whereBranch){
             //     if(!empty($whereBranch)){
             //         $query->whereRaw($whereBranch);
             //     }
-            // })->get()->lists('description','id');
+            // })->get()->pluck('description','id');
             // $branches->prepend('Todos','0');
 
 
@@ -1209,7 +1209,7 @@ class ReportServices
                     //                 $query->where('branches.user_id', $input['user_id']);
                     //             }
                     //         })
-                    //         ->lists('atm_id', 'atm_id');
+                    //         ->pluck('atm_id', 'atm_id');
                     //     $atm_id = '(';
                     //     foreach ($atms as $id_atm => $atm) {
                     //         $atm_id .= $atm.', ';
@@ -1378,20 +1378,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -1549,20 +1549,20 @@ class ReportServices
             if (!empty($whereGroup)) {
                 $query->whereRaw($whereGroup);
             }
-        })->get()->lists('description', 'id');
+        })->get()->pluck('description', 'id');
         $groups->prepend('Todos', '0');
 
         $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
             if (!empty($whereOwner)) {
                 $query->whereRaw($whereOwner);
             }
-        })->get()->lists('name', 'id');
+        })->get()->pluck('name', 'id');
         $owners->prepend('Todos', '0');
         $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
             if (!empty($whereBranch)) {
                 $query->whereRaw($whereBranch);
             }
-        })->get()->lists('description', 'id');
+        })->get()->pluck('description', 'id');
         $branches->prepend('Todos', '0');
         $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
             if (!empty($wherePos)) {
@@ -1843,20 +1843,20 @@ class ReportServices
             if (!empty($whereGroup)) {
                 $query->whereRaw($whereGroup);
             }
-        })->get()->lists('description', 'id');
+        })->get()->pluck('description', 'id');
         $groups->prepend('Todos', '0');
 
         $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
             if (!empty($whereOwner)) {
                 $query->whereRaw($whereOwner);
             }
-        })->get()->lists('name', 'id');
+        })->get()->pluck('name', 'id');
         $owners->prepend('Todos', '0');
         $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
             if (!empty($whereBranch)) {
                 $query->whereRaw($whereBranch);
             }
-        })->get()->lists('description', 'id');
+        })->get()->pluck('description', 'id');
         $branches->prepend('Todos', '0');
         $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
             if (!empty($wherePos)) {
@@ -1964,20 +1964,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -2022,9 +2022,9 @@ class ReportServices
             //Redes
 
 
-            $owners     = Owner::orderBy('name')->get()->lists('name', 'id');
+            $owners     = Owner::orderBy('name')->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->get()->lists('description', 'id');
+            $branches   = Branch::orderBy('description')->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             //$types = array('0'=>'Todos','1'=>'Estados Atms','2'=>'Servicios','4'=>'Saldos');
             $pdvs       = Pos::orderBy('description')->with('Atm')->get();
@@ -2131,9 +2131,9 @@ class ReportServices
                 ->get();
 
             /*Carga datos del formulario*/
-            $owners     = Owner::orderBy('name')->lists('name', 'id');
+            $owners     = Owner::orderBy('name')->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->lists('description', 'id');
+            $branches   = Branch::orderBy('description')->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             //$types = array('0'=>'Todos','1'=>'Estados Atms','2'=>'Servicios','4'=>'Saldos');
             $status = array('-1' => 'Todos', 'false' => 'Pendientes', 'true' => 'Procesados');
@@ -2281,7 +2281,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -2319,14 +2319,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -2444,7 +2444,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
 
                 $atm_id = '(';
                 foreach ($atms as $id_atm => $atm) {
@@ -2546,7 +2546,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -2584,14 +2584,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
@@ -2714,7 +2714,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
 
                 $atm_id = '(';
                 foreach ($atms as $id_atm => $atm) {
@@ -2783,20 +2783,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -2905,20 +2905,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -3070,21 +3070,21 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
@@ -3305,20 +3305,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -3636,13 +3636,13 @@ class ReportServices
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -3653,7 +3653,7 @@ class ReportServices
             $item = array();
             $item[0] = 'Todos';
 
-            $atms = Atm::orderBy('name')->get()->lists("name", 'id');
+            $atms = Atm::orderBy('name')->get()->pluck("name", 'id');
 
             foreach ($pdvs  as $pdv) {
                 $item[$pdv->id] = $pdv->description . ' - ' . $pdv->Atm->code;
@@ -3938,10 +3938,10 @@ class ReportServices
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
-            $atms = Atm::orderBy('name')->get()->lists("name", 'id');
+            $atms = Atm::orderBy('name')->get()->pluck("name", 'id');
             $atmType = array('0' => 'Todos', 'da' => 'App Billetaje', 'ws' => 'Web Service', 'at' => 'Atm');
 
 
@@ -4406,7 +4406,7 @@ class ReportServices
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             if ($whereBranch !== "") {
@@ -4424,7 +4424,7 @@ class ReportServices
                     }
                 )
                 ->get()
-                ->lists('description', 'id');
+                ->pluck('description', 'id');
 
             $branches->prepend('Todos', '0');
 
@@ -4459,7 +4459,7 @@ class ReportServices
                 }
             })
                 ->where('deleted_at', '=', null)
-                ->lists('atm_id', 'atm_id');
+                ->pluck('atm_id', 'atm_id');
 
             $where = "notifications.status in (2,3) AND ";
             /*SET DATE RANGE*/
@@ -4643,7 +4643,7 @@ class ReportServices
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
 
             $atms = \DB::connection('eglobalt_replica')->table('atms')
@@ -4687,7 +4687,7 @@ class ReportServices
                 }
             })
                 ->where('deleted_at', '=', null)
-                ->lists('atm_id', 'atm_id');
+                ->pluck('atm_id', 'atm_id');
 
             switch ($input['status']) {
                 case 'Offline':
@@ -4774,7 +4774,7 @@ class ReportServices
                 }
             })
                 ->where('deleted_at', '=', null)
-                ->lists('atm_id', 'atm_id');
+                ->pluck('atm_id', 'atm_id');
 
             switch ($input['status']) {
                 case 'Offline':
@@ -4858,20 +4858,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -5085,20 +5085,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -5140,7 +5140,7 @@ class ReportServices
             if (isset($input['service_request_id'])) {
                 $servicesRequestData = \DB::table('services_ondanet_pairing')
                     ->whereIn('service_request_id', $input['service_request_id'])
-                    ->lists('service_request_id', 'service_request_id');
+                    ->pluck('service_request_id', 'service_request_id');
             } else {
                 $servicesRequestData = [];
             }
@@ -5184,9 +5184,9 @@ class ReportServices
     {
         try {
             //Redes
-            $owners     = Owner::orderBy('name')->get()->lists('name', 'id');
+            $owners     = Owner::orderBy('name')->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->get()->lists('description', 'id');
+            $branches   = Branch::orderBy('description')->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $types = array('0' => 'Todos', '1' => 'Estados Atms', '2' => 'Servicios', '4' => 'Saldos');
             $pdvs       = Pos::orderBy('description')->with('Atm')->get();
@@ -5269,9 +5269,9 @@ class ReportServices
             }
 
             /*Carga datos del formulario*/
-            $owners     = Owner::orderBy('name')->lists('name', 'id');
+            $owners     = Owner::orderBy('name')->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->lists('description', 'id');
+            $branches   = Branch::orderBy('description')->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $types = array('0' => 'Todos', '1' => 'Estados Atms', '2' => 'Servicios', '4' => 'Saldos');
             $status = array('-1' => 'Todos', 'false' => 'Pendientes', 'true' => 'Procesados');
@@ -5385,7 +5385,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -5423,14 +5423,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
@@ -5583,7 +5583,7 @@ class ReportServices
                                 $query->where('branches.user_id', $input['user_id']);
                             }
                         })
-                        ->lists('atm_id', 'atm_id');
+                        ->pluck('atm_id', 'atm_id');
 
                     $atm_id = '(';
                     foreach ($atms as $id_atm => $atm) {
@@ -5718,7 +5718,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -5755,20 +5755,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -5917,7 +5917,7 @@ class ReportServices
                                 $query->where('branches.user_id', $input['user_id']);
                             }
                         })
-                        ->lists('atm_id', 'atm_id');
+                        ->pluck('atm_id', 'atm_id');
 
                     $atm_id = '(';
                     foreach ($atms as $id_atm => $atm) {
@@ -6047,20 +6047,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -6233,20 +6233,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -6316,20 +6316,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -6597,20 +6597,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -6652,7 +6652,7 @@ class ReportServices
             if (isset($input['service_request_id'])) {
                 $servicesRequestData = \DB::table('services_ondanet_pairing')
                     ->whereIn('service_request_id', $input['service_request_id'])
-                    ->lists('service_request_id', 'service_request_id');
+                    ->pluck('service_request_id', 'service_request_id');
             } else {
                 $servicesRequestData = [];
             }
@@ -6711,20 +6711,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -6941,20 +6941,20 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -7160,13 +7160,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
                 $branches = \DB::table('branches')
                     ->select('branches.*')
                     ->whereIn('branches.user_id', $usersId)
@@ -7191,13 +7191,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -8161,13 +8161,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -8193,13 +8193,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -9024,13 +9024,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -9056,13 +9056,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -9101,13 +9101,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
 
             if (!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
@@ -9268,13 +9268,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -9299,13 +9299,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -9806,7 +9806,7 @@ class ReportServices
             $usersId = \DB::table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $user_id = '(' . implode(',', $usersId) . ')';
 
@@ -10320,7 +10320,7 @@ class ReportServices
             $usersId = \DB::table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $user_id = '(' . implode(',', $usersId) . ')';
 
@@ -10711,13 +10711,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
             /*
             if(\Sentinel::getUser()->inRole('supervisor_miniterminal')){
                 $supervisor = \DB::table('users_x_groups')->where('user_id',$this->user->id)->first();
@@ -10819,13 +10819,13 @@ class ReportServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -11111,7 +11111,7 @@ class ReportServices
             $usersId = \DB::table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $user_id = '(' . implode(',', $usersId) . ')';
 
@@ -11256,7 +11256,7 @@ class ReportServices
                             ->join('role_users', 'users.id', '=', 'role_users.user_id')
                             ->where('role_users.role_id', 22)
                             ->where('branches.group_id', $supervisor->group_id)
-                            ->lists('users.id');
+                            ->pluck('users.id');
 
                         $query->whereIn('boletas_depositos.user_id', $users);
                     } else {
@@ -11298,14 +11298,14 @@ class ReportServices
                             ->join('role_users', 'users.id', '=', 'role_users.user_id')
                             ->where('role_users.role_id', 22)
                             ->where('branches.group_id', $supervisor->group_id)
-                            ->lists('users.id');
+                            ->pluck('users.id');
 
                         $query->whereIn('users.id', $users);
                     } else if (\Sentinel::getUser()->inRole('mini_terminal')) {
                         $query->where('users.id', $this->user->id);
                     }
                 })
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
@@ -11321,21 +11321,21 @@ class ReportServices
                             ->join('role_users', 'users.id', '=', 'role_users.user_id')
                             ->where('role_users.role_id', 22)
                             ->where('branches.group_id', $supervisor->group_id)
-                            ->lists('users.id');
+                            ->pluck('users.id');
 
                         $query->whereIn('users.id', $users);
                     } else if (\Sentinel::getUser()->inRole('mini_terminal')) {
                         $query->where('users.id', $this->user->id);
                     }
                 })
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
                 ->whereIn('branches.user_id', $usersId)
                 ->get();
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             $data_select = [];
             foreach ($branches as $key => $branch) {
@@ -11403,7 +11403,7 @@ class ReportServices
                         $usersId = \DB::table('branches')
                             ->whereIn('owner_id', [16, 21, 25])
                             ->where('group_id', $group_id)
-                            ->lists('branches.user_id', 'branches.user_id');
+                            ->pluck('branches.user_id', 'branches.user_id');
                         $user = implode(',', $usersId);
 
                         $supervisor = \DB::table('users_x_groups')->where('group_id', $group_id)->first();
@@ -11475,7 +11475,7 @@ class ReportServices
                                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                                 ->where('role_users.role_id', 22)
                                 ->where('branches.group_id', $supervisor->group_id)
-                                ->lists('users.id');
+                                ->pluck('users.id');
                             $users_id = implode(',', $users);
                             $users_id .= ',' . $supervisor->user_id;
 
@@ -11522,14 +11522,14 @@ class ReportServices
                             ->join('role_users', 'users.id', '=', 'role_users.user_id')
                             ->where('role_users.role_id', 22)
                             ->where('branches.group_id', $supervisor->group_id)
-                            ->lists('users.id');
+                            ->pluck('users.id');
 
                         $query->whereIn('users.id', $users);
                     } else if (\Sentinel::getUser()->inRole('mini_terminal')) {
                         $query->where('users.id', $this->user->id);
                     }
                 })
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
@@ -11545,14 +11545,14 @@ class ReportServices
                             ->join('role_users', 'users.id', '=', 'role_users.user_id')
                             ->where('role_users.role_id', 22)
                             ->where('branches.group_id', $supervisor->group_id)
-                            ->lists('users.id');
+                            ->pluck('users.id');
 
                         $query->whereIn('users.id', $users);
                     } else if (\Sentinel::getUser()->inRole('mini_terminal')) {
                         $query->where('users.id', $this->user->id);
                     }
                 })
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
@@ -11566,7 +11566,7 @@ class ReportServices
                 $data_select[$branch->user_id] = $branch->description . ' | ' . $usersNames[$branch->user_id];
             }
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             $resultset['usersNames'] = $usersNames;
             $resultset['branches'] = $branches;
@@ -11628,7 +11628,7 @@ class ReportServices
                         $usersId = \DB::table('branches')
                             ->whereIn('owner_id', [16, 21, 25])
                             ->where('group_id', $group_id)
-                            ->lists('branches.user_id', 'branches.user_id');
+                            ->pluck('branches.user_id', 'branches.user_id');
                         $user = implode(',', $usersId);
 
                         $supervisor = \DB::table('users_x_groups')->where('group_id', $group_id)->first();
@@ -11695,7 +11695,7 @@ class ReportServices
                                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                                 ->where('role_users.role_id', 22)
                                 ->where('branches.group_id', $supervisor->group_id)
-                                ->lists('users.id');
+                                ->pluck('users.id');
                             $users_id = implode(',', $users);
                             $users_id .= ',' . $supervisor->user_id;
 
@@ -11806,7 +11806,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
                 $supervisor = \DB::table('users_x_groups')->where('user_id', $this->user->id)->first();
                 $branches = \DB::table('branches')
@@ -11830,7 +11830,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             } else {
                 $branches = \DB::table('branches')
                     ->select(['branches.description', 'users.username', 'users.id'])
@@ -11848,7 +11848,7 @@ class ReportServices
                     ->where('role_users.role_id', 22)
                     ->where('branches.user_id', $this->user->id)
                     ->whereNotNull('atm_id')
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             }
 
             $atm_id = '(';
@@ -12042,7 +12042,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             } elseif (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
                 $supervisor = \DB::table('users_x_groups')->where('user_id', $this->user->id)->first();
                 $branches = \DB::table('branches')
@@ -12066,7 +12066,7 @@ class ReportServices
                             $query->where('branches.user_id', $input['user_id']);
                         }
                     })
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             } else {
                 $branches = \DB::table('branches')
                     ->select(['branches.description', 'users.username', 'users.id'])
@@ -12084,7 +12084,7 @@ class ReportServices
                     ->where('role_users.role_id', 22)
                     ->where('branches.user_id', $this->user->id)
                     ->whereNotNull('atm_id')
-                    ->lists('atm_id', 'atm_id');
+                    ->pluck('atm_id', 'atm_id');
             }
 
             $atm_id = '(';
@@ -13051,14 +13051,14 @@ class ReportServices
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
@@ -13301,13 +13301,13 @@ class ReportServices
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -13622,13 +13622,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
@@ -13768,13 +13768,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
@@ -13923,10 +13923,10 @@ class ReportServices
     {
         try {
 
-            $groups = Group::lists('description', 'id');
+            $groups = Grouppluck('description', 'id');
             $groups->prepend('Todos', '0');
 
-            $atms = Atm::whereIn('owner_id', [16, 21, 25])->lists('name', 'id');
+            $atms = Atm::whereIn('owner_id', [16, 21, 25])->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
             $resultset = array(
@@ -13980,7 +13980,7 @@ class ReportServices
                         ->join('branches', 'branches.id', '=', 'points_of_sale.branch_id')
                         ->whereIn('atms.owner_id', [16, 21, 25])
                         ->where('branches.group_id', $group_id)
-                        ->lists('atms.id', 'atms.id');
+                        ->pluck('atms.id', 'atms.id');
 
                     $atms_id = implode(',', $atms);
 
@@ -14035,10 +14035,10 @@ class ReportServices
                 }
             }
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
-            $atms = Atm::whereIn('owner_id', [16, 21, 25])->lists('name', 'id');
+            $atms = Atm::whereIn('owner_id', [16, 21, 25])->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
             $resultset['atms'] = $atms;
@@ -14060,11 +14060,11 @@ class ReportServices
     {
         try {
             //Redes
-            $atms     = Atm::orderBy('name')->get()->lists('name', 'id');
+            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
-            $owners     = Owner::orderBy('name')->get()->lists('name', 'id');
+            $owners     = Owner::orderBy('name')->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->get()->lists('description', 'id');
+            $branches   = Branch::orderBy('description')->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $types = array('0' => 'Todos', '1' => 'Estados Atms', '2' => 'Servicios', '4' => 'Saldos');
             $pdvs  = Pos::orderBy('description')->with('Atm')->get();
@@ -14279,7 +14279,7 @@ class ReportServices
                 }
             }
             /*Carga datos del formulario*/
-            $atms     = Atm::orderBy('name')->get()->lists('name', 'id');
+            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
             $status = array(
                 "-1"  => 'Todos',
@@ -14759,13 +14759,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
@@ -14907,13 +14907,13 @@ class ReportServices
                 ->selectRaw('concat(username, \' - \', description) as full_name, id')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('full_name', 'id');
+                ->pluck('full_name', 'id');
 
             $usersId = \DB::connection('eglobalt_auth')
                 ->table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
 
             $branches = \DB::table('branches')
                 ->select('branches.*')
@@ -15061,7 +15061,7 @@ class ReportServices
 
             $groups = Group::join('alquiler', 'business_groups.id', '=', 'alquiler.group_id')
                 ->where('alquiler.destination_operation_id', '!=', 0)
-                ->lists('description', 'business_groups.id');
+                ->pluck('description', 'business_groups.id');
             $groups->prepend('Todos', '0');
 
             $atms = Atm::join('housing', 'housing.id', '=', 'atms.housing_id')
@@ -15069,7 +15069,7 @@ class ReportServices
                 ->join('alquiler', 'alquiler.id', '=', 'alquiler_housing.alquiler_id')
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->where('alquiler.destination_operation_id', '!=', 0)
-                ->lists('name', 'atms.id');
+                ->pluck('name', 'atms.id');
             $atms->prepend('Todos', '0');
 
             $resultset = array(
@@ -15104,7 +15104,7 @@ class ReportServices
                             ->join('branches', 'branches.id', '=', 'points_of_sale.branch_id')
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->where('branches.group_id', $group_id)
-                            ->lists('atms.id', 'atms.id');
+                            ->pluck('atms.id', 'atms.id');
 
                         $atms_id = implode(',', $atms);
 
@@ -15171,7 +15171,7 @@ class ReportServices
 
             $groups = Group::join('alquiler', 'business_groups.id', '=', 'alquiler.group_id')
                 ->where('alquiler.destination_operation_id', '!=', 0)
-                ->lists('description', 'business_groups.id');
+                ->pluck('description', 'business_groups.id');
             $groups->prepend('Todos', '0');
 
             $atms = Atm::join('housing', 'housing.id', '=', 'atms.housing_id')
@@ -15179,7 +15179,7 @@ class ReportServices
                 ->join('alquiler', 'alquiler.id', '=', 'alquiler_housing.alquiler_id')
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->where('alquiler.destination_operation_id', '!=', 0)
-                ->lists('name', 'atms.id');
+                ->pluck('name', 'atms.id');
             $atms->prepend('Todos', '0');
 
             $resultset['atms'] = $atms;
@@ -15234,7 +15234,7 @@ class ReportServices
                 'reservationtime' => (isset($input['reservationtime']) ? $input['reservationtime'] : 0)
             );
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             $status = array('0' => 'Todos', '1' => 'Confirmados', '2' => 'Rechazados', '3' => 'Pendientes');
 
@@ -15320,7 +15320,7 @@ class ReportServices
                 'i'             =>  1,
             );
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             $status = array('0' => 'Todos', '1' => 'Confirmados', '2' => 'Rechazados', '3' => 'Pendientes');
 
@@ -15430,21 +15430,21 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $atms     = Atmnew::orderBy('atms.name')->where(function ($query) use ($whereAtm) {
                 if (!empty($whereAtm)) {
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
             // $contracts     = Contract::orderBy('contract.number')->where(function($query) use($whereContract){
             //     if(!empty($whereContract)){
             //         $query->whereRaw($whereContract);
             //     }
-            // })->get()->lists('number','id');
+            // })->get()->pluck('number','id');
             // $contracts->prepend('Todos','0');
 
             //dd($contracts);
@@ -15549,14 +15549,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $atms     = Atmnew::orderBy('atms.name')->where(function ($query) use ($whereAtm) {
                 if (!empty($whereAtm)) {
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
 
@@ -15693,7 +15693,7 @@ class ReportServices
         $usersId = \DB::table('users')
             ->join('role_users', 'users.id', '=', 'role_users.user_id')
             ->where('role_users.role_id', 22)
-            ->lists('id', 'id');
+            ->pluck('id', 'id');
 
         $user_id = '(' . implode(',', $usersId) . ')';
 
@@ -15804,7 +15804,7 @@ class ReportServices
                     if (!empty($whereBranch)) {
                         $query->whereRaw($whereBranch);
                     }
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
                 $branches->prepend('Todos', '0');
             } else if (\Sentinel::getUser()->inRole('supervisor_miniterminal')) {
 
@@ -15843,21 +15843,21 @@ class ReportServices
                 if (!empty($whereAtm)) {
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
             $groups     = Group::orderBy('business_groups.description')->where(function ($query) use ($whereGroup) {
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
@@ -16012,28 +16012,28 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $groups->prepend('Todos', '0');
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
 
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->lists('description', 'id');
+            })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
 
             $atms     = Atmnew::orderBy('atms.name')->where(function ($query) use ($whereAtm) {
                 if (!empty($whereAtm)) {
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->lists('name', 'id');
+            })->get()->pluck('name', 'id');
             $atms->prepend('Todos', '0');
 
 
@@ -16202,7 +16202,7 @@ class ReportServices
                  if (!empty($whereBranch)) {
                      $query->whereRaw($whereBranch);
                  }
-             })->get()->lists('description', 'id');
+             })->get()->pluck('description', 'id');
 
              $branches->prepend('Todos', '0');
  
@@ -16542,7 +16542,7 @@ class ReportServices
                  if (!empty($whereGroup)) {
                      $query->whereRaw($whereGroup);
                  }
-             })->get()->lists('description', 'id');
+             })->get()->pluck('description', 'id');
              $groups->prepend('Todos', '0');
  
             //Redes
@@ -16550,7 +16550,7 @@ class ReportServices
                  if (!empty($whereOwner)) {
                      $query->whereRaw($whereOwner);
                  }
-             })->get()->lists('name', 'id');
+             })->get()->pluck('name', 'id');
              $owners->prepend('Todos', '0');
  
             //Sucursales
@@ -16558,7 +16558,7 @@ class ReportServices
                  if (!empty($whereBranch)) {
                      $query->whereRaw($whereBranch);
                  }
-             })->get()->lists('description', 'id');
+             })->get()->pluck('description', 'id');
              $branches->prepend('Todos', '0');
  
             //Punto de Venta

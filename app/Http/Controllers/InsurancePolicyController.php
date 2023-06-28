@@ -161,7 +161,7 @@ class InsurancePolicyController extends Controller
             return redirect('/')->with('error', 'No posee permisos para realizar esta accion.');
         }
         $poliza             = InsurancePolicy::where('id',$id)->first();
-        $insurance_types    = \DB::table('insurance_type')->lists('description','id');
+        $insurance_types    = \DB::table('insurance_type')->pluck('description','id');
 
         $data = [
             'poliza'           => $poliza,

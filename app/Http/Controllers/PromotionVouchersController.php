@@ -62,7 +62,7 @@ class PromotionVouchersController extends Controller
             return redirect('/');
         }
 
-        $campaigns      = \DB::table('campaigns')->orderBy('id','asc')->lists('name','id');
+        $campaigns      = \DB::table('campaigns')->orderBy('id','asc')->pluck('name','id');
         $campaigns_id   = null;
 
         return view('promotion_vouchers.create',compact('campaigns_id', 'campaigns','campaignId'));
@@ -86,17 +86,17 @@ class PromotionVouchersController extends Controller
         $cantidad           = (int)$input['cantidad'];
 
         try{
-            $codigo = Str::quickRandom(8);
+            $codigo = Str::random(8);
             for($i = 0; $i < $cantidad; ++$i) {
 
                 if(PromotionVoucher::where('coupon_code', '=',$codigo)->exists()){
-                    $codigo = Str::quickRandom(8);
+                    $codigo = Str::random(8);
                     \Log::info('cupon duplicado');
 
                 }else{
                     DB::table('promotions_contents')->insert(
                         ['campaigns_id' => $campaigns_id, 
-                        'coupon_code'   => Str::quickRandom(8),
+                        'coupon_code'   => Str::random(8),
                         'transaction_id'=> NULL,
                         'status'        => 0,
                         'created_at'    => Carbon::now(),
@@ -108,7 +108,7 @@ class PromotionVouchersController extends Controller
                     );
                     \Log::info('voucher generado');
                 }
-                $codigo = Str::quickRandom(8);
+                $codigo = Str::random(8);
             }
 
             \DB::commit();

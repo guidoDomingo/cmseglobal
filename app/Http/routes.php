@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use App\Services\DepositosTerminalesServices;
 use Illuminate\Support\Facades\Route;
 
+
 Route::get('login', ['as' => 'login.page', 'uses' => 'Auth\AuthController@loginPage']);
 Route::post('login', ['as' => 'login', 'uses' => 'Auth\AuthController@login']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'Auth\AuthController@logout']);
@@ -64,7 +65,7 @@ Route::get('/', ['as' => 'home', 'uses' => 'HomeController@index']);
 */
 
 Route::resource('users', 'UsersController');
-Route::get('users/{id}/profile', ['as' => 'users.show', 'uses' => 'UsersController@show']);
+Route::get('users/{id}/profile', ['as' => 'users.showProfile', 'uses' => 'UsersController@show']);
 Route::get('activate/{id}/{code}', ['as'   => 'users.activate', 'uses' => 'UsersController@activate']);
 Route::get('resend/{id}/activation', ['as' => 'resend.activation.request', 'uses' => 'UsersController@resendActivation']);
 
@@ -196,7 +197,7 @@ Route::post('marca/grilla_servicios', ['as' => 'marca.grilla_servicios_store', '
 Route::post('marca/grilla_servicios_atm', ['as' => 'marca.grilla_servicios_atm_store', 'uses' => 'MarcasController@grilla_servicios_atm_store']);
 Route::get('marca/quitar_marca_atm/{marca_id}/{atm_id}', ['as' => 'marca.quitar_marca_atm', 'uses' => 'MarcasController@quitarMarcaAtm']);
 Route::post('marca/activar_marca', ['as' => 'marca.activar_marca', 'uses' => 'MarcasController@activar_marca']);
-Route::get('marca/order', ['as' => 'marca.order', 'uses' => 'MarcasController@order']);
+Route::get('marca/order', ['as' => 'marca.orderget', 'uses' => 'MarcasController@order']);
 Route::post('marca/order', ['as' => 'marca.order', 'uses' => 'MarcasController@order']);
 Route::get('marca/get_by_category', ['as' => 'marca.get_by_category', 'uses' => 'MarcasController@get_by_category']);
 Route::resource('marca', 'MarcasController');
@@ -214,9 +215,9 @@ Route::resource('usuarios_bahia', 'UsuariosBahiaController');
 |----------------------------------------------------------------------------------------------------------------------+
 */
 Route::resource('servicios_marca', 'ServiciosMarcasController');
-Route::get('servicios_marca/{service_id}/{service_source_id}/edit', ['as' => 'servicios_marca.edit', 'uses' => 'ServiciosMarcasController@edit']);
-Route::put('servicios_marca/{service_id}/{service_source_id}/update', ['as' => 'servicios_marca.update', 'uses' => 'ServiciosMarcasController@update']);
-Route::delete('servicios_marca/{service_id}/{service_source_id}/destroy', ['as' => 'servicios_marca.destroy', 'uses' => 'ServiciosMarcasController@destroy']);
+//Route::get('servicios_marca/{service_id}/{service_source_id}/edit', ['as' => 'servicios_marca.edit', 'uses' => 'ServiciosMarcasController@edit']);
+//Route::put('servicios_marca/{service_id}/{service_source_id}/update', ['as' => 'servicios_marca.update', 'uses' => 'ServiciosMarcasController@update']);
+//Route::delete('servicios_marca/{service_id}/{service_source_id}/destroy', ['as' => 'servicios_marca.destroy', 'uses' => 'ServiciosMarcasController@destroy']);
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+
@@ -224,10 +225,10 @@ Route::delete('servicios_marca/{service_id}/{service_source_id}/destroy', ['as' 
 |----------------------------------------------------------------------------------------------------------------------+
 */
 Route::resource('notifications_params', 'NotificationsParamsController');
-Route::get('notifications_params/{id}/edit', ['as' => 'notifications_params.edit', 'uses' => 'NotificationsParamsController@edit']);
-Route::put('notifications_params/{id}/update', ['as' => 'notifications_params.update', 'uses' => 'NotificationsParamsController@update']);
+//Route::get('notifications_params/{id}/edit', ['as' => 'notifications_params.edit', 'uses' => 'NotificationsParamsController@edit']);
+//Route::put('notifications_params/{id}/update', ['as' => 'notifications_params.update', 'uses' => 'NotificationsParamsController@update']);
 Route::get('notifications_params/{id}/duplicate', ['as' => 'notifications_params.duplicate', 'uses' => 'NotificationsParamsController@duplicate']);
-Route::delete('notifications_params/{id}/destroy', ['as' => 'notifications_params.destroy', 'uses' => 'NotificationsParamsController@destroy']);
+//Route::delete('notifications_params/{id}/destroy', ['as' => 'notifications_params.destroy', 'uses' => 'NotificationsParamsController@destroy']);
 
 
 /*
@@ -1074,7 +1075,7 @@ Route::post('miniterminal/store_import/', ['as' => 'miniterminales.store_import'
 
 Route::resource('devices', 'DeviceController');
 Route::resource('housing.device', 'DeviceController');
-Route::get('devices/show/', ['as' => 'devices.show', 'uses' => 'DeviceController@show']);
+Route::get('devices/show/', ['as' => 'devices.showGet', 'uses' => 'DeviceController@show']);
 Route::get('housing/device/import/{housingId}', ['as' => 'housing.device.import', 'uses' => 'DeviceController@import']);
 Route::post('housing/device/store_import/{housingId}', ['as' => 'housing.device.store_import', 'uses' => 'DeviceController@store_import']);
 
@@ -1196,9 +1197,9 @@ Route::resource('params_rules', 'ParamsRuleController');
 Route::resource('services_rules', 'ServicesRuleController');
 
 Route::resource('references', 'ReferenceLimitedController');
-Route::get('references/{idparam_rules}/{current_params_rule_id}/{reference}/edit', ['as' => 'references.edit', 'uses' => 'ReferenceLimitedController@edit']);
-Route::put('references/{idparam_rules}/{current_params_rule_id}/{reference}/update', ['as' => 'references.update', 'uses' => 'ReferenceLimitedController@update']);
-Route::delete('references/{idparam_rules}/{current_params_rule_id}/{reference}/destroy', ['as' => 'references.destroy', 'uses' => 'ReferenceLimitedController@destroy']);
+//Route::get('references/{idparam_rules}/{current_params_rule_id}/{reference}/edit', ['as' => 'references.edit', 'uses' => 'ReferenceLimitedController@edit']);
+//Route::put('references/{idparam_rules}/{current_params_rule_id}/{reference}/update', ['as' => 'references.update', 'uses' => 'ReferenceLimitedController@update']);
+//Route::delete('references/{idparam_rules}/{current_params_rule_id}/{reference}/destroy', ['as' => 'references.destroy', 'uses' => 'ReferenceLimitedController@destroy']);
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+
@@ -1423,7 +1424,7 @@ Route::post('atmnew/asociar/zona', ['as' => 'zonas.asociar', 'uses' => 'ZonasCon
 Route::get('/getzonas','AtmnewController@getZonasAll')->name('zonas.getZonasAll');
 Route::post('atmnew/credentials/ondanet', ['as' => 'credentials.ondanet', 'uses' => 'AtmServicesCredentialsNewController@store_ondanet']);
 Route::post('atmnew/credentials/ondanet/update', ['as' => 'credentials.ondanet.update', 'uses' => 'AtmServicesCredentialsNewController@update_ondanet']);
-Route::post('atmnew/credentials/ondanet/update/{id}', ['as' => 'credentials.ondanet.update', 'uses' => 'AtmServicesCredentialsNewController@update_ondanet']);
+Route::post('atmnew/credentials/ondanet/update/{id}', ['as' => 'credentials.ondanet.update.id', 'uses' => 'AtmServicesCredentialsNewController@update_ondanet']);
 
 /**
  * Rutas que apuntan a los controladores de mapas
@@ -1956,7 +1957,7 @@ Route::resource('recibos_ganancia', 'atm_baja\ReciboGananciaController');
 /**
  * Gasto administrativos
  */
-Route::get('atm/new/{id}/{group}/gasto_administrativo', ['as' => 'atm.group.recibo.ganancia', 'uses' => 'atm_baja\GastoAdministrativoController@index']);
+Route::get('atm/new/{id}/{group}/gasto_administrativo', ['as' => 'atm.group.recibo.ganancia.gasto', 'uses' => 'atm_baja\GastoAdministrativoController@index']);
 Route::resource('gastos_administrativo', 'atm_baja\GastoAdministrativoController');
 
 /**

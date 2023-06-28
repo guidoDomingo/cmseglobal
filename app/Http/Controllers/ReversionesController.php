@@ -337,7 +337,7 @@ class ReversionesController extends Controller
                 ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                 ->orderBy('movements.destination_operation_id','ASC')
                 ->take($i)
-                ->lists('movements.destination_operation_id');
+                ->pluck('movements.destination_operation_id');
     
                 $ventasondanet = implode(';', $idventasondanet);
                 
@@ -397,7 +397,7 @@ class ReversionesController extends Controller
                     ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                     ->orderBy('movements.destination_operation_id','ASC')
                     ->take($i)
-                    ->lists('movements.id');
+                    ->pluck('movements.id');
 
                     $venta = implode(', ', $idventas);
 
@@ -435,7 +435,7 @@ class ReversionesController extends Controller
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
                         ->take($i)
-                        ->lists('movements.id');
+                        ->pluck('movements.id');
 
     
                         foreach($idventas as $venta){
@@ -462,7 +462,7 @@ class ReversionesController extends Controller
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
                         ->take($cobradostotal)
-                        ->lists('movements.id');
+                        ->pluck('movements.id');
     
                         foreach($salescobradas as $salecobrada){
                             $result=\DB::table('miniterminales_sales')
@@ -486,7 +486,7 @@ class ReversionesController extends Controller
                             ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('movements.destination_operation_id','ASC')
                             ->take(1)
-                            ->lists('movements.id');
+                            ->pluck('movements.id');
                             $sale = implode(', ', $salefaltante);
     
                             \DB::table('miniterminales_sales')
@@ -651,7 +651,7 @@ class ReversionesController extends Controller
                     ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                     ->orderBy('m.destination_operation_id','ASC')
                     ->take($i)
-                ->lists('m.destination_operation_id');
+                ->pluck('m.destination_operation_id');
     
                 $ventasondanet = implode(';', $idventasondanet);
 
@@ -709,7 +709,7 @@ class ReversionesController extends Controller
                         ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('m.destination_operation_id','ASC')
                         ->take($i)
-                    ->lists('m.id');
+                    ->pluck('m.id');
 
                     $venta = implode(', ', $idventas);
 
@@ -746,7 +746,7 @@ class ReversionesController extends Controller
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
                             ->take($i)
-                        ->lists('m.id');
+                        ->pluck('m.id');
 
     
                         foreach($idventas as $venta){
@@ -772,7 +772,7 @@ class ReversionesController extends Controller
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
                             ->take($cobradostotal)
-                        ->lists('m.id');
+                        ->pluck('m.id');
     
                         foreach($salescobradas as $salecobrada){
                             $result=\DB::table('mt_sales')
@@ -795,7 +795,7 @@ class ReversionesController extends Controller
                                 ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26','-27','212','999')")
                                 ->orderBy('m.destination_operation_id','ASC')
                                 ->take(1)
-                            ->lists('m.id');
+                            ->pluck('m.id');
                             $sale = implode(', ', $salefaltante);
     
                             \DB::table('mt_sales')

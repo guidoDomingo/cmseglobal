@@ -106,7 +106,7 @@ class ArtsController extends Controller
 
         if($art = Art::find($id))
         {
-            $campaigns = \DB::table('campaigns')->orderBy('id','asc')->lists('name','id');
+            $campaigns = \DB::table('campaigns')->orderBy('id','asc')->pluck('name','id');
             
             if(isset($art->campaigns_id)){
                 $campaign_id  = $art->campaigns_id;

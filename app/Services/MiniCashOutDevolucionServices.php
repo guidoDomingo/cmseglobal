@@ -686,10 +686,10 @@ class MiniCashOutDevolucionServices
                 $hasta        = date('Y-m-d H:i:s', strtotime($daterange[1]));
             }
 
-            $tipo = MiniCashoutType::lists('description', 'id')->prepend('Todos', '0');
+            $tipo = MiniCashoutType::pluck('description', 'id')->prepend('Todos', '0');
             $atm  = Atm::join('atms_per_users', 'atms_per_users.atm_id', '=', 'atms.id')
                 ->where('atms_per_users.user_id', $this->user->id)
-                ->lists('atms.name', 'atms.id')->prepend('Todos', '0');
+                ->pluck('atms.name', 'atms.id')->prepend('Todos', '0');
             \Log::info($atm);
             $minisData = \DB::table('mini_cashout_devolution_details')
                 ->select('atms.name', 'mini_cashout_devolution_details.id', 'marcas.descripcion as marca', 'mini_cashout_devolution_details.transaction_id', 'servicios_x_marca.descripcion', 'mini_cashout_devolution_details.parameters', 'mini_cashout_devolution_type.description as tipo', 'mini_cashout_devolution_details.hash_table', 'mini_cashout_devolution_details.status', 'mini_cashout_devolution_details.created_at')

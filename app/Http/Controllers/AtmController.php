@@ -16,7 +16,6 @@ use App\Models\PosSaleVoucher;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use App\Models\Housing;
-use Excel;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
@@ -32,6 +31,8 @@ use ZipArchive;
 use Mail;
 
 use DateTime;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
 
 class AtmController extends Controller
 {
@@ -175,17 +176,21 @@ class AtmController extends Controller
         $block_types = json_encode($block_types);
 
 
-        $owners = Owner::orderBy('name')->get()->lists('name', 'id')->toArray();
+        $owners = Owner::orderBy('name')->get()->pluck('name', 'id')->toArray();
         $owners[0] = 'Red - Todos';
         ksort($owners);
 
-        $groups = Group::orderBy('description')->get()->lists('description', 'id')->toArray();
+        $groups = Group::orderBy('description')->get()->pluck('description', 'id')->toArray();
         $groups[0] = 'Grupo - Todos';
         ksort($groups);
+
+        $owner = null;
 
         if ($owner_id <> 0) {
             $owner = Owner::where('id', $owner_id)->first();
         }
+
+        $group = null;
 
         if ($group_id <> 0) {
             $group = Group::where('id', $group_id)->first();
@@ -198,6 +203,9 @@ class AtmController extends Controller
                 $result = json_decode(json_encode($result), true);
             }
         }
+
+
+        //dd($owners);
 
         /*foreach ($atms as $atm) {
             $now = Carbon::now();
@@ -417,10 +425,10 @@ class AtmController extends Controller
             return redirect('/');
         }
 
-        $public_key = Str::quickRandom(40);
-        $private_key = Str::quickRandom(40);
+        $public_key = Str::random(40);
+        $private_key = Str::random(40);
 
-        $owners = Owner::orderBy('name')->get()->lists('name', 'id');
+        $owners = Owner::orderBy('name')->get()->pluck('name', 'id');
         $data = [
             'public_key'    => $public_key,
             'private_key'   => $private_key,
@@ -506,7 +514,7 @@ class AtmController extends Controller
 
                     $aplicaciones = Applications::where('active', true)
                         ->get()
-                        ->lists('name', 'id');
+                        ->pluck('name', 'id');
 
                     $data['applications'] = [];
                     foreach ($aplicaciones as $applicationId => $texto) {
@@ -600,7 +608,7 @@ class AtmController extends Controller
 
         $aplicaciones = Applications::where('active', true)
             ->get()
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
         $app = \DB::table('atm_application')->where('atm_id', $atm->id)->first();
 
         $appId = null;
@@ -611,18 +619,18 @@ class AtmController extends Controller
         $atm_parts = \DB::table('atms_parts')->where('atm_id', $atm->id)->count();
 
 
-        $owners = Owner::orderBy('name')->get()->lists('name', 'id');
-        $branches = Branch::lists('description', 'id');
-        $groups = Group::lists('description', 'id');
+        $owners = Owner::orderBy('name')->get()->pluck('name', 'id');
+        $branches = Branch::pluck('description', 'id');
+        $groups = Group::pluck('description', 'id');
         // TODO get seller type fron ONDANET
         $sellerType['1'] = 'Testing Seller type';
-        $users = User::all()->lists('description', 'id');
+        $users = User::all()->pluck('description', 'id');
         $users->prepend('Asignar usuario', '0');
         $user_id = 0;
 
-        $voucherTypes = VoucherType::orderBy('id')->get()->lists('description', 'id');
+        $voucherTypes = VoucherType::orderBy('id')->get()->pluck('description', 'id');
 
-        $departamentos = \DB::table('departamento')->lists('descripcion', 'id');
+        $departamentos = \DB::table('departamento')->pluck('descripcion', 'id');
 
         $data = array(
             'atm'           => $atm,
@@ -704,7 +712,7 @@ class AtmController extends Controller
 
                     $aplicaciones = Applications::where('active', true)
                         ->get()
-                        ->lists('name', 'id');
+                        ->pluck('name', 'id');
 
                     $data['applications'] = [];
                     foreach ($aplicaciones as $applicationId => $texto) {
@@ -833,7 +841,7 @@ class AtmController extends Controller
 
     public function generateHash()
     {
-        return Str::quickRandom(40);
+        return Str::random(40);
     }
 
     protected function createDirectoryResources($id)
@@ -967,31 +975,31 @@ class AtmController extends Controller
             return redirect('/');
         }
 
-        $public_key = Str::quickRandom(40);
-        $private_key = Str::quickRandom(40);
+        $public_key = Str::random(40);
+        $private_key = Str::random(40);
 
-        $owners = Owner::orderBy('name')->get()->lists('name', 'id');
-        $branches = Branch::lists('description', 'id');
+        $owners = Owner::orderBy('name')->get()->pluck('name', 'id');
+        $branches = Branch::pluck('description', 'id');
         // TODO get seller type fron ONDANET
         $sellerType['1'] = 'Testing Seller type';
 
-        $users = User::all()->lists('description', 'id');
+        $users = User::all()->pluck('description', 'id');
         $users->prepend('Asignar usuario', '0');
         $user_id = 0;
 
-        $groups = Group::lists('description', 'id', 'ruc');
+        $groups = Group::pluck('description', 'id', 'ruc');
 
         $grupo = [];
 
-        $voucherTypes = VoucherType::orderBy('id')->get()->lists('description', 'id');
+        $voucherTypes = VoucherType::orderBy('id')->get()->pluck('description', 'id');
 
         $atm_code = \DB::table('atms')
             ->selectRaw('code')
             ->orderBy('created_at', 'desc')
             ->first();
-        $departamentos = \DB::table('departamento')->lists('descripcion', 'id');
-        $ciudades = \DB::table('ciudades')->lists('descripcion', 'id');
-        $barrios = \DB::table('barrios')->lists('descripcion', 'id');
+        $departamentos = \DB::table('departamento')->pluck('descripcion', 'id');
+        $ciudades = \DB::table('ciudades')->pluck('descripcion', 'id');
+        $barrios = \DB::table('barrios')->pluck('descripcion', 'id');
 
         $data = [
             //step new atm
@@ -1243,7 +1251,7 @@ class AtmController extends Controller
             ->where('key', '=', 'gooddeals')
             ->first();
 
-        $instancias = \DB::table('promotions_instances')->lists('description', 'key');
+        $instancias = \DB::table('promotions_instances')->pluck('description', 'key');
 
         $data = [
             'instancias' => $instancias,
@@ -1599,7 +1607,7 @@ class AtmController extends Controller
         if ($request->ajax()) {
             $ciudades = \DB::table('ciudades')
                 ->where('departamento_id', $request->get('departamento_id'))
-                ->lists('descripcion', 'id');
+                ->pluck('descripcion', 'id');
 
             $ciudades_select = '<option value="">Seleccione una opción</option>';
             foreach ($ciudades as $ciudad_id => $ciudad) {
@@ -1620,7 +1628,7 @@ class AtmController extends Controller
             \Log::info('get barrios');
             $barrios = \DB::table('barrios')
                 ->where('ciudad_id', $request->get('ciudad_id'))
-                ->lists('descripcion', 'id');
+                ->pluck('descripcion', 'id');
 
             $barrios_select = '<option value="">Seleccione una opción</option>';
             foreach ($barrios as $barrio_id => $barrio) {
@@ -1783,7 +1791,7 @@ class AtmController extends Controller
 
         $housings = Housing::leftjoin('atms', 'housing.id', '=', 'atms.housing_id')
             ->where('atms.id', null)
-            ->lists('serialnumber', 'housing.id');
+            ->pluck('serialnumber', 'housing.id');
 
         $housings->prepend('Asignar housing', '0');
 
@@ -2068,18 +2076,29 @@ class AtmController extends Controller
 
         $filename = 'atms_' . time();
 
-        if ($cajeros && !empty($cajeros)) {
-            Excel::create($filename, function ($excel) use ($cajeros) {
-                $excel->sheet('Terminales', function ($sheet) use ($cajeros) {
-                    $sheet->rows($cajeros, false);
-                    $sheet->prependRow(array(
-                        // '#', 'Código', 'Nombre', 'Red', 'Dirección', 'Latitud', 'Longitud', 'Estado', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención'
-                        '#', 'Codigo', 'Nombre', 'Red', 'Direccion', 'Latitud', 'Longitud', 'Estado', 'Progreso', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención', 'Telefono', 'Ejecutivo responsable', 'Operativo responsable'
+        $columnas = array(
+            // '#', 'Código', 'Nombre', 'Red', 'Dirección', 'Latitud', 'Longitud', 'Estado', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención'
+            '#', 'Codigo', 'Nombre', 'Red', 'Direccion', 'Latitud', 'Longitud', 'Estado', 'Progreso', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención', 'Telefono', 'Ejecutivo responsable', 'Operativo responsable'
+        );
 
-                    ));
-                });
-            })->export('xls');
-            exit();
+        
+
+        if ($cajeros && !empty($cajeros)) {
+            // Excel::download($filename, function ($excel) use ($cajeros) {
+            //     $excel->sheet('Terminales', function ($sheet) use ($cajeros) {
+            //         $sheet->rows($cajeros, false);
+            //         $sheet->prependRow(array(
+            //             // '#', 'Código', 'Nombre', 'Red', 'Dirección', 'Latitud', 'Longitud', 'Estado', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención'
+            //             '#', 'Codigo', 'Nombre', 'Red', 'Direccion', 'Latitud', 'Longitud', 'Estado', 'Progreso', 'Ciudad', 'Barrio', 'Departamento', 'Horario de Atención', 'Telefono', 'Ejecutivo responsable', 'Operativo responsable'
+
+            //         ));
+            //     });
+            // })->export('xls');
+
+            $excel = new ProductsExport($atms,$columnas);
+
+            return Excel::download($excel, $filename . '.xlsx')->send();
+            
         } else {
             Session::flash('error_message', 'No existen parametros para exportar');
         }

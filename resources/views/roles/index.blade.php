@@ -57,7 +57,7 @@
                                     <td>{{ date('d/m/y H:i', strtotime($role->updated_at)) }} </td>
                                     <td>
                                         @if (Sentinel::hasAccess('roles.add|edit'))
-                                        <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('roles.edit',['id' => $role->id])}}"><i class="fa fa-pencil"></i></a>
+                                        <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('roles.edit',['role' => $role->id])}}"><i class="fa fa-pencil"></i></a>
                                         @endif
                                         @if (Sentinel::hasAccess('roles.delete'))
                                         <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i></a>

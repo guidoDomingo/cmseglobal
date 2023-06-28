@@ -35,7 +35,7 @@ class WebServiceBuilderController extends Controller
         $screens = DB::table("screens")
             ->where('service_provider_id',$wsproduct_provider->service_provider_id)
             ->orwhere('service_provider_id',0)
-            ->lists('name','id');
+            ->pluck('name','id');
 
         return view('webservicesbuilder.index', compact('wsproduct_id','servicesviews','servicesmodels','screens'));
     }

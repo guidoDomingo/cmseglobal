@@ -45,7 +45,7 @@ class DeviceController extends Controller
             ->get();
         $name = $request->get('name');
         $devices = Device::filterAndPaginate($housingId, $name);
-        $modelos =  ModelBrand::lists('id', 'description');
+        $modelos =  ModelBrand::pluck('id', 'description');
 
         return view('devices.index', compact('devices', 'name', 'housingId', 'tipo_housing', 'modelos'));
     }
@@ -58,12 +58,12 @@ class DeviceController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $users = User::all()->lists('description','id');
+        $users = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id = 0;
-        $marcas =  Brand::lists('description', 'id');
-        $modelos =  ModelBrand::lists('description', 'id');
-        $housings = Housing::lists('serialnumber', 'id');
+        $marcas =  Brand::pluck('description', 'id');
+        $modelos =  ModelBrand::pluck('description', 'id');
+        $housings = Housing::pluck('serialnumber', 'id');
         return view('devices.create', compact('housingId', 'housings', 'modelos', '$marcas'));
     }
 
@@ -156,8 +156,8 @@ class DeviceController extends Controller
         }
 
         $device = Device::find($device);
-        $housings = Housing::all()->lists('serialnumber', 'id');
-        $modelos = ModelBrand::all()->lists('description', 'id');
+        $housings = Housing::all()->pluck('serialnumber', 'id');
+        $modelos = ModelBrand::all()->pluck('description', 'id');
 
         $data = [
             'device'       => $device,

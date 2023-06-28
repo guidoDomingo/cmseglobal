@@ -71,15 +71,15 @@ class NotificationsParamsController extends Controller
         }
 
         if($notifications_params = \DB::table('notification_params')->where('id',$id)->first()){
-            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->lists('description','id');
+            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->pluck('description','id');
             $tipo_notificacion = \DB::table('notification_types')->where('id', $notifications_params->notification_type)->first();
 
             $servicios_guardados = (array) json_decode($notifications_params->service_id);
 
             if($notifications_params->service_source_id <> 1){
-                $servicios = \DB::table('servicios_x_marca')->where('service_source_id', $notifications_params->service_source_id)->lists('descripcion', 'service_id');
+                $servicios = \DB::table('servicios_x_marca')->where('service_source_id', $notifications_params->service_source_id)->pluck('descripcion', 'service_id');
             }else{
-                $servicios = \DB::table('service_provider_products')->where('service_provider_id', $notifications_params->service_source_id)->lists('description', 'id');
+                $servicios = \DB::table('service_provider_products')->where('service_provider_id', $notifications_params->service_source_id)->pluck('description', 'id');
             }
 
             $data = [

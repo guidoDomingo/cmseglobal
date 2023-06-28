@@ -62,7 +62,7 @@ class AppUpdatesController extends Controller
             return redirect('/');
         }
 
-        $owners = Owner::orderBy('name')->get()->lists('name','id')->toArray();
+        $owners = Owner::orderBy('name')->get()->pluck('name','id')->toArray();
         $owners[0] = 'Todos';
         ksort($owners);
 

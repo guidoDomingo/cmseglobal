@@ -65,7 +65,7 @@
                                         <td>{{ date('d/m/y H:i', strtotime($notification->updated_at)) }}</td>
                                         <td>
                                             @if (Sentinel::hasAccess('notifications_params.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('notifications_params.edit',['id' => $notification->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('notifications_params.edit',['notifications_param' => $notification->id])}}"><i class="fa fa-pencil"></i></a>
                                             <a class="btn btn-info btn-flat btn-row" title="Duplicar Alerta" href="{{ route('notifications_params.duplicate',['id' => $notification->id])}}"><i class="fa fa-copy"></i></a>
                                             @endif
                                         </td>

@@ -60,11 +60,11 @@ class ProductsController extends Controller
         }
         $data = array();
         if ($this->user->hasRole('security_admin')) {
-            $providers = Provider::where('owner_id', $this->user->owner_id)->lists('business_name', 'id');
+            $providers = Provider::where('owner_id', $this->user->owner_id)->pluck('business_name', 'id');
             $owners = null;
         } else {
-            $providers = Provider::lists('business_name', 'id');
-            $owners = Owner::lists('name', 'id');
+            $providers = Provider::pluck('business_name', 'id');
+            $owners = Owner::pluck('name', 'id');
         }
 
         if (!$providers) {
@@ -76,7 +76,7 @@ class ProductsController extends Controller
 
 
         // TODO ondanet
-        if ($tax = TaxType::lists('description', 'id')) {
+        if ($tax = TaxType::pluck('description', 'id')) {
             $data['ondanet_tax_types'] = $tax;
             $data['ondanet_currencies'] = array('Gs' => 'Gs.');
         } else {
@@ -176,11 +176,11 @@ class ProductsController extends Controller
             $data = array();
             $data['product'] = $product;
             if ($this->user->hasRole('security_admin')) {
-                $providers = Provider::where('owner_id', $this->user->owner_id)->lists('business_name', 'id');
+                $providers = Provider::where('owner_id', $this->user->owner_id)->pluck('business_name', 'id');
                 $owners = null;
             } else {
-                $providers = Provider::lists('business_name', 'id');
-                $owners = Owner::lists('name', 'id');
+                $providers = Provider::pluck('business_name', 'id');
+                $owners = Owner::pluck('name', 'id');
             }
 
             if (!$providers) {
@@ -190,7 +190,7 @@ class ProductsController extends Controller
             }
 
             // TODO ondanet
-            if ($tax = TaxType::lists('description', 'id')) {
+            if ($tax = TaxType::pluck('description', 'id')) {
                 $data['ondanet_tax_types'] = $tax;
                 $data['ondanet_currencies'] = array('Gs' => 'Gs.');
             } else {

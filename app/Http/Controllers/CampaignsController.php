@@ -52,8 +52,8 @@ class CampaignsController extends Controller
             return redirect('/');
         }
 
-        $atms           = \DB::table('atms')->orderBy('id','asc')->whereNull('deleted_at')->lists('name','id');
-        $contents       = \DB::table('contents')->orderBy('id','asc')->lists('name','id');
+        $atms           = \DB::table('atms')->orderBy('id','asc')->whereNull('deleted_at')->pluck('name','id');
+        $contents       = \DB::table('contents')->orderBy('id','asc')->pluck('name','id');
         $contentsList   = Content::all(['id', 'name']);
         $contentsJson   = json_encode($contentsList);
         $contentsJsonAll  = json_encode($contentsList);
@@ -112,8 +112,8 @@ class CampaignsController extends Controller
         $content_id     = null;
         $flow_id        = null;
         $campaign       = null;
-        $providers      = \DB::table('promotions_providers')->lists('name','id');
-        $branches       = \DB::table('promotions_branches')->lists('name','id');
+        $providers      = \DB::table('promotions_providers')->pluck('name','id');
+        $branches       = \DB::table('promotions_branches')->pluck('name','id');
 
         //mapa
 
@@ -527,7 +527,7 @@ class CampaignsController extends Controller
         if($request->ajax()){
             $branches = \DB::table('promotions_branches')
                 ->where('business_id', $request->get('business_id'))
-                ->lists('name','id');
+                ->pluck('name','id');
 
             $branches_select = '<option value="">Seleccione una opción</option>';
             foreach($branches as $branch_id => $branch){

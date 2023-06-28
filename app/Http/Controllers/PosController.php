@@ -59,7 +59,7 @@ class PosController extends Controller
             return redirect('/');
         }
 
-        $branches = Branch::lists('description', 'id');
+        $branches = Branch::pluck('description', 'id');
         // TODO get seller type fron ONDANET
         $sellerType['1'] = 'Testing Seller type';
         $data = [
@@ -227,7 +227,7 @@ class PosController extends Controller
         }
 
         if ($pos = Pos::find($id)) {
-            $branches = Branch::lists('description', 'id');
+            $branches = Branch::pluck('description', 'id');
             $deposits = PosDeposits::where('point_of_sale_id', $id)->get();
 
             // TODO retrive salesman types from ondanet
@@ -466,7 +466,7 @@ class PosController extends Controller
             if ($pos->branch_id) {
                 if ($atm = Atm::where('owner_id', '=', $pos->branch->owner->id)->get()) {
                     if (count($atm) > 0) {
-                        $atms = $atm->lists('name_code', 'id');
+                        $atms = $atm->pluck('name_code', 'id');
                         return view('pos.assign', compact('atms', 'pos'));
                     } else {
                         Session::flash('error_message', 'No existen cajeros asignados en su red');

@@ -127,7 +127,7 @@ class ModelBrandController extends Controller
             return redirect('/');
         }
         $modelo = ModelBrand::find($modelo);
-        $brands = Brand::all()->lists('description', 'id');
+        $brands = Brand::all()->pluck('description', 'id');
 
         $data = [
             'modelo'       => $modelo,

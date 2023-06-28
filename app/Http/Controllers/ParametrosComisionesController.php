@@ -55,10 +55,10 @@ class ParametrosComisionesController extends Controller
         }
 
         $owners['todos'] = 'Todos';
-        $owners += \DB::table('owners')->where('deleted_at', null)->lists('name', 'id');
+        $owners += \DB::table('owners')->where('deleted_at', null)->pluck('name', 'id')->toArray();
         $atms['todos'] = 'Todos';
-        $atms += \DB::table('atms')->where('deleted_at', null)->lists('name', 'id');
-        $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->lists('description','id');
+        $atms += \DB::table('atms')->where('deleted_at', null)->pluck('name', 'id')->toArray();
+        $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->pluck('description','id');
 
         $tipo_servicio = [
             0 => 'Bocas de Cobranzas',
@@ -97,7 +97,7 @@ class ParametrosComisionesController extends Controller
                 }
             }else{
                 if($input['owner_id'] == 'todos'){
-                    $owners = \DB::table('owners')->where('deleted_at', null)->lists('id', 'id');
+                    $owners = \DB::table('owners')->where('deleted_at', null)->pluck('id', 'id');
                     $input['owner_id'] = $owners;
                 }else{
                     $input['owner_id'] = [$input['owner_id']];
@@ -109,7 +109,7 @@ class ParametrosComisionesController extends Controller
                     ->where('service_id', $input['service_id'])
                     ->where('service_source_id', $input['service_source_id'])
                     ->whereNull('deleted_at')
-                    ->lists('atm_id','atm_id');
+                    ->pluck('atm_id','atm_id');
 
                 $atms = \DB::table('atms')
                     ->whereIn('owner_id', $input['owner_id'])
@@ -123,7 +123,7 @@ class ParametrosComisionesController extends Controller
                             $query->where('id', $input['atm_id']);
                         }
                     })
-                    ->lists('id','id');
+                    ->pluck('id','id');
 
                 $data = [];
                 foreach ($atms as $key => $atm_id) {
@@ -180,13 +180,13 @@ class ParametrosComisionesController extends Controller
 
         if($parametro_comision = ParametroComision::find($id)){
             $owners['todos'] = 'Todos';
-            $owners += \DB::table('owners')->where('deleted_at', null)->lists('name', 'id');
+            $owners += \DB::table('owners')->where('deleted_at', null)->pluck('name', 'id')->toArray();
             $atms['todos'] = 'Todos';
-            $atms += \DB::table('atms')->where('deleted_at', null)->lists('name', 'id');
-            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->lists('description','id');
+            $atms += \DB::table('atms')->where('deleted_at', null)->pluck('name', 'id')->toArray();
+            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->pluck('description','id');
             $servicios = \DB::table('services_ondanet_pairing')
                 ->where('service_source_id', $parametro_comision->service_source_id)
-                ->lists('service_description','service_request_id');
+                ->pluck('service_description','service_request_id');
 
             $tipo_servicio = [
                 0 => 'Bocas de Cobranzas',
@@ -196,7 +196,7 @@ class ParametrosComisionesController extends Controller
                 ->select(\DB::raw("concat(service_providers.name, ' - ' ,service_provider_products.description) as servicio"), 'service_provider_products.id')
                 ->whereNull('service_provider_products.deleted_at')
                 ->join('service_providers', 'service_provider_products.service_provider_id', '=', 'service_providers.id')
-                ->lists('servicio', 'service_provider_products.id');
+                ->pluck('servicio', 'service_provider_products.id');
 
             $data = [
                 'parametro_comision' => $parametro_comision,
@@ -235,7 +235,7 @@ class ParametrosComisionesController extends Controller
 
         if(!empty($input['owner_id'])){
             if($input['owner_id'] == 'todos'){
-                $owners = \DB::table('owners')->where('deleted_at', null)->lists('id', 'id');
+                $owners = \DB::table('owners')->where('deleted_at', null)->pluck('id', 'id');
                 $input['owner_id'] = $owners;
             }else{
                 $input['owner_id'] = [$input['owner_id']];
@@ -249,7 +249,7 @@ class ParametrosComisionesController extends Controller
                         $query->where('id', $input['atm_id']);
                     }
                 })
-                ->lists('id','id');
+                ->pluck('id','id');
 
             if(!empty($atms)){
                 $actualizar = \DB::table('parametros_comisiones')
@@ -342,7 +342,7 @@ class ParametrosComisionesController extends Controller
         if($request->ajax()){
             $services = \DB::table('services_ondanet_pairing')
                 ->where('service_source_id', $request->get('service_source_id'))
-                ->lists('service_description','service_request_id');
+                ->pluck('service_description','service_request_id');
 
             $data = [];
             foreach ($services as $serviceId => $texto) {
@@ -366,7 +366,7 @@ class ParametrosComisionesController extends Controller
                 ->select(\DB::raw("concat(service_providers.name, ' - ' ,service_provider_products.description) as servicio"), 'service_provider_products.id')
                 ->whereNull('service_provider_products.deleted_at')
                 ->join('service_providers', 'service_provider_products.service_provider_id', '=', 'service_providers.id')
-                ->lists('servicio', 'service_provider_products.id');
+                ->pluck('servicio', 'service_provider_products.id');
 
             $data = [];
             foreach ($services as $serviceId => $texto) {
@@ -393,7 +393,7 @@ class ParametrosComisionesController extends Controller
                     }
                 })
                 ->whereNull('deleted_at')
-                ->lists('name','id');
+                ->pluck('name','id');
             $data = [];
 
             if(empty($request->get('owner_id'))){

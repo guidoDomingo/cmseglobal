@@ -58,9 +58,9 @@ class ContractController extends Controller
             return redirect('/')->with('error', 'No posee permisos para realizar esta accion.');
         }
       
-        $grupos = Group::lists('description', 'id','ruc');
-        $groups = Group::lists('description', 'id','ruc');
-        $contract_types                 = \DB::table('contract_type')->lists('description','id');
+        $grupos = Group::pluck('description', 'id','ruc');
+        $groups = Group::pluck('description', 'id','ruc');
+        $contract_types                 = \DB::table('contract_type')->pluck('description','id');
 
         $date = Carbon::now();
         
@@ -241,8 +241,8 @@ class ContractController extends Controller
         if($contrato = Contract::find($id))
         {  
             $grupo = Group::find($contrato->busines_group_id);
-            $groups                         = Group::lists('description', 'id');
-            $contract_types                 = \DB::table('contract_type')->lists('description','id');
+            $groups                         = Group::pluck('description', 'id');
+            $contract_types                 = \DB::table('contract_type')->pluck('description','id');
 
             if(empty($contrato)){
                 $reservationtime_contract = '';
@@ -418,14 +418,14 @@ class ContractController extends Controller
                 if(!empty($whereGroup)){
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->lists('description','id');
+            })->get()->pluck('description','id');
             $groups->prepend('Todos','0');
             $group_id= 0;
             $atms     = Atmnew::orderBy('atms.name')->where(function($query) use($whereAtm){
                 if(!empty($whereAtm)){
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->lists('name','id');
+            })->get()->pluck('name','id');
             $atms->prepend('Todos','0');
             $atm_id = 0;
             $status = 0;
@@ -503,14 +503,14 @@ class ContractController extends Controller
                     if(!empty($whereGroup)){
                         $query->whereRaw($whereGroup);
                     }
-                })->get()->lists('description','id');
+                })->get()->pluck('description','id');
                 $groups->prepend('Todos','0');
     
                 $atms     = Atmnew::orderBy('atms.name')->where(function($query) use($whereAtm){
                     if(!empty($whereAtm)){
                         $query->whereRaw($whereAtm);
                     }
-                })->get()->lists('name','id');
+                })->get()->pluck('name','id');
                 $atms->prepend('Todos','0');
     
                 $group_id = (isset($input['group_id'])?$input['group_id']:0);

@@ -122,7 +122,7 @@ class Atm extends Model
             ->join('points_of_sale', 'branches.id', '=', 'points_of_sale.branch_id')
             ->join('atms', 'atms.id', '=', 'points_of_sale.atm_id')
             ->where('branches.group_id', $group_id)
-            ->lists('atms.id', 'atms.id');
+            ->pluck('atms.id', 'atms.id');
 
             $atms_id = '('.implode(',', $group).')';
 
@@ -156,7 +156,7 @@ class Atm extends Model
             ->join('points_of_sale', 'branches.id', '=', 'points_of_sale.branch_id')
             ->join('atms', 'atms.id', '=', 'points_of_sale.atm_id')
             ->where('branches.group_id', $group_id)
-            ->lists('atms.id', 'atms.id');
+            ->pluck('atms.id', 'atms.id');
 
             $atms_id = '('.implode(',', $group).')';
 

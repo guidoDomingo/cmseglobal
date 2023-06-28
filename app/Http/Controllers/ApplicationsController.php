@@ -65,10 +65,10 @@ class ApplicationsController extends Controller
         }
 
         if ($this->user->hasRole('security_admin') || $this->user->hasRole('superuser')) {
-            $applications = Applications::lists('name', 'id');
-            $owners = Owner::lists('name', 'id');
+            $applications = Applications::pluck('name', 'id');
+            $owners = Owner::pluck('name', 'id');
         }else{
-            $applications = Applications::where('owner_id', $this->user->owner_id)->lists('name', 'id');
+            $applications = Applications::where('owner_id', $this->user->owner_id)->pluck('name', 'id');
             $owners = null;
         }
 
@@ -174,11 +174,11 @@ class ApplicationsController extends Controller
             $data = array();
             $data['application'] = $app;
             if ($this->user->hasRole('security_admin') || $this->user->isSuperuser()) {
-                $pdv = Pos::lists('description', 'id');
-                $owners = Owner::lists('name', 'id');
+                $pdv = Pos::pluck('description', 'id');
+                $owners = Owner::pluck('name', 'id');
                 $data['selected_owner'] = $app->owner_id;
             } else {
-                $pdv = Pos::where('owner_id', $this->user->owner_id)->lists('description', 'id');
+                $pdv = Pos::where('owner_id', $this->user->owner_id)->pluck('description', 'id');
                 $owners = null;
                 $data['selected_owner'] = $this->user->agent_id;
 

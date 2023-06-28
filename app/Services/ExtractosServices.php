@@ -1682,13 +1682,13 @@ class ExtractosServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -1870,13 +1870,13 @@ class ExtractosServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');                
+                    ->pluck('id', 'id');                
                     
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -1901,13 +1901,13 @@ class ExtractosServices
                     ->selectRaw('concat(username, \' - \', description) as full_name, id')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('full_name', 'id');
+                    ->pluck('full_name', 'id');
                 
                 $usersId = \DB::connection('eglobalt_auth')
                     ->table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');                
+                    ->pluck('id', 'id');                
  
                 $branches = \DB::table('branches')
                     ->select('branches.*')
@@ -3506,7 +3506,7 @@ class ExtractosServices
             $usersId = \DB::table('users')
                     ->join('role_users', 'users.id', '=', 'role_users.user_id')
                     ->where('role_users.role_id', 22)
-                    ->lists('id', 'id');
+                    ->pluck('id', 'id');
 
             $user_id = '('.implode(',', $usersId).')';
 
@@ -3614,7 +3614,7 @@ class ExtractosServices
                 ->select(['description', 'id'])
                 ->whereIn('id', [2, 3, 5, 8, 11, 17])
                 ->orderBy('id', 'asc')
-            ->lists('description', 'id');
+            ->pluck('description', 'id');
 
             $data_select = [];
             foreach ($groups as $key => $group) {
@@ -3652,7 +3652,7 @@ class ExtractosServices
                 ->select(['description', 'id'])
                 ->whereIn('id', [2, 3, 5, 8, 11, 17])
                 ->orderBy('id', 'asc')
-            ->lists('description', 'id');
+            ->pluck('description', 'id');
 
              /*SET OWNER*/
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){
@@ -4087,7 +4087,7 @@ class ExtractosServices
                             ->where('users_x_groups.user_id', $this->user->id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
 
                         $query->whereIn('boletas_depositos.atm_id', $atms);
                     }else{
@@ -4097,7 +4097,7 @@ class ExtractosServices
                             ->where('atms_per_users.user_id', $this->user->id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
                         //$query->where('boletas_depositos.user_id', $this->user->id);
                         $query->whereIn('boletas_depositos.atm_id', $atms);
                     }
@@ -4173,7 +4173,7 @@ class ExtractosServices
                 }
             }
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             $status = array('0'=>'Todos','1'=>'Confirmados','2'=>'Rechazados','3'=>'Pendientes');
 
@@ -4244,7 +4244,7 @@ class ExtractosServices
                             ->where('branches.group_id', $group_id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
 
                         $atm=implode(',', $atms);
 
@@ -4271,7 +4271,7 @@ class ExtractosServices
                             ->where('atms_per_users.user_id', $this->user->id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
                         //dd($atms);
                         $atm_id=implode(',', $atms);
                     }else{
@@ -4322,7 +4322,7 @@ class ExtractosServices
                                 ->where('users_x_groups.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
 
                             $query->whereIn('boletas_depositos.atm_id', $atms);
 
@@ -4333,7 +4333,7 @@ class ExtractosServices
                                 ->where('atms_per_users.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
                             //$query->where('boletas_depositos.user_id', $this->user->id);
                             $query->whereIn('boletas_depositos.atm_id', $atms);
                         }
@@ -4413,7 +4413,7 @@ class ExtractosServices
             
             $status = array('0'=>'Todos','1'=>'Confirmados','2'=>'Rechazados','3'=>'Pendientes');
 
-            $groups = Group::lists('description', 'id');
+            $groups = Group::pluck('description', 'id');
 
             /*$resultset['usersNames'] = $usersNames;
             $resultset['branches'] = $branches;*/
@@ -4487,7 +4487,7 @@ class ExtractosServices
                             ->where('branches.group_id', $group_id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
 
                         $atm=implode(',', $atms);
 
@@ -4514,7 +4514,7 @@ class ExtractosServices
                             ->where('atms_per_users.user_id', $this->user->id)
                             ->whereIn('atms.owner_id', [16, 21, 25])
                             ->orderBy('atms.id', 'asc')
-                        ->lists('atms.id');
+                        ->pluck('atms.id');
 
                         $atm_id=implode(',', $atms);
                     }else{
@@ -4560,7 +4560,7 @@ class ExtractosServices
                                 ->where('users_x_groups.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
 
                             $query->whereIn('boletas_depositos.atm_id', $atms);
 
@@ -4571,7 +4571,7 @@ class ExtractosServices
                                 ->where('atms_per_users.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
                             //$query->where('boletas_depositos.user_id', $this->user->id);
                             $query->whereIn('boletas_depositos.atm_id', $atms);
                         }
@@ -4615,7 +4615,7 @@ class ExtractosServices
                                 ->where('users_x_groups.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
 
                             $query->whereIn('bd.atm_id', $atms);
 
@@ -4626,7 +4626,7 @@ class ExtractosServices
                                 ->where('atms_per_users.user_id', $this->user->id)
                                 ->whereIn('atms.owner_id', [16, 21, 25])
                                 ->orderBy('atms.id', 'asc')
-                            ->lists('atms.id');
+                            ->pluck('atms.id');
                             //$query->where('boletas_depositos.user_id', $this->user->id);
                             $query->whereIn('bd.atm_id', $atms);
                         }
@@ -4696,7 +4696,7 @@ class ExtractosServices
                     ->where('users_x_groups.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
 
                 $boletas = \DB::table('mt_recibos_pagos_miniterminales')
                         ->select([
@@ -4839,7 +4839,7 @@ class ExtractosServices
                     ->where('atms_per_users.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
                 //$user_id = $this->user->id;
                 $boletas = \DB::table('mt_recibos_pagos_miniterminales')
                     ->select([
@@ -4985,7 +4985,7 @@ class ExtractosServices
                     ->where('atms_per_users.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
                 
                 $boletas = \DB::table('mt_recibos')
                     ->select([
@@ -5094,7 +5094,7 @@ class ExtractosServices
                     ->where('users_x_groups.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
 
                 $boletas = \DB::table('mt_recibos_pagos_miniterminales')
                         ->select([
@@ -5240,7 +5240,7 @@ class ExtractosServices
                     ->where('atms_per_users.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
                 //$user_id = $this->user->id;
                 $boletas = \DB::table('mt_recibos_pagos_miniterminales')
                             ->select([
@@ -5384,7 +5384,7 @@ class ExtractosServices
                     ->where('atms_per_users.user_id', $this->user->id)
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('atms.id');
+                ->pluck('atms.id');
 
                 $boletas = \DB::table('mt_recibos_pagos_miniterminales')
                     ->select([

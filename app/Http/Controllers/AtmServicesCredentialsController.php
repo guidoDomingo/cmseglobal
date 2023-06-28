@@ -75,7 +75,7 @@ class AtmServicesCredentialsController extends Controller
             return redirect('/');
         }
 
-        $webservices = WebService::all()->lists('name', 'id');
+        $webservices = WebService::all()->pluck('name', 'id');
         $data = ['webservices' => $webservices,
         'atm_id' => $id];
         return view('credentials.create', $data);
@@ -202,7 +202,7 @@ class AtmServicesCredentialsController extends Controller
             $credentials->service_id = 27;
         }
 
-        $webservices = WebService::all()->lists('name', 'id');
+        $webservices = WebService::all()->pluck('name', 'id');
         $atm = Atm::find($id);
         $data = [
             'webservices'   => $webservices,

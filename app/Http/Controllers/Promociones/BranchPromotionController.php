@@ -51,8 +51,8 @@ class BranchPromotionController extends Controller
             return redirect('/');
         }
     
-        $business      = \DB::table('business')->lists('description','id');
-        $providers     = \DB::table('promotions_providers')->lists('name','id');
+        $business      = \DB::table('business')->pluck('description','id');
+        $providers     = \DB::table('promotions_providers')->pluck('name','id');
 
         return view('promociones.branches_promotions.create', compact('business','providers'));
     }
@@ -116,8 +116,8 @@ class BranchPromotionController extends Controller
 
         if($branches = BranchPromotion::find($id)){
        
-            $business      = \DB::table('business')->lists('description','id');
-            $providers     = \DB::table('promotions_providers')->lists('name','id');
+            $business      = \DB::table('business')->pluck('description','id');
+            $providers     = \DB::table('promotions_providers')->pluck('name','id');
            
             if(!empty($branches)){
                 $branch_start_time = date("h:i:s a",strtotime($branches->start_time));

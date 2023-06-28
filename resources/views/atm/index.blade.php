@@ -264,7 +264,7 @@
                                         <td>
                                             {{ $atm->code }} -
                                             @if (Sentinel::hasAccess('atms.add|edit'))
-                                                <a href="{{ route('atm.credentials.index', ['id' => $atm->id]) }}"><i
+                                                <a href="{{ route('atm.credentials.index', ['atm' => $atm->id]) }}"><i
                                                         class="fa fa-key"></i></a>
                                             @endif
                                         </td>

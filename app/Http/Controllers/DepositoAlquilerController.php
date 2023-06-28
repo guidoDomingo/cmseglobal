@@ -71,7 +71,7 @@ class DepositoAlquilerController extends Controller
                     ->selectRaw("atms.id, ('#' || atms.id || ' | ' || atms.name) as name")
                     ->whereIn('atms.owner_id', [16, 21, 25])
                     ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
                 
             }else{
                 \Log::error(
@@ -93,7 +93,7 @@ class DepositoAlquilerController extends Controller
                 ->where('users_x_groups.user_id', $this->user->id)
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
 
             if (!isset($atms)) {
                 \Log::error(
@@ -126,10 +126,10 @@ class DepositoAlquilerController extends Controller
                 ->where('alquiler.group_id', $atm->group_id)
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
         }
 
-        $tipo_pago = \DB::table('tipo_pago')->where('id', '!=', 3)->orderBy('descripcion', 'asc')->lists('descripcion', 'id');
+        $tipo_pago = \DB::table('tipo_pago')->where('id', '!=', 3)->orderBy('descripcion', 'asc')->pluck('descripcion', 'id');
 
         $bancos = [];
 
@@ -296,8 +296,8 @@ class DepositoAlquilerController extends Controller
             return redirect('/');
         }
 
-        //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
-        $cuentas = CuentaBancaria::orderBy('numero_banco', 'ASC')->where('banco_id', $banco_id, '')->lists('numero_banco', 'id');
+        //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
+        $cuentas = CuentaBancaria::orderBy('numero_banco', 'ASC')->where('banco_id', $banco_id, '')->pluck('numero_banco', 'id');
         $cuentas->prepend('Seleccione una opcion', '0');
 
 

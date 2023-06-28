@@ -62,9 +62,9 @@ class ServiciosMarcasController extends Controller
             ->join('app_categories', 'app_categories.id','=', 'marcas.categoria_id')
             ->join('services_providers_sources', 'services_providers_sources.id','=', 'marcas.service_source_id')
             ->orderBy('marcas.descripcion','asc')
-            ->lists('marca','marcas.id');
+            ->pluck('marca','marcas.id');
 
-        $service_sources = \DB::table('services_providers_sources')->whereNull('deleted_at')->orderBy('description','asc')->lists('description','id');
+        $service_sources = \DB::table('services_providers_sources')->whereNull('deleted_at')->orderBy('description','asc')->pluck('description','id');
 
         return view('servicios_marcas.create', compact('marcas','service_sources'));
     }
@@ -167,8 +167,8 @@ class ServiciosMarcasController extends Controller
                 ->join('app_categories', 'app_categories.id','=', 'marcas.categoria_id')
                 ->join('services_providers_sources', 'services_providers_sources.id','=', 'marcas.service_source_id')
                 ->orderBy('marcas.descripcion','asc')
-                ->lists('marca','marcas.id');
-            $service_sources = \DB::table('services_providers_sources')->whereNull('deleted_at')->orderBy('description','asc')->lists('description','id');
+                ->pluck('marca','marcas.id');
+            $service_sources = \DB::table('services_providers_sources')->whereNull('deleted_at')->orderBy('description','asc')->pluck('description','id');
             $data = [
                 'servicio_marca' => $servicio_marca,
                 'marcas' => $marcas,

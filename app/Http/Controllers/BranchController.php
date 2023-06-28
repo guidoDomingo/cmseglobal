@@ -47,6 +47,7 @@ class BranchController extends Controller
 
     public function index_group($groupId, Request $request)
     {
+        $users = \Sentinel::getUser();
         if (!$this->user->hasAccess('branches')) {
             \Log::error('Unauthorized access attempt',
                 ['user' => $this->user->username, 'route' => \Request::route()->getActionName()]);
@@ -73,15 +74,15 @@ class BranchController extends Controller
             return redirect('/');
         }
 
-        $users = User::all()->lists('description','id');
+        $users = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id = 0;
 
-        $barrios = Barrio::all()->lists('descripcion','id');
+        $barrios = Barrio::all()->pluck('descripcion','id');
         $barrios->prepend('Asignar barrio','0');
         $barrio_id = 0;
 
-        $executives = User::where('manager_eglobalt', true)->lists('description','id');
+        $executives = User::where('manager_eglobalt', true)->pluck('description','id');
         $executives->prepend('Asignar ejecutivo','0');
         $executive_id = 0;
 
@@ -99,7 +100,7 @@ class BranchController extends Controller
             return redirect('/');
         }
 
-        $users = User::all()->lists('description','id');
+        $users = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id = 0;
 
@@ -107,7 +108,7 @@ class BranchController extends Controller
             ->where('group_id',null)
             ->where('owner_id','!=',18)
             ->get()
-            ->lists('description','id')
+            ->pluck('description','id')
         ->toArray();
 
         ksort($branches);
@@ -298,15 +299,15 @@ class BranchController extends Controller
         }
 
         $branch = Branch::find($branch);
-        $users = User::all()->lists('description','id');
+        $users = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id = $branch->user_id;
 
-        $barrios = Barrio::all()->lists('descripcion','id');
+        $barrios = Barrio::all()->pluck('descripcion','id');
         $barrios->prepend('Asignar barrio','0');
         $barrio_id = $branch->barrio_id;
 
-        $executives = User::where('manager_eglobalt', true)->lists('description','id');
+        $executives = User::where('manager_eglobalt', true)->pluck('description','id');
         $executives->prepend('Asignar ejecutivo','0');
         $executive_id = $branch->executive_id;
 

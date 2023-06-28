@@ -100,7 +100,7 @@ class DepositosTerminalesController extends Controller
         }
         
 
-        $bancos = \DB::table('bancos')->lists('descripcion', 'id');        
+        $bancos = \DB::table('bancos')->pluck('descripcion', 'id');        
         
         return view('depositos_arqueos.create', compact('comboRecaudadores', 'comboTipoCreditos', 'bancos'));
     }

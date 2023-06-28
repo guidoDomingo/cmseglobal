@@ -100,7 +100,7 @@ class FormsController extends Controller
 
         if($form = Forms::find($id)){
 
-            $campaigns = \DB::table('campaigns')->orderBy('id','asc')->lists('name','id');
+            $campaigns = \DB::table('campaigns')->orderBy('id','asc')->pluck('name','id');
             
             if(isset($form->campaigns_id)){
                 $campaign_id = $form->campaigns_id;

@@ -1814,7 +1814,7 @@ class ComisionesController extends Controller
                 ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                 ->orderBy('movements.destination_operation_id','ASC')
                 ->take($i)
-            ->lists('movements.destination_operation_id');
+            ->pluck('movements.destination_operation_id');
 
             $ventasondanet = implode(';', $idventasondanet);
             \Log::info('[Recibo Comision - Transacciones] Ventas a cobrar', ['ventasondanet' => $ventasondanet]);
@@ -1874,7 +1874,7 @@ class ComisionesController extends Controller
                 ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                 ->orderBy('movements.destination_operation_id','ASC')
                 ->take($i)
-                ->lists('movements.id');
+                ->pluck('movements.id');
 
                 $venta = implode(', ', $idventas);
 
@@ -1912,7 +1912,7 @@ class ComisionesController extends Controller
                     ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                     ->orderBy('movements.destination_operation_id','ASC')
                     ->take($i)
-                    ->lists('movements.id');
+                    ->pluck('movements.id');
 
                     foreach($idventas as $venta){
                         \DB::table('miniterminales_sales')
@@ -1938,7 +1938,7 @@ class ComisionesController extends Controller
                     ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                     ->orderBy('movements.destination_operation_id','ASC')
                     ->take($cobradostotal)
-                    ->lists('movements.id');
+                    ->pluck('movements.id');
 
                     foreach($salescobradas as $salecobrada){
                         $result=\DB::table('miniterminales_sales')
@@ -1963,7 +1963,7 @@ class ComisionesController extends Controller
                         ->whereRaw("movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('movements.destination_operation_id','ASC')
                         ->take(1)
-                        ->lists('movements.id');
+                        ->pluck('movements.id');
 
                         $sale = implode(', ', $salefaltante);
 
@@ -2050,7 +2050,7 @@ class ComisionesController extends Controller
                 ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                 ->orderBy('m.destination_operation_id','ASC')
                 ->take($i)
-            ->lists('m.destination_operation_id');
+            ->pluck('m.destination_operation_id');
 
             $ventasondanet = implode(';', $idventasondanet);*/
 
@@ -2127,7 +2127,7 @@ class ComisionesController extends Controller
                     ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                     ->orderBy('m.destination_operation_id','ASC')
                     ->take($i)
-                ->lists('m.id');
+                ->pluck('m.id');
 
                 $venta = implode(', ', $idventas);
 
@@ -2193,7 +2193,7 @@ class ComisionesController extends Controller
                         ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('m.destination_operation_id','ASC')
                         ->take($i)
-                    ->lists('m.id');
+                    ->pluck('m.id');
 
                     foreach($idventas as $venta){
                         \DB::table('mt_sales')
@@ -2237,7 +2237,7 @@ class ComisionesController extends Controller
                         ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                         ->orderBy('m.destination_operation_id','ASC')
                         ->take($cobradostotal)
-                    ->lists('m.id');
+                    ->pluck('m.id');
 
                     foreach($salescobradas as $salecobrada){
                         $result=\DB::table('mt_sales')
@@ -2286,7 +2286,7 @@ class ComisionesController extends Controller
                             ->whereRaw("m.destination_operation_id not in ('0','1','-2','-3','-4','-5','6','-9','-10','-11','-12','-13','-14','-15','-16','-17','-21','-23','-26','-27','212','999')")
                             ->orderBy('m.destination_operation_id','ASC')
                             ->take(1)
-                        ->lists('m.id');
+                        ->pluck('m.id');
 
                         $sale = implode(', ', $salefaltante);
 
@@ -2602,7 +2602,7 @@ class ComisionesController extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
             
             if(empty($atms)){
                 $response['message'] = 'El siguiente ATM no tiene reglas de Limite';
@@ -2707,7 +2707,7 @@ class ComisionesController extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
             
             \Log::info(json_decode(json_encode($atms), true));
 
@@ -3011,7 +3011,7 @@ class ComisionesController extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-                    ->lists('id_atm');
+                    ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -3021,7 +3021,7 @@ class ComisionesController extends Controller
 
             $atm_id = implode(', ', $atms);
 
-            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->first();
 
@@ -3126,7 +3126,7 @@ class ComisionesController extends Controller
                 //->where('atms.owner_id', 44)
                 ->where('atms.id', $atm_id)
                 ->whereNull('atms.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -3136,7 +3136,7 @@ class ComisionesController extends Controller
 
             $atm_id = implode(', ', $atms);
 
-            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_x_cuota')->where('recibo_id', $recibo_id)->first();
 
@@ -3218,7 +3218,7 @@ class ComisionesController extends Controller
                 ->join('mt_recibo_alquiler_x_cuota', 'mt_recibo_alquiler_x_cuota.recibo_id', '=', 'mt_recibos_comisiones_details.recibo_id')
                 ->where('mt_recibos_comisiones.atm_id',$atm_id)
                 ->where('mt_recibo_alquiler_x_cuota.recibo_id',$recibo_id)
-            ->lists('branches.user_id');
+            ->pluck('branches.user_id');
 
             foreach($users as $user){
                 //PARA INSERTAR EN HISTORIAL BLOQUEOS CHECKUSERBALANCE
@@ -3414,7 +3414,7 @@ class ComisionesController extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-                    ->lists('id_atm');
+                    ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -3424,7 +3424,7 @@ class ComisionesController extends Controller
 
             $atm_id = implode(', ', $atms);
 
-            $cuotas=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->first();
 
@@ -3529,7 +3529,7 @@ class ComisionesController extends Controller
                 //->where('atms.owner_id', 44)
                 ->where('id', $atm_id)
                 ->whereNull('atms.deleted_at')
-            ->lists('id_atm');
+            ->pluck('id_atm');
 
             if(empty($atms)){
                 $response['error'] = false;
@@ -3539,7 +3539,7 @@ class ComisionesController extends Controller
 
             $atm_id = implode(', ', $atms);
 
-            $cuotas=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->lists('numero_cuota', 'numero_cuota');
+            $cuotas=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->pluck('numero_cuota', 'numero_cuota');
 
             $recibo_x_cuota=\DB::table('mt_recibo_alquiler_x_cuota')->where('recibo_id', $recibo_id)->first();
 

@@ -47,7 +47,7 @@ class ContentsController extends Controller
             ->select(\DB::raw("id, name || ' | ' ||start_time || ' - ' || end_time as descripcion"))
             ->get();
         $categoriesJson   = json_encode($categoriasList);
-        $categorias       = \DB::table('promotions_categories')->lists('name','id');
+        $categorias       = \DB::table('promotions_categories')->pluck('name','id');
     
         return view('promociones.contenidos.create', compact('categoriesJson','categorias'));
     }

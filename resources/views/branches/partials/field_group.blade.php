@@ -13,5 +13,5 @@
     @endif
 
     
-    <a class="btn btn-default" href="{{ route('groups.branches',['group_id' => $groupId]) }}" role="button">Cancelar</a>
+    <a class="btn btn-default" href="{{ route('groups.branches',['groupId' => $groupId]) }}" role="button">Cancelar</a>
     

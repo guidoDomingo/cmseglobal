@@ -73,7 +73,7 @@
                                         <td>{{ date('d/m/y H:i', strtotime($parametro->updated_at)) }}</td>
                                         <td>
                                             @if (Sentinel::hasAccess('parametros_comisiones.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('parametros_comisiones.edit',['id' => $parametro->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('parametros_comisiones.edit',['parametros_comisione' => $parametro->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('parametros_comisiones.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

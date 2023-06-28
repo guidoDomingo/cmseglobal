@@ -141,11 +141,11 @@ class AtmnewController extends Controller
             $atms = $atms->get();
            
 
-        $owners = Owner::orderBy('name')->get()->lists('name','id')->toArray();
+        $owners = Owner::orderBy('name')->get()->pluck('name','id')->toArray();
         $owners[0] = 'Red - Todos';
         ksort($owners);
 
-        $groups = Group::orderBy('description')->get()->lists('description','id')->toArray();
+        $groups = Group::orderBy('description')->get()->pluck('description','id')->toArray();
         $groups[0] = 'Grupo - Todos';
         ksort($groups);
 
@@ -188,10 +188,10 @@ class AtmnewController extends Controller
             return redirect('/');
         }
 
-        $public_key = Str::quickRandom(40);
-        $private_key = Str::quickRandom(40);
+        $public_key = Str::random(40);
+        $private_key = Str::random(40);
 
-        $owners = Owner::orderBy('name')->get()->lists('name','id');
+        $owners = Owner::orderBy('name')->get()->pluck('name','id');
         $data = [
             'public_key'    => $public_key,
             'private_key'   => $private_key,
@@ -315,7 +315,7 @@ class AtmnewController extends Controller
 
                     $aplicaciones = Applications::where('active',true)
                         ->get()
-                        ->lists('name','id');
+                        ->pluck('name','id');
 
                     $data['applications'] = [];
                     foreach ($aplicaciones as $applicationId => $texto) {
@@ -360,10 +360,10 @@ class AtmnewController extends Controller
     public function show($id)
     {
         
-        // $public_key = Str::quickRandom(40);
-        // $private_key = Str::quickRandom(40);
+        // $public_key = Str::random(40);
+        // $private_key = Str::random(40);
 
-        // $owners = Owner::orderBy('name')->get()->lists('name','id');
+        // $owners = Owner::orderBy('name')->get()->pluck('name','id');
         // $data = [
         //     'public_key'    => $public_key,
         //     'private_key'   => $private_key,
@@ -498,7 +498,7 @@ class AtmnewController extends Controller
         $housings = Housing::leftjoin('atms', 'housing.id', '=', 'atms.housing_id')
                             ->where('atms.id', null)
                             ->whereNull('atms.deleted_at')
-                            ->lists('serialnumber','housing.id');
+                            ->pluck('serialnumber','housing.id');
         $housings->prepend('Asignar housing','0');
 
         if(!empty($atm->housing_id)){
@@ -512,7 +512,7 @@ class AtmnewController extends Controller
         ////AREA SISTEMAS  EGLOBALT
         $aplicaciones = Applications::where('active',true)
                         ->get()
-                        ->lists('name','id');
+                        ->pluck('name','id');
         $app = \DB::table('atm_application')->where('atm_id', $atm->id)->first();
 
         //$appId = null;
@@ -692,27 +692,27 @@ class AtmnewController extends Controller
 
 
 
-        $webservices                    = WebService::all()->lists('name', 'id');
+        $webservices                    = WebService::all()->pluck('name', 'id');
         $atm_parts                      = \DB::table('atms_parts')->where('atm_id', $atm->id)->count();
-        $owners                         = Owner::orderBy('name')->get()->lists('name','id');
-        $branches                       = Branch::lists('description', 'id');
-        $groups                         = Group::lists('description', 'id');
+        $owners                         = Owner::orderBy('name')->get()->pluck('name','id');
+        $branches                       = Branchpluck('description', 'id');
+        $groups                         = Grouppluck('description', 'id');
         $sellerType['1']                = 'Testing Seller type';
-        $users                          = User::all()->lists('description','id');
+        $users                          = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id                        = 0;
-        $voucherTypes                   = VoucherType::orderBy('id')->get()->lists('description','id');
-        $departamentos                  = \DB::table('departamento')->lists('descripcion','id');
-        $ciudades                       = \DB::table('ciudades')->lists('descripcion','id');
-        $barrios                        = \DB::table('barrios')->lists('descripcion','id');
-        $zonas                          = Zona::lists('descripcion', 'id');
-        $contract_types                 = \DB::table('contract_type')->lists('description','id');
-        $insurance_types                = \DB::table('insurance_type')->lists('description','id');
-        $internet_service_contracts     = \DB::table('internet_service_contract')->lists('isp_acount_number','id');
-        $network_technologies           = \DB::table('network_technology')->lists('description','id');
-        $isp_types                      = \DB::table('isp')->lists('description','id');
-        $contracts                      = \DB::table('contract')->lists('number','id');
-        $insurances                     = \DB::table('insurance_policy')->lists('number','id');
+        $voucherTypes                   = VoucherType::orderBy('id')->get()->pluck('description','id');
+        $departamentos                  = \DB::table('departamento')->pluck('descripcion','id');
+        $ciudades                       = \DB::table('ciudades')->pluck('descripcion','id');
+        $barrios                        = \DB::table('barrios')->pluck('descripcion','id');
+        $zonas                          = Zona::pluck('descripcion', 'id');
+        $contract_types                 = \DB::table('contract_type')->pluck('description','id');
+        $insurance_types                = \DB::table('insurance_type')->pluck('description','id');
+        $internet_service_contracts     = \DB::table('internet_service_contract')->pluck('isp_acount_number','id');
+        $network_technologies           = \DB::table('network_technology')->pluck('description','id');
+        $isp_types                      = \DB::table('isp')->pluck('description','id');
+        $contracts                      = \DB::table('contract')->pluck('number','id');
+        $insurances                     = \DB::table('insurance_policy')->pluck('number','id');
         
         $permissions = Permission::orderBy('permission')->get();
         $branches2 = Branch::all(['description', 'id']);
@@ -722,18 +722,18 @@ class AtmnewController extends Controller
         $owners2 = Owner::all(['name', 'id']);
         $ownersJson = json_encode($owners2);
 
-        $bancos                         = \DB::table('clientes_bancos')->lists('descripcion','id');
+        $bancos                         = \DB::table('clientes_bancos')->pluck('descripcion','id');
         $banco_id = 0;
         
-        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->lists('descripcion','id');
+        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id');
         $tipo_cuentas_id = 0;
 
-        $canales                          = \DB::table('canal')->lists('descripcion','id');
+        $canales                          = \DB::table('canal')->pluck('descripcion','id');
         $canal_id = 0;
-        $categorias                     = \DB::table('categorias')->lists('descripcion','id');
+        $categorias                     = \DB::table('categorias')->pluck('descripcion','id');
         $categoria_id = 0;
         $caracteristicas                  = array( 'Agregar caracteristica');
-        $responsables                     = User::where('manager_eglobalt', true)->lists('description','id');
+        $responsables                     = User::where('manager_eglobalt', true)->pluck('description','id');
 
         $data = array(
             'atm'                           => $atm,
@@ -875,7 +875,7 @@ class AtmnewController extends Controller
 
                     $aplicaciones = Applications::where('active',true)
                         ->get()
-                        ->lists('name','id');
+                        ->pluck('name','id');
 
                     $data['applications'] = [];
                     foreach ($aplicaciones as $applicationId => $texto) {
@@ -987,7 +987,7 @@ class AtmnewController extends Controller
 
     public function generateHash()
     {
-        return Str::quickRandom(40);
+        return Str::random(40);
     }
 
     protected function createDirectoryResources($id)
@@ -1105,29 +1105,29 @@ class AtmnewController extends Controller
     }
 
     public function prueba(){
-        $public_key = Str::quickRandom(40);
-        $private_key = Str::quickRandom(40);
+        $public_key = Str::random(40);
+        $private_key = Str::random(40);
 
-        $owners = Owner::orderBy('name')->get()->lists('name','id');
-        $branches = Branch::lists('description', 'id');
+        $owners = Owner::orderBy('name')->get()->pluck('name','id');
+        $branches = Branch::pluck('description', 'id');
         // TODO get seller type fron ONDANET
         $sellerType['1'] = 'Testing Seller type';
 
-        $users = User::all()->lists('description','id');
+        $users = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id = 0;
 
-        $groups = Group::lists('description', 'id','ruc');
+        $groups = Group::pluck('description', 'id','ruc');
 
         $grupo = [];
 
-        $voucherTypes = VoucherType::orderBy('id')->get()->lists('description','id');
+        $voucherTypes = VoucherType::orderBy('id')->get()->pluck('description','id');
 
         $atm_code = \DB::table('atms')
             ->selectRaw('code')
             ->orderBy('created_at','desc')
             ->first();        
-        $departamentos = \DB::table('departamento')->lists('descripcion','id');
+        $departamentos = \DB::table('departamento')->pluck('descripcion','id');
 
         $data = [
             //step new atm
@@ -1166,39 +1166,39 @@ class AtmnewController extends Controller
             return redirect('/');
         }
 
-        $public_key                     = Str::quickRandom(40);
-        $private_key                    = Str::quickRandom(40);
-        $owners                         = Owner::orderBy('name')->get()->lists('name','id');
-        $branches                       = Branch::lists('description', 'id');
+        $public_key                     = Str::random(40);
+        $private_key                    = Str::random(40);
+        $owners                         = Owner::orderBy('name')->get()->pluck('name','id');
+        $branches                       = Branch::pluck('description', 'id');
         $sellerType['1']                = 'Testing Seller type';
-        $users                          = User::all()->lists('description','id');
+        $users                          = User::all()->pluck('description','id');
         $users->prepend('Asignar usuario','0');
         $user_id                        = 0;
-        $groups                         = Group::lists('description', 'id','ruc');
+        $groups                         = Group::pluck('description', 'id','ruc');
         $grupo                          = [];
-        $voucherTypes                   = VoucherType::orderBy('id')->get()->lists('description','id');
+        $voucherTypes                   = VoucherType::orderBy('id')->get()->pluck('description','id');
         $atm_code                       = \DB::table('atms')->selectRaw('code')->orderBy('created_at','desc')->first();        
-        $departamentos                  = \DB::table('departamento')->lists('descripcion','id');
-        //$ciudades                       = \DB::table('ciudades')->lists('descripcion','id');
+        $departamentos                  = \DB::table('departamento')->pluck('descripcion','id');
+        //$ciudades                       = \DB::table('ciudades')->pluck('descripcion','id');
         $ciudades                       = array( '');
-        //$barrios                        = \DB::table('barrios')->lists('descripcion','id');
+        //$barrios                        = \DB::table('barrios')->pluck('descripcion','id');
         $barrios                        = array( '');
-        //$zonas                          = Zona::where('deleted_at',null)->lists('descripcion', 'id');
+        //$zonas                          = Zona::where('deleted_at',null)->pluck('descripcion', 'id');
         $zonas                          = array( '');
 
-        $contract_types                 = \DB::table('contract_type')->lists('description','id');
-        $insurance_types                = \DB::table('insurance_type')->lists('description','id');
-        $internet_service_contracts     = \DB::table('internet_service_contract')->lists('isp_acount_number','id');
-        $network_technologies           = \DB::table('network_technology')->lists('description','id');
-        $isp_types                      = \DB::table('isp')->lists('description','id');
+        $contract_types                 = \DB::table('contract_type')->pluck('description','id');
+        $insurance_types                = \DB::table('insurance_type')->pluck('description','id');
+        $internet_service_contracts     = \DB::table('internet_service_contract')->pluck('isp_acount_number','id');
+        $network_technologies           = \DB::table('network_technology')->pluck('description','id');
+        $isp_types                      = \DB::table('isp')->pluck('description','id');
         $housings                       = Housing::leftjoin('atms', 'housing.id', '=', 'atms.housing_id')
                                         ->where('atms.id', null)
                                         ->whereNull('atms.deleted_at')
-                                        ->lists('serialnumber','housing.id');
+                                        ->pluck('serialnumber','housing.id');
         $housings->prepend('Asignar housing','0');
-        $contracts                      = \DB::table('contract')->lists('number','id');
-        $insurances                     = \DB::table('insurance_policy')->lists('number','id');
-        $webservices                    = WebService::all()->lists('name', 'id');
+        $contracts                      = \DB::table('contract')->pluck('number','id');
+        $insurances                     = \DB::table('insurance_policy')->pluck('number','id');
+        $webservices                    = WebService::all()->pluck('name', 'id');
         $posbox_status                  = 'No';
 
         $permissions = Permission::orderBy('permission')->get();
@@ -1209,17 +1209,17 @@ class AtmnewController extends Controller
         $owners2 = Owner::all(['name', 'id']);
         $ownersJson = json_encode($owners2);
        
-        $bancos                         = \DB::table('clientes_bancos')->lists('descripcion','id');
+        $bancos                         = \DB::table('clientes_bancos')->pluck('descripcion','id');
         $banco_id = 0;
-        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->lists('descripcion','id');
+        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id');
         $tipo_cuentas_id = 0;
-        $canales                        = \DB::table('canal')->lists('descripcion','id');
+        $canales                        = \DB::table('canal')->pluck('descripcion','id');
         $canal_id = 0;
-        $categorias                     = \DB::table('categorias')->lists('descripcion','id');
+        $categorias                     = \DB::table('categorias')->pluck('descripcion','id');
         $categoria_id = 0;
-        //$caracteristicas                  = \DB::table('departamento')->lists('descripcion','id');
+        //$caracteristicas                  = \DB::table('departamento')->pluck('descripcion','id');
         $caracteristicas                  = array( '');
-        $responsables                     = User::where('manager_eglobalt', true)->lists('description','id');
+        $responsables                     = User::where('manager_eglobalt', true)->pluck('description','id');
         $related_id                     = 0;
         $grupo_caracteristica           = [];
         $data = [
@@ -1453,7 +1453,7 @@ class AtmnewController extends Controller
             ->where('key','=','gooddeals')
             ->first();
 
-        $instancias = \DB::table('promotions_instances')->lists('description','key');
+        $instancias = \DB::table('promotions_instances')->pluck('description','key');
 
         $data = [
             'instancias' => $instancias,
@@ -1809,7 +1809,7 @@ class AtmnewController extends Controller
         if($request->ajax()){
             $ciudades = \DB::table('ciudades')
                 ->where('departamento_id', $request->get('departamento_id'))
-                ->lists('descripcion','id');
+                ->pluck('descripcion','id');
 
             $ciudades_select = '<option value="">Seleccione una opción</option>';
             foreach($ciudades as $ciudad_id => $ciudad){
@@ -1846,7 +1846,7 @@ class AtmnewController extends Controller
         if($request->ajax()){
             $barrios = \DB::table('barrios')
                 ->where('ciudad_id', $request->get('ciudad_id'))
-                ->lists('descripcion','id');
+                ->pluck('descripcion','id');
 
             $barrios_select = '<option value="">Seleccione una opción</option>';
             foreach($barrios as $barrio_id => $barrio){
@@ -1868,7 +1868,7 @@ class AtmnewController extends Controller
                 ->join('ciudades','ciudades.id','=','ciudad_zona.ciudades_id')
                 ->where('ciudad_zona.ciudades_id', $request->get('ciudad_id'))
                 ->where('zona.deleted_at',null)
-                ->lists('zona.descripcion','zona.id');
+                ->pluck('zona.descripcion','zona.id');
 
             $zonas_select = '<option value="">Seleccione una opción</option>';
             foreach($zonas as $zona_id => $zona){
@@ -2043,7 +2043,7 @@ class AtmnewController extends Controller
 
         $housings = Housing::leftjoin('atms', 'housing.id', '=', 'atms.housing_id')
         ->where('atms.id', null)
-        ->lists('serialnumber','housing.id');
+        ->pluck('serialnumber','housing.id');
 
         $housings->prepend('Asignar housing','0');
 
@@ -2358,7 +2358,7 @@ class AtmnewController extends Controller
        ->whereNull('a.deleted_at')
        ->whereNull('bg.deleted_at')
        ->orderBy('a.id','asc')
-       ->lists('a.name as name','a.id as id');
+       ->pluck('a.name as name','a.id as id');
 
 
        $atmsLists = Group::join('branches as b','b.group_id','=','business_groups.id')
@@ -2378,9 +2378,9 @@ class AtmnewController extends Controller
        ->whereNull('a.deleted_at')
        ->whereNull('bg.deleted_at')
        ->orderBy('a.id','asc')
-       //->lists('a.name || - || a.housing_id as name','a.id as id');
-       //->lists(\DB::raw("concat(a.name,' | Housing_id: ', a.housing_id) as name"),'a.id as id');
-       ->lists(\DB::raw("concat(a.name,' | Housing : ', h.serialnumber) as name"),'a.id as id');
+       //->pluck('a.name || - || a.housing_id as name','a.id as id');
+       //->pluck(\DB::raw("concat(a.name,' | Housing_id: ', a.housing_id) as name"),'a.id as id');
+       ->pluck(\DB::raw("concat(a.name,' | Housing : ', h.serialnumber) as name"),'a.id as id');
 
 
 

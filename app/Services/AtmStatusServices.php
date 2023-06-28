@@ -163,11 +163,11 @@ class AtmStatusServices
                 $hasta        = date('Y-m-d H:i:s', strtotime($daterange[1]));
             }
 
-            $owners = Owner::whereIn('id', [2, 11, 16])->whereNull('deleted_at')->lists('name', 'id')->prepend('Todos', '0');
+            $owners = Owner::whereIn('id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0');
 
-            $branches = Branch::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->lists('description', 'id')->prepend('Todos', '0');
+            $branches = Branch::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('description', 'id')->prepend('Todos', '0');
 
-            $atms = Atm::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->lists('name', 'id')->prepend('Todos', '0');
+            $atms = Atm::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0');
 
             $atmStatus =  \DB::table('atm_status_history')
                 ->select('atms.id', 'atms.name', 'users.description', 'atm_status_history.comments', 'atm_status_history.status', 'atm_status_history.diferencia', 'atm_status_history.created_at', 'atm_status_history.updated_at')
@@ -228,7 +228,7 @@ class AtmStatusServices
                 }
             }
 
-            $tipoStatus = AtmStatusHistory::lists('status', 'status')->prepend('Todos', 'Todos');
+            $tipoStatus = AtmStatusHistorypluck('status', 'status')->prepend('Todos', 'Todos');
 
             $result = [
                 'target'          => 'Historico estados ATM',

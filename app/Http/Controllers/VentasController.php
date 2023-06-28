@@ -83,15 +83,15 @@ class VentasController extends Controller
                 '
                         VENDEDOR, "NRO VENDEDOR" as nro_vendedor'
             ))
-            ->lists('VENDEDOR', 'nro_vendedor');
+            ->pluck('VENDEDOR', 'nro_vendedor');
 
         $acreedores = \DB::table('acreedor')
-            ->lists('description', 'id');
+            ->pluck('description', 'id');
 
 
         $seriales =  \DB::connection('ondanet')
             ->table('LISTADO_SERIALES_MINITERMINALES')
-            ->lists('SERIAL', 'SERIAL');
+            ->pluck('SERIAL', 'SERIAL');
         //dd($seriales);
         $data_select = [];
         foreach ($grupos as $key => $grupo) {

@@ -65,7 +65,7 @@
                                                 <a class="btn btn-info btn-flat btn-row" title="Sucursales" href="{{ route('groups.branches',['groupId' => $group->id ]) }}"><i class="fa fa-building"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('group.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('groups.edit',['id' => $group->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('groups.edit',['group' => $group->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('group.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

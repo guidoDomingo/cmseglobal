@@ -65,7 +65,7 @@ class PointOfSaleVoucherTypeController extends Controller
         }
 
 
-        $voucherTypes = VoucherType::lists('description', 'id');
+        $voucherTypes = VoucherType::pluck('description', 'id');
         $data = [
             'voucherTypes' => $voucherTypes,
             'posId' => $posId,
@@ -180,7 +180,7 @@ class PointOfSaleVoucherTypeController extends Controller
         $voucherType = VoucherType::where('id', $posvouchertypeid)->get();
         $posVoucherType = PointOfSaleVoucherType::find($posvouchertypeid);
 
-        $voucherTypes = VoucherType::lists('description', 'id');
+        $voucherTypes = VoucherType::pluck('description', 'id');
 
         $data = [
             'voucherType' => $voucherType[0],

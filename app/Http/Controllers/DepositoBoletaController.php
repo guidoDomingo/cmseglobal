@@ -67,7 +67,7 @@ class DepositoBoletaController extends Controller
         $tipo_pago = \DB::table('tipo_pago')
             ->where('id', '!=', 3)
             ->orderBy('id', 'asc')
-        ->lists('descripcion', 'id');
+        ->pluck('descripcion', 'id');
 
         $bancos = [];
         $cuentas = [];
@@ -81,7 +81,7 @@ class DepositoBoletaController extends Controller
                 ->selectRaw("atms.id, ('#' || atms.id || ' | ' || atms.name) as name")
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
                 
             }else{
                 \Log::error(
@@ -102,7 +102,7 @@ class DepositoBoletaController extends Controller
                 ->where('users_x_groups.user_id', $this->user->id)
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
 
             if (!isset($atms)) {
                 \Log::error(
@@ -119,7 +119,7 @@ class DepositoBoletaController extends Controller
                 ->where('atms_per_users.user_id', $this->user->id)
                 ->whereIn('atms.owner_id', [16, 21, 25])
                 ->orderBy('atms.id', 'asc')
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
         }
 
         return view('depositos_boletas.create', compact('tipo_pago', 'bancos', 'cuentas', 'atms'));
@@ -148,7 +148,7 @@ class DepositoBoletaController extends Controller
             ->select('bancos.descripcion')
             ->join('branches', 'bancos.id', '=', 'branches.bank_id')
             ->where('branches.user_id', $this->user->id)
-            ->orderBy('descripcion', 'asc')->lists('descripcion', 'bancos.id');
+            ->orderBy('descripcion', 'asc')->pluck('descripcion', 'bancos.id');
 
         if (!empty($bancos)) {
             $banco = \DB::table('bancos')
@@ -370,8 +370,8 @@ class DepositoBoletaController extends Controller
             return redirect('/');
         }
 
-        //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
-        $cuentas = CuentaBancaria::orderBy('numero_banco', 'ASC')->where('banco_id', $banco_id, '')->lists('numero_banco', 'id');
+        //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
+        $cuentas = CuentaBancaria::orderBy('numero_banco', 'ASC')->where('banco_id', $banco_id, '')->pluck('numero_banco', 'id');
         $cuentas->prepend('Seleccione una opcion', '0');
 
 

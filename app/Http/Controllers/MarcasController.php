@@ -57,8 +57,8 @@ class MarcasController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $categorias = \DB::table('app_categories')->orderBy('name','asc')->lists('name','id');
-        $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->lists('description','id');
+        $categorias = \DB::table('app_categories')->orderBy('name','asc')->pluck('name','id');
+        $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->pluck('description','id');
 
         return view('marcas.create', compact('categorias','service_sources'));
     }
@@ -147,8 +147,8 @@ class MarcasController extends Controller
         }
 
         if($marca = Marca::find($id)){
-            $categorias = \DB::table('app_categories')->orderBy('name','asc')->lists('name','id');
-            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->lists('description','id');
+            $categorias = \DB::table('app_categories')->orderBy('name','asc')->pluck('name','id');
+            $service_sources = \DB::table('services_providers_sources')->orderBy('description','asc')->pluck('description','id');
             $data = [
                 'marca' => $marca,
                 'categorias' => $categorias,
@@ -271,14 +271,14 @@ class MarcasController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $atms = \DB::table('atms')->where('deleted_at', null)->lists('name','id');
+        $atms = \DB::table('atms')->where('deleted_at', null)->pluck('name','id');
         $atms_base = \DB::table('atms')
             ->where('deleted_at', null)
             ->whereIn('id', function($query){
                 $query->select('atm_id')
                     ->from('servicios_x_atms');
             })
-            ->lists('name','id');
+            ->pluck('name','id');
         $atm_id = ($request->has('atm_id')) ? $request->get('atm_id'):null;
 
 
@@ -292,7 +292,7 @@ class MarcasController extends Controller
                 ->where('atm_id', $atm_id)
                 ->whereNull('servicios_x_atms.marca_deleted_at')
                 ->groupBy('marca_id')
-                ->lists('marca_id','marca_id');            
+                ->pluck('marca_id','marca_id');            
             $marcas->whereIn('id', $servicios_atm);
             
             $marcas_no_asociadas = \DB::table('marcas')
@@ -348,7 +348,7 @@ class MarcasController extends Controller
                             ->where('atm_id', $atm_id)
                             ->where('marca_id', $marca->id);
                     })
-                    ->lists('service_id', 'service_id');
+                    ->pluck('service_id', 'service_id');
 
                 $servicios->orWhere(function($query) use($servicios_no_asociados, $marca){
                     $query->whereIn('servicios_x_marca.service_id', $servicios_no_asociados)
@@ -689,13 +689,13 @@ class MarcasController extends Controller
             ->whereNull('marcas.deleted_at')
             ->orderBy('marcas.descripcion','asc')
             ->join('servicios_x_marca', 'servicios_x_marca.marca_id', '=', 'marcas.id')
-            ->lists(\DB::raw("concat(marcas.descripcion, ' ', '#',id) as descripcion"),'id');
+            ->pluck(\DB::raw("concat(marcas.descripcion, ' ', '#',id) as descripcion"),'id');
 
         $marcas = \DB::table('marcas')
             ->whereIn('marcas.service_source_id', [1, 4, 7, 0, 9])
             ->join('servicios_x_marca', 'servicios_x_marca.marca_id', '=', 'marcas.id')
             ->orderBy('marcas.descripcion','asc')
-            ->lists(\DB::raw("concat(marcas.descripcion, ' ', '#',marcas.id) as descripcion"),'marcas.id');
+            ->pluck(\DB::raw("concat(marcas.descripcion, ' ', '#',marcas.id) as descripcion"),'marcas.id');
 
         return view('marcas.consolidacion', compact('marcas', 'marcas_eglobalt'));
     }
@@ -744,7 +744,7 @@ class MarcasController extends Controller
 
         $categorias = \DB::table('app_categories')
             ->where('owner_id', 11)
-            ->lists('name', 'id');
+            ->pluck('name', 'id');
 
         $marcas = [];
 

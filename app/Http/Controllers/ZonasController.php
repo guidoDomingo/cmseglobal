@@ -52,7 +52,7 @@ class ZonasController extends Controller
             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
             return redirect('/');
         }
-        $departamentos = \DB::table('departamento')->orderBy('id','asc')->lists('descripcion','id');
+        $departamentos = \DB::table('departamento')->orderBy('id','asc')->pluck('descripcion','id');
 
         return view('zonas.create', compact('departamentos'));
     }
@@ -126,7 +126,7 @@ class ZonasController extends Controller
         }
 
         if($ciudad = Ciudad::find($id)){
-            $departamentos = \DB::table('departamento')->orderBy('id','asc')->lists('descripcion','id');
+            $departamentos = \DB::table('departamento')->orderBy('id','asc')->pluck('descripcion','id');
             $data = [
                 'ciudad' => $ciudad,
                 'departamentos' => $departamentos,

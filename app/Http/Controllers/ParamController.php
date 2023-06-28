@@ -70,7 +70,7 @@ class ParamController extends Controller
         }
 
         $app = Applications::find($appId);
-        $params = Param::all()->lists('description', 'id');
+        $params = Param::all()->pluck('description', 'id');
 
         $data = [
             'application' => $app,
@@ -153,7 +153,7 @@ class ParamController extends Controller
             ->join('params','params.id','=','application_param.param_id')
             ->where('application_id', $appId)->where('param_id',$param_id)
             ->first();
-        $params = Param::all()->lists('description', 'id');
+        $params = Param::all()->pluck('description', 'id');
         $data = [
             'appId' => $appId,
             'app_params' => $app_params,

@@ -1748,7 +1748,7 @@ class ReportingController extends Controller
                 if(!empty($whereOwner)){
                     $query->whereRaw($whereOwner);
                 }
-            })->whereNotIn('owners.id',[16, 21])->get()->lists('name','id');
+            })->whereNotIn('owners.id',[16, 21])->get()->pluck('name','id');
             $owners->prepend('Todos','0');*/
 
             $excluded_owners = [18, 21, 23, 25];
@@ -1761,7 +1761,7 @@ class ReportingController extends Controller
             })
                 ->whereNotIn('owners.id', $excluded_owners) // Redes excluidas
                 ->get()
-                ->lists('name', 'id');
+                ->pluck('name', 'id');
 
 
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
@@ -1775,7 +1775,7 @@ class ReportingController extends Controller
                         ->from('points_of_sale')
                         ->join('atms', 'atms.id', '=', 'points_of_sale.atm_id')
                         ->where('atms.deleted_at', null);
-                })->get()->lists('description', 'id');
+                })->get()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
@@ -1846,9 +1846,9 @@ class ReportingController extends Controller
                 ->paginate(20);
 
             /*Carga datos del formulario*/
-            $owners     = Owner::all()->lists('name', 'id');
+            $owners     = Owner::all()->pluck('name', 'id');
             $owners->prepend('Todos', '0');
-            $branches   = Branch::all()->lists('description', 'id');
+            $branches   = Branch::all()->pluck('description', 'id');
             $branches->prepend('Todos', '0');
             $pdvs       = Pos::with('Atm')->get();
             $pos = [];
@@ -2041,9 +2041,9 @@ class ReportingController extends Controller
             return redirect('/');
         }
         if ($group_id == 0) {
-            $owners = Owner::orderBy('name', 'ASC')->get()->lists();
+            $owners = Owner::orderBy('name', 'ASC')->get()->pluck();
         } else {
-            //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
+            //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
             $owners = \DB::table('branches')
                 ->select('owners.id', 'owners.name')
                 ->join('owners', 'owners.id', '=', 'branches.owner_id')
@@ -2074,7 +2074,7 @@ class ReportingController extends Controller
             return redirect('/');
         }
         if ($group_id == 0) {
-            $branches = Branch::all()->lists('description', 'id');
+            $branches = Branch::all()->pluck('description', 'id');
         } else {
             $branches = \DB::table('branches')
                 ->select('description', 'id')
@@ -2105,22 +2105,22 @@ class ReportingController extends Controller
 
         if ($group_id == 0) {
             if ($owner_id == 0) {
-                //$branches = Branch::all()->lists('description','id');
-                $branches = Branch::orderBy('description', 'ASC')->get()->lists();
+                //$branches = Branch::all()->pluck('description','id');
+                $branches = Branch::orderBy('description', 'ASC')->get()->pluck();
             } else {
-                //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
-                $branches = Branch::orderBy('description', 'ASC')->where('owner_id', $owner_id, '')->lists('description', 'id');
+                //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
+                $branches = Branch::orderBy('description', 'ASC')->where('owner_id', $owner_id, '')->pluck('description', 'id');
             }
             $branches->prepend('Todos', '0');
             return ($branches);
         } else {
             if ($owner_id == 0) {
-                //$branches = Branch::all()->lists('description','id');
+                //$branches = Branch::all()->pluck('description','id');
                 $branches = \DB::table('branches')
                     ->select('id', 'description')
                     ->where('group_id', '=', $group_id)
                     ->get();
-                //$branches = Branch::orderBy('description','ASC')->where('group_id',$group_id,'')->lists('description','id');
+                //$branches = Branch::orderBy('description','ASC')->where('group_id',$group_id,'')->pluck('description','id');
             } else {
                 $branches = \DB::table('branches')
                     ->select('id', 'description')
@@ -2128,7 +2128,7 @@ class ReportingController extends Controller
                     ->where('owner_id', '=', $owner_id)
                     ->orderBy('description', 'ASC')
                     ->get();
-                //$branches = Branch::orderBy('description','ASC')->where('group_id',$group_id,'')->where('owner_id', $owner_id, '')->lists('description','id');
+                //$branches = Branch::orderBy('description','ASC')->where('group_id',$group_id,'')->where('owner_id', $owner_id, '')->pluck('description','id');
             }
             $branch = [];
             $item = array();
@@ -2213,20 +2213,20 @@ class ReportingController extends Controller
             ->selectRaw('concat(username, \' - \', description) as full_name, id')
             ->join('role_users', 'users.id', '=', 'role_users.user_id')
             ->where('role_users.role_id', 22)
-            ->lists('full_name', 'id');
+            ->pluck('full_name', 'id');
 
         if ($group_id == 0) {
             $users = \DB::table('users')
                 ->join('role_users', 'users.id', '=', 'role_users.user_id')
                 ->where('role_users.role_id', 22)
-                ->lists('id', 'id');
+                ->pluck('id', 'id');
         } else {
-            //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
+            //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
             $users = \DB::table('users')
                 ->join('branches', 'users.id', '=', 'branches.user_id')
                 ->where('branches.group_id', '=', $group_id)
                 ->whereIn('branches.owner_id', [16, 21, 25])
-                ->lists('users.id', 'users.id');
+                ->pluck('users.id', 'users.id');
         }
 
         $branches = \DB::table('branches')
@@ -2249,9 +2249,9 @@ class ReportingController extends Controller
     public function getAtmsbyGroups($group_id)
     {
         if ($group_id == 0) {
-            $atms = Atm::whereIn('owner_id', [16, 21, 25])->lists('name', 'id');
+            $atms = Atm::whereIn('owner_id', [16, 21, 25])->pluck('name', 'id');
         } else {
-            //$branches = Branch::where('owner_id',$owner_id,'')->lists('description','id');
+            //$branches = Branch::where('owner_id',$owner_id,'')->pluck('description','id');
             $atms = \DB::table('atms')
                 ->select('atms.id as atm_id', 'atms.name as nombre')
                 ->join('points_of_sale', 'atms.id', '=', 'points_of_sale.atm_id')
@@ -4170,7 +4170,7 @@ class ReportingController extends Controller
         $get_cuotas = \DB::table('mt_recibo_x_cuota')
             ->select('numero_cuota')
             ->where('recibo_id', $recibo->recibo_id)
-            ->lists('numero_cuota');
+            ->pluck('numero_cuota');
 
         $cuotas = implode(', ', $get_cuotas);
 
@@ -4230,7 +4230,7 @@ class ReportingController extends Controller
         $get_cuotas = \DB::table('mt_recibo_alquiler_x_cuota')
             ->select('numero_cuota')
             ->where('recibo_id', $recibo->recibo_id)
-            ->lists('numero_cuota');
+            ->pluck('numero_cuota');
 
         $cuotas = implode(', ', $get_cuotas);
 
@@ -5009,7 +5009,7 @@ class ReportingController extends Controller
         $get_cuotas = \DB::table('cuotas_alquiler')
             ->select('num_cuota')
             ->where('id', $alquiler_id)
-            ->lists('num_cuota');
+            ->pluck('num_cuota');
 
         $cuotas = implode(', ', $get_cuotas);
 
