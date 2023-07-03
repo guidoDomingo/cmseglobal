@@ -26,7 +26,7 @@
                     <div class="box-body">
                         @include('partials._flashes')
                         @include('partials._messages')
-                        {!! Form::model($credentials, ['route' => ['atm.credentials.update', 'id' => $atm->id, 'credentials_id' => $credentials->id ] , 'method' => 'PUT']) !!}
+                        {!! Form::model($credentials, ['route' => ['atm.credentials.update', 'atm' => $atm->id, 'credential' => $credentials->id ] , 'method' => 'PUT']) !!}
                         @include('credentials.partials.fields')
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         {!! Form::close() !!}

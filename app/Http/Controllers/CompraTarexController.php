@@ -41,8 +41,10 @@ class CompraTarexController extends Controller
         $description = $request->get('description');
         
         $compras = CompraTarex::filterAndPaginate($description);
+
+        $reservationtime = "";
         //dd($compras);
-        return view('compra_tarex.index', compact('compras', 'description'));
+        return view('compra_tarex.index', compact('compras', 'description',"reservationtime"));
     }
 
     /**

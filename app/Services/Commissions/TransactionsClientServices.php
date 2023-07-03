@@ -8,6 +8,7 @@
 
 namespace App\Services\Commissions;
 
+use App\Exports\ExcelExport;
 use Excel;
 
 class TransactionsClientServices
@@ -241,47 +242,70 @@ class TransactionsClientServices
 
                     $filename = 'commissions_transactions_client_report_' . time();
 
+                    $columna1 = array(
+                        'Terminal',
+                        'Total'
+                    );
 
-                    Excel::create($filename, function ($excel) use ($commissions_transactions_client, $total_per_terminal, $total_per_terminal_and_services, $style_array) {
+                    $columna2 = array(
+                        'Terminal',
+                        'Servicio',
+                        'Total'
+                    );
+
+                    $columna3 = array(
+                        'Terminal',
+                        'Servicio',
+                        'ID - Transacción',
+                        'Fecha - Hora',
+                        'Monto',
+                        'Valor neto para el punto'
+                    );
+
+
+                    $excel = new ExcelExport($total_per_terminal,$columna1,$total_per_terminal_and_services,$columna2,$commissions_transactions_client,$columna3);
+                    return Excel::download($excel, $filename . '.xls')->send();
+
+                    // Excel::create($filename, function ($excel) use ($commissions_transactions_client, $total_per_terminal, $total_per_terminal_and_services, $style_array) {
                 
-                        $excel->sheet('Comisión por Terminal', function ($sheet) use ($total_per_terminal, $style_array) {
-                            $sheet->rows($total_per_terminal, false);
-                            $sheet->prependRow(array(
-                                'Terminal',
-                                'Total'
-                            ));
+                    //     $excel->sheet('Comisión por Terminal', function ($sheet) use ($total_per_terminal, $style_array) {
+                    //         $sheet->rows($total_per_terminal, false);
+                    //         $sheet->prependRow(array(
+                    //             'Terminal',
+                    //             'Total'
+                    //         ));
 
-                            $sheet->getStyle('A1:B1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
+                    //         $sheet->getStyle('A1:B1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
 
-                        $excel->sheet('Comisión por Servicios', function ($sheet) use ($total_per_terminal_and_services, $style_array) {
-                            $sheet->rows($total_per_terminal_and_services, false);
-                            $sheet->prependRow(array(
-                                'Terminal',
-                                'Servicio',
-                                'Total'
-                            ));
+                    //     $excel->sheet('Comisión por Servicios', function ($sheet) use ($total_per_terminal_and_services, $style_array) {
+                    //         $sheet->rows($total_per_terminal_and_services, false);
+                    //         $sheet->prependRow(array(
+                    //             'Terminal',
+                    //             'Servicio',
+                    //             'Total'
+                    //         ));
 
-                            $sheet->getStyle('A1:C1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
+                    //         $sheet->getStyle('A1:C1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
 
-                        $excel->sheet('Comisión por Transacciones', function ($sheet) use ($commissions_transactions_client, $style_array) {
-                            $sheet->rows($commissions_transactions_client, false);
-                            $sheet->prependRow(array(
-                                'Terminal',
-                                'Servicio',
-                                'ID - Transacción',
-                                'Fecha - Hora',
-                                'Monto',
-                                'Valor neto para el punto'
-                            ));
+                    //     $excel->sheet('Comisión por Transacciones', function ($sheet) use ($commissions_transactions_client, $style_array) {
+                    //         $sheet->rows($commissions_transactions_client, false);
+                    //         $sheet->prependRow(array(
+                    //             'Terminal',
+                    //             'Servicio',
+                    //             'ID - Transacción',
+                    //             'Fecha - Hora',
+                    //             'Monto',
+                    //             'Valor neto para el punto'
+                    //         ));
 
-                            $sheet->getStyle('A1:G1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xlsx');
+                    //         $sheet->getStyle('A1:G1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }

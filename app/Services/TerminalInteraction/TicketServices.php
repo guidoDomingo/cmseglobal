@@ -8,6 +8,7 @@
 
 namespace App\Services\TerminalInteraction;
 
+use App\Exports\ExcelExport;
 use Excel;
 
 class TicketServices
@@ -107,15 +108,21 @@ class TicketServices
 
                 if (count($data_to_excel) > 0) {
                     $filename = 'ussd_transaction_' . time();
+                    $columnas = array(
+                        'ID TRANSACCIÓN', 'TIPO', 'ESTADO', 'CONTACTO', 'MONTO', 'TERMINAL', 'FECHA Y HORA'
+                    );
 
-                    Excel::create($filename, function ($excel) use ($data_to_excel) {
-                        $excel->sheet('sheet1', function ($sheet) use ($data_to_excel) {
-                            $sheet->rows($data_to_excel, false);
-                            $sheet->prependRow(array(
-                                'ID TRANSACCIÓN', 'TIPO', 'ESTADO', 'CONTACTO', 'MONTO', 'TERMINAL', 'FECHA Y HORA'
-                            ));
-                        });
-                    })->export('xls');
+                    $excel = new ExcelExport($data_to_excel,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+
+                    // Excel::create($filename, function ($excel) use ($data_to_excel) {
+                    //     $excel->sheet('sheet1', function ($sheet) use ($data_to_excel) {
+                    //         $sheet->rows($data_to_excel, false);
+                    //         $sheet->prependRow(array(
+                    //             'ID TRANSACCIÓN', 'TIPO', 'ESTADO', 'CONTACTO', 'MONTO', 'TERMINAL', 'FECHA Y HORA'
+                    //         ));
+                    //     });
+                    // })->export('xls');
                     //exit();
                 } else {
                     $message = 'No hay registros según los filtros seleccionados.';

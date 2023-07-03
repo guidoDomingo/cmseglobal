@@ -25,7 +25,7 @@ Dispositivos
         <div class="box-tools">
           <div class="input-group" style="width:150px;">
             {{-- {!! Form::model(Request::only(['name']),['route' => 'miniterminales.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!} --}}
-            {!! Form::model(Request::only(['name']),['route' => ['housing.device.show'], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
+            {!! Form::model(Request::only(['name']),['route' => ['devices.showGet'], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
             {!! Form::text('name' ,null , ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Serial Number', 'autocomplete' => 'off' ]) !!}
             {!! Form::close() !!}
         </div>
@@ -47,12 +47,14 @@ Dispositivos
                 <th>Fecha de Activación</th>              
               </tr>
           </thead>
+        
           @foreach($dispositivos as $device)
+  
           <tr dispositivos-id="{{ $device->id  }}">
             <td>{{ $device->id }}.</td>
             <td>{{ $device->serialnumber }}</td>
             {{-- <td>{{ $device->descripcion }}</td> --}}
-            <td>{{ $device->model['description'] }}</td>
+            <td>{{ $device->descripcion }}</td>
             <td>{{ $device->housing->serialnumber }}</td>
             <td>{{ $device->installation_date}} </td>
             @if ($device->activo == 1)

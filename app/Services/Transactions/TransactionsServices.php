@@ -8,6 +8,7 @@
 
 namespace App\Services\Transactions;
 
+use App\Exports\ExcelExport;
 use Excel;
 use Carbon\Carbon;
 
@@ -550,43 +551,75 @@ class TransactionsServices
                         \Log::info('item in devolution:', $item);
                     }
 
-                    Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
-                        $excel->sheet('Devoluciones Realizadas', function ($sheet) use ($records_aux, $style_array) {
-                            $sheet->rows($records_aux, false);
+                    $columnas = array(
+                        'Transacción Principal ID',
+                        'Transacción Principal Monto',
+                        'Transacción Principal Estado',
+                        'Transacción Principal Estado Descripción',
+                        'Transacción Principal Terminal',
 
-                            $sheet->prependRow(array(
-                                'Transacción Principal ID',
-                                'Transacción Principal Monto',
-                                'Transacción Principal Estado',
-                                'Transacción Principal Estado Descripción',
-                                'Transacción Principal Terminal',
+                        'Transacción Devolución ID',
+                        'Proveedor',
+                        'Servicio',
+                        'Monto',
+                        'Fecha - Hora',
+                        'Transacción Estado',
+                        'Transacción Estado Descripción',
+                        'Monto de Devolución',
+                        'Motivo de Devolución',
+                        'Tipo de Devolución',
+                        'Estado de Devolución',
+                        'Ajuste',
+                        'Motivo de Ajuste',
+                        'Monto de Ajuste',
+                        'Porcentaje de Ajuste',
+                        'Usuario',
+                        'Comentario',
+                        'ONDANET Servicio',
+                        'ONDANET Devolución',
+                        'ONDANET Comision'
+                    );
 
-                                'Transacción Devolución ID',
-                                'Proveedor',
-                                'Servicio',
-                                'Monto',
-                                'Fecha - Hora',
-                                'Transacción Estado',
-                                'Transacción Estado Descripción',
-                                'Monto de Devolución',
-                                'Motivo de Devolución',
-                                'Tipo de Devolución',
-                                'Estado de Devolución',
-                                'Ajuste',
-                                'Motivo de Ajuste',
-                                'Monto de Ajuste',
-                                'Porcentaje de Ajuste',
-                                'Usuario',
-                                'Comentario',
-                                'ONDANET Servicio',
-                                'ONDANET Devolución',
-                                'ONDANET Comision'
-                            ));
+                    $excel = new ExcelExport($records_aux,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                            $sheet->getStyle('A1:Y1')->applyFromArray($style_array);
-                            $sheet->setHeight(1, 25);
-                        });
-                    })->export('xlsx');
+                    // Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
+                    //     $excel->sheet('Devoluciones Realizadas', function ($sheet) use ($records_aux, $style_array) {
+                    //         $sheet->rows($records_aux, false);
+
+                    //         $sheet->prependRow(array(
+                    //             'Transacción Principal ID',
+                    //             'Transacción Principal Monto',
+                    //             'Transacción Principal Estado',
+                    //             'Transacción Principal Estado Descripción',
+                    //             'Transacción Principal Terminal',
+
+                    //             'Transacción Devolución ID',
+                    //             'Proveedor',
+                    //             'Servicio',
+                    //             'Monto',
+                    //             'Fecha - Hora',
+                    //             'Transacción Estado',
+                    //             'Transacción Estado Descripción',
+                    //             'Monto de Devolución',
+                    //             'Motivo de Devolución',
+                    //             'Tipo de Devolución',
+                    //             'Estado de Devolución',
+                    //             'Ajuste',
+                    //             'Motivo de Ajuste',
+                    //             'Monto de Ajuste',
+                    //             'Porcentaje de Ajuste',
+                    //             'Usuario',
+                    //             'Comentario',
+                    //             'ONDANET Servicio',
+                    //             'ONDANET Devolución',
+                    //             'ONDANET Comision'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:Y1')->applyFromArray($style_array);
+                    //         $sheet->setHeight(1, 25);
+                    //     });
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }
@@ -835,22 +868,33 @@ class TransactionsServices
 
                     $filename = 'records_report_' . time();
 
-                    Excel::create($filename, function ($excel) use ($records, $style_array) {
-                        $excel->sheet('Informe', function ($sheet) use ($records, $style_array) {
-                            $sheet->rows($records, false);
+                    $columnas = array(
+                        'Proveedor',
+                        'Servicio',
+                        'Cantidad de transacciones',
+                        'Monto total de transacciones',
+                        'Promedio de monto'
+                    );
 
-                            $sheet->prependRow(array(
-                                'Proveedor',
-                                'Servicio',
-                                'Cantidad de transacciones',
-                                'Monto total de transacciones',
-                                'Promedio de monto'
-                            ));
+                    $excel = new ExcelExport($records,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array);
-                            $sheet->setHeight(1, 25);
-                        });
-                    })->export('xlsx');
+                    // Excel::create($filename, function ($excel) use ($records, $style_array) {
+                    //     $excel->sheet('Informe', function ($sheet) use ($records, $style_array) {
+                    //         $sheet->rows($records, false);
+
+                    //         $sheet->prependRow(array(
+                    //             'Proveedor',
+                    //             'Servicio',
+                    //             'Cantidad de transacciones',
+                    //             'Monto total de transacciones',
+                    //             'Promedio de monto'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array);
+                    //         $sheet->setHeight(1, 25);
+                    //     });
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }

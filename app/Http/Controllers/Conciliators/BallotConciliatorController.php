@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Conciliators;
 
+use App\Exports\ExcelExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Session;
@@ -248,16 +249,22 @@ class BallotConciliatorController extends Controller
 
             if (count($data_to_excel) > 0) {
                 $filename = 'conciliacion_' . time();
+                $columnas = array(
+                    'Banco', 'Tipo', 'Número de boleta', 'Monto', 'Usuario', 'Creación del Registro', 'Actualización del Registro'
+                );
 
-                Excel::create($filename, function ($excel) use ($data_to_excel) {
-                    $excel->sheet('sheet1', function ($sheet) use ($data_to_excel) {
-                        $sheet->rows($data_to_excel, false);
-                        $sheet->prependRow(array(
-                            'Banco', 'Tipo', 'Número de boleta', 'Monto', 'Usuario', 'Creación del Registro', 'Actualización del Registro'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($data_to_excel,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($data_to_excel) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($data_to_excel) {
+                //         $sheet->rows($data_to_excel, false);
+                //         $sheet->prependRow(array(
+                //             'Banco', 'Tipo', 'Número de boleta', 'Monto', 'Usuario', 'Creación del Registro', 'Actualización del Registro'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             }
         } catch (\Exception $e) {
 

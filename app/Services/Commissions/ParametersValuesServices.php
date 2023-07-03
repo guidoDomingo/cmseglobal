@@ -8,6 +8,7 @@
 
 namespace App\Services\Commissions;
 
+use App\Exports\ExcelExport;
 use Excel;
 
 class ParametersValuesServices
@@ -190,28 +191,43 @@ class ParametersValuesServices
                         }
                     }
 
+                    $columnas = array(
+                        'Proveedor',
+                        'Servicio',
+                        'Vigencia',
+                        'Tipo',
+                        'Fijo',
+                        'Porcentual',
+                        'Mínimo',
+                        'Máximo',
+                        'Punto',
+                        'Estándar'
+                    );
+        
+                    $excel = new ExcelExport($parameters_values_aux,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                    Excel::create($filename, function ($excel) use ($parameters_values_aux, $style_array) {
-                        $excel->sheet('Tarifario de Comisiones', function ($sheet) use ($parameters_values_aux, $style_array) {
-                            $sheet->rows($parameters_values_aux, false);
+                    // Excel::create($filename, function ($excel) use ($parameters_values_aux, $style_array) {
+                    //     $excel->sheet('Tarifario de Comisiones', function ($sheet) use ($parameters_values_aux, $style_array) {
+                    //         $sheet->rows($parameters_values_aux, false);
 
-                            $sheet->prependRow(array(
-                                'Proveedor',
-                                'Servicio',
-                                'Vigencia',
-                                'Tipo',
-                                'Fijo',
-                                'Porcentual',
-                                'Mínimo',
-                                'Máximo',
-                                'Punto',
-                                'Estándar'
-                            ));
+                    //         $sheet->prependRow(array(
+                    //             'Proveedor',
+                    //             'Servicio',
+                    //             'Vigencia',
+                    //             'Tipo',
+                    //             'Fijo',
+                    //             'Porcentual',
+                    //             'Mínimo',
+                    //             'Máximo',
+                    //             'Punto',
+                    //             'Estándar'
+                    //         ));
 
-                            $sheet->getStyle('A1:J1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xlsx');
+                    //         $sheet->getStyle('A1:J1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }

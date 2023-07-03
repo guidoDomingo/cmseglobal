@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Mail;
 use Cache;
 use Excel;
@@ -176,7 +177,7 @@ class AtmnewController extends Controller
             $atm->elasep = $dtF->diff($dtT)->format('%a días, %h horas, %i minutos y %s segundos');
         }
 
-        return view('atmnew.index', compact('atms','owners','owner_id','owner','groups','group_id','group', 'record_limit' ));
+        return view('atmnew.index', compact('atms','owners','owner_id','groups','group_id', 'record_limit' ));
     }
 
     public function create()
@@ -1272,7 +1273,8 @@ class AtmnewController extends Controller
             'caracteristicas'               =>$caracteristicas,
             'related_id'                    =>$related_id,
             'responsables'                  =>$responsables,
-            'grupo_caracteristica'          =>$grupo_caracteristica
+            'grupo_caracteristica'          =>$grupo_caracteristica,
+            'reservationtime_contract'      => ''
 
         ];
         return view('atmnew.form_step_new', $data);
@@ -2230,16 +2232,23 @@ class AtmnewController extends Controller
 
         $filename = 'atms_'.time();
 
+        $columnas = array(
+            '#', 'Codigo','Nombre','Red','Direccion','Latitud','Longitud','Estado', 'Progreso','Ciudad','Barrio','Departamento','Horario de Atención','Telefono','Ejecutivo responsable', 'Operativo responsable'
+        );
+
         if($cajeros && !empty($cajeros)){
-            Excel::create($filename, function($excel) use ($cajeros) {
-                $excel->sheet('sheet1', function($sheet) use ($cajeros) {
-                    $sheet->rows($cajeros,false);
-                    $sheet->prependRow(array(
-                        '#', 'Codigo','Nombre','Red','Direccion','Latitud','Longitud','Estado', 'Progreso','Ciudad','Barrio','Departamento','Horario de Atención','Telefono','Ejecutivo responsable', 'Operativo responsable'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            // Excel::create($filename, function($excel) use ($cajeros) {
+            //     $excel->sheet('sheet1', function($sheet) use ($cajeros) {
+            //         $sheet->rows($cajeros,false);
+            //         $sheet->prependRow(array(
+            //             '#', 'Codigo','Nombre','Red','Direccion','Latitud','Longitud','Estado', 'Progreso','Ciudad','Barrio','Departamento','Horario de Atención','Telefono','Ejecutivo responsable', 'Operativo responsable'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
+            $excel = new ExcelExport($cajeros,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
         }else{
             Session::flash('error_message', 'No existen parametros para exportar');
         }

@@ -64,7 +64,7 @@ class DeviceController extends Controller
         $marcas =  Brand::pluck('description', 'id');
         $modelos =  ModelBrand::pluck('description', 'id');
         $housings = Housing::pluck('serialnumber', 'id');
-        return view('devices.create', compact('housingId', 'housings', 'modelos', '$marcas'));
+        return view('devices.create', compact('housingId', 'housings', 'modelos', 'marcas'));
     }
 
 
@@ -132,7 +132,8 @@ class DeviceController extends Controller
 
     public function show(Request $request)
     {
-        $name = $request->get('name');
+        $name = $request->get('name') ?? '';
+   
         $tipo_housing = \DB::table('housing_type')
             ->select('id', 'description')
             ->get();
@@ -140,8 +141,10 @@ class DeviceController extends Controller
         $dispositivos = Device::orderBy('installation_date', 'desc')
             ->name($name)
             ->paginate(20);
-
+        
+       // dd($dispositivos);
         $devices = Device::orderBy('installation_date', 'desc')->paginate(20);
+
         return view('devices.show', compact('devices', 'name', 'tipo_housing', 'dispositivos'));
     }
 

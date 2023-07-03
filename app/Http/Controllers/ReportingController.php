@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use App\Models\Branch;
 use App\Models\Owner;
 use App\Models\Pos;
@@ -18,6 +19,7 @@ use Milon\Barcode\DNS1D;
 use NumberFormatter;
 use Session;
 use HttpClient;
+use Illuminate\Support\Facades\Storage;
 
 class ReportingController extends Controller
 {
@@ -58,27 +60,7 @@ class ReportingController extends Controller
                 return view('messages.index', compact('data'));
             } else {
                 return view(
-                    'reporting.index',
-                    compact(
-                        'target',
-                        'groups',
-                        'owners',
-                        'branches',
-                        'pos',
-                        'status',
-                        'type',
-                        'services_data',
-                        'group_id',
-                        'owner_id',
-                        'branch_id',
-                        'pos_id',
-                        'status_set',
-                        'type_set',
-                        'service_id',
-                        'pos_active',
-                        'search'
-                    )
-                )->with($result);
+                    'reporting.index')->with($result);
             }
         } catch (\Exception $e) {
             $error_detail = [
@@ -187,30 +169,8 @@ class ReportingController extends Controller
                             //die();
 
                             return view(
-                                'reporting.index',
-                                compact(
-                                    'target',
-                                    'groups',
-                                    'owners',
-                                    'branches',
-                                    'pos',
-                                    'status',
-                                    'type',
-                                    'services_data',
-                                    'transactions',
-                                    'total_transactions',
-                                    'group_id',
-                                    'owner_id',
-                                    'branch_id',
-                                    'pos_id',
-                                    'status_set',
-                                    'type_set',
-                                    'service_id',
-                                    'reservationtime',
-                                    'i',
-                                    'service_request_id',
-                                    'pos_active'
-                                )
+                                'reporting.index'
+                                
                             )->with($result);
                         } else {
                             Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
@@ -284,9 +244,18 @@ class ReportingController extends Controller
                         //\Log::info('Convirtiendo lista de result para el excel... result:', [$result]);
 
                         $filename = 'transacciones_' . time();
+                        $columna1 = array(
+                            'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                            'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+                        );
+                        
+                        $columna2 = array(
+                            'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
+                        );
+
                         if ($result) {
 
-                            Excel::create($filename, function ($excel) use ($result, $result2) {
+                            //Excel::create($filename, function ($excel) use ($result, $result2) {
 
                                 $result_aux = [];
 
@@ -320,24 +289,27 @@ class ReportingController extends Controller
                                     array_push($result_aux, $row);
                                 }
 
-                                $excel->sheet('Transacciones', function ($sheet) use ($result_aux) {
-                                    $sheet->rows($result_aux, false);
-                                    $sheet->prependRow(array(
-                                        'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                                        'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                                    ));
-                                });
+                                $excel = new ExcelExport($result_aux,$columna1,$result2,$columna2);
+                                return Excel::download($excel, $filename . '.xls')->send();
 
-                                if (!\Sentinel::getUser()->inRole('mini_terminal')) {
-                                    $excel->sheet('Movimientos', function ($sheet) use ($result2) {
-                                        $sheet->rows($result2, false);
-                                        $sheet->prependRow(array(
-                                            'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
-                                        ));
-                                    });
-                                }
-                            })->export('xls');
-                            exit();
+                                // $excel->sheet('Transacciones', function ($sheet) use ($result_aux) {
+                                //     $sheet->rows($result_aux, false);
+                                //     $sheet->prependRow(array(
+                                //         'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                                //         'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+                                //     ));
+                                // });
+
+                                // if (!\Sentinel::getUser()->inRole('mini_terminal')) {
+                                //     $excel->sheet('Movimientos', function ($sheet) use ($result2) {
+                                //         $sheet->rows($result2, false);
+                                //         $sheet->prependRow(array(
+                                //             'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
+                                //         ));
+                                //     });
+                                // }
+                            //})->export('xls');
+                           // exit();
                         } else {
                             Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                             return redirect()->back();
@@ -719,7 +691,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->statusInstallations();
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
     public function statusInstallationsSearch()
     {
@@ -737,7 +709,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->statusInstallationsSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'installations', 'reservationtime', 'i'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -750,15 +722,22 @@ class ReportingController extends Controller
             $result = $report->statusInstallationsSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'instalaciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result['instalaciones'], false);
-                    $sheet->prependRow(array(
-                        'id', 'Fecha Instalación', 'Sede', 'Serial del validador', 'Numero PDV', 'App Versions', 'Latitud', 'Longitud'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columna1 = array(
+                'id', 'Fecha Instalación', 'Sede', 'Serial del validador', 'Numero PDV', 'App Versions', 'Latitud', 'Longitud'
+            );
+
+            $excel = new ExcelExport($result['instalaciones'],$columna1);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result['instalaciones'], false);
+            //         $sheet->prependRow(array(
+            //             'id', 'Fecha Instalación', 'Sede', 'Serial del validador', 'Numero PDV', 'App Versions', 'Latitud', 'Longitud'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -1285,7 +1264,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->batchTransactionsReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function batchTransactionSearch()
@@ -1303,7 +1282,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->batchTransactionsSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id', 'reservationtime', 'i'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -1316,16 +1295,24 @@ class ReportingController extends Controller
             $result = $report->batchTransactionsExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_batch_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result, false);
-                    $sheet->prependRow(array(
-                        'id', 'Proveedor', 'Servicio', 'Referencia', 'monto', 'ID Transacción', 'Estado', 'Fecha', 'Hora', 'PDV',
-                        'Codigo Cajero'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'id', 'Proveedor', 'Servicio', 'Referencia', 'monto', 'ID Transacción', 'Estado', 'Fecha', 'Hora', 'PDV',
+                'Codigo Cajero'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result, false);
+            //         $sheet->prependRow(array(
+            //             'id', 'Proveedor', 'Servicio', 'Referencia', 'monto', 'ID Transacción', 'Estado', 'Fecha', 'Hora', 'PDV',
+            //             'Codigo Cajero'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -1439,7 +1426,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->paymentsReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function paymentsSearch()
@@ -1456,7 +1443,7 @@ class ReportingController extends Controller
         $report = new ReportServices($input);
         $result = $report->paymentsSearch();
         if ($result) {
-            return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'total_payments', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+            return view('reporting.index')->with($result);
         } else {
             Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
             return redirect()->back();
@@ -1532,7 +1519,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->notificationsReports();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'types', 'pos', 'owner_id', 'branch_id', 'pos_id', 'idType', 'descriptionType'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function notificationsSearch()
@@ -1551,7 +1538,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->notificationsSearch();
-            return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'notifications', 'owner_id', 'branch_id', 'pos_id', 'reservationtime', 'i'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -1579,12 +1566,17 @@ class ReportingController extends Controller
             }
 
             $filename = 'notificaciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->fromArray($result);
-                });
-            })->export('xls');
-            exit();
+            $columnas = [];
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->fromArray($result);
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -1602,7 +1594,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->arqueosReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'group_id', 'owner_id', 'branch_id', 'pos_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function arqueosSearch()
@@ -1621,7 +1613,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->arqueosSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'reservationtime', 'i'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -1632,18 +1624,26 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->arqueosSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
+            );
+
             if ($result) {
                 $filename = 'arqueos_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        //set colum names
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         //set colum names
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -1665,7 +1665,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->cargasReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'group_id', 'owner_id', 'branch_id', 'pos_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function cargasSearch()
@@ -1684,7 +1684,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->cargasSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'reservationtime'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -1695,19 +1695,27 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->cargasSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
+            );
+
             if ($result) {
                 $filename = 'cargas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        //$sheet->fromArray($result);
-                        $sheet->rows($result, false);
-                        //set colum names
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         //$sheet->fromArray($result);
+                //         $sheet->rows($result, false);
+                //         //set colum names
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Valor', 'Autorizado por', 'Cod Cajero', 'Tipo', 'Sede', 'Autorizado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -2003,28 +2011,50 @@ class ReportingController extends Controller
         }
 
         $filename = 'resumen_saldos_' . time() . '.xls';
-        $myFile = Excel::create($filename, function ($excel) use ($array) {
-            $excel->setTitle('title');
-            $excel->sheet('sheet 1', function ($sheet) use ($array) {
-                $sheet->setColumnFormat(array('B' => '0'));
-                $sheet->setColumnFormat(array('C' => '0'));
-                $sheet->setColumnFormat(array('D' => '0'));
-                $sheet->setColumnFormat(array('E' => '0'));
-                $sheet->rows($array, false);
-                //set colum names
-                $sheet->prependRow(array(
-                    'ATM', 'Cassetes', 'Hoppers', 'Box', 'Total'
-                ));
-            });
-        });
 
-        $myFile = $myFile->string('xls'); //change xlsx for the format you want, default is xls
-        $response =  array(
-            'status'    => true,
-            'name'      => $filename, //no extention needed
-            'file'      => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($myFile) //mime type of used format
+        $columnas = array(
+            'ATM', 'Cassetes', 'Hoppers', 'Box', 'Total'
         );
+
+        $excel = new ExcelExport($array, $columnas);
+        $excelFile = Excel::download($excel, $filename)->getFile();
+
+        $fileContents = $excelFile->getContent();
+        $base64File = base64_encode($fileContents);
+
+        $response = [
+            'status' => true,
+            'name' => $filename,
+            'file' => 'data:application/vnd.ms-excel;base64,' . $base64File
+        ];
+
         return response()->json($response);
+
+
+
+        // $filename = 'resumen_saldos_' . time() . '.xls';
+        // $myFile = Excel::create($filename, function ($excel) use ($array) {
+        //     $excel->setTitle('title');
+        //     $excel->sheet('sheet 1', function ($sheet) use ($array) {
+        //         $sheet->setColumnFormat(array('B' => '0'));
+        //         $sheet->setColumnFormat(array('C' => '0'));
+        //         $sheet->setColumnFormat(array('D' => '0'));
+        //         $sheet->setColumnFormat(array('E' => '0'));
+        //         $sheet->rows($array, false);
+        //         //set colum names
+        //         $sheet->prependRow(array(
+        //             'ATM', 'Cassetes', 'Hoppers', 'Box', 'Total'
+        //         ));
+        //     });
+        // });
+
+        // $myFile = $myFile->string('xls'); //change xlsx for the format you want, default is xls
+        // $response =  array(
+        //     'status'    => true,
+        //     'name'      => $filename, //no extention needed
+        //     'file'      => "data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64," . base64_encode($myFile) //mime type of used format
+        // );
+        // return response()->json($response);
     }
 
 
@@ -2347,7 +2377,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->oneDayTransactionsReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id'))->with($result); // 12/01/2021
+        return view('reporting.index')->with($result); // 12/01/2021
     }
 
     public function oneDayTransactionsSearch()
@@ -2366,7 +2396,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->oneDayTransactionsSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'transactions', 'total_transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id', 'reservationtime', 'i'))->with($result); // 12/01/2021
+                return view('reporting.index')->with($result); // 12/01/2021
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -2382,24 +2412,35 @@ class ReportingController extends Controller
             $result2 = $report2->oneDaytransactionsSearchExportMovements();
             $result2 = json_decode(json_encode($result2), true);
             $filename = 'transacciones_' . time();
+            $columna1 = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            );
+            $columna2 = array(
+                'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
+            );
 
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result, $result2) {
-                    $excel->sheet('Página 1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                            'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                        ));
-                    });
-                    $excel->sheet('Página 2', function ($sheet) use ($result2) {
-                        $sheet->rows($result2, false);
-                        $sheet->prependRow(array(
-                            'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columna1,$result2,$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result, $result2) {
+                //     $excel->sheet('Página 1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                //             'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+                //         ));
+                //     });
+                //     $excel->sheet('Página 2', function ($sheet) use ($result2) {
+                //         $sheet->rows($result2, false);
+                //         $sheet->prependRow(array(
+                //             'id', 'transactions_id', 'atms_parts_id', 'accion', 'cantidad', 'valor', 'dinero_virtual', 'payments_id', 'fecha', 'hora'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -2517,7 +2558,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->resumenTransacciones();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'services_data', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id', 'type', 'type_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function resumenSearch(Request $request)
@@ -2542,7 +2583,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->resumenSearch();
-            return view('reporting.index', compact('target', 'transactionsProviders', 'transactionsEglobalt', 'reservationtime', 'i', 'atms', 'atm_id', 'type', 'type_set', 'owners', 'owner_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -2551,22 +2592,32 @@ class ReportingController extends Controller
             $result = $report->resumenSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'resumen_por_atm_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('Eglobalt', function ($sheet) use ($result) {
-                    $sheet->rows($result['transactionsEglobalt'], false);
-                    $sheet->prependRow(array(
-                        'Valor', 'Proveedor', 'Servicio'
-                    ));
-                });
+            $columna1 = array(
+                'Valor', 'Proveedor', 'Servicio'
+            );
+            $columna2 = array(
+                'Valor', 'Red'
+            );
 
-                $excel->sheet('Otras Redes', function ($sheet) use ($result) {
-                    $sheet->rows($result['transactionsProviders'], false);
-                    $sheet->prependRow(array(
-                        'Valor', 'Red'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $excel = new ExcelExport($result['transactionsEglobalt'],$columna1,$result['transactionsProviders'],$columna2);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('Eglobalt', function ($sheet) use ($result) {
+            //         $sheet->rows($result['transactionsEglobalt'], false);
+            //         $sheet->prependRow(array(
+            //             'Valor', 'Proveedor', 'Servicio'
+            //         ));
+            //     });
+
+            //     $excel->sheet('Otras Redes', function ($sheet) use ($result) {
+            //         $sheet->rows($result['transactionsProviders'], false);
+            //         $sheet->prependRow(array(
+            //             'Valor', 'Red'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -2588,15 +2639,22 @@ class ReportingController extends Controller
         $result = $report->resumenSearchDetalleExport();
         $result = json_decode(json_encode($result), true);
         $filename = 'resumen_por_atm_' . time();
-        Excel::create($filename, function ($excel) use ($result) {
-            $excel->sheet($result['nombre'], function ($sheet) use ($result) {
-                $sheet->rows($result['transactions'], false);
-                $sheet->prependRow(array(
-                    'Valor', 'Servicio'
-                ));
-            });
-        })->export('xls');
-        exit();
+        $columnas = array(
+            'Valor', 'Servicio'
+        );
+
+        $excel = new ExcelExport($result['transactions'],$columnas);
+        return Excel::download($excel, $filename . '.xls')->send();
+
+        // Excel::create($filename, function ($excel) use ($result) {
+        //     $excel->sheet($result['nombre'], function ($sheet) use ($result) {
+        //         $sheet->rows($result['transactions'], false);
+        //         $sheet->prependRow(array(
+        //             'Valor', 'Servicio'
+        //         ));
+        //     });
+        // })->export('xls');
+        // exit();
     }
 
     public function Procesar_devolucion(Request $request)
@@ -2845,7 +2903,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->estadoAtm();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'services_data', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     /** Estado por atm*/
@@ -2871,7 +2929,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->estadoAtmSearch();
-            return view('reporting.index', compact('target', 'transactionsProviders', 'transactionsEglobalt', 'reservationtime', 'i', 'branches', 'branch_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['export'])) {
@@ -2896,12 +2954,17 @@ class ReportingController extends Controller
                 $i++;
             }
             $filename = 'notificaciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->fromArray($result);
-                });
-            })->export('xls');
-            exit();
+            $columnas = [];
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->fromArray($result);
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -2918,7 +2981,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->transactionsAmountReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function transactionsAmountSearch()
@@ -2936,7 +2999,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->transactionsAmountSearch();
-            return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id', 'reservationtime', 'i', 'service_request_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -2945,16 +3008,24 @@ class ReportingController extends Controller
             $result = $report->transactionsSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result, false);
-                    $sheet->prependRow(array(
-                        'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                        'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result, false);
+            //         $sheet->prependRow(array(
+            //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+            //             'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -2972,7 +3043,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->dispositivosReports();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'types', 'pos', 'owner_id', 'branch_id', 'pos_id', 'type_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function dispositivosSearch()
@@ -2991,7 +3062,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->dispositivosSearch();
-            return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'notifications', 'owner_id', 'branch_id', 'pos_id', 'reservationtime', 'i'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -3016,12 +3087,16 @@ class ReportingController extends Controller
                 $i++;
             }
             $filename = 'dispositivos_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->fromArray($result);
-                });
-            })->export('xls');
-            exit();
+            $columnas = [];
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->fromArray($result);
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -3038,7 +3113,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->transactionsVueltoReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function transactionVueltoSearch()
@@ -3057,7 +3132,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->transactionsVueltoSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'services_data', 'transactions', 'total_transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id', 'reservationtime', 'i', 'service_request_id'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3070,17 +3145,24 @@ class ReportingController extends Controller
             $result = $report->transactionsVueltoSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_vueltos_' . time();
+            $columnas = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado', 'No Entregado'
+            );
+
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                            'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado', 'No Entregado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                //             'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado', 'No Entregado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3101,7 +3183,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->transactionsAtmReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function transactionsAtmSearch()
@@ -3119,7 +3201,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->transactionsAtmSearch();
-            return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id', 'reservationtime', 'i', 'service_request_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -3128,16 +3210,24 @@ class ReportingController extends Controller
             $result = $report->transactionsSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result, false);
-                    $sheet->prependRow(array(
-                        'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                        'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result, false);
+            //         $sheet->prependRow(array(
+            //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+            //             'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -3154,7 +3244,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->denominacionesAmountReports();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'services_data', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function denominacionesAmountSearch()
@@ -3172,7 +3262,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->denominacionesAmountSearch();
-            return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'services_data', 'transactions', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id', 'reservationtime', 'i', 'service_request_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -3181,16 +3271,23 @@ class ReportingController extends Controller
             $result = $report->denominacionesAmountSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result, false);
-                    $sheet->prependRow(array(
-                        'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                        'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result, false);
+            //         $sheet->prependRow(array(
+            //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+            //             'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
     public function transactionsVueltoCorrectoReports()
@@ -3205,7 +3302,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->transactionsVueltoCorrectoReports();
-        return view('reporting.index', compact('target', 'owners', 'groups', 'branches', 'pos', 'status', 'services_data', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function transactionVueltoCorrectoSearch()
@@ -3224,7 +3321,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->transactionsVueltoCorrectoSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'status', 'services_data', 'transactions', 'total_transactions', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'service_id', 'reservationtime', 'i', 'service_request_id'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3237,17 +3334,25 @@ class ReportingController extends Controller
             $result = $report->transactionsVueltoCorrectoSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'transacciones_vueltos_correctos_' . time();
+            $columnas = array(
+                'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado'
+            );
+
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                            'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                //             'Identificador transaccion', 'Sede', 'Codigo Cajero', 'Valor A Pagar', 'Valor Recibido', 'Valor Entregado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3301,7 +3406,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->estadoContableReports();
-        return view('reporting.index', compact('target', 'mostar'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function estadoContableSearch(Request $request)
@@ -3320,7 +3425,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->estadoContableSearch($request);
             //dd($result);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -3328,17 +3433,22 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->estadoContableSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'Fecha', 'Concepto', 'Debe', 'Haber', 'Saldo'
+            );
             if ($result) {
                 $filename = 'transacciones_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'Fecha', 'Concepto', 'Debe', 'Haber', 'Saldo'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'Fecha', 'Concepto', 'Debe', 'Haber', 'Saldo'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3359,7 +3469,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->resumenMiniterminalesReports($request);
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function resumenMiniterminalesSearch(Request $request)
@@ -3379,23 +3489,33 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->resumenMiniterminalesSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columna1 = array(
+                'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Total Cuotas', 'Saldo', 'Estado'
+            );
+            $columna2 = array(
+                'Sucursal', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo', 'Estado'
+            );
+
             if ($result) {
                 $filename = 'resumen_miniterminales' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transacciones_groups'], false);
-                        $sheet->prependRow(array(
-                            'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Total Cuotas', 'Saldo', 'Estado'
-                        ));
-                    });
-                    $excel->sheet('Por Sucursal', function ($sheet) use ($result) {
-                        $sheet->rows($result['transacciones'], false);
-                        $sheet->prependRow(array(
-                            'Sucursal', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo', 'Estado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result['transacciones_groups'],$columna1,$result['transacciones'],$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transacciones_groups'], false);
+                //         $sheet->prependRow(array(
+                //             'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Total Cuotas', 'Saldo', 'Estado'
+                //         ));
+                //     });
+                //     $excel->sheet('Por Sucursal', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transacciones'], false);
+                //         $sheet->prependRow(array(
+                //             'Sucursal', 'Total Transaccionado', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo', 'Estado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3405,7 +3525,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->resumenMiniterminalesSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -3422,7 +3542,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->resumenDetalladoReports($request);
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function resumenDetalladoSearch(Request $request)
@@ -3441,23 +3561,33 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->resumenDetalladoSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columna1 = array(
+                'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Paquetigo', 'Total Personal', 'Total Claro', 'Total Pago Cashout', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo'
+            );
+            $columna2 = array(
+                'Total Transaccionado', 'Sucursal'
+            );
+
             if ($result) {
                 $filename = 'resumen_miniterminales' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transacciones_groups'], false);
-                        $sheet->prependRow(array(
-                            'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Paquetigo', 'Total Personal', 'Total Claro', 'Total Pago Cashout', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo'
-                        ));
-                    });
-                    $excel->sheet('Por Sucursal', function ($sheet) use ($result) {
-                        $sheet->rows($result['transacciones'], false);
-                        $sheet->prependRow(array(
-                            'Total Transaccionado', 'Sucursal'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result['transacciones_groups'],$columna1,$result['transacciones'],$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transacciones_groups'], false);
+                //         $sheet->prependRow(array(
+                //             'Id', 'Ruc', 'Grupo', 'Total Transaccionado', 'Total Paquetigo', 'Total Personal', 'Total Claro', 'Total Pago Cashout', 'Total Depositado', 'Total Reversado', 'Total Cashout', 'Saldo'
+                //         ));
+                //     });
+                //     $excel->sheet('Por Sucursal', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transacciones'], false);
+                //         $sheet->prependRow(array(
+                //             'Total Transaccionado', 'Sucursal'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3467,7 +3597,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->resumenDetalladoSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -3518,7 +3648,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->boletaDepositosReports($request);
-        return view('reporting.index', compact('target', 'status', 'status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function boletasDepositosSearch(Request $request)
@@ -3539,17 +3669,24 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->boletaDepositosSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3559,7 +3696,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->boletaDepositosSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime', 'status', 'status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -3574,7 +3711,7 @@ class ReportingController extends Controller
         }*/
         $report = new ReportServices('');
         $result = $report->comisionesReports();
-        return view('reporting.index', compact('target', 'users', 'user_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function comisionesSearch(Request $request)
@@ -3591,7 +3728,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->comisionesSearch($request);
             if ($result) {
-                return view('reporting.index', compact('target', 'transactions', 'user_id', 'users', 'reservationtime', 'i', 'total_comisiones', 'total_transacciones'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3603,17 +3740,23 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->comisionesSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ATM', 'Tipo', 'Servicio', 'Valor Transacción', 'Comisión', '% Comisión'
+            );
+
             if ($result) {
                 $filename = 'comisiones_transacciones_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'ATM', 'Tipo', 'Servicio', 'Valor Transacción', 'Comisión', '% Comisión'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'ATM', 'Tipo', 'Servicio', 'Valor Transacción', 'Comisión', '% Comisión'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3632,7 +3775,7 @@ class ReportingController extends Controller
         }*/
         $report = new ReportServices('');
         $result = $report->salesReports();
-        return view('reporting.index', compact('target', 'groups', 'group_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function salesSearch(Request $request)
@@ -3649,7 +3792,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->salesSearch($request);
             if ($result) {
-                return view('reporting.index', compact('target', 'transactions', 'groups', 'group_id', 'reservationtime', 'i', 'total_comisiones', 'total_transacciones'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3661,17 +3804,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->salesSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Grupo', 'Monto', 'Fecha', 'ID Ondanet', 'Nro Venta', 'Estado', 'Monto por cobrar'
+            );
+
             if ($result) {
                 $filename = 'ventas_miniterminales' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Grupo', 'Monto', 'Fecha', 'ID Ondanet', 'Nro Venta', 'Estado', 'Monto por cobrar'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Grupo', 'Monto', 'Fecha', 'ID Ondanet', 'Nro Venta', 'Estado', 'Monto por cobrar'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3690,7 +3841,7 @@ class ReportingController extends Controller
         }*/
         $report = new ReportServices('');
         $result = $report->cobranzasReports();
-        return view('reporting.index', compact('target', 'groups', 'group_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function cobranzasSearch(Request $request)
@@ -3707,7 +3858,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->cobranzasSearch($request);
             if ($result) {
-                return view('reporting.index', compact('target', 'transactions', 'groups', 'group_id', 'reservationtime', 'i', 'total_comisiones', 'total_transacciones'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3742,18 +3893,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->cobranzasSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'description', 'boleta_numero', 'created_at', 'operation_id', 'recibo_nro', 'monto', 'ventas_cobradas'
+            );
 
             if ($result) {
                 $filename = 'comisiones_transacciones_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'ID', 'description', 'boleta_numero', 'created_at', 'operation_id', 'recibo_nro', 'monto', 'ventas_cobradas'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'description', 'boleta_numero', 'created_at', 'operation_id', 'recibo_nro', 'monto', 'ventas_cobradas'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -3789,27 +3947,34 @@ class ReportingController extends Controller
             $result = $report->saldos_control_contable_export();
             $result = json_decode(json_encode($result), true);
             $filename = 'control_contable_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    //$sheet->fromArray($result);
-                    $sheet->rows($result, false);
-                    $sheet->getStyle('B1:B9999')->getNumberFormat()->setFormatCode('#,##0');
-                    $sheet->getStyle('C1:C9999')->getNumberFormat()->setFormatCode('#,##0');
-                    $sheet->getStyle('D1:D9999')->getNumberFormat()->setFormatCode('#,##0');
-                    $sheet->getStyle('E1:E9999')->getNumberFormat()->setFormatCode('#,##0');
-                    $sheet->getStyle('F1:F9999')->getNumberFormat()->setFormatCode('#,##0');
-                    //set colum names
-                    $sheet->prependRow(array(
-                        'ATM', 'Cassettes', 'Hoppers', 'Box', 'Purga', 'Total', 'Hora Consulta', 'Fecha'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'ATM', 'Cassettes', 'Hoppers', 'Box', 'Purga', 'Total', 'Hora Consulta', 'Fecha'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         //$sheet->fromArray($result);
+            //         $sheet->rows($result, false);
+            //         $sheet->getStyle('B1:B9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         $sheet->getStyle('C1:C9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         $sheet->getStyle('D1:D9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         $sheet->getStyle('E1:E9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         $sheet->getStyle('F1:F9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         //set colum names
+            //         $sheet->prependRow(array(
+            //             'ATM', 'Cassettes', 'Hoppers', 'Box', 'Purga', 'Total', 'Hora Consulta', 'Fecha'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
 
         $report = new ReportServices($input);
         $result = $report->saldos_control_contable_search();
-        return view('reporting.index', compact('target', 'reservationtime', 'saldos', 'i'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     /**ESTADOS MINITERMINALES*/
@@ -3875,15 +4040,22 @@ class ReportingController extends Controller
                 }
                 $result = json_decode(json_encode($atms), true);
                 $filename = 'estados_atms_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'ID', 'ATM', 'Ultimo Uso', 'Estado'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $columnas = array(
+                    'ID', 'ATM', 'Ultimo Uso', 'Estado'
+                );
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'ATM', 'Ultimo Uso', 'Estado'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             }
         } catch (\Exception $e) {
             \Log::error("Error en la consulta de estados de Miniterminales bloqueadas: " . $e);
@@ -3932,24 +4104,31 @@ class ReportingController extends Controller
             $result = $report->get_pdv_transactions_list_export($decodec_atm_id, $atm_id);
             $result = json_decode(json_encode($result), true);
             $filename = 'reportes_pdv_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    //$sheet->fromArray($result);
-                    $sheet->rows($result, false);
-                    $sheet->getStyle('F1:F9999')->getNumberFormat()->setFormatCode('#,##0');
-                    //set colum names
-                    $sheet->prependRow(array(
-                        'ID', 'Tipo', 'Proveedor', 'Estado', 'Fecha', 'Monto', 'Identificador Debito', 'Identificador Credito', 'Sede', 'Ref1', 'Ref2'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'ID', 'Tipo', 'Proveedor', 'Estado', 'Fecha', 'Monto', 'Identificador Debito', 'Identificador Credito', 'Sede', 'Ref1', 'Ref2'
+            );
+
+            $excel = new ExcelExport($result,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         //$sheet->fromArray($result);
+            //         $sheet->rows($result, false);
+            //         $sheet->getStyle('F1:F9999')->getNumberFormat()->setFormatCode('#,##0');
+            //         //set colum names
+            //         $sheet->prependRow(array(
+            //             'ID', 'Tipo', 'Proveedor', 'Estado', 'Fecha', 'Monto', 'Identificador Debito', 'Identificador Credito', 'Sede', 'Ref1', 'Ref2'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
 
         $report = new ReportServices($input);
         $result = $report->get_pdv_transactions_list_search($decodec_atm_id, $atm_id);
         if ($result['error'] == false) {
-            return view('reporting.index_pdv', compact('target', 'atm_id', 'nombre', 'transactions'))->with($result);
+            return view('reporting.index_pdv')->with($result);
         } else {
             return ('Acceso negado');
         }
@@ -3970,7 +4149,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->efectividad();
-        return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'owner_id', 'branch_id', 'pos_id', 'item_2', 'status_set', 'type_set', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function efectividadSearch(Request $request)
@@ -3995,7 +4174,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->efectividadSearch();
-            return view('reporting.index', compact('target', 'owners', 'branches', 'pos', 'status', 'type', 'services_data', 'transactions', 'item_2', 'owner_id', 'branch_id', 'pos_id', 'status_set', 'type_set', 'service_id', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -4004,15 +4183,22 @@ class ReportingController extends Controller
             $result = $report->efectividadSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'efectividad_' . time();
-            Excel::create($filename, function ($excel) use ($result) {
-                $excel->sheet('sheet1', function ($sheet) use ($result) {
-                    $sheet->rows($result['transactions'], false);
-                    $sheet->prependRow(array(
-                        'Status', 'Servicio', 'Descripcion', 'Cantidad', 'Monto'
-                    ));
-                });
-            })->export('xls');
-            exit();
+            $columnas = array(
+                'Status', 'Servicio', 'Descripcion', 'Cantidad', 'Monto'
+            );
+
+            $excel = new ExcelExport($result['transactions'],$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($result) {
+            //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+            //         $sheet->rows($result['transactions'], false);
+            //         $sheet->prependRow(array(
+            //             'Status', 'Servicio', 'Descripcion', 'Cantidad', 'Monto'
+            //         ));
+            //     });
+            // })->export('xls');
+            // exit();
         }
     }
 
@@ -4093,7 +4279,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->depositosCuotasReports($request);
-        return view('reporting.index', compact('target', 'status', 'status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function depositosCuotasSearch(Request $request)
@@ -4112,7 +4298,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->depositosCuotasSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime', 'status', 'status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -4120,17 +4306,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->depositosCuotasSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -4277,7 +4471,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->historialBloqueosReports($request);
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function historialBloqueosSearch(Request $request)
@@ -4298,17 +4492,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->boletaDepositosSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -4318,7 +4520,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->historialBloqueosSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -4329,7 +4531,7 @@ class ReportingController extends Controller
         $report = new ReportServices('');
         $result = $report->transaction_not_rollback();
 
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function transaction_not_rollbackSearch()
@@ -4340,7 +4542,7 @@ class ReportingController extends Controller
 
         $result = $report->transaction_not_rollbackSearch();
 
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     // ventas pendientes de afectar extractos.
@@ -4351,7 +4553,7 @@ class ReportingController extends Controller
 
         $result = $report->movements_affecting_extracts();
 
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function movements_affecting_extracts_update_destination(Request $request)
@@ -4386,7 +4588,7 @@ class ReportingController extends Controller
 
         $result = $report->transaction_success_amount_zero();
 
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
     public function updateReversa(Request $request)
     {
@@ -4532,7 +4734,7 @@ class ReportingController extends Controller
     {
         $report = new ReportServices('');
         $result = $report->conciliations_detailsReports();
-        return view('reporting.index', compact('target', 'atms', 'types', 'atm_id', 'type_id', 'services_data', 'service_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function conciliations_detailsSearch()
@@ -4543,7 +4745,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->conciliations_detailsSearch();
             //return view('reporting.index', compact('target','notifications','incomes','incomes_error','atm_id','reservationtime','i','services_data','service_id','service_request_id'))->with($result);
-            return view('reporting.index', compact('target', 'notifications', 'incomes', 'incomes_error', 'atm_id', 'reservationtime', 'i', 'services_data', 'service_id'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -4551,17 +4753,22 @@ class ReportingController extends Controller
             $result = $report->conciliations_detailsSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'conciliaciones_detalles_' . time();
+            $columnas = array(
+                'Id', 'ATM', 'ID TRANSACCION', 'MONTO', 'SERVICIO', 'MENSAJE', 'CREADO', 'MODIFICADO'
+            );
 
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'Id', 'ATM', 'ID TRANSACCION', 'MONTO', 'SERVICIO', 'MENSAJE', 'CREADO', 'MODIFICADO'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'Id', 'ATM', 'ID TRANSACCION', 'MONTO', 'SERVICIO', 'MENSAJE', 'CREADO', 'MODIFICADO'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -4872,7 +5079,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->depositosAlquileresReports($request);
-        return view('reporting.index', compact('target', 'status', 'status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function depositosAlquileresSearch(Request $request)
@@ -4891,7 +5098,7 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->depositosAlquileresSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime', 'status', 'status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if (isset($input['download'])) {
@@ -4899,17 +5106,23 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->depositosAlquileresSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -4930,7 +5143,8 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->cuotasAlquilerReports($request);
-        return view('reporting.index', compact('target'))->with($result);
+        //return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function cuotasAlquilerSearch(Request $request)
@@ -4951,17 +5165,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->boletaDepositosSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Usuario', 'Concepto', 'Banco', 'Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -4971,7 +5193,8 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->cuotasAlquilerSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            //return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -5011,9 +5234,9 @@ class ReportingController extends Controller
             ->where('id', $alquiler_id)
             ->pluck('num_cuota');
 
-        $cuotas = implode(', ', $get_cuotas);
+        $cuotas = implode(', ', $get_cuotas->toArray());
 
-        $cuotas_name = implode('- ', $get_cuotas);
+        $cuotas_name = implode('- ', $get_cuotas->toArray());
         $fecha = date('d/m/Y', strtotime($alquiler->fecha_grabacion));
 
         $azaz = new NumberFormatter("es-PY", NumberFormatter::SPELLOUT);
@@ -5555,7 +5778,7 @@ class ReportingController extends Controller
 
         $report = new ReportServices('');
         $result = $report->contractsReports();
-        return view('reporting.index', compact('target', 'groups', 'group_id', 'atms', 'atm_id', 'contracts', 'contract_id', 'status'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function contractsSearch()
@@ -5574,7 +5797,7 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->contractsSearch();
             if ($result) {
-                return view('reporting.index', compact('target', 'groups', 'contracts', 'group_id', 'reservationtime', 'i', 'atms', 'atm_id', 'contracts', 'contract_id', 'status'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -5587,17 +5810,22 @@ class ReportingController extends Controller
             $result = $report->contractsSearchExport();
             $result = json_decode(json_encode($result), true);
             $filename = 'contratos_' . time();
+            $columnas = array(
+                'ID', 'Contrato N°', 'Tipo de contrato', 'Fecha de inicio de vigencia', 'Fecha de finalización de vigencia', 'Dias restantes', 'Limite de crédito', 'Estado del contrato', 'Fecha de recepción', 'Fecha de aprobación', 'Grupo', 'ATM', 'Inicio de operación'
+            );
 
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('Página 1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'ID', 'Contrato N°', 'Tipo de contrato', 'Fecha de inicio de vigencia', 'Fecha de finalización de vigencia', 'Dias restantes', 'Limite de crédito', 'Estado del contrato', 'Fecha de recepción', 'Fecha de aprobación', 'Grupo', 'ATM', 'Inicio de operación'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('Página 1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Contrato N°', 'Tipo de contrato', 'Fecha de inicio de vigencia', 'Fecha de finalización de vigencia', 'Dias restantes', 'Limite de crédito', 'Estado del contrato', 'Fecha de recepción', 'Fecha de aprobación', 'Grupo', 'ATM', 'Inicio de operación'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -5742,7 +5970,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->pagoClientesReports($request);
-        return view('reporting.index', compact('target', 'status', 'status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function pagoClientesSearch(Request $request)
@@ -5763,17 +5991,25 @@ class ReportingController extends Controller
             $report = new ReportServices($input);
             $result = $report->pagoClientesSearchExport();
             $result = json_decode(json_encode($result), true);
+            $columnas = array(
+                'ID', 'Fecha', 'Grupo', 'Generado Por', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+            );
+
             if ($result) {
                 $filename = 'depositos_boletas_' . time();
-                Excel::create($filename, function ($excel) use ($result) {
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result['transactions'], false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha', 'Grupo', 'Generado Por', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result['transactions'],$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'], false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha', 'Grupo', 'Generado Por', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -5783,7 +6019,8 @@ class ReportingController extends Controller
         if (isset($input['search']) || isset($input['context']) || isset($input['page'])) {
             $report = new ReportServices($input);
             $result = $report->pagoClientesSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime', 'status', 'status_set'))->with($result);
+            //dd($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -5801,7 +6038,7 @@ class ReportingController extends Controller
         }
         $report = new ReportServices('');
         $result = $report->dmsReports();
-        return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'atms', 'atm_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function dmsSearch()
@@ -5833,7 +6070,7 @@ class ReportingController extends Controller
 
             if ($result) {
 
-                return view('reporting.index', compact('target', 'groups', 'owners', 'branches', 'pos', 'caracteristicas', 'group_id', 'owner_id', 'branch_id', 'pos_id', 'reservationtime', 'i'))->with($result);
+                return view('reporting.index')->with($result);
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -5850,52 +6087,90 @@ class ReportingController extends Controller
 
 
             $filename = 'clientes_' . time();
+            $columnas = array(
+                'id',
+                'ATM',
+                'Atm code',
+                'Cliente',
+                'Canal',
+                'Ruc',
+                'Telefono',
+                'Dueño',
+                'Atendido por',
+                'Horario',
+                'Categoria',
+                'Departamento',
+                'Ciudad',
+                'Referencia',
+                'Direccion',
+                'Latitud',
+                'Longitud',
+                'Accesibilidad',
+                'Visibilidad',
+                'Trafico',
+                'Fecha de creacion',
+                'Estado POP',
+                'Permite POP',
+                'Tiene POP',
+                'Tiene Bancard',
+                'Tiene Pronet',
+                'Tiene Netel',
+                'Tiene POS Dinelco',
+                'Tiene POS Bancard',
+                'Tiene Billetaje',
+                'Tiene tigo money',
+                'Tiene Visicooler',
+                'Vende bebidas con alcohol',
+                'Vende bebidas gasificadas',
+                'Vende productos de limpieza'
+            );
+
             if ($result) {
-                Excel::create($filename, function ($excel) use ($result) {
-
-
-                    $excel->sheet('sheet1', function ($sheet) use ($result) {
-                        $sheet->rows($result, false);
-                        $sheet->prependRow(array(
-                            'id',
-                            'ATM',
-                            'Atm code',
-                            'Cliente',
-                            'Canal',
-                            'Ruc',
-                            'Telefono',
-                            'Dueño',
-                            'Atendido por',
-                            'Horario',
-                            'Categoria',
-                            'Departamento',
-                            'Ciudad',
-                            'Referencia',
-                            'Direccion',
-                            'Latitud',
-                            'Longitud',
-                            'Accesibilidad',
-                            'Visibilidad',
-                            'Trafico',
-                            'Fecha de creacion',
-                            'Estado POP',
-                            'Permite POP',
-                            'Tiene POP',
-                            'Tiene Bancard',
-                            'Tiene Pronet',
-                            'Tiene Netel',
-                            'Tiene POS Dinelco',
-                            'Tiene POS Bancard',
-                            'Tiene Billetaje',
-                            'Tiene tigo money',
-                            'Tiene Visicooler',
-                            'Vende bebidas con alcohol',
-                            'Vende bebidas gasificadas',
-                            'Vende productos de limpieza'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function ($excel) use ($result) {
+                //     $excel->sheet('sheet1', function ($sheet) use ($result) {
+                //         $sheet->rows($result, false);
+                //         $sheet->prependRow(array(
+                //             'id',
+                //             'ATM',
+                //             'Atm code',
+                //             'Cliente',
+                //             'Canal',
+                //             'Ruc',
+                //             'Telefono',
+                //             'Dueño',
+                //             'Atendido por',
+                //             'Horario',
+                //             'Categoria',
+                //             'Departamento',
+                //             'Ciudad',
+                //             'Referencia',
+                //             'Direccion',
+                //             'Latitud',
+                //             'Longitud',
+                //             'Accesibilidad',
+                //             'Visibilidad',
+                //             'Trafico',
+                //             'Fecha de creacion',
+                //             'Estado POP',
+                //             'Permite POP',
+                //             'Tiene POP',
+                //             'Tiene Bancard',
+                //             'Tiene Pronet',
+                //             'Tiene Netel',
+                //             'Tiene POS Dinelco',
+                //             'Tiene POS Bancard',
+                //             'Tiene Billetaje',
+                //             'Tiene tigo money',
+                //             'Tiene Visicooler',
+                //             'Vende bebidas con alcohol',
+                //             'Vende bebidas gasificadas',
+                //             'Vende productos de limpieza'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             } else {
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();
@@ -5937,24 +6212,7 @@ class ReportingController extends Controller
                 return view('messages.index', compact('data'));
             } else {
                 return view(
-                    'reporting.claro.index',
-                    compact(
-                        'target',
-                        'branches',
-                        'pos',
-                        'status',
-                        'type',
-                        'services_data',
-                        'group_id',
-                        'owner_id',
-                        'branch_id',
-                        'pos_id',
-                        'status_set',
-                        'type_set',
-                        'service_id',
-                        'search',
-                        'owner_claro'
-                    )
+                    'reporting.claro.index'
                 )->with($result);
             }
         } catch (\Exception $e) {
@@ -6064,26 +6322,7 @@ class ReportingController extends Controller
                             //die();
 
                             return view(
-                                'reporting.claro.index',
-                                compact(
-                                    'target',
-                                    'branches',
-                                    'pos',
-                                    'status',
-                                    'type',
-                                    'services_data',
-                                    'transactions',
-                                    'total_transactions',
-                                    'branch_id',
-                                    'pos_id',
-                                    'status_set',
-                                    'type_set',
-                                    'service_id',
-                                    'reservationtime',
-                                    'i',
-                                    'service_request_id',
-                                    'owner_claro'
-                                )
+                                'reporting.claro.index'
                             )->with($result);
                         } else {
                             Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
@@ -6147,9 +6386,12 @@ class ReportingController extends Controller
                         //\Log::info('Convirtiendo lista de result para el excel... result:', [$result]);
 
                         $filename = 'transacciones_' . time();
-                        if ($result) {
+                        $columnas = array(
+                            'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                            'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+                        );
 
-                            Excel::create($filename, function ($excel) use ($result, $result2) {
+                        if ($result) {
 
                                 $result_aux = [];
 
@@ -6183,15 +6425,17 @@ class ReportingController extends Controller
                                     array_push($result_aux, $row);
                                 }
 
-                                $excel->sheet('Transacciones', function ($sheet) use ($result_aux) {
-                                    $sheet->rows($result_aux, false);
-                                    $sheet->prependRow(array(
-                                        'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
-                                        'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
-                                    ));
-                                });
-                            })->export('xls');
-                            exit();
+                                // $excel->sheet('Transacciones', function ($sheet) use ($result_aux) {
+                                //     $sheet->rows($result_aux, false);
+                                //     $sheet->prependRow(array(
+                                //         'id', 'Proveedor', 'Tipo', 'Estado', 'Descripcion', 'Fecha', 'Hora', 'Valor Transaccion', 'Cod. Pago', 'Forma pago',
+                                //         'Identificador transaccion', 'Factura Nro', 'Sede', 'Red', 'Ref 1', 'Ref 2', 'Codigo Cajero'
+                                //     ));
+                                // });
+
+                                $excel = new ExcelExport($result_aux,$columnas);
+                                return Excel::download($excel, $filename . '.xls')->send();
+                          
                         } else {
                             Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                             return redirect()->back();

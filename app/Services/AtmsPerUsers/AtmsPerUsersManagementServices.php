@@ -8,6 +8,7 @@
 
 namespace App\Services\AtmsPerUsers;
 
+use App\Exports\ExcelExport;
 use Excel;
 use Carbon\Carbon;
 use App\Services\Password;
@@ -21,7 +22,7 @@ class AtmsPerUsersManagementServices
     {
         $this->user = \Sentinel::getUser();
 
-        if (count($this->user) > 0) {
+        if ($this->user != null) {
             $this->user_supervisor_id = $this->user->id;
             $this->connection = \DB::connection('eglobalt_pro');
             $this->connection_auth = \DB::connection('eglobalt_auth');
@@ -253,25 +254,39 @@ class AtmsPerUsersManagementServices
                     array_push($records_aux, $row);
                 }
 
-                Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
-                    $excel->sheet('Usuarios', function ($sheet) use ($records_aux, $style_array) {
-                        $sheet->rows($records_aux, false);
+                $columnas = array(
+                    'ID',
+                    'Nombre y Apellido',
+                    'Documento',
+                    'Usuario',
+                    'Correo',
+                    'Fecha y Hora de Creación',
+                    'Fecha y Hora de Última actualización',
+                    'Terminales'
+                );
 
-                        $sheet->prependRow(array(
-                            'ID',
-                            'Nombre y Apellido',
-                            'Documento',
-                            'Usuario',
-                            'Correo',
-                            'Fecha y Hora de Creación',
-                            'Fecha y Hora de Última actualización',
-                            'Terminales'
-                        ));
+                $excel = new ExcelExport($records_aux,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
 
-                        $sheet->getStyle('A1:I1')->applyFromArray($style_array); //Aplicar los estilos del array
-                        $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                    });
-                })->export('xlsx');
+                // Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
+                //     $excel->sheet('Usuarios', function ($sheet) use ($records_aux, $style_array) {
+                //         $sheet->rows($records_aux, false);
+
+                //         $sheet->prependRow(array(
+                //             'ID',
+                //             'Nombre y Apellido',
+                //             'Documento',
+                //             'Usuario',
+                //             'Correo',
+                //             'Fecha y Hora de Creación',
+                //             'Fecha y Hora de Última actualización',
+                //             'Terminales'
+                //         ));
+
+                //         $sheet->getStyle('A1:I1')->applyFromArray($style_array); //Aplicar los estilos del array
+                //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                //     });
+                // })->export('xlsx');
 
                 $get_info = false;
             }

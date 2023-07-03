@@ -21,7 +21,7 @@ Modelos
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-      <a href="{{ route('model.brand.create',['id' => $brandId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+      <a href="{{ route('model.brand.create',['model' => $brandId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
       <a href="{{ route('brands.index') }}" class="btn-sm btn-default active" role="button">Volver</a><p>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">

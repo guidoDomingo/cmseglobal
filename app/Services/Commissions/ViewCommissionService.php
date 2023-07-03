@@ -8,6 +8,7 @@
 
 namespace App\Services\Commissions;
 
+use App\Exports\ExcelExport;
 use Carbon\Carbon;
 use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
 use Exception;
@@ -130,20 +131,27 @@ class ViewCommissionService
                     $col_nombre = $nombre_excel;
 
                     $filename = 'commissions_report_' . time();
-                    
-                    Excel::create($filename, function ($excel) use ($commission_agrupado, $style_array,$col_nombre) {
-                        $excel->sheet('Registros', function ($sheet) use ($commission_agrupado, $style_array,$col_nombre) {
-                            $sheet->rows($commission_agrupado, false);
-                            
-                            $sheet->prependRow(array(
-                                'Id','Red', 'Monto total', 'Cantidad transacción','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
-                            ));
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
+                    $columnas = array(
+                        'Id','Red', 'Monto total', 'Cantidad transacción','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    );
+
+                    $excel = new ExcelExport($commission_agrupado,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    
+                    // Excel::create($filename, function ($excel) use ($commission_agrupado, $style_array,$col_nombre) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($commission_agrupado, $style_array,$col_nombre) {
+                    //         $sheet->rows($commission_agrupado, false);
+                            
+                    //         $sheet->prependRow(array(
+                    //             'Id','Red', 'Monto total', 'Cantidad transacción','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
                    
-                    })->export('xls');
+                    // })->export('xls');
 
                
                     $get_info = false;
@@ -327,19 +335,26 @@ class ViewCommissionService
 
 
                     $filename = 'commissions_report_' . time();
-                    
-                    Excel::create($filename, function ($excel) use ($resultado, $style_array) {
-                        $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
-                            $sheet->rows($resultado, false);
-                            
-                            $sheet->prependRow(array(
-                                'Atm','Atm id','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
-                            ));
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xls');
+                    $columnas = array(
+                        'Atm','Atm id','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    );
+
+                    $excel = new ExcelExport($resultado,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    
+                    // Excel::create($filename, function ($excel) use ($resultado, $style_array) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
+                    //         $sheet->rows($resultado, false);
+                            
+                    //         $sheet->prependRow(array(
+                    //             'Atm','Atm id','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xls');
 
                     $get_info = false;
                 }
@@ -538,20 +553,27 @@ class ViewCommissionService
 
 
                     $filename = 'commissions_report_' . time();
+
+                    $columnas = array(
+                        'Red','Atm','servicio','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    );
+
+                    $excel = new ExcelExport($resultado,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
                     
-                    Excel::create($filename, function ($excel) use ($resultado, $style_array) {
-                        $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
-                            $sheet->rows($resultado, false);
+                    // Excel::create($filename, function ($excel) use ($resultado, $style_array) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
+                    //         $sheet->rows($resultado, false);
                             
-                            $sheet->prependRow(array(
-                                'Red','Atm','servicio','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
-                            ));
+                    //         $sheet->prependRow(array(
+                    //             'Red','Atm','servicio','Total transacción', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Inicio','Fin'
+                    //         ));
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
 
-                    })->export('xls');
+                    // })->export('xls');
 
                     $get_info = false;
                 }
@@ -703,19 +725,26 @@ class ViewCommissionService
 
 
                     $filename = 'commissions_report_' . time();
-                    
-                    Excel::create($filename, function ($excel) use ($resultado, $style_array) {
-                        $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
-                            $sheet->rows($resultado, false);
-                            
-                            $sheet->prependRow(array(
-                                'Red','Atm','Servicio','Transacción id', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Fecha'
-                            ));
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xls');
+                    $columnas = array(
+                        'Red','Atm','Servicio','Transacción id', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Fecha'
+                    );
+
+                    $excel = new ExcelExport($resultado,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    
+                    // Excel::create($filename, function ($excel) use ($resultado, $style_array) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($resultado, $style_array) {
+                    //         $sheet->rows($resultado, false);
+                            
+                    //         $sheet->prependRow(array(
+                    //             'Red','Atm','Servicio','Transacción id', 'Monto','Comisión bruta','Comisón eglobal','Comisión para el punto','Fecha'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xls');
 
                     $get_info = false;
                 }
@@ -933,20 +962,27 @@ class ViewCommissionService
                     $data_excel = json_decode(json_encode($data_excel), true);            
 
                     $filename = 'commissions_report_' . time();
-                    
-                    Excel::create($filename, function ($excel) use ($data_excel, $style_array) {
-                        $excel->sheet('Registros', function ($sheet) use ($data_excel, $style_array) {
-                            $sheet->rows($data_excel, false);
-                            
-                            $sheet->prependRow(array(
-                                'Nombre','Ruc', 'Producto', 'Factura','Comisión total','Comisón TD','Comisión DC','Comisión TC','Mes'
-                            ));
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
+                    $columnas = array(
+                        'Nombre','Ruc', 'Producto', 'Factura','Comisión total','Comisón TD','Comisión DC','Comisión TC','Mes'
+                    );
+
+                    $excel = new ExcelExport($data_excel,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    
+                    // Excel::create($filename, function ($excel) use ($data_excel, $style_array) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($data_excel, $style_array) {
+                    //         $sheet->rows($data_excel, false);
+                            
+                    //         $sheet->prependRow(array(
+                    //             'Nombre','Ruc', 'Producto', 'Factura','Comisión total','Comisón TD','Comisión DC','Comisión TC','Mes'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
                    
-                    })->export('xls');
+                    // })->export('xls');
 
                
                     $get_info = false;

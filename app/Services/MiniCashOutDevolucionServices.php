@@ -3,6 +3,7 @@
 
 namespace App\Services;
 
+use App\Exports\ExcelExport;
 use App\Models\Atm;
 use App\Models\MiniCashoutType;
 use Carbon\Carbon;
@@ -760,17 +761,22 @@ class MiniCashOutDevolucionServices
                 $excelData = json_decode(json_encode($minis), true);
 
                 $filename = 'EntregaDeDinero_' . time();
+                $columnas = array(
+                    '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
+                );
                 if ($excelData && !empty($excelData)) {
-                    \Excel::create($filename, function ($excel) use ($excelData) {
-                        $excel->sheet('Estados', function ($sheet) use ($excelData) {
-                            $sheet->rows($excelData, false);
-                            $sheet->prependRow(array(
-                                '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
+                    $excel = new ExcelExport($excelData,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    // \Excel::create($filename, function ($excel) use ($excelData) {
+                    //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
+                    //         $sheet->rows($excelData, false);
+                    //         $sheet->prependRow(array(
+                    //             '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
 
-                            ));
-                        });
-                    })->export('xls');
-                    exit();
+                    //         ));
+                    //     });
+                    // })->export('xls');
+                    // exit();
                 }
             }
 

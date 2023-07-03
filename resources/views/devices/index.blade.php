@@ -25,7 +25,7 @@
                     <a href="{{ route('housing.device.import', [$housingId]) }}" class="btn-sm btn-primary active" role="button">Importar</a>
                 @endif
                 @if (Sentinel::hasAccess('devices.add|edit'))
-                    <a href="{{ route('housing.device.create', ['id' => $housingId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                    <a href="{{ route('housing.device.create', ['housing' => $housingId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
                 @endif
                     <a href="{{ route('miniterminales.index') }}" class="btn-sm btn-default active" role="button">Volver</a>
                 <p>

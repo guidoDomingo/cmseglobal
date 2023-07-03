@@ -8,6 +8,7 @@
 
 namespace App\Services\Conciliators;
 
+use App\Exports\ExcelExport;
 use Excel;
 use Carbon\Carbon;
 use DateTime;
@@ -1020,7 +1021,7 @@ echo "The last char of the string is $lastChar.";*/
 
             $date = date("d/m/Y H:i:s.") . gettimeofday()["usec"];
 
-            $filename = "transaction_conciliator_$date";
+            $filename = "transaction_conciliator_" . time();
 
             $style_array = [
                 'font'  => [
@@ -1031,32 +1032,38 @@ echo "The last char of the string is $lastChar.";*/
                 ]
             ];
 
-            Excel::create($filename, function ($excel) use ($data_to_excel, $file_to_excel, $style_array) {
+            $columna1 = [];
+            $columna2 = [];
 
-                $excel->sheet('Archivo comparado', function ($sheet) use ($file_to_excel) {
-                    $sheet->rows($file_to_excel, false);
-                    $sheet->getStyle("A1:D1")->getFont()->setBold(true);
-                });
+            $excel = new ExcelExport($file_to_excel,$columna1,$data_to_excel,$columna2);
+            return Excel::download($excel, $filename . '.xls')->send();
 
-                $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
-                    $range = 'A1:J1';
-                    $sheet->rows($data_to_excel, false); //Cargar los datos
-                    $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
-                    $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
-                    $sheet->cells($range, function ($cells) {
-                        $cells->setAlignment('center'); // Alineamiento horizontal a central
-                        $cells->setValignment('center'); // Alineamiento vertical a central
-                    });
+            // Excel::create($filename, function ($excel) use ($data_to_excel, $file_to_excel, $style_array) {
 
-                    $rows = count($data_to_excel);
+            //     $excel->sheet('Archivo comparado', function ($sheet) use ($file_to_excel) {
+            //         $sheet->rows($file_to_excel, false);
+            //         $sheet->getStyle("A1:D1")->getFont()->setBold(true);
+            //     });
 
-                    $sheet->cell("G1:J$rows", function ($cell) {
-                        $cell->setFontWeight('bold');
-                        //$cell->setBackground('#d2d6de');
-                        //$cell->setBorder('thin','thin','thin','thin');
-                    });
-                });
-            })->export('xls');
+            //     $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
+            //         $range = 'A1:J1';
+            //         $sheet->rows($data_to_excel, false); //Cargar los datos
+            //         $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
+            //         $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
+            //         $sheet->cells($range, function ($cells) {
+            //             $cells->setAlignment('center'); // Alineamiento horizontal a central
+            //             $cells->setValignment('center'); // Alineamiento vertical a central
+            //         });
+
+            //         $rows = count($data_to_excel);
+
+            //         $sheet->cell("G1:J$rows", function ($cell) {
+            //             $cell->setFontWeight('bold');
+            //             //$cell->setBackground('#d2d6de');
+            //             //$cell->setBorder('thin','thin','thin','thin');
+            //         });
+            //     });
+            // })->export('xls');
 
             //\Log::info("Exportación terminada...");
 

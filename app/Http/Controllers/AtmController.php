@@ -32,7 +32,7 @@ use Mail;
 
 use DateTime;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\ProductsExport;
+use App\Exports\ExcelExport;
 
 class AtmController extends Controller
 {
@@ -2095,9 +2095,9 @@ class AtmController extends Controller
             //     });
             // })->export('xls');
 
-            $excel = new ProductsExport($atms,$columnas);
+            $excel = new ExcelExport($cajeros,$columnas);
 
-            return Excel::download($excel, $filename . '.xlsx')->send();
+            return Excel::download($excel, $filename . '.xls')->send();
             
         } else {
             Session::flash('error_message', 'No existen parametros para exportar');

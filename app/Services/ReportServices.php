@@ -8137,7 +8137,7 @@ class ReportServices
             }
 
             $total_saldo = $haber + $debe + $reversion + $cashout;
-            $results = $this->arrayPaginator($baseQuery, $request);
+            $results = $this->arrayPaginator($baseQuery->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Estado Contable Old',
@@ -10792,7 +10792,7 @@ class ReportServices
                     
                 "));
 
-                $results_groups = $this->arrayPaginator($resumen_transacciones_groups, $request);
+                $results_groups = $this->arrayPaginator($resumen_transacciones_groups->toArray(), $request);
 
                 $resumen_transacciones_total_groups[0]->saldo = $resumen_transacciones_total_groups[0]->transacciones + $resumen_transacciones_total_groups[0]->paquetigos + $resumen_transacciones_total_groups[0]->depositos + $resumen_transacciones_total_groups[0]->reversiones + $resumen_transacciones_total_groups[0]->cashouts + $resumen_transacciones_total_groups[0]->personal + $resumen_transacciones_total_groups[0]->pago_cash + $resumen_transacciones_total_groups[0]->claro;
                 $resultset['usersNames'] = $usersNames;
@@ -11003,7 +11003,7 @@ class ReportServices
 
             // $total_saldo_groups = $resumen_transacciones_total_groups[0]->transacciones + $resumen_transacciones_total_groups[0]->depositos;
 
-            $results_groups = $this->arrayPaginator($resumen_transacciones_groups, $request);
+            $results_groups = $this->arrayPaginator($resumen_transacciones_groups->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Resumen Detallado Miniterminales Old',
@@ -11275,7 +11275,7 @@ class ReportServices
                 }
             }
 
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Depositos Miniterminales',
@@ -11498,7 +11498,7 @@ class ReportServices
                 }
             }
 
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Miniterminales',
@@ -11997,7 +11997,7 @@ class ReportServices
                 }
             }
 
-            $results = $this->arrayPaginator($transactions, $request);
+            $results = $this->arrayPaginator($transactions->toArray(), $request);
 
             /*Carga datos del formulario*/
             $resultset = array(
@@ -12323,7 +12323,7 @@ class ReportServices
                 ->whereRaw("$where")
                 ->get();
 
-            $results = $this->arrayPaginator($transactions, $request);
+            $results = $this->arrayPaginator($transactions->toArray(), $request);
 
             /*Carga datos del formulario*/
             $resultset = array(
@@ -12520,7 +12520,7 @@ class ReportServices
                     ->get();*/
 
 
-            $results = $this->arrayPaginator($transactions, $request);
+            $results = $this->arrayPaginator($transactions->toArray(), $request);
 
             /*Carga datos del formulario*/
             $resultset = array(
@@ -12621,7 +12621,7 @@ class ReportServices
 
     public function arrayPaginator($array, $request)
     {
-        $page = \Input::get('page', 1);
+        $page = $request->input('page', 1);
         $perPage = 20;
         $offset = ($page * $perPage) - $perPage;
 
@@ -13639,7 +13639,7 @@ class ReportServices
             foreach ($branches as $key => $branch) {
                 $data_select[$branch->user_id] = $branch->description . ' | ' . $usersNames[$branch->user_id];
             }
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Depositos Cuotas Miniterminales',
@@ -13754,7 +13754,7 @@ class ReportServices
                     ->get();
             }
 
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Cuotas Miniterminales',
@@ -14016,7 +14016,7 @@ class ReportServices
                 ->orderBy('historial_bloqueos.id', 'desc')
                 ->get();
 
-            $results = $this->arrayPaginator($bloqueos, $request);
+            $results = $this->arrayPaginator($bloqueos->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Historial Bloqueos',
@@ -14776,7 +14776,7 @@ class ReportServices
             foreach ($branches as $key => $branch) {
                 $data_select[$branch->user_id] = $branch->description . ' | ' . $usersNames[$branch->user_id];
             }
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Depositos Alquileres Miniterminales',
@@ -14893,7 +14893,7 @@ class ReportServices
                     ->get();
             }
             //dd($boletas);
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Alquileres Miniterminales',
@@ -15089,6 +15089,7 @@ class ReportServices
 
     public function cuotasAlquilerSearch($request)
     {
+
         try {
             $input = $this->input;
 
@@ -15106,7 +15107,7 @@ class ReportServices
                             ->where('branches.group_id', $group_id)
                             ->pluck('atms.id', 'atms.id');
 
-                        $atms_id = implode(',', $atms);
+                        $atms_id = implode(',', $atms->toArray());
 
                         $atm_id = '(' . $atms_id . ')';
                     }
@@ -15160,15 +15161,15 @@ class ReportServices
                 ->orderBy('cuotas_alquiler.num_cuota', 'asc')
                 ->orderBy('cuotas_alquiler.id', 'asc')
                 ->get();
-
-            $results = $this->arrayPaginator($cuotas, $request);
+            
+            $results = $this->arrayPaginator($cuotas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Cuotas Alquiler',
                 'transactions'  => $results,
                 'i'             =>  1,
             );
-
+            
             $groups = Group::join('alquiler', 'business_groups.id', '=', 'alquiler.group_id')
                 ->where('alquiler.destination_operation_id', '!=', 0)
                 ->pluck('description', 'business_groups.id');
@@ -15226,7 +15227,7 @@ class ReportServices
                 ->orderBy('p.id', 'desc')
                 ->get();
 
-            $results = $this->arrayPaginator($pagos, $request);
+            $results = $this->arrayPaginator($pagos->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Pagos de Clientes Miniterminales',
@@ -15254,7 +15255,7 @@ class ReportServices
     {
         try {
             $input = $this->input;
-
+         
             /*Busqueda minusiosa*/
             if (isset($input['context']) && $input['context'] <> '' && $input['context'] <> null) {
                 $where = "boleta_numero like '%{$input['context']}%' ";
@@ -15311,7 +15312,7 @@ class ReportServices
                 ->orderBy('p.id', 'desc')
                 ->get();
             //dd($boletas);
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Pagos de Clientes Miniterminales',

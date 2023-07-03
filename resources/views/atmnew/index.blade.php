@@ -49,7 +49,7 @@
 
             <div class="modal-body">
                 <a class="btn btn-success btn-flat btn-row" title="Editar"
-                    href="{{ route('atmnew.edit', ['id' => 1]) }}"><i class="fa fa-pencil"></i></a>
+                    href="{{ route('atmnew.edit', ['atmnew' => 1]) }}"><i class="fa fa-pencil"></i></a>
 
                 <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#"><i
                         class="fa fa-remove"></i></a>
@@ -183,7 +183,7 @@
                                         <td>
                                             {{ $atm->code }} -
                                             @if (Sentinel::hasAccess('atms_v2.credentials.add|edit'))
-                                                <a href="{{ route('atm.credentials.index', ['id' => $atm->id]) }}"><i
+                                                <a href="{{ route('atm.credentials.index', ['atm' => $atm->id]) }}"><i
                                                         class="fa fa-key"></i></a>
                                             @endif
                                         </td>
@@ -410,7 +410,7 @@
                                                 <div class="btn-group" role="group">
                                                     @if (Sentinel::hasAccess('atms_v2.add|edit'))
                                                         <a class="btn btn-success" title="Editar"
-                                                            href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                            href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                                 class="fa fa-pencil"></i></a>
                                                     @endif
                                                     @if (Sentinel::hasAccess('atms_v2.delete'))
@@ -657,44 +657,44 @@
                                                     
                                                     @if(\Sentinel::getUser()->inRole('atms_v2.area_comercial') AND $atm->atm_status <> -6 AND $atm->atm_status <> -7 AND $atm->atm_status <> -8 AND $atm->atm_status <> -9 AND $atm->atm_status <> -10 AND $atm->atm_status <> -11 AND $atm->atm_status <> -12 AND $atm->atm_status <> -13 AND $atm->atm_status <> -14)
                                                         <a class="btn btn-success btn-flat btn-row" title="Editar"
-                                                            href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                            href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                                 class="fa fa-pencil"></i></a>
 
                                                     @elseif (\Sentinel::getUser()->inRole('contract.check.receptiondate') AND $atm->atm_status == 0  or $atm->atm_status == -14 or $atm->atm_status == -11 or $atm->atm_status == -10 or $atm->atm_status == -9 or $atm->atm_status == -8 or $atm->atm_status == -6 or $atm->atm_status == -12)
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     @elseif ((\Sentinel::getUser()->inRole('atms_v2.area_legales') AND $atm->atm_status == -6))
                                                             <a class="btn btn-success" title="Editar"
-                                                            href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                            href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                                 class="fa fa-pencil"></i></a>
 
 
                                                     @elseif (\Sentinel::getUser()->inRole('atms_v2.area_antell') AND $atm->atm_status == -8)
                                             
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     @elseif (\Sentinel::getUser()->inRole('atms_v2.area_fraude') AND $atm->atm_status == -14)
                                     
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     @elseif (\Sentinel::getUser()->inRole('atms_v2.area_contabilidad') AND $atm->atm_status == -9)
                                         
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     @elseif (\Sentinel::getUser()->inRole('atms_v2.area_logisticas') AND $atm->atm_status == -10)
                                     
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     
                                                     @elseif (\Sentinel::getUser()->inRole('atms_v2.area_eglobalt') AND $atm->atm_status == -11)
                                     
                                                         <a class="btn btn-success" title="Editar"
-                                                        href="{{ route('atmnew.edit', ['id' => $atm->id]) }}"><i
+                                                        href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
                                                             class="fa fa-pencil"></i></a>
                                                     @endif
 

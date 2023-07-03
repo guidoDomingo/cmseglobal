@@ -56,10 +56,10 @@
                                         <td>{{ date('d/m/Y', strtotime($miniterminal->installation_date)) }}</td>
                                         <td>
                                             @if (Sentinel::hasAccess('housing'))
-                                                <a class="btn btn-info btn-flat btn-row" title="Dispositivos" href="{{ route('housing.device.index',['housingId' => $miniterminal->id ]) }}"><i class="fa fa-building"></i></a>
+                                                <a class="btn btn-info btn-flat btn-row" title="Dispositivos" href="{{ route('housing.device.index',['housing' => $miniterminal->id ]) }}"><i class="fa fa-building"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('housing.add|edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('miniterminales.edit',['id' => $miniterminal->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('miniterminales.edit',['miniterminale' => $miniterminal->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('housing.delete'))
                                                 <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

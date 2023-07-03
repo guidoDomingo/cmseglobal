@@ -8,6 +8,7 @@
 
 namespace App\Services\AtmsPerUsers;
 
+use App\Exports\ExcelExport;
 use Excel;
 use Carbon\Carbon;
 
@@ -228,25 +229,37 @@ class AtmsPerUsersServices
                 ];
 
                 $filename = 'report_' . time();
+                $columnas = array(
+                    'ID - Usuario',
+                    'Usuario',
+                    'ID - Terminal',
+                    'Terminal',
+                    'Fecha y Hora de creación',
+                    'Fecha y Hora de actualización',
+                    'Estado'
+                );
 
-                Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
-                    $excel->sheet('Usuarios por Terminal', function ($sheet) use ($records_aux, $style_array) {
-                        $sheet->rows($records_aux, false);
+                $excel = new ExcelExport($records_aux,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
 
-                        $sheet->prependRow(array(
-                            'ID - Usuario',
-                            'Usuario',
-                            'ID - Terminal',
-                            'Terminal',
-                            'Fecha y Hora de creación',
-                            'Fecha y Hora de actualización',
-                            'Estado'
-                        ));
+                // Excel::create($filename, function ($excel) use ($records_aux, $style_array) {
+                //     $excel->sheet('Usuarios por Terminal', function ($sheet) use ($records_aux, $style_array) {
+                //         $sheet->rows($records_aux, false);
 
-                        $sheet->getStyle('A1:G1')->applyFromArray($style_array); //Aplicar los estilos del array
-                        $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                    });
-                })->export('xlsx');
+                //         $sheet->prependRow(array(
+                //             'ID - Usuario',
+                //             'Usuario',
+                //             'ID - Terminal',
+                //             'Terminal',
+                //             'Fecha y Hora de creación',
+                //             'Fecha y Hora de actualización',
+                //             'Estado'
+                //         ));
+
+                //         $sheet->getStyle('A1:G1')->applyFromArray($style_array); //Aplicar los estilos del array
+                //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                //     });
+                // })->export('xlsx');
 
                 $get_info = false;
             }

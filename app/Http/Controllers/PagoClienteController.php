@@ -77,13 +77,13 @@ class PagoClienteController extends Controller
             ->whereRaw("created_at BETWEEN '$hoy' AND '$tomorrow'")
             ->pluck('group_id');
 
-            $groups = implode(', ', $group);
+            $groups = implode(', ', $group->toArray());
 
             if(!empty($groups)){
                 $whereMovements = "bg.id not in ($groups) and";
             }
 
-            $resumen_transacciones_groups = \DB::select(\DB::raw("
+            $resumen_transacciones_groups = \DB::select("
                 select
                         bg.id as group_id,
                         concat(bg.description,' | ',bg.ruc) as grupo,
@@ -138,7 +138,7 @@ class PagoClienteController extends Controller
                     + (Case when cuota_v.saldo_venta != 0 then cuota_v.saldo_venta else 0 end)
                 ) < 0
                 order by saldo desc
-            "));
+            ");
 
             $resultset['transactions_groups'] = $resumen_transacciones_groups;
 

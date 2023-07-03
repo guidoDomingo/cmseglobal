@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Session;
 
 use Carbon\Carbon;
@@ -578,17 +579,24 @@ class ContractController extends Controller
     
                    $result = json_decode(json_encode($contratos),true);
                    $filename = 'contratos_'.time();
+
+                   $columna1 = array(
+                    'ID GRUPO', 'RUC','NOMBRE','ID CONTRATO','NRO CONTRATO','ESTADO','TIPO','LIMITE DE CREDITO','FECHA DE INICIO - VIGENCICA','FECHA FINALIZACION - VIGENCIA','FECHA DE RECEPCION','FECHA DE APROBACION','DIAS RESTANTES'
+                   );
                    
                    if($result){
-                       Excel::create($filename, function($excel) use ($result) {
-                           $excel->sheet('Página 1', function($sheet) use ($result) {
-                               $sheet->rows($result,false);
-                               $sheet->prependRow(array(
-                                   'ID GRUPO', 'RUC','NOMBRE','ID CONTRATO','NRO CONTRATO','ESTADO','TIPO','LIMITE DE CREDITO','FECHA DE INICIO - VIGENCICA','FECHA FINALIZACION - VIGENCIA','FECHA DE RECEPCION','FECHA DE APROBACION','DIAS RESTANTES'
-                               ));
-                           });
-                       })->export('xls');
-                       exit();
+
+                        $excel = new ExcelExport($result,$columna1);
+                        return Excel::download($excel, $filename . '.xls')->send();
+                    //    Excel::create($filename, function($excel) use ($result) {
+                    //        $excel->sheet('Página 1', function($sheet) use ($result) {
+                    //            $sheet->rows($result,false);
+                    //            $sheet->prependRow(array(
+                    //                'ID GRUPO', 'RUC','NOMBRE','ID CONTRATO','NRO CONTRATO','ESTADO','TIPO','LIMITE DE CREDITO','FECHA DE INICIO - VIGENCICA','FECHA FINALIZACION - VIGENCIA','FECHA DE RECEPCION','FECHA DE APROBACION','DIAS RESTANTES'
+                    //            ));
+                    //        });
+                    //    })->export('xls');
+                    //    exit();
                    }else{
                        Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                        return redirect()->back();   

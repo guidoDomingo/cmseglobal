@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -58,17 +59,22 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->estadoContableSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columnas = array(
+                'Fecha', 'Concepto','Debe','Haber','Saldo'
+            );
             if($result){
                 $filename = 'transacciones_'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'Fecha', 'Concepto','Debe','Haber','Saldo'
-                        ));        
-                    });
-                })->export('xls');
-                exit();
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'Fecha', 'Concepto','Debe','Haber','Saldo'
+                //         ));        
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -105,23 +111,34 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->resumenMiniterminalesSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columna1 = array(
+                'Id', 'Ruc', 'Grupo', 'Total Transaccionado','Total Depositado','Total Reversado','Total Cashout', 'Total Pago QR','Total Cuotas','Saldo', 'Estado'
+            );
+            $columna2 = array(
+                'ID', 'ATM', 'Total Transaccionado', 'Total Depositado', 'Total Reversado','Total Cashout','Saldo', 'Estado'
+            );
+
             if($result){
                 $filename = 'resumen_miniterminales'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {    
-                        $sheet->rows($result['transacciones_groups'],false);
-                        $sheet->prependRow(array(
-                            'Id', 'Ruc', 'Grupo', 'Total Transaccionado','Total Depositado','Total Reversado','Total Cashout', 'Total Pago QR','Total Cuotas','Saldo', 'Estado'
-                        ));        
-                     });
-                    $excel->sheet('Por Sucursal', function($sheet) use ($result) {    
-                        $sheet->rows($result['transacciones'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'ATM', 'Total Transaccionado', 'Total Depositado', 'Total Reversado','Total Cashout','Saldo', 'Estado'
-                        ));        
-                    }); 
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columna1,$result['transacciones'],$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {    
+                //         $sheet->rows($result['transacciones_groups'],false);
+                //         $sheet->prependRow(array(
+                //             'Id', 'Ruc', 'Grupo', 'Total Transaccionado','Total Depositado','Total Reversado','Total Cashout', 'Total Pago QR','Total Cuotas','Saldo', 'Estado'
+                //         ));        
+                //      });
+                //     $excel->sheet('Por Sucursal', function($sheet) use ($result) {    
+                //         $sheet->rows($result['transacciones'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'ATM', 'Total Transaccionado', 'Total Depositado', 'Total Reversado','Total Cashout','Saldo', 'Estado'
+                //         ));        
+                //     }); 
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -163,23 +180,34 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->resumenDetalladoSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columna1 = array(
+                'Id','Ruc','Grupo', 'Total Transaccionado','Total Paquetigo','Total Personal', 'Total Claro','Total Pago Cashout','Total Depositado','Total Reversado','Total Cashout','Saldo'
+            );
+            $columna2 = array(
+                'ID Atm', 'ATM', 'Total Transaccionado'
+            );
+
             if($result){
                 $filename = 'resumen_miniterminales'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {    
-                        $sheet->rows($result['transacciones_groups'],false);
-                         $sheet->prependRow(array(
-                             'Id','Ruc','Grupo', 'Total Transaccionado','Total Paquetigo','Total Personal', 'Total Claro','Total Pago Cashout','Total Depositado','Total Reversado','Total Cashout','Saldo'
-                         ));        
-                     });
-                    $excel->sheet('Por Sucursal', function($sheet) use ($result) {    
-                        $sheet->rows($result['transacciones'],false);
-                        $sheet->prependRow(array(
-                            'ID Atm', 'ATM', 'Total Transaccionado'
-                        ));        
-                    }); 
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columna1,$result['transacciones'],$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {    
+                //         $sheet->rows($result['transacciones_groups'],false);
+                //          $sheet->prependRow(array(
+                //              'Id','Ruc','Grupo', 'Total Transaccionado','Total Paquetigo','Total Personal', 'Total Claro','Total Pago Cashout','Total Depositado','Total Reversado','Total Cashout','Saldo'
+                //          ));        
+                //      });
+                //     $excel->sheet('Por Sucursal', function($sheet) use ($result) {    
+                //         $sheet->rows($result['transacciones'],false);
+                //         $sheet->prependRow(array(
+                //             'ID Atm', 'ATM', 'Total Transaccionado'
+                //         ));        
+                //     }); 
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -266,19 +294,26 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->cobranzasSearchExport();
             $result = json_decode(json_encode($result),true);
-            
+            $columnas = array(
+                'ID', 'Grupo', 'Fecha','ID Ondanet','Nro Recibo', 'Monto de la Boleta', 'Tipo de Recibo'
+            );
+
             if($result){
                 $filename = 'cobranzas_miniterminales'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {
-                        //dd($result['transactions']);
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'Grupo', 'Fecha','ID Ondanet','Nro Recibo', 'Monto de la Boleta', 'Tipo de Recibo'
-                        ));
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {
+                //         //dd($result['transactions']);
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Grupo', 'Fecha','ID Ondanet','Nro Recibo', 'Monto de la Boleta', 'Tipo de Recibo'
+                //         ));
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -316,18 +351,26 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->salesSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columnas = array(
+                'ID', 'Grupo','Monto','Fecha','ID Ondanet','Nro Venta', 'Estado', 'Monto por cobrar'
+            );
+
             if($result){
                 //dd($result['transactions']);
                 $filename = 'ventas_miniterminales'.time();
-            Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'Grupo','Monto','Fecha','ID Ondanet','Nro Venta', 'Estado', 'Monto por cobrar'
-                        ));        
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Grupo','Monto','Fecha','ID Ondanet','Nro Venta', 'Estado', 'Monto por cobrar'
+                //         ));        
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -365,23 +408,34 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->boletaDepositosSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columna1 = array(
+                'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+            $columna2 = array(
+                'ID Boleta', 'Numero de boleta', 'Numero de Recibo', 'Deudas Afectadas'
+            );
+
             if($result){
                 $filename = 'depositos_boletas_'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('boletas', function($sheet) use ($result) {
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));        
-                    });
-                    $excel->sheet('detalles_numeros_recibos', function($sheet) use ($result) {
-                        $sheet->rows($result['transaction_details'],false);
-                        $sheet->prependRow(array(
-                            'ID Boleta', 'Numero de boleta', 'Numero de Recibo', 'Deudas Afectadas'
-                        ));        
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columna1,$result['transaction_details'],$columna2);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('boletas', function($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));        
+                //     });
+                //     $excel->sheet('detalles_numeros_recibos', function($sheet) use ($result) {
+                //         $sheet->rows($result['transaction_details'],false);
+                //         $sheet->prependRow(array(
+                //             'ID Boleta', 'Numero de boleta', 'Numero de Recibo', 'Deudas Afectadas'
+                //         ));        
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -567,17 +621,25 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->depositosCuotasSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columnas = array(
+                'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+
             if($result){
                 $filename = 'depositos_boletas_'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));        
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));        
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -621,17 +683,24 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->depositosAlquileresSearchExport();
             $result = json_decode(json_encode($result),true);
+            $columnas = array(
+                'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+            );
+
             if($result){
                 $filename = 'depositos_boletas_'.time();
-                Excel::create($filename, function($excel) use ($result) {
-                    $excel->sheet('sheet1', function($sheet) use ($result) {
-                        $sheet->rows($result['transactions'],false);
-                        $sheet->prependRow(array(
-                            'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
-                        ));        
-                    });
-                })->export('xls');
-                exit();
+
+                $excel = new ExcelExport($result,$columnas);
+                return Excel::download($excel, $filename . '.xls')->send();
+                // Excel::create($filename, function($excel) use ($result) {
+                //     $excel->sheet('sheet1', function($sheet) use ($result) {
+                //         $sheet->rows($result['transactions'],false);
+                //         $sheet->prependRow(array(
+                //             'ID', 'Fecha','ATM','Concepto','Banco','Cuenta Bancaria', 'Nro Boleta', 'Monto', 'Estado', 'Modificado por', 'Fecha Modificacion', 'Mensaje'
+                //         ));        
+                //     });
+                // })->export('xls');
+                // exit();
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   

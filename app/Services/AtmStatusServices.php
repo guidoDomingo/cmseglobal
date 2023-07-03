@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Exports\ExcelExport;
 use App\Models\Atm;
 use Carbon\Carbon;
 use App\Models\AtmStatusHistory;
@@ -214,17 +215,23 @@ class AtmStatusServices
                 $excelData = json_decode(json_encode($atmStatus), true);
 
                 $filename = 'atmsEstadoHistoricos_' . time();
+                $columnas = array(
+                    '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
+                );
                 if ($excelData && !empty($excelData)) {
-                    Excel::create($filename, function ($excel) use ($excelData) {
-                        $excel->sheet('Estados', function ($sheet) use ($excelData) {
-                            $sheet->rows($excelData, false);
-                            $sheet->prependRow(array(
-                                '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
 
-                            ));
-                        });
-                    })->export('xls');
-                    exit();
+                    $excel = new ExcelExport($excelData,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
+                    // Excel::create($filename, function ($excel) use ($excelData) {
+                    //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
+                    //         $sheet->rows($excelData, false);
+                    //         $sheet->prependRow(array(
+                    //             '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
+
+                    //         ));
+                    //     });
+                    // })->export('xls');
+                    // exit();
                 }
             }
 

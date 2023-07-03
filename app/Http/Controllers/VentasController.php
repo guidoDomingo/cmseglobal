@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -541,7 +542,7 @@ class VentasController extends Controller
 
             $date = date("d/m/Y H:i:s.") . gettimeofday()["usec"];
 
-            $filename = "sale_export_$date";
+            $filename = "sale_export_" . time();
 
             $style_array = [
                 'font'  => [
@@ -552,20 +553,26 @@ class VentasController extends Controller
                 ]
             ];
 
-            Excel::create($filename, function ($excel) use ($data_to_excel, $style_array) {
-                $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
-                    $range = 'A1:H1';
-                    $sheet->rows($data_to_excel, false); //Cargar los datos
-                    $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
-                    $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
-                    $sheet->cells($range, function ($cells) {
-                        $cells->setAlignment('center'); // Alineamiento horizontal a central
-                        $cells->setValignment('center'); // Alineamiento vertical a central
-                    });
-                });
-            })->export('xls');
+            $columnas = [];
 
-            exit();
+            $excel = new ExcelExport($data_to_excel,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
+            // Excel::create($filename, function ($excel) use ($data_to_excel, $style_array) {
+            //     $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
+            //         $range = 'A1:H1';
+            //         $sheet->rows($data_to_excel, false); //Cargar los datos
+            //         $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
+            //         $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
+            //         $sheet->cells($range, function ($cells) {
+            //             $cells->setAlignment('center'); // Alineamiento horizontal a central
+            //             $cells->setValignment('center'); // Alineamiento vertical a central
+            //         });
+            //     });
+            // })->export('xls');
+
+            // exit();
+
         } catch (\Exception $e) {
             $this->custom_error($e, __FUNCTION__);
         }

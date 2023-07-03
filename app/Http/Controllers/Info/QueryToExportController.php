@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Info;
 
+use App\Exports\ExcelExport;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Excel;
@@ -340,18 +341,23 @@ class QueryToExportController extends Controller
 
                                 array_unshift($records, $headers);
 
-                                Excel::create($filename, function ($excel) use ($records, $style_array, $letter, $query, $button_name) {
+                                $columnas = [];
 
-                                    $excel->sheet('Registros', function ($sheet) use ($records, $style_array, $letter, $button_name) {
-                                        $range = 'A1:' . $letter . '1';
-                                        $sheet->rows($records, false);
+                                $excel = new ExcelExport($records,$columnas);
+                                return Excel::download($excel, $filename . '.' .$button_name)->send();
 
-                                        if ($button_name !== 'csv') {
-                                            $sheet->getStyle($range)->applyFromArray($style_array);
-                                            $sheet->setHeight(1, 30);
-                                        }
-                                    });
-                                })->export($button_name);
+                                // Excel::create($filename, function ($excel) use ($records, $style_array, $letter, $query, $button_name) {
+
+                                //     $excel->sheet('Registros', function ($sheet) use ($records, $style_array, $letter, $button_name) {
+                                //         $range = 'A1:' . $letter . '1';
+                                //         $sheet->rows($records, false);
+
+                                //         if ($button_name !== 'csv') {
+                                //             $sheet->getStyle($range)->applyFromArray($style_array);
+                                //             $sheet->setHeight(1, 30);
+                                //         }
+                                //     });
+                                // })->export($button_name);
                             } else {
                                 $message = 'La consulta no retornó ningún registro.';
                             }

@@ -8,6 +8,7 @@
 
 namespace App\Services\Commissions;
 
+use App\Exports\ExcelExport;
 use Excel;
 
 class PaidServices
@@ -117,22 +118,32 @@ class PaidServices
                     ];
 
                     $filename = 'commissions_paid_report_' . time();
+                    $columnas = array(
+                        'Proveedor', 
+                        'Terminal', 
+                        'Servicio', 
+                        'Comisión total para el punto', 
+                        'Periodo'
+                    );
 
-                    Excel::create($filename, function ($excel) use ($payments_detail_aux, $style_array) {
-                        $excel->sheet('Registros', function ($sheet) use ($payments_detail_aux, $style_array) {
-                            $sheet->rows($payments_detail_aux, false);
-                            $sheet->prependRow(array(
-                                'Proveedor', 
-                                'Terminal', 
-                                'Servicio', 
-                                'Comisión total para el punto', 
-                                'Periodo'
-                            ));
+                    $excel = new ExcelExport($payments_detail_aux,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                            $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xls');
+                    // Excel::create($filename, function ($excel) use ($payments_detail_aux, $style_array) {
+                    //     $excel->sheet('Registros', function ($sheet) use ($payments_detail_aux, $style_array) {
+                    //         $sheet->rows($payments_detail_aux, false);
+                    //         $sheet->prependRow(array(
+                    //             'Proveedor', 
+                    //             'Terminal', 
+                    //             'Servicio', 
+                    //             'Comisión total para el punto', 
+                    //             'Periodo'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:E1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 30); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xls');
 
                     $get_info = false;
                 }

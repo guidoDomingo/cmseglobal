@@ -8,6 +8,7 @@
 
 namespace App\Services\Commissions;
 
+use App\Exports\ExcelExport;
 use Excel;
 
 class TransactionsServices
@@ -141,31 +142,50 @@ class TransactionsServices
                     ];
 
                     $filename = 'commissions_transactions_report_' . time();
+                    $columnas = array(
+                        'Terminal',
+                        'Proveedor',
+                        'Marca',
+                        'Servicio',
+                        'ID - Transacción',
+                        'Fecha - Hora',
+                        'Monto',
+                        'Tipo de Comisión',
+                        'Valor de contrato para Eglobalt',
+                        'Valor bruto a repartir',
+                        'Valor neto para Eglobalt',
+                        'Valor de contrato para el punto',
+                        'Valor neto para el punto',
+                        'Calculo parametrizado'
+                    );
 
-                    Excel::create($filename, function ($excel) use ($commissions_transactions, $style_array) {
-                        $excel->sheet('Detalle de Comisiones', function ($sheet) use ($commissions_transactions, $style_array) {
-                            $sheet->rows($commissions_transactions, false);
-                            $sheet->prependRow(array(
-                                'Terminal',
-                                'Proveedor',
-                                'Marca',
-                                'Servicio',
-                                'ID - Transacción',
-                                'Fecha - Hora',
-                                'Monto',
-                                'Tipo de Comisión',
-                                'Valor de contrato para Eglobalt',
-                                'Valor bruto a repartir',
-                                'Valor neto para Eglobalt',
-                                'Valor de contrato para el punto',
-                                'Valor neto para el punto',
-                                'Calculo parametrizado'
-                            ));
+                    $excel = new ExcelExport($commissions_transactions,$columnas);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                            $sheet->getStyle('A1:N1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
-                    })->export('xlsx');
+                    // Excel::create($filename, function ($excel) use ($commissions_transactions, $style_array) {
+                    //     $excel->sheet('Detalle de Comisiones', function ($sheet) use ($commissions_transactions, $style_array) {
+                    //         $sheet->rows($commissions_transactions, false);
+                    //         $sheet->prependRow(array(
+                    //             'Terminal',
+                    //             'Proveedor',
+                    //             'Marca',
+                    //             'Servicio',
+                    //             'ID - Transacción',
+                    //             'Fecha - Hora',
+                    //             'Monto',
+                    //             'Tipo de Comisión',
+                    //             'Valor de contrato para Eglobalt',
+                    //             'Valor bruto a repartir',
+                    //             'Valor neto para Eglobalt',
+                    //             'Valor de contrato para el punto',
+                    //             'Valor neto para el punto',
+                    //             'Calculo parametrizado'
+                    //         ));
+
+                    //         $sheet->getStyle('A1:N1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -14,6 +15,8 @@ use Carbon\Carbon;
 use Session;
 
 use Excel;
+use Exception;
+
 class AlquilerController extends Controller
 {
     protected $user;
@@ -77,16 +80,19 @@ class AlquilerController extends Controller
         $data_select = [];
         $select = [];
 
-        $seriales =  \DB::connection('ondanet')
-            ->select(\DB::raw("
-                    select *, 'Miniterminal' as nombre FROM LISTADO_SERIALES_MINITERMINALES_ALQUILADOS
-                    union all
-                    select *, 'Nanoterminal' as nombre from LISTADO_SERIALES_NANOTERMINALES_ALQUILADOS
-                    union all
-                    select SERIAL, CLIENTE, DEPOSITO, 'FK' as nombre from LISTADO_SERIALES_PROYECTOFK_ALQUILADOS
-        "));
 
-        dd($seriales);
+
+        $seriales =  \DB::connection('ondanet')
+        ->select("
+                select *, 'Miniterminal' as nombre FROM LISTADO_SERIALES_MINITERMINALES_ALQUILADOS
+                union all
+                select *, 'Nanoterminal' as nombre from LISTADO_SERIALES_NANOTERMINALES_ALQUILADOS
+                union all
+                select SERIAL, CLIENTE, DEPOSITO, 'FK' as nombre from LISTADO_SERIALES_PROYECTOFK_ALQUILADOS
+        ");
+
+
+        //dd($seriales);
 
         foreach ($grupos as $key => $grupo) {
             $data_select[$grupo->id] = $grupo->description . ' | ' . $grupo->ruc;
@@ -102,6 +108,7 @@ class AlquilerController extends Controller
         );
 
         return view('alquiler.create', compact('grupos', 'num_cuotas', 'seriales'))->with($resultset);
+
     }
 
     /**
@@ -947,11 +954,19 @@ class AlquilerController extends Controller
                 'Creado'
             ];
 
-            array_unshift($data_to_excel, $data_to_excel_headers);
+            $columnas = [
+                '#',
+                'Grupo',
+                'Número de Serie',
+                'Monto',
+                'Creado'
+            ];
+
+            //array_unshift($data_to_excel, $data_to_excel_headers);
 
             $date = date("d/m/Y H:i:s.") . gettimeofday()["usec"];
 
-            $filename = "rental_export_$date";
+            $filename = "rental_export_" . time();
 
             $style_array = [
                 'font'  => [
@@ -962,20 +977,22 @@ class AlquilerController extends Controller
                 ]
             ];
 
-            Excel::create($filename, function ($excel) use ($data_to_excel, $style_array) {
-                $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
-                    $range = 'A1:E1';
-                    $sheet->rows($data_to_excel, false); //Cargar los datos
-                    $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
-                    $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
-                    $sheet->cells($range, function ($cells) {
-                        $cells->setAlignment('center'); // Alineamiento horizontal a central
-                        $cells->setValignment('center'); // Alineamiento vertical a central
-                    });
-                });
-            })->export('xls');
+            // Excel::create($filename, function ($excel) use ($data_to_excel, $style_array) {
+            //     $excel->sheet('Registros del sistema', function ($sheet) use ($data_to_excel, $style_array) {
+            //         $range = 'A1:E1';
+            //         $sheet->rows($data_to_excel, false); //Cargar los datos
+            //         $sheet->getStyle($range)->applyFromArray($style_array); //Aplicar los estilos del array
+            //         $sheet->setHeight(1, 50); //Aplicar tamaño de la primera fila
+            //         $sheet->cells($range, function ($cells) {
+            //             $cells->setAlignment('center'); // Alineamiento horizontal a central
+            //             $cells->setValignment('center'); // Alineamiento vertical a central
+            //         });
+            //     });
+            // })->export('xls');
 
-            exit();
+            $excel = new ExcelExport($data_to_excel,$columnas);
+            return Excel::download($excel, $filename . '.xls')->send();
+
         } catch (\Exception $e) {
             $this->custom_error($e, __FUNCTION__);
         }

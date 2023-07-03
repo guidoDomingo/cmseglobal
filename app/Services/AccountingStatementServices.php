@@ -8,6 +8,7 @@
 
 namespace App\Services;
 
+use App\Exports\ExcelExport;
 use Carbon\Carbon;
 use Excel;
 
@@ -315,96 +316,120 @@ class AccountingStatementServices
 
                     $records = $result_aux;
 
-                    Excel::create($filename, function ($excel) use ($totals_list, $records, $style_array, $style_cell) {
+                    $columna1 = ['Dato', 'Valor'];
 
-                        $excel->sheet('Total General', function ($sheet) use ($totals_list, $style_array) {
-                            $sheet->rows($totals_list, false);
-                            $sheet->prependRow(['Dato', 'Valor']);
-                            $sheet->getStyle('A1:B1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
+                    $columna2 = array(
+                        'ID-Cliente',
+                        'Cliente',
+                        'Saldo',
+                        'Estado',
+                        'Total-Multa',
+                        'Total-Transaccionado',
+                        'Total-Pagado',
+                        'Total-Reversado',
+                        'Total-Cashout',
+                        'Total-Pago-QR',
+                        'Total-Cuota-Venta',
+                        'Total-Cuota-Alquiler',
+                        'Total-Cuotas',
+                        'Regla',
+                        'Terminales Con Regla',
+                        'Terminales Sin Regla'
+                    );
 
-                        $excel->sheet('Total por Grupo', function ($sheet) use ($records, $style_array) {
-                            $sheet->rows($records, false);
-                            $sheet->prependRow(array(
-                                'ID-Cliente',
-                                'Cliente',
-                                'Saldo',
-                                'Estado',
-                                'Total-Multa',
-                                'Total-Transaccionado',
-                                'Total-Pagado',
-                                'Total-Reversado',
-                                'Total-Cashout',
-                                'Total-Pago-QR',
-                                'Total-Cuota-Venta',
-                                'Total-Cuota-Alquiler',
-                                'Total-Cuotas',
-                                'Regla',
-                                'Terminales Con Regla',
-                                'Terminales Sin Regla'
-                            ));
+                    $excel = new ExcelExport($totals_list,$columna1,$records,$columna2);
+                    return Excel::download($excel, $filename . '.xls')->send();
 
-                            $sheet->getStyle('A1:P1')->applyFromArray($style_array); //Aplicar los estilos del array
-                            $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
-                        });
+                    // Excel::create($filename, function ($excel) use ($totals_list, $records, $style_array, $style_cell) {
 
-                        $excel->setActiveSheetIndex(1);
+                    //     $excel->sheet('Total General', function ($sheet) use ($totals_list, $style_array) {
+                    //         $sheet->rows($totals_list, false);
+                    //         $sheet->prependRow(['Dato', 'Valor']);
+                    //         $sheet->getStyle('A1:B1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
 
-                        // Definir límites de la hoja de Excel
-                        $highestColumn = $excel->getActiveSheet()->getHighestColumn();
-                        $highestRow = $excel->getActiveSheet()->getHighestRow();
+                    //     $excel->sheet('Total por Grupo', function ($sheet) use ($records, $style_array) {
+                    //         $sheet->rows($records, false);
+                    //         $sheet->prependRow(array(
+                    //             'ID-Cliente',
+                    //             'Cliente',
+                    //             'Saldo',
+                    //             'Estado',
+                    //             'Total-Multa',
+                    //             'Total-Transaccionado',
+                    //             'Total-Pagado',
+                    //             'Total-Reversado',
+                    //             'Total-Cashout',
+                    //             'Total-Pago-QR',
+                    //             'Total-Cuota-Venta',
+                    //             'Total-Cuota-Alquiler',
+                    //             'Total-Cuotas',
+                    //             'Regla',
+                    //             'Terminales Con Regla',
+                    //             'Terminales Sin Regla'
+                    //         ));
 
-                        for ($row = 2; $row <= $highestRow; $row++) {
+                    //         $sheet->getStyle('A1:P1')->applyFromArray($style_array); //Aplicar los estilos del array
+                    //         $sheet->setHeight(1, 25); //Aplicar tamaño de la primera fila
+                    //     });
 
-                            for ($col = 'C'; $col <= $highestColumn; $col++) {
+                    //     $excel->setActiveSheetIndex(1);
 
-                                $cellValue = $excel->getActiveSheet()->getCell($col . $row)->getValue();
+                    //     // Definir límites de la hoja de Excel
+                    //     $highestColumn = $excel->getActiveSheet()->getHighestColumn();
+                    //     $highestRow = $excel->getActiveSheet()->getHighestRow();
 
-                                $color = '';
+                    //     for ($row = 2; $row <= $highestRow; $row++) {
 
-                                $style_cell['font']['color']['rgb'] = 'FFFFFF';
+                    //         for ($col = 'C'; $col <= $highestColumn; $col++) {
 
-                                if ($col == 'C') {
+                    //             $cellValue = $excel->getActiveSheet()->getCell($col . $row)->getValue();
 
-                                    $saldo_aux = (int) str_replace(',', '', $cellValue);
+                    //             $color = '';
 
-                                    if ($saldo_aux <= 0) {
+                    //             $style_cell['font']['color']['rgb'] = 'FFFFFF';
 
-                                        $color = '00a65a';
-                                    } else if ($saldo_aux > 0) {
+                    //             if ($col == 'C') {
 
-                                        $color = 'dd4b39';
-                                    }
+                    //                 $saldo_aux = (int) str_replace(',', '', $cellValue);
 
-                                    if ($color !== '') {
-                                        $style_cell['font']['color']['rgb'] = $color;
-                                        $excel->getActiveSheet()->getStyle($col . $row)->applyFromArray($style_cell);
-                                    }
-                                } else if ($col == 'D') {
+                    //                 if ($saldo_aux <= 0) {
 
-                                    if ($cellValue == 'Activo') {
+                    //                     $color = '00a65a';
+                    //                 } else if ($saldo_aux > 0) {
 
-                                        $color = '00a65a';
-                                    } else if (strpos($cellValue, 'Bloqueado') !== false) {
+                    //                     $color = 'dd4b39';
+                    //                 }
 
-                                        $color = 'dd4b39';
-                                    } else if ($cellValue == 'Inactivo') {
+                    //                 if ($color !== '') {
+                    //                     $style_cell['font']['color']['rgb'] = $color;
+                    //                     $excel->getActiveSheet()->getStyle($col . $row)->applyFromArray($style_cell);
+                    //                 }
+                    //             } else if ($col == 'D') {
 
-                                        $color = 'f39c12';
-                                    } else if ($cellValue == 'Sin estado') {
+                    //                 if ($cellValue == 'Activo') {
 
-                                        $color = '00c0ef';
-                                    }
+                    //                     $color = '00a65a';
+                    //                 } else if (strpos($cellValue, 'Bloqueado') !== false) {
 
-                                    if ($color !== '') {
-                                        $excel->getActiveSheet()->getStyle($col . $row)->applyFromArray($style_cell);
-                                        $excel->getActiveSheet()->getStyle($col . $row)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color);
-                                    }
-                                }
-                            }
-                        }
-                    })->export('xlsx');
+                    //                     $color = 'dd4b39';
+                    //                 } else if ($cellValue == 'Inactivo') {
+
+                    //                     $color = 'f39c12';
+                    //                 } else if ($cellValue == 'Sin estado') {
+
+                    //                     $color = '00c0ef';
+                    //                 }
+
+                    //                 if ($color !== '') {
+                    //                     $excel->getActiveSheet()->getStyle($col . $row)->applyFromArray($style_cell);
+                    //                     $excel->getActiveSheet()->getStyle($col . $row)->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB($color);
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // })->export('xlsx');
 
                     $get_info = false;
                 }

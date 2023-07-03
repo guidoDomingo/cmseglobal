@@ -47,9 +47,9 @@
                                         <td>{{ $brand->id }}.</td>
                                         <td>{{ $brand->description }}</td>
                                         <td>
-                                            <a class="btn btn-info btn-flat btn-row" title="Modelos" href="{{ route('model.brand.index',['housingId' => $brand->id ]) }}"><i class="fa fa-building"></i></a>
+                                            <a class="btn btn-info btn-flat btn-row" title="Modelos" href="{{ route('model.brand.index',['model' => $brand->id ]) }}"><i class="fa fa-building"></i></a>
                                             @if (Sentinel::hasAccess('brands.add|edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('brands.edit',['id' => $brand->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('brands.edit',['brand' => $brand->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('brands.delete'))
                                                 <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

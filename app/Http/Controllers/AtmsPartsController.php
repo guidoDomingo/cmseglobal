@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExcelExport;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 
@@ -190,7 +191,7 @@ class AtmsPartsController extends Controller
             ->where('tipo_partes', '<>', 'Purga')
             ->where('tipo_partes', '<>', 'Box')
             ->where('activo', '=', true)
-            ->orderBy('denominacion','nombre_parte');
+            ->orderBy('denominacion','desc');
 
             if ($atm_id != "") {
                 $detalle_reporte = $detalle_reporte->where('ap.atm_id', intval($atm_id));
@@ -256,44 +257,71 @@ class AtmsPartsController extends Controller
                     ]
                 ];
 
-                Excel::create($filename, function ($excel) use ( $data_to_excel,$detalle_general, $column_detalle, $style_array) {
+                $columna1 = array(
+                    'ATM ID', 'Descripción', 'Sede', 'Encargado', 
+                    '50', '100', '500', '1000', '2000', '5000', '10000', '20000', '50000', '100000'
+                );
 
-                    $excel->sheet('Detalle por denominación', function ($sheet) use ($data_to_excel, $style_array) {
-                        $sheet->rows($data_to_excel, false);
-                        $sheet->prependRow(array(
-                            'ATM ID', 'Descripción', 'Sede', 'Encargado', 
-                            '50', '100', '500', '1000', '2000', '5000', '10000', '20000', '50000', '100000'
-                        ));
-                        $sheet->getStyle('A1:N1')->applyFromArray($style_array);
-                        $sheet->setHeight(1, 40);
-                    });
+                $columna2 = [
+                        'id',
+                        'description',
+                        'Hopper1',
+                        'Hopper2',
+                        'Hopper3',
+                        'Hopper4',
+                        'Cass1',
+                        'Cass2',
+                        'Cass3',
+                        'Cass4',
+                        'Cass5',
+                        'Cass6',
+                        'CHIP Tigo',
+                        'Purga'
+                ];
 
-                    /*Hoja 2*/
+                $excel = new ExcelExport($data_to_excel,$columna1,$detalle_general,$columna2);
+                return Excel::download($excel, $filename . '.xls');
+                
+                //return Excel::download($excel, $filename . '.xls')->send();
+
+                // Excel::create($filename, function ($excel) use ( $data_to_excel,$detalle_general, $column_detalle, $style_array) {
+
+                //     $excel->sheet('Detalle por denominación', function ($sheet) use ($data_to_excel, $style_array) {
+                //         $sheet->rows($data_to_excel, false);
+                //         $sheet->prependRow(array(
+                //             'ATM ID', 'Descripción', 'Sede', 'Encargado', 
+                //             '50', '100', '500', '1000', '2000', '5000', '10000', '20000', '50000', '100000'
+                //         ));
+                //         $sheet->getStyle('A1:N1')->applyFromArray($style_array);
+                //         $sheet->setHeight(1, 40);
+                //     });
+
+                //     /*Hoja 2*/
                   
-                        $excel->sheet('Detalle por parte', function ($sheet) use ($column_detalle,$detalle_general, $style_array) {
-                            $sheet->rows($detalle_general, false);
-                            $sheet->prependRow([
-                                'id',
-                                'description',
-                                'Hopper1',
-                                'Hopper2',
-                                'Hopper3',
-                                'Hopper4',
-                                'Cass1',
-                                'Cass2',
-                                'Cass3',
-                                'Cass4',
-                                'Cass5',
-                                'Cass6',
-                                'CHIP Tigo',
-                                'Purga'
-                        ]);
-                            $sheet->getStyle('A1:N1')->applyFromArray($style_array);
-                            $sheet->setHeight(1, 40);
-                        });
+                //         $excel->sheet('Detalle por parte', function ($sheet) use ($column_detalle,$detalle_general, $style_array) {
+                //             $sheet->rows($detalle_general, false);
+                //             $sheet->prependRow([
+                //                 'id',
+                //                 'description',
+                //                 'Hopper1',
+                //                 'Hopper2',
+                //                 'Hopper3',
+                //                 'Hopper4',
+                //                 'Cass1',
+                //                 'Cass2',
+                //                 'Cass3',
+                //                 'Cass4',
+                //                 'Cass5',
+                //                 'Cass6',
+                //                 'CHIP Tigo',
+                //                 'Purga'
+                //         ]);
+                //             $sheet->getStyle('A1:N1')->applyFromArray($style_array);
+                //             $sheet->setHeight(1, 40);
+                //         });
                     
 
-                })->export('xls');
+                // })->export('xls');
                 //exit();
             } else {
                 $message = 'No hay registros para exportar.';
