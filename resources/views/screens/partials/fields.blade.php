@@ -18,4 +18,4 @@
     {!! Form::label('refresh_time', 'Tiempo de Refresco (Segundos)') !!}
     {!! Form::text('refresh_time', null , ['class' => 'form-control' ]) !!}
 </div>
-<a class="btn btn-default" href="{{ route('applications.screens.index', ['app_id' => $app_id ] ) }}" role="button">Cancelar</a>
+<a class="btn btn-default" href="{{ route('applications.screens.index', ['application' => $app_id ] ) }}" role="button">Cancelar</a>

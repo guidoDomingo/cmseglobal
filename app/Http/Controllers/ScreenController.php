@@ -122,7 +122,7 @@ class ScreenController extends Controller
             Screens::create($input);
             Session::flash('message', 'Registro creado exitosamente');
             //return redirect('screens');
-            return redirect()->route('applications.screens.index', ['app_id' => $input['application_id']]);
+            return redirect()->route('applications.screens.index', ['application' => $input['application_id']]);
         } catch (\Exception $e) {
             \Log::error("Error creating a new Screen - {$e->getMessage()}");
             Session::flash('error_message', 'Error al intentar crear el registro, intente nuevamente');
@@ -215,7 +215,7 @@ class ScreenController extends Controller
             try {
                 $screen->save();
                 Session::flash('message', 'Actualizado Correctamente');
-                return redirect()->route('applications.screens.index', ['app_id' => $screen->application_id]);
+                return redirect()->route('applications.screens.index', ['application' => $screen->application_id]);
             } catch (\Exception $e) {
                 \Log::error("Error updating a Screen - {$e->getMessage()}");
                 Session::flash('error_message', 'Error al intentar actualizar el registro, intente nuevamente');

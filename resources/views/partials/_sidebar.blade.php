@@ -698,7 +698,7 @@
                         @endif
                         @if (!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal'))
                             <li @if (Request::is('boletas_conciliations*')) class="active" @endif><a
-                                    href="{{ route('boletas_conciliations.index') }}"><i class="fa fa-ticket"></i>
+                                    href="{{ route('boletas.conciliations') }}"><i class="fa fa-ticket"></i>
                                     <span>Conciliaciones de Boletas</span></a>
                             </li>
                         @endif

@@ -10,7 +10,7 @@
                 </div>
                 <div class="form-group">
                     {!! Form::label('start_date', 'Duración de la campaña') !!}
-                    <input id="reservationtime" type="text" name="reservationtime" class="form-control" value="{{$datetime or ''}}" placeholder="Seleccione un rango de fecha"/>     
+                    <input id="reservationtime" type="text" name="reservationtime" class="form-control" value="{{old('reservationtime', $datetime  ?? '')}}" placeholder="Seleccione un rango de fecha"/>     
                 </div>
                 <div class="form-group text-left">
                     {!! Form::label('code_generate', 'Generación de código o voucher') !!}

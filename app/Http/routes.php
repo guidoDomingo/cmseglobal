@@ -214,10 +214,13 @@ Route::resource('usuarios_bahia', 'UsuariosBahiaController');
 | Servicios por marcas Management Routes                                                                                              |
 |----------------------------------------------------------------------------------------------------------------------+
 */
-Route::resource('servicios_marca', 'ServiciosMarcasController');
-//Route::get('servicios_marca/{service_id}/{service_source_id}/edit', ['as' => 'servicios_marca.edit', 'uses' => 'ServiciosMarcasController@edit']);
-//Route::put('servicios_marca/{service_id}/{service_source_id}/update', ['as' => 'servicios_marca.update', 'uses' => 'ServiciosMarcasController@update']);
-//Route::delete('servicios_marca/{service_id}/{service_source_id}/destroy', ['as' => 'servicios_marca.destroy', 'uses' => 'ServiciosMarcasController@destroy']);
+
+Route::get('servicios_marca/{service_id}/{service_source_id}/edit', ['as' => 'servicios_marca.edit', 'uses' => 'ServiciosMarcasController@edit']);
+Route::put('servicios_marca/{service_id}/{service_source_id}/update', ['as' => 'servicios_marca.update', 'uses' => 'ServiciosMarcasController@update']);
+Route::delete('servicios_marca/{service_id}/{service_source_id}/destroy', ['as' => 'servicios_marca.destroy', 'uses' => 'ServiciosMarcasController@destroy']);
+Route::resource('servicios_marca', 'ServiciosMarcasController')->except(['edit','update','destroy']);
+
+
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+
@@ -514,7 +517,9 @@ Route::get('/reports/deposito_boletas/cuentas/{banco_id}', 'DepositoBoletaContro
 Route::post('/reports/deposito_boletas/migrate', ['as'   => 'depositos_boletas.migrate', 'uses' => 'DepositoBoletaController@migrate']);
 Route::post('/reports/deposito_boletas/delete', ['as'   => 'depositos_boletas.delete', 'uses' => 'DepositoBoletaController@delete']);
 //Deposito Boleta Conciliaciones
-Route::resource('boletas_conciliations', 'DepositoBoletaController@conciliationsDetails');
+
+Route::get('boletas/conciliations', ['as' => 'boletas.conciliations', 'uses' => 'DepositoBoletaController@conciliationsDetails']);
+
 
 Route::get('/bank_accounts/{bank_id}', 'DepositoBoletaController@getBankAccounts');
 Route::get('/payment_type/{payment_type_id}/{atm_id}', 'DepositoBoletaController@getPaymentTypePerUser');
@@ -1196,10 +1201,11 @@ Route::get('reports/success_zero', ['as' => 'reports.success_zero', 'uses' => 'R
 Route::resource('params_rules', 'ParamsRuleController');
 Route::resource('services_rules', 'ServicesRuleController');
 
-Route::resource('references', 'ReferenceLimitedController');
-//Route::get('references/{idparam_rules}/{current_params_rule_id}/{reference}/edit', ['as' => 'references.edit', 'uses' => 'ReferenceLimitedController@edit']);
-//Route::put('references/{idparam_rules}/{current_params_rule_id}/{reference}/update', ['as' => 'references.update', 'uses' => 'ReferenceLimitedController@update']);
-//Route::delete('references/{idparam_rules}/{current_params_rule_id}/{reference}/destroy', ['as' => 'references.destroy', 'uses' => 'ReferenceLimitedController@destroy']);
+Route::get('references/{idparam_rules}/{current_params_rule_id}/{reference}/edit', ['as' => 'references.edit', 'uses' => 'ReferenceLimitedController@edit']);
+Route::put('references/{idparam_rules}/{current_params_rule_id}/{reference}/update', ['as' => 'references.update', 'uses' => 'ReferenceLimitedController@update']);
+Route::delete('references/{idparam_rules}/{current_params_rule_id}/{reference}/destroy', ['as' => 'references.destroy', 'uses' => 'ReferenceLimitedController@destroy']);
+Route::resource('references', 'ReferenceLimitedController')->except(['edit','update','destroy']);
+
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+

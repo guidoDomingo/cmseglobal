@@ -21,7 +21,7 @@ Sucursales
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-        <a href="{{ route('owner.branches.create',['id' => $ownerId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+        <a href="{{ route('owner.branches.create',['owner' => $ownerId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">
           {!! Form::model(Request::only(['name']),['route' => ['owner.branches.index',$ownerId], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}

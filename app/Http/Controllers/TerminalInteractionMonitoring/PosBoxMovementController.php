@@ -40,6 +40,7 @@ class PosBoxMovementController extends Controller
         $atms = [];
         $opening_closing_list = [];
         $message = '';
+        $pos_box = null;
 
         if (isset($request['timestamp'])) {
             $timestamp = $request['timestamp'];
@@ -63,6 +64,7 @@ class PosBoxMovementController extends Controller
             )
             ->where('til.user_id', $user_id)
             ->get();
+
 
         if (count($terminal_interaction_login) > 0) {
 
@@ -219,6 +221,7 @@ class PosBoxMovementController extends Controller
             \Session::flash('error_message', $message);
             $data['lists']['records_list'] = [];
         }
+
 
         return view('terminal_interaction_monitoring.pos_box_movement.index', compact('data'));
     }

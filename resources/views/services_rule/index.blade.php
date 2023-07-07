@@ -72,10 +72,10 @@
                                         
                                         <td>
                                             @if (Sentinel::hasAccess('services_rules.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('services_rules.edit',['id' => $serviceRule->idservice_rule])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('services_rules.edit',['services_rule' => $serviceRule->idservice_rule])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('services_rules.delete'))
-                                            <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="{{ route('services_rules.destroy',['id' => $serviceRule->idservice_rule])}}" ><i class="fa fa-remove"></i> </a>
+                                            <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="{{ route('services_rules.destroy',['services_rule' => $serviceRule->idservice_rule])}}" ><i class="fa fa-remove"></i> </a>
                                             @endif
                                         </td>
                                     </tr>

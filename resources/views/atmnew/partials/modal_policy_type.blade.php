@@ -7,7 +7,7 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Nuevo Tipo de Póliza <label class="idTransaccion"></label></h4>
             </div>
-            {!! Form::open(['route' => 'policy.types.store' , 'method' => 'POST', 'role' => 'form','id' => 'nuevoPolicyType-form']) !!}
+            {!! Form::open(['route' => ['policy.types.store',''] , 'method' => 'POST', 'role' => 'form','id' => 'nuevoPolicyType-form']) !!}
             <div class="modal-body">
                 <div class="box-body">
                     @include('partials._messages')

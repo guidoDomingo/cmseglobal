@@ -31,7 +31,7 @@ class ExtractosServices
 
     public function arrayPaginator($array, $request)
     {
-        $page = \Input::get('page', 1);
+        $page = $request->input('page', 1);
         $perPage = 20;
         $offset = ($page * $perPage) - $perPage;
 
@@ -283,7 +283,7 @@ class ExtractosServices
                     
                     switch ($input['mostrar']) {
                         case 'todos':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -444,11 +444,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'depositos':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -515,11 +515,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'transacciones':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -593,11 +593,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'reversiones':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -629,7 +629,7 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
                         default:
                             $baseQuery = [];
@@ -1088,7 +1088,7 @@ class ExtractosServices
                     
                     switch ($input['mostrar']) {
                         case 'todos':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -1248,11 +1248,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'depositos':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -1319,11 +1319,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'transacciones':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -1396,11 +1396,11 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
 
                         case 'reversiones':
-                            $baseQuery = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                            $baseQuery = \DB::connection('eglobalt_replica')->select("
                             with balances as (
                                 select 
                                     '{$daterange[0]}' as fecha, 
@@ -1432,7 +1432,7 @@ class ExtractosServices
                                 fecha BETWEEN '{$daterange[0]}' AND '{$daterange[1]}'
                             order by
                                 fecha asc;
-                            "));
+                            ");
                             break;
                         default:
                             $baseQuery = [];
@@ -1720,7 +1720,8 @@ class ExtractosServices
 
             $resultset = array(
                 'target' => 'Resumen Mini Terminales',
-            );            
+            );  
+            
 
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){                
                 $date=date('N');
@@ -1743,7 +1744,7 @@ class ExtractosServices
                 $whereSalesNano = "WHEN debit_credit = 'de' AND (a.owners LIKE '%21%' OR a.owners LIKE '%25%' OR a.grilla != 'true') AND mt_sales.fecha <= '". $hasta_nano . "'";
                 $whereSalesMini = "WHEN debit_credit = 'de' AND (a.owners NOT LIKE '%21%' AND a.owners NOT LIKE '%25%' AND a.grilla = 'true') AND mt_sales.fecha <= '". $hasta_mini . "'";
 
-                $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select("
                     select
                         bg.id as group_id,
                         concat(bg.description,' | ',bg.ruc) as grupo,
@@ -1828,7 +1829,7 @@ class ExtractosServices
                             m.movement_type_id not in (4, 5, 8, 9, 10)
                             and m.deleted_at is null
                     group by bg.id, grupo, a.owners, a.blocks, a.deleted, cuota_a.saldo_alquiler, cuota_v.saldo_venta
-                "));
+                ");
 
                 foreach($resumen_transacciones_groups as $resumen_transaccion_group){
 
@@ -1940,7 +1941,7 @@ class ExtractosServices
                 $whereSalesNano = "WHEN debit_credit = 'de' AND (a.owners LIKE '%21%' OR a.owners LIKE '%25%' OR a.grilla != 'true') AND mt_sales.fecha <= '". $hasta_nano . "'";
                 $whereSalesMini = "WHEN debit_credit = 'de' AND (a.owners NOT LIKE '%21%' OR a.owners NOT LIKE '%25%' OR a.grilla = 'true') AND mt_sales.fecha <= '". $hasta_mini . "'";
 
-                $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select("
                     select
                         current_account.group_id as group_id,
                         concat(business_groups.description,' | ',business_groups.ruc) as grupo,
@@ -2027,7 +2028,7 @@ class ExtractosServices
                             and movements.destination_operation_id not in ('0','1','-2','-3','-4','-5','-6','-9','-10','-11','-12','-13','-14','-16','-16','-17','-21','-23','-26',-27,212, 999)
                             and movements.deleted_at is null
                     group by current_account.group_id, grupo, a.owners, a.blocks, a.deleted, cuota_a.saldo_alquiler, cuota_v.saldo_venta
-                "));
+                ");
 
                 foreach($resumen_transacciones_groups as $resumen_transaccion_group){
 
@@ -2064,6 +2065,7 @@ class ExtractosServices
                 $resultset['reservationtime'] = (isset($input['reservationtime'])?$input['reservationtime']:0);
             }
             $resultset['activar_resumen'] = 2;
+
             return $resultset;
 
         }catch (\Exception $e){
@@ -2320,7 +2322,7 @@ class ExtractosServices
 
             $resumen_transacciones_groups = \DB::connection('eglobalt_replica')
                 ->select(
-                    \DB::raw($resumen_transacciones_groups_query)
+                    $resumen_transacciones_groups_query
                 );
             
             foreach($resumen_transacciones_groups as $resumen_transaccion_group){
@@ -2919,7 +2921,7 @@ class ExtractosServices
                     group by atms.id
                 ";
 
-                $resumen_transacciones = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                $resumen_transacciones = \DB::connection('eglobalt_replica')->select("
                     with balances as (
                         ".$total_debe."
                         union
@@ -2964,10 +2966,10 @@ class ExtractosServices
                     inner join atms on atms.id = balances.atm_id and atms.owner_id in(16, 21, 25)
                     inner join block_type on block_type.id = atms.block_type_id
                     group by atms.id, block_type.description
-                "));
+                ");
             }else{
 
-                $resumen_transacciones = \DB::connection('eglobalt_replica')->select(\DB::raw("
+                $resumen_transacciones = \DB::connection('eglobalt_replica')->select("
                     select
                         atms.id as atm_id,
                         bt.description,
@@ -2987,7 +2989,7 @@ class ExtractosServices
                         m.movement_type_id not in (4, 5, 7, 8, 9, 10)
                         and m.deleted_at is null
                     group by atms.id, bt.id, bt.description
-                "));
+                ");
             }
             
 
@@ -3010,7 +3012,7 @@ class ExtractosServices
                 unset($resumen_transaccion->eliminado);
             }
 
-            $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select(\DB::raw("
+            $resumen_transacciones_groups = \DB::connection('eglobalt_replica')->select("
                 select
                         bg.id as group_id,
                         bg.description as grupo,
@@ -3089,7 +3091,7 @@ class ExtractosServices
                     and m.deleted_at is null
                 group by bg.id, grupo, a.owners, a.blocks, a.deleted, cuota_a.saldo_alquiler, cuota_v.saldo_venta
                 order by saldo desc
-            "));
+            ");
 
             foreach($resumen_transacciones_groups as $transaction){
 
@@ -3135,7 +3137,7 @@ class ExtractosServices
 
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){                
 
-                $resumen_transacciones_groups = \DB::select(\DB::raw("
+                $resumen_transacciones_groups = \DB::select("
                     select
                         bg.id as group_id,
                         bg.description as grupo,
@@ -3159,7 +3161,7 @@ class ExtractosServices
                             and m.deleted_at is null
                     group by bg.id
                     order by saldo desc
-                "));
+                ");
 
                 $results_groups = $this->arrayPaginator($resumen_transacciones_groups, $request);
                 
@@ -3252,7 +3254,7 @@ class ExtractosServices
                 }
             }
 
-            $resumen_transacciones_groups = \DB::select(\DB::raw("
+            $resumen_transacciones_groups = \DB::select("
                 select
                         bg.id as group_id,
                         bg.description as grupo,
@@ -3282,7 +3284,7 @@ class ExtractosServices
                     and m.deleted_at is null
                 group by bg.id
                 order by saldo desc
-            "));            
+            ");            
 
             $results_groups = $this->arrayPaginator($resumen_transacciones_groups, $request);
 
@@ -3311,7 +3313,9 @@ class ExtractosServices
 
     public function resumenDetalladoSearchExport(){
         try{
+           
             $input = $this->input;
+           
             /*Busqueda minusiosa*/
             /*SET DATE RANGE*/
             $whereMovements= '';
@@ -3387,7 +3391,7 @@ class ExtractosServices
             }
 
             if(isset($input['reservationtime']) && $input['reservationtime'] != '0' ){
-                $resumen_transacciones = \DB::select(\DB::raw("
+                $resumen_transacciones = \DB::select("
                     select
                         -sum(abs(t.amount)) as total,
                         atms.name as atm_id 
@@ -3410,10 +3414,10 @@ class ExtractosServices
                         and ".$whereTransactions."
                         )
                     group by atms.id;
-                "));
+                ");
             }else{
 
-                $resumen_transacciones = \DB::select(\DB::raw("
+                $resumen_transacciones = \DB::select("
                     select
                         atms.id as atm_id,
                         atms.name as atm_name,
@@ -3425,11 +3429,11 @@ class ExtractosServices
                         m.movement_type_id not in (4, 5, 7, 8)
                         and m.deleted_at is null
                     group by atms.id
-                "));
+                ");
             }
             
 
-            $resumen_transacciones_groups = \DB::select(\DB::raw("
+            $resumen_transacciones_groups = \DB::select("
                 select
                         bg.id as group_id,
                         bg.ruc as ruc,
@@ -3460,7 +3464,7 @@ class ExtractosServices
                     and m.deleted_at is null
                 group by bg.id
                 order by saldo desc
-            "));
+            ");
 
             $resultset = array(
                 'transacciones_groups'          => $resumen_transacciones_groups,
@@ -3639,7 +3643,7 @@ class ExtractosServices
     public function cobranzasSearch($request){
         try{
             $input = $this->input;
-            //dd($input);
+     
 
             /*SET DATE RANGE*/
             $daterange = explode(' - ',  str_replace('/','-',$input['reservationtime']));
@@ -3652,8 +3656,8 @@ class ExtractosServices
                 ->select(['description', 'id'])
                 ->whereIn('id', [2, 3, 5, 8, 11, 17])
                 ->orderBy('id', 'asc')
-            ->pluck('description', 'id');
-
+            ->pluck('description', 'id')->toArray();
+      
              /*SET OWNER*/
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){
                 
@@ -3712,8 +3716,8 @@ class ExtractosServices
                 //dd($transaction->destination_operation_id);
             }
             
-            $results = $this->arrayPaginator($transactions, $request);
-
+            $results = $this->arrayPaginator($transactions->toArray(), $request);
+            
             /*Carga datos del formulario*/
             $resultset = array(
                 'target' => 'Cobranzas',
@@ -3723,9 +3727,10 @@ class ExtractosServices
                 'group_id' => (isset($input['group_id'])) ? $input['group_id'] : '',
                 'receipts_types' => $receipts_types,
                 'receipt_type' => (isset($input['receipt_type'])) ? $input['receipt_type'] : '',
-                'transactions' => $transactions,
+                'transactions' => $transactions->toArray(),
             );
 
+   
             return $resultset;
 
         }catch (\Exception $e){
@@ -3926,10 +3931,10 @@ class ExtractosServices
                 ->orderBy('mt_sales.nro_venta','desc')
             ->get();
 
-            $total_monto=array_sum(array_column($transactions, 'amount'));
-            $total_monto_por_cobrar=array_sum(array_column($transactions, 'monto_por_cobrar'));
+            $total_monto=array_sum(array_column($transactions->toArray(), 'amount'));
+            $total_monto_por_cobrar=array_sum(array_column($transactions->toArray(), 'monto_por_cobrar'));
             //dd($total_monto);
-            $results = $this->arrayPaginator($transactions, $request);
+            $results = $this->arrayPaginator($transactions->toArray(), $request);
 
             /*Carga datos del formulario*/
             $resultset = array(
@@ -4044,7 +4049,7 @@ class ExtractosServices
 
             $desde=Carbon::today();
             $hasta=Carbon::tomorrow()->modify('-1 seconds');
-
+        
             $boletas = \DB::table('boletas_depositos')
                 ->select([
                     'boletas_depositos.id',
@@ -4104,14 +4109,16 @@ class ExtractosServices
                 })
                 ->orderBy('boletas_depositos.id', 'desc')
             ->get();
-
+       
             $results = $this->arrayPaginator($boletas, $request);
-
+         
             $resultset = array(
                 'target' => 'Depositos Miniterminales',
                 'transactions' => $results,
                 'reservationtime'=> (isset($input['reservationtime'])?$input['reservationtime']:0)
             );
+
+       
 
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){
                  
@@ -4173,8 +4180,8 @@ class ExtractosServices
                 }
             }
 
-            $groups = Group::pluck('description', 'id');
-
+            $groups = Group::pluck('description', 'id')->toArray();
+            
             $status = array('0'=>'Todos','1'=>'Confirmados','2'=>'Rechazados','3'=>'Pendientes');
 
             /*$resultset['usersNames']    = $usersNames;

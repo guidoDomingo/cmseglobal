@@ -31,8 +31,8 @@ class Reversion extends Model
 
     public static function filterAndPaginate($name)
     {
-
-        return Reversion::name($name)
+       
+        $rever = Reversion::name($name)
             ->select([
                 'mt_recibos_reversiones.*',
                 'movements.destination_operation_id',
@@ -42,11 +42,14 @@ class Reversion extends Model
             ->join('mt_recibos', function($query){
                 $query->on('mt_recibos.id', '=', 'mt_recibos_reversiones.recibo_id');
             })
-            ->join('movements', 'movements.id', '=', 'mt_recibos.movements_id')
+            // ->join('movements', 'movements.id', '=', 'mt_recibos.movements_id')
+            ->join('movements', 'movements.id', '=', 'mt_recibos.mt_movements_id')
             ->join('transactions', 'transactions.id', '=', 'mt_recibos_reversiones.transaction_id')
             ->where('transactions.service_source_id', 7)
             ->orderBy('mt_recibos.id', 'DESC')
-        ->paginate(20);
+        ->Paginate(20);
+
+        return $rever;
 
     }
 }

@@ -65,7 +65,7 @@
 
                                         <td style="text-align:center; vertical-align:middle;">
                                             @if (Sentinel::hasAccess('insurances_form.edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('insurances.edit',['id' => $poliza->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('insurances.edit',['insurance' => $poliza->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                         </td>
                                     </tr>

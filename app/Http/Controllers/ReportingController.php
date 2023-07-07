@@ -289,7 +289,8 @@ class ReportingController extends Controller
                                     array_push($result_aux, $row);
                                 }
 
-                                $excel = new ExcelExport($result_aux,$columna1,$result2,$columna2);
+
+                                $excel = new ExcelExport($result_aux,$columna1,$result2->toArray(),$columna2);
                                 return Excel::download($excel, $filename . '.xls')->send();
 
                                 // $excel->sheet('Transacciones', function ($sheet) use ($result_aux) {
@@ -6126,7 +6127,8 @@ class ReportingController extends Controller
             );
 
             if ($result) {
-                $excel = new ExcelExport($result,$columnas);
+                
+                $excel = new ExcelExport($result->toArray(),$columnas);
                 return Excel::download($excel, $filename . '.xls')->send();
                 // Excel::create($filename, function ($excel) use ($result) {
                 //     $excel->sheet('sheet1', function ($sheet) use ($result) {

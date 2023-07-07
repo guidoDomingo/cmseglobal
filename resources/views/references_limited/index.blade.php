@@ -33,6 +33,7 @@
             <div class="box-body  no-padding">
                 <div class="row">
                     <div class="col-xs-12">
+                       
                         @if ($references)
                             <table class="table table-striped">
                                 <tbody>
@@ -48,19 +49,20 @@
                                 </thead>
                                 <tbody>
                                 @foreach($references as $reference)
+                           
                                     <tr data-param-rule-id="{{ $reference->service_rule_id }}" data-service-rule-id="{{ $reference->current_params_rule_id  }}" data-reference-id="{{ $reference->reference  }}">
                                         @foreach ($paramsRules as $paramsRule )
                                             @if ($paramsRule->idparam_rules == $reference->current_params_rule_id)
                                                 <td>{{ $paramsRule->description }}</td>
                                             @endif
                                         @endforeach 
-                                        <td>{{ $reference->serviceRule['description'] }}</td>
+                                        <td>{{ $reference->serviceRule['description'] ?? '' }}</td>
                                         <td>{{ $reference->frequency_last_updated }}</td>
                                         <td>{{ $reference->reference }}</td>
                                         <td>{{ $reference->created_at }}</td>                                                                              
                                         <td>
                                             @if (Sentinel::hasAccess('references_rules.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('references.edit',['service_rule_id' => $reference->service_rule_id,'current_params_rule_id' => $reference->current_params_rule_id,'reference' => $reference->reference])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('references.edit',['reference' => $reference->reference, 'service_rule_id' => $reference->service_rule_id,'current_params_rule_id' => $reference->current_params_rule_id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('references_rules.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

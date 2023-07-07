@@ -39,7 +39,7 @@ class MarcasController extends Controller
 
         $name = $request->get('name');
         $marcas = Marca::filterAndPaginate($name);
-
+    
         //$marcas = Owner::paginate(10);
         return view('marcas.index', compact('marcas', 'name'));
     }
@@ -154,6 +154,7 @@ class MarcasController extends Controller
                 'categorias' => $categorias,
                 'service_sources' => $service_sources,
             ];
+            //dd($data);
             return view('marcas.edit', $data);
         }else{
             Session::flash('error_message', 'Marca no encontrada');

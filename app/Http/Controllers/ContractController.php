@@ -46,7 +46,6 @@ class ContractController extends Controller
                     ->Join('contract','contract.busines_group_id','=','business_groups.id')
                     ->whereNull('business_groups.deleted_at')
                     ->get();
-        
         return view('contratos.index', compact('contratos'));
     }
 
@@ -59,9 +58,9 @@ class ContractController extends Controller
             return redirect('/')->with('error', 'No posee permisos para realizar esta accion.');
         }
       
-        $grupos = Group::pluck('description', 'id','ruc');
-        $groups = Group::pluck('description', 'id','ruc');
-        $contract_types                 = \DB::table('contract_type')->pluck('description','id');
+        $grupos = Group::pluck('description', 'id','ruc')->toArray();
+        $groups = Group::pluck('description', 'id','ruc')->toArray();
+        $contract_types                 = \DB::table('contract_type')->pluck('description','id')->toArray();
 
         $date = Carbon::now();
         
@@ -76,6 +75,8 @@ class ContractController extends Controller
             'grupo'        => $grupo,
             'selected_grupo' => null,
         ];
+
+        dd($data);
 
         return view('contratos.create', compact('grupos','groups','contract_types','reservationtime_contract'));
     }
@@ -244,6 +245,7 @@ class ContractController extends Controller
             $grupo = Group::find($contrato->busines_group_id);
             $groups                         = Group::pluck('description', 'id');
             $contract_types                 = \DB::table('contract_type')->pluck('description','id');
+            
 
             if(empty($contrato)){
                 $reservationtime_contract = '';
@@ -419,15 +421,15 @@ class ContractController extends Controller
                 if(!empty($whereGroup)){
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->pluck('description','id');
-            $groups->prepend('Todos','0');
+            })->get()->pluck('description', 'id')->prepend('Todos', '0')->toArray();
+
             $group_id= 0;
             $atms     = Atmnew::orderBy('atms.name')->where(function($query) use($whereAtm){
                 if(!empty($whereAtm)){
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->pluck('name','id');
-            $atms->prepend('Todos','0');
+            })->get()->pluck('name','id')->prepend('Todos', '0')->toArray();
+
             $atm_id = 0;
             $status = 0;
 
@@ -437,6 +439,7 @@ class ContractController extends Controller
             $contract_date_ini = ( $date)->format('d-m-Y');
             $contract_date_end = ( $date->addYear())->format('d-m-Y');
             $reservationtime_contract = $contract_date_ini .' - '.$contract_date_end;
+    
             return view('contratos.contratos_report', compact('groups','atms','status','group_id','atm_id','reservationtime_contract'));
 
         }catch (\Exception $e){

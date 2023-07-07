@@ -125,7 +125,7 @@
                                             <input name="reservationtime" type="text" id="reservationtime"
                                             class="form-control pull-right"
                                             placeholder=""
-                                            value="{{ $fecha_  or ''}}" />
+                                            value="{{ old('reservationtime', $fecha_ ?? '') }}" />
                                         </div>
                                 
                                     </div>

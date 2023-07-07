@@ -42,7 +42,7 @@ class BranchController extends Controller
 
         $name = $request->get('name');
         $branches = Branch::filterAndPaginate($ownerId, $name);
-        return view('branches.index', compact('branches', 'name', 'ownerId','users'));
+        return view('branches.index', compact('branches', 'name', 'ownerId'));
     }
 
     public function index_group($groupId, Request $request)

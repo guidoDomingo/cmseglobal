@@ -48,7 +48,7 @@
                                             <td style="text-align:center; vertical-align:middle;">{{ $branch->start_time }} - {{ $branch->end_time }}</td>
                                             <td style="text-align:center; vertical-align:middle;">
                                                 @if (Sentinel::hasAccess('branches_providers.add|edit'))
-                                                    <a class="btn btn-success btn-flat btn-row btn-sm" title="Editar" href="{{ route('branches_providers.edit',['id' => $branch->id])}}"><i class="fa fa-pencil"></i></a>
+                                                    <a class="btn btn-success btn-flat btn-row btn-sm" title="Editar" href="{{ route('branches_providers.edit',['branches_provider' => $branch->id])}}"><i class="fa fa-pencil"></i></a>
                                                 @endif
                                                 @if (Sentinel::hasAccess('branches_providers.delete'))
                                                     <a class="btn-delete btn btn-danger btn-flat btn-row btn-sm" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

@@ -23,9 +23,9 @@
                 <h3 class="box-title">
                 </h3>
                 @if (Sentinel::hasAccess('caracteristicas_clientes.add'))
-                    <a href="{{ route('caracteristicas.clientes.create',['group_id' => $group_id]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                    <a href="{{ route('caracteristicas.clientes.create',['caracteristica' => $group_id]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
                 @endif
-                <a class="btn-default btn-sm" href="{{ route('caracteristicas.clientes.index') }}" role="button">Cancelar</a>
+                <a class="btn-default btn-sm" href="{{ route('caracteristicas.clientes.index',['caracteristica' => $group_id]) }}" role="button">Cancelar</a>
                
             </div>
             <div class="box-body">

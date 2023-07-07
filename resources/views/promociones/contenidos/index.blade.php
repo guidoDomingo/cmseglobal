@@ -77,7 +77,7 @@
                                         <td style="text-align:center; vertical-align:middle;">{{ number_format($content->price) }}</td>
                                         <td style="text-align:center; vertical-align:middle;">
                                             @if (Sentinel::hasAccess('content.add|edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('contents.edit',['id' => $content->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('contents.edit',['content' => $content->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('content.delete'))
                                                 <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

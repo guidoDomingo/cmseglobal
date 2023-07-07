@@ -35,7 +35,7 @@ class ExtractosController extends Controller
         }
         $report = new ExtractosServices('');
         $result = $report->estadoContableReports();
-        return view('reporting.index', compact('target','mostar'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function estadoContableSearch(Request $request){
@@ -94,7 +94,7 @@ class ExtractosController extends Controller
         }
         $report = new ExtractosServices('');
         $result = $report->resumenMiniterminalesReports($request);                
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function resumenMiniterminalesSearch(Request $request){
@@ -149,7 +149,7 @@ class ExtractosController extends Controller
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->resumenMiniterminalesSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }  
     }
 
@@ -164,7 +164,7 @@ class ExtractosController extends Controller
         }        
         $report = new ExtractosServices('');
         $result = $report->resumenDetalladoReports($request);
-        return view('reporting.index', compact('target'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function resumenDetalladoSearch(Request $request){
@@ -175,6 +175,7 @@ class ExtractosController extends Controller
             return redirect('/');
         }
         $input = \Request::all();
+ 
         if(isset($input['download'])){
             ini_set('max_execution_time', 300);
             $report = new ExtractosServices($input);
@@ -218,7 +219,7 @@ class ExtractosController extends Controller
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->resumenDetalladoSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }  
     }
 
@@ -272,16 +273,18 @@ class ExtractosController extends Controller
     {
         $report = new ExtractosServices('');
         $result = $report->cobranzasReports();
-        return view('reporting.index', compact('target','groups','group_id','receipts_types','receipt_type'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function cobranzasSearch(Request $request){
         $input = \Request::all();
+     
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->cobranzasSearch($request);
+        
             if($result){
-                return view('reporting.index', compact('target','transactions','groups','group_id', 'reservationtime','i', 'total_comisiones', 'total_transacciones'))->with($result);
+                return view('reporting.index')->with($result);
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -328,7 +331,7 @@ class ExtractosController extends Controller
     {
         $report = new ExtractosServices('');
         $result = $report->salesReports();
-        return view('reporting.index', compact('target','groups','group_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function salesSearch(Request $request){
@@ -338,7 +341,7 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->salesSearch($request);
             if($result){
-                return view('reporting.index', compact('target','transactions','groups','group_id', 'reservationtime','i', 'total_comisiones', 'total_transacciones'))->with($result);
+                return view('reporting.index')->with($result);
             }else{
                 Session::flash('error_message', 'No existen registros para este criterio de búsqueda');
                 return redirect()->back();   
@@ -390,7 +393,7 @@ class ExtractosController extends Controller
         }
         $report = new ExtractosServices('');
         $result = $report->boletaDepositosReports($request);
-        return view('reporting.index', compact('target','status','status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function boletasDepositosSearch(Request $request){
@@ -446,7 +449,7 @@ class ExtractosController extends Controller
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->boletaDepositosSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime','status','status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
     }
 
@@ -597,7 +600,7 @@ class ExtractosController extends Controller
         }
         $report = new ExtractosServices('');
         $result = $report->depositosCuotasReports($request);        
-        return view('reporting.index', compact('target','status','status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function depositosCuotasSearch(Request $request){
@@ -613,7 +616,7 @@ class ExtractosController extends Controller
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->depositosCuotasSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime','status','status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if(isset($input['download'])){
@@ -659,7 +662,7 @@ class ExtractosController extends Controller
         }
         $report = new ExtractosServices('');
         $result = $report->depositosAlquileresReports($request);
-        return view('reporting.index', compact('target','status','status_set'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function depositosAlquileresSearch(Request $request){
@@ -675,7 +678,7 @@ class ExtractosController extends Controller
         if(isset($input['search']) || isset($input['context']) || isset($input['page'])){
             $report = new ExtractosServices($input);
             $result = $report->depositosAlquileresSearch($request);
-            return view('reporting.index', compact('target', 'reservationtime','status','status_set'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if(isset($input['download'])){
@@ -717,7 +720,7 @@ class ExtractosController extends Controller
 
             $report = new ExtractosServices('');
             $result = $report->conciliationsDetails();
-            return view('reporting.index', compact('target', 'sales', 'cobranzas', 'cashouts'))->with($result);
+            return view('reporting.index')->with($result);
             
         } catch (\Exception $e) {
             \Log::error("Error en la consulta de servicio Conciliaciones: " . $e);

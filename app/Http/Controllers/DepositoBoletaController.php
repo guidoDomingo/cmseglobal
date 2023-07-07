@@ -503,6 +503,7 @@ class DepositoBoletaController extends Controller
 
     public function conciliationsDetails(Request $request)
     {
+       
         if (!$this->user->hasAccess('depositos_boletas.conciliations')) {
             \Log::error(
                 'Unauthorized access attempt',

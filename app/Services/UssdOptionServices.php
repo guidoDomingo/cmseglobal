@@ -63,7 +63,7 @@ class UssdOptionServices
 
             $operator_list = array_map(function ($value) {
                 return (array) $value;
-            }, $operator_list);
+            }, $operator_list->toArray());
 
             for ($i = 0; $i < count($operator_list); $i++) {
 
@@ -98,7 +98,7 @@ class UssdOptionServices
 
                 $service_list = array_map(function ($value) {
                     return (array) $value;
-                }, $service_list);
+                }, $service_list->toArray());
 
                 for ($j = 0; $j < count($service_list); $j++) {
 
@@ -113,7 +113,7 @@ class UssdOptionServices
 
                     $menu_ussd_list = array_map(function ($value) {
                         return (array) $value;
-                    }, $menu_ussd_list);
+                    }, $menu_ussd_list->toArray());
 
                     if (count($menu_ussd_list) > 0) {
                         $menu_ussd_id = $menu_ussd_list[0]['id'];
@@ -130,7 +130,7 @@ class UssdOptionServices
 
                         $option_list = array_map(function ($value) {
                             return (array) $value;
-                        }, $option_list);
+                        }, $option_list->toArray());
 
                         for ($k = 0; $k < count($option_list); $k++) {
                             $option_list[$k]['status'] = ($option_list[$k]['status']) ? 'Activo' : 'Inactivo';

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ServiciosMarca;
 use Illuminate\Http\Request;
 
-use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use Session;
 use Carbon\Carbon;
@@ -151,8 +150,10 @@ class ServiciosMarcasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($service_id, $service_source_id)
+    public function edit($service_id,Request $request)
     {
+        $service_source_id = request()->query('service_source_id');
+
         if (!$this->user->hasAccess('servicio_marca.add|edit')) {
             \Log::error('Unauthorized access attempt',
                 ['user' => $this->user->username, 'route' => \Request::route()->getActionName()]);
@@ -174,6 +175,7 @@ class ServiciosMarcasController extends Controller
                 'marcas' => $marcas,
                 'service_sources' => $service_sources,
             ];
+
 
             return view('servicios_marcas.edit', $data);
         }else{

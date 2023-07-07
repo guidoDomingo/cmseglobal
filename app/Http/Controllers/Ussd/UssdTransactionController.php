@@ -399,7 +399,7 @@ class UssdTransactionController extends Controller
 
             $menu_ussd_status_list = array_map(function ($value) {
                 return (array) $value;
-            }, $menu_ussd_status_list);
+            }, $menu_ussd_status_list->toArray());
 
             $records_list = \DB::table('ussd.menu_ussd_detail_client as mudc')
                 ->select(
@@ -433,7 +433,7 @@ class UssdTransactionController extends Controller
 
             $menu_ussd_detail_client_list = array_map(function ($value) {
                 return (array) $value;
-            }, $records_list);
+            }, $records_list->toArray());
 
             for ($i = 0; $i < count($menu_ussd_status_list); $i++) {
                 for ($j = 0; $j < count($menu_ussd_detail_client_list); $j++) {

@@ -68,7 +68,7 @@
 
                                     <td style="text-align:center; vertical-align:middle; width:1%">
                                         @if (Sentinel::hasAccess('gestor_contratos.edit'))
-                                            <a class="btn btn-warning btn-flat btn-row btn-sm" title="Editar" href="{{ route('contracts.edit',['id' => $contrato->contract_id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-warning btn-flat btn-row btn-sm" title="Editar" href="{{ route('contracts.edit',['contract' => $contrato->contract_id])}}"><i class="fa fa-pencil"></i></a>
                                         @endif
                                     </td>
                                 </tr>

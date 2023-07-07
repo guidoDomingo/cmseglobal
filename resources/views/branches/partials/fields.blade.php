@@ -48,4 +48,4 @@
 </div>
 @endif
 
-<a class="btn btn-default" href="{{ route('owner.branches.index',['owner_id' => $ownerId]) }}" role="button">Cancelar</a>
+<a class="btn btn-default" href="{{ route('owner.branches.index',['owner' => $ownerId]) }}" role="button">Cancelar</a>

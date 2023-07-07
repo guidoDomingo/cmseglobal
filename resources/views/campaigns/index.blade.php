@@ -96,7 +96,7 @@
                                                 <a class="btn-sm btn-warning btn-flat btn-row" title="Tickets" href="{{ route('tickets.index',['campaign_id' => $campaign->id])}}"><i class="fa fa-ticket"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('promotions_vouchers.add|edit'))
-                                                <a class="btn-sm btn-flat btn-row" style="background-color: #9f32f8; color: white;" title="Vouchers" href="{{ route('promotions_vouchers.show',['campaign_id' => $campaign->id])}}"><i class="fa fa-newspaper-o"></i></a>
+                                                <a class="btn-sm btn-flat btn-row" style="background-color: #9f32f8; color: white;" title="Vouchers" href="{{ route('promotions_vouchers.show',['promotions_voucher' => $campaign->id])}}"><i class="fa fa-newspaper-o"></i></a>
                                             @endif
                                             <hr style=" width: 100%;">
                                             @if (Sentinel::hasAccess('asociar.add|edit'))
@@ -104,7 +104,7 @@
                                             @endif
 
                                             @if (Sentinel::hasAccess('campaigns.add|edit'))
-                                                <a class="btn-sm btn-success btn-flat btn-row" title="Editar ATM" href="{{ route('campaigns.edit',['id' => $campaign->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn-sm btn-success btn-flat btn-row" title="Editar ATM" href="{{ route('campaigns.edit',['campaign' => $campaign->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('campaigns.delete'))
                                                 <a class="btn-delete btn-sm btn-danger btn-flat btn-row" title="Eliminar ATM" href="#" ><i class="fa fa-remove"></i> </a>

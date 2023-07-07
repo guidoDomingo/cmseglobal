@@ -65,13 +65,13 @@
                                     </td>
                                     <td>
                                         @if (Sentinel::hasAccess('applications.screens'))
-                                         <a class="btn btn-info btn-flat btn-row"  href="{{ route('applications.screens.index',['app_id' => $application->id]) }}"><i class="fa fa-object-group" title="Pantallas"></i></a>
+                                         <a class="btn btn-info btn-flat btn-row"  href="{{ route('applications.screens.index',['application' => $application->id]) }}"><i class="fa fa-object-group" title="Pantallas"></i></a>
                                         @endif
                                         @if (Sentinel::hasAccess('applications.versions'))
-                                         <a class="btn btn-warning btn-flat btn-row" href="{{ route('applications.versions.index',['app_id' => $application->id ]) }}"><i class="fa fa-cube" title="Configuración de servicios"></i></a>
+                                         <a class="btn btn-warning btn-flat btn-row" href="{{ route('applications.versions.index',['application' => $application->id ]) }}"><i class="fa fa-cube" title="Configuración de servicios"></i></a>
                                         @endif
                                         @if (Sentinel::hasAccess('applications.params'))
-                                        <a class="btn btn-primary btn-flat btn-row" href="{{ route('applications.params.index',['app_id' => $application->id ]) }}"><i class="fa fa-gear" title="Parámetros de la aplicación"></i></a>
+                                        <a class="btn btn-primary btn-flat btn-row" href="{{ route('applications.params.index',['application' => $application->id ]) }}"><i class="fa fa-gear" title="Parámetros de la aplicación"></i></a>
                                         @endif
                                     </td>
                                 </tr>

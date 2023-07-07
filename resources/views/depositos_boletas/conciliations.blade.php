@@ -13,6 +13,7 @@
             <li class="active">Lista</li>
         </ol>
     </section>
+
     <section class="content">
         @include('partials._flashes')
         <div class="box">
@@ -20,7 +21,7 @@
                 <h3 class="box-title">Conciliaciones de Boletas de Deposito</h3>
                 <div class="box-tools">
                     <div class="input-group" style="width:150px;">
-                        {!! Form::model(Request::only(['name']),['route' => 'boletas_conciliations.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
+                        {!! Form::model(Request::only(['name']),['route' => 'boletas.conciliations', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
                         {!! Form::text('name' ,null , ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Numero de Boleta', 'autocomplete' => 'off' ]) !!}
                         {!! Form::close() !!}
                     </div>

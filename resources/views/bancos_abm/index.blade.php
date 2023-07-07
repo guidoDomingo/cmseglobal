@@ -43,7 +43,7 @@
                                         <td style="text-align:center; vertical-align:middle;">{{ $banco->descripcion }}</td>
                                         <td style="text-align:center; vertical-align:middle;">
                                             @if (Sentinel::hasAccess('bancos.edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('bancos.edit',['id' => $banco->id])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('bancos.edit',['banco' => $banco->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('bancos.delete'))
                                                 <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

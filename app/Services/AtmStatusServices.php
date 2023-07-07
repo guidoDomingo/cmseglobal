@@ -164,11 +164,11 @@ class AtmStatusServices
                 $hasta        = date('Y-m-d H:i:s', strtotime($daterange[1]));
             }
 
-            $owners = Owner::whereIn('id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0');
+            $owners = Owner::whereIn('id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0')->toArray();
 
-            $branches = Branch::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('description', 'id')->prepend('Todos', '0');
+            $branches = Branch::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('description', 'id')->prepend('Todos', '0')->toArray();
 
-            $atms = Atm::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0');
+            $atms = Atm::whereIn('owner_id', [2, 11, 16])->whereNull('deleted_at')->pluck('name', 'id')->prepend('Todos', '0')->toArray();
 
             $atmStatus =  \DB::table('atm_status_history')
                 ->select('atms.id', 'atms.name', 'users.description', 'atm_status_history.comments', 'atm_status_history.status', 'atm_status_history.diferencia', 'atm_status_history.created_at', 'atm_status_history.updated_at')
@@ -209,34 +209,36 @@ class AtmStatusServices
                 ->whereBetween('atm_status_history.created_at', [$desde, $hasta])
                 ->orderBy('atm_status_history.id', 'DESC')
                 ->get();
+            
+       
+           if(isset($input['search'])){
+                if ($input['search'] == 'download') {
+                    $excelData = json_decode(json_encode($atmStatus), true);
 
+                    $filename = 'atmsEstadoHistoricos_' . time();
+                    $columnas = array(
+                        '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
+                    );
+                    if ($excelData && !empty($excelData)) {
 
-            if ($input['search'] == 'download') {
-                $excelData = json_decode(json_encode($atmStatus), true);
+                        $excel = new ExcelExport($excelData,$columnas);
+                        return Excel::download($excel, $filename . '.xls')->send();
+                        // Excel::create($filename, function ($excel) use ($excelData) {
+                        //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
+                        //         $sheet->rows($excelData, false);
+                        //         $sheet->prependRow(array(
+                        //             '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
 
-                $filename = 'atmsEstadoHistoricos_' . time();
-                $columnas = array(
-                    '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
-                );
-                if ($excelData && !empty($excelData)) {
-
-                    $excel = new ExcelExport($excelData,$columnas);
-                    return Excel::download($excel, $filename . '.xls')->send();
-                    // Excel::create($filename, function ($excel) use ($excelData) {
-                    //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
-                    //         $sheet->rows($excelData, false);
-                    //         $sheet->prependRow(array(
-                    //             '#', 'Nombre', 'Encargado', 'Comentario', 'Estado', 'Tiempo Transcurrido (Min)', 'Inicio', 'Fin'
-
-                    //         ));
-                    //     });
-                    // })->export('xls');
-                    // exit();
+                        //         ));
+                        //     });
+                        // })->export('xls');
+                        // exit();
+                    }
                 }
-            }
+           }
 
-            $tipoStatus = AtmStatusHistorypluck('status', 'status')->prepend('Todos', 'Todos');
-
+            $tipoStatus = AtmStatusHistory::pluck('status', 'status')->prepend('Todos', 'Todos')->toArray();
+           
             $result = [
                 'target'          => 'Historico estados ATM',
                 'owners'          => $owners,
@@ -251,7 +253,7 @@ class AtmStatusServices
                 'atms'            => $atms,
                 'tipo_id'         => $tipo_id
             ];
-
+           
             return $result;
         } catch (\Exception $e) {
             $error_detail = [

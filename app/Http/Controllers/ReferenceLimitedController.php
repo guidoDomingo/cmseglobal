@@ -37,10 +37,12 @@ class ReferenceLimitedController extends Controller
             return redirect('/');
         }
         
-        $name = $request->get('name');
+        $name = $request->get('name') ?? "";
         $references = ReferenceLimited::filterAndPaginate($name);
         $servicesRules = ServiceRule::get();
         $paramsRules= ParamsRule::get();
+
+
      
         return view('references_limited.index', compact('servicesRules','references','paramsRules','name'));
     }
@@ -98,8 +100,11 @@ class ReferenceLimitedController extends Controller
     {  
     }
 
-    public function edit($idparam_rules, $current_params_rule_id,$reference)
+    public function edit($reference, Request $request)
     {   
+        $current_params_rule_id = request()->query('current_params_rule_id');
+        $service_rule_id = request()->query('service_rule_id');
+
         if (!$this->user->hasAccess('references_rules.add|edit')) {
             \Log::error('Unauthorized access attempt',
                 ['user' => $this->user->username, 'route' => \Request::route()->getActionName()]);
@@ -107,7 +112,7 @@ class ReferenceLimitedController extends Controller
             return redirect('/');
         }
 
-        if($reference_limited = \DB::table('reference_limited')->where('service_rule_id', $idparam_rules)->where('current_params_rule_id', $current_params_rule_id)->where('reference', $reference)->first()){
+        if($reference_limited = \DB::table('reference_limited')->where('service_rule_id', $service_rule_id)->where('current_params_rule_id', $current_params_rule_id)->where('reference', $reference)->first()){
             $serviciosRules = ServiceRule::all()->pluck('description','idservice_rule');
             $parametrosRules= ParamsRule::all()->pluck('description','idparam_rules');            
             $frequency =$reference_limited->frequency_last_updated;

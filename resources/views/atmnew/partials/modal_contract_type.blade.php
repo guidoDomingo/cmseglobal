@@ -7,7 +7,8 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Nuevo Tipo de contrato <label class="idTransaccion"></label></h4>
             </div>
-            {!! Form::open(['route' => 'contract.types.store' , 'method' => 'POST', 'role' => 'form','id' => 'nuevoContractType-form']) !!}
+            {!! Form::open(['route' => ['contract.types.store', 123], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoContractType-form']) !!}
+
             <div class="modal-body">
                 <div class="box-body">
                     @include('partials._messages')

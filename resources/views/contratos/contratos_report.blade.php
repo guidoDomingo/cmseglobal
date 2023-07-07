@@ -53,14 +53,16 @@
                                             <div class="input-group-addon">
                                                 <i class="fa fa-clock-o"></i>
                                             </div>
-                                            <input name="reservationtime" type="text" id="reservationtime" class="form-control" value="{{$reservationtime_contract or ''}}"  placeholder="__/__/____" />
+                                            <input name="reservationtime" type="text" id="reservationtime" class="form-control" value="{{$reservationtime_contract}}"  placeholder="__/__/____" />
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         {!! Form::label('status', 'Estado del contrato') !!}
-                                        {!! Form::select('status',[ '0'=> 'Todos', '1' =>'Recepcionado', '2' => 'Activo', '3' =>'Inactivo', '4' =>'Vencido'],$status, ['id' => 'status','class' => 'form-control select2'], '1') !!}
+                                         
+                                        {!! Form::select('status',[ '0'=> 'Todos', '1' =>'Recepcionado', '2' => 'Activo', '3' =>'Inactivo', '4' =>'Vencido'],$status, ['id' => 'status','class' => 'form-control select2']) !!}
+                                  
                                     </div>
                                 </div>
 

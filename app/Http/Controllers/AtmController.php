@@ -2109,7 +2109,8 @@ class AtmController extends Controller
 
         $report = new AtmStatusServices;
         $result = $report->getStatusHistory();
-        return view('reporting.index', compact('target', 'owners', 'status', 'owner_id', 'status_id', 'branches', 'atms'))->with($result);
+
+        return view('reporting.index')->with($result);
     }
 
     public function atm_status_history_search()
@@ -2118,7 +2119,7 @@ class AtmController extends Controller
 
         $report = new AtmStatusServices;
         $result = $report->getStatusHistorySearch($input);
-        return view('reporting.index', compact('target', 'atms', 'status', 'atm_id', 'status_id', 'owners', 'owner_id', 'branches_id'))->with($result);
+        return view('reporting.index')->with($result);
     }
 
     public function searchBranches(Request $request)

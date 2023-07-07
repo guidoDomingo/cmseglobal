@@ -3,6 +3,7 @@
 @section('title')
     Marca {{ $marca->name }}
 @endsection
+
 @section('content')
     <section class="content-header">
         <h1>
@@ -26,8 +27,11 @@
                     <div class="box-body">
                         @include('partials._flashes')
                         @include('partials._messages')
-                        {!! Form::model($marca, ['route' => ['marca.update', $marca->id ] , 'method' => 'PUT', 'id' => 'editarMarca-form']) !!}
+                       
+                       {!! Form::model($marca, ['url' => route('marca.update', $marca->id), 'method' => 'PUT', 'id' => 'editarMarca-form']) !!}
                         @include('marcas.partials.fields')
+
+                        
 
                         <button type="submit" class="btn btn-primary">Guardar</button>
                         {!! Form::close() !!}
@@ -36,6 +40,7 @@
                 <div class="box-footer">
 {{--                    @include('marcas.partials.delete')--}}
                 </div>
+                
             </div>
         </div>
     </section>
@@ -97,7 +102,7 @@
     const pond = FilePond.create(inputElement,{
     files: [
         {
-            source: '{{ url().'/resources'.trim($marca->imagen_asociada) }}',
+            source: '{{ trim($marca->imagen_asociada) }}',
         }
     ]
 });

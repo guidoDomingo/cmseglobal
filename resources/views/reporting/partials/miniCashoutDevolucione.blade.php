@@ -33,7 +33,7 @@
                                             <i class="fa fa-clock-o"></i>
                                         </div>
                                         <input name="reservationtime" type="text" id="reservationtime"
-                                            class="form-control pull-right" value="{{ $reservationtime or '' }}" />
+                                            class="form-control pull-right" value="{{ $reservationtime}}" />
                                     </div>
 
                                     <div class="form-group">

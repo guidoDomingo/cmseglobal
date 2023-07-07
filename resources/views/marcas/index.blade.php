@@ -77,7 +77,7 @@
                                         <td>{{ date('d/m/y H:i', strtotime($marca->updated_at)) }}</td>
                                         <td>
                                             @if (Sentinel::hasAccess('marca.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('marca.edit',['id' => $marca->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('marca.edit',['marca' => $marca->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('marca.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

@@ -39,6 +39,7 @@ class ReversionesController extends Controller
 
         $name = $request->get('name');
         $reversiones = Reversion::filterAndPaginate($name);
+       
         //$reversiones = Owner::paginate(10);
         return view('reversiones.index', compact('reversiones', 'name'));
     }

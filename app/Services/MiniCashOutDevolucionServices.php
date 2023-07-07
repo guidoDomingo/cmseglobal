@@ -687,11 +687,12 @@ class MiniCashOutDevolucionServices
                 $hasta        = date('Y-m-d H:i:s', strtotime($daterange[1]));
             }
 
-            $tipo = MiniCashoutType::pluck('description', 'id')->prepend('Todos', '0');
+            $tipo = MiniCashoutType::pluck('description', 'id')->prepend('Todos', '0')->toArray();
             $atm  = Atm::join('atms_per_users', 'atms_per_users.atm_id', '=', 'atms.id')
                 ->where('atms_per_users.user_id', $this->user->id)
-                ->pluck('atms.name', 'atms.id')->prepend('Todos', '0');
+                ->pluck('atms.name', 'atms.id')->prepend('Todos', '0')->toArray();
             \Log::info($atm);
+   
             $minisData = \DB::table('mini_cashout_devolution_details')
                 ->select('atms.name', 'mini_cashout_devolution_details.id', 'marcas.descripcion as marca', 'mini_cashout_devolution_details.transaction_id', 'servicios_x_marca.descripcion', 'mini_cashout_devolution_details.parameters', 'mini_cashout_devolution_type.description as tipo', 'mini_cashout_devolution_details.hash_table', 'mini_cashout_devolution_details.status', 'mini_cashout_devolution_details.created_at')
                 ->join('mini_cashout_devolution_type', 'mini_cashout_devolution_type.id', '=', 'mini_cashout_devolution_details.type_id')
@@ -723,15 +724,18 @@ class MiniCashOutDevolucionServices
             $minis = [];
             $amountView = 0;
             $transactionsCount = 0;
+       
+            
             foreach ($minisData as $mini) {
+            
                 $transactionsCount++;
                 $data1 =  json_decode($mini->parameters);
                 $data = json_decode($data1);
                 $amount = 0;
-
+            
                 if ($mini->marca == 'Claro Billetera') {
-                    $amount =  $data->monto;
-                    $amountView = $amountView + $data->monto;
+                    $amount =  $data->monto ?? 0;
+                    $amountView = $amountView + ($data->monto ?? 0);
                 } elseif ($mini->tipo == 'Devolucion' || $mini->tipo == 'Vuelto') {
                     $amount = $data->valor_entrega;
                     $amountView = $amountView + $data->valor_entrega;
@@ -742,6 +746,8 @@ class MiniCashOutDevolucionServices
                     $amount = $data->amount;
                     $amountView = $amountView + $data->amount;
                 }
+
+            
 
                 $valor = [
                     'hash_table'     => $mini->hash_table,
@@ -754,33 +760,41 @@ class MiniCashOutDevolucionServices
                     'created_at'     => $mini->created_at,
                     'id_transaction' => $mini->transaction_id
                 ];
+
+            
                 array_push($minis, $valor);
+            
             }
+            
+ 
 
-            if ($input['search'] == 'download') {
-                $excelData = json_decode(json_encode($minis), true);
+            if (isset($input['search'])) {
+        
+                if($input['search'] == 'download'){
+                    $excelData = json_decode(json_encode($minis), true);
 
-                $filename = 'EntregaDeDinero_' . time();
-                $columnas = array(
-                    '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
-                );
-                if ($excelData && !empty($excelData)) {
-                    $excel = new ExcelExport($excelData,$columnas);
-                    return Excel::download($excel, $filename . '.xls')->send();
-                    // \Excel::create($filename, function ($excel) use ($excelData) {
-                    //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
-                    //         $sheet->rows($excelData, false);
-                    //         $sheet->prependRow(array(
-                    //             '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
+                    $filename = 'EntregaDeDinero_' . time();
+                    $columnas = array(
+                        '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
+                    );
+                    if (!empty($excelData)) {
+                        $excel = new ExcelExport($excelData,$columnas);
+                        return \Excel::download($excel, $filename . '.xls')->send();
+                        // \Excel::create($filename, function ($excel) use ($excelData) {
+                        //     $excel->sheet('Estados', function ($sheet) use ($excelData) {
+                        //         $sheet->rows($excelData, false);
+                        //         $sheet->prependRow(array(
+                        //             '#', 'Nombre ATM', 'Servicio', 'Estado', 'Tipo Transaccion', 'Monto', 'Fecha', 'Transaccion'
 
-                    //         ));
-                    //     });
-                    // })->export('xls');
-                    // exit();
-                }
+                        //         ));
+                        //     });
+                        // })->export('xls');
+                        // exit();
+                    }
+               }
             }
-
-
+  
+       
             $result = [
                 'target'            => 'Transacciones Retiros',
                 'tipo'              => $tipo,
@@ -795,6 +809,7 @@ class MiniCashOutDevolucionServices
             ];
 
             return $result;
+
         } catch (\Exception $e) {
             $error_detail = [
                 'message' => $e->getMessage(),

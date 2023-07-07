@@ -53,10 +53,10 @@
                                         
                                         <td>
                                             @if (Sentinel::hasAccess('params_rules.add|edit'))
-                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('params_rules.edit',['id' => $parametro->idparam_rules])}}"><i class="fa fa-pencil"></i></a>
+                                                <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('params_rules.edit',['params_rule' => $parametro->idparam_rules])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('params_rules.delete'))
-                                                <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="{{ route('params_rules.destroy',['id' => $parametro->idparam_rules])}}" ><i class="fa fa-remove"></i> </a>
+                                                <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="{{ route('params_rules.destroy',['params_rule' => $parametro->idparam_rules])}}" ><i class="fa fa-remove"></i> </a>
                                             @endif
                                         </td>
                                     </tr>

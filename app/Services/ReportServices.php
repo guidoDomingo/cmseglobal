@@ -11869,7 +11869,7 @@ class ReportServices
             $daterange[0] = date('Y-m-d H:i:s', strtotime($daterange[0]));
             $daterange[1] = date('Y-m-d H:i:s', strtotime($daterange[1]));
 
-            $transactions = \DB::select(\DB::raw("
+            $transactions = \DB::select("
                 with transacciones as (
                     select
                         service_source_id,
@@ -11930,9 +11930,9 @@ class ReportServices
                     service_provider_products.description,
                     atm,
                     parametros_comisiones.comision;
-            "));
+            ");
 
-            $total_comisiones = \DB::select(\DB::raw("
+            $total_comisiones = \DB::select("
                 with transacciones as (
                     select
                         service_source_id,
@@ -11985,7 +11985,7 @@ class ReportServices
                         (parametros_comisiones.tipo_servicio_id = 1 and transacciones.service_source_id = 0) or
                         (parametros_comisiones.tipo_servicio_id = 0 and parametros_comisiones.service_source_id = transacciones.service_source_id)
                     )
-            "));
+            ");
 
             foreach ($transactions as $transaction) {
                 if ($transaction->service_source_id <> 0) {
@@ -11997,7 +11997,7 @@ class ReportServices
                 }
             }
 
-            $results = $this->arrayPaginator($transactions->toArray(), $request);
+            $results = $this->arrayPaginator($transactions, $request);
 
             /*Carga datos del formulario*/
             $resultset = array(
@@ -12100,7 +12100,7 @@ class ReportServices
             $daterange[0] = date('Y-m-d H:i:s', strtotime($daterange[0]));
             $daterange[1] = date('Y-m-d H:i:s', strtotime($daterange[1]));
 
-            $transactions = \DB::select(\DB::raw("
+            $transactions = \DB::select("
                 with transacciones as (
                     select
                         service_source_id,
@@ -12158,7 +12158,7 @@ class ReportServices
                         (parametros_comisiones.tipo_servicio_id = 0 and parametros_comisiones.service_source_id = transacciones.service_source_id)
                     )
                 order by service_id desc;
-            "));
+            ");
 
             foreach ($transactions as $transaction) {
 
@@ -13923,8 +13923,8 @@ class ReportServices
     {
         try {
 
-            $groups = Grouppluck('description', 'id');
-            $groups->prepend('Todos', '0');
+            $groups = Group::pluck('description', 'id');
+            $groups->prepend('Todos', '0')->toArray();
 
             $atms = Atm::whereIn('owner_id', [16, 21, 25])->pluck('name', 'id');
             $atms->prepend('Todos', '0');
@@ -15431,15 +15431,14 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->pluck('description', 'id');
-            $groups->prepend('Todos', '0');
+            })->get()->pluck('description', 'id')->prepend('Todos', '0')->toArray();
 
             $atms     = Atmnew::orderBy('atms.name')->where(function ($query) use ($whereAtm) {
                 if (!empty($whereAtm)) {
                     $query->whereRaw($whereAtm);
                 }
-            })->get()->pluck('name', 'id');
-            $atms->prepend('Todos', '0');
+            })->get()->pluck('name', 'id')->prepend('Todos', '0')->toArray();
+
 
             // $contracts     = Contract::orderBy('contract.number')->where(function($query) use($whereContract){
             //     if(!empty($whereContract)){
@@ -15459,7 +15458,7 @@ class ReportServices
                 // 'contracts'     => $contracts,
                 // 'contract_id'   => 0
             );
-
+    
             return $resultset;
         } catch (\Exception $e) {
             \Log::error("Error en la consulta de reportes" . $e);

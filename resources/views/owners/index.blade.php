@@ -57,10 +57,10 @@
                                         <td>{{ date('d/m/y H:i', strtotime($owner->updated_at)) }}
                                         <td>
                                             @if (Sentinel::hasAccess('branches'))
-                                                <a class="btn btn-info btn-flat btn-row" title="Sucursales" href="{{ route('owner.branches.index',['ownerId' => $owner->id ]) }}"><i class="fa fa-building"></i></a>
+                                                <a class="btn btn-info btn-flat btn-row" title="Sucursales" href="{{ route('owner.branches.index',['owner' => $owner->id ]) }}"><i class="fa fa-building"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('owner.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('owner.edit',['id' => $owner->id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('owner.edit',['owner' => $owner->id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('owner.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

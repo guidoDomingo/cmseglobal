@@ -68,7 +68,7 @@ class UssdPhoneController extends Controller
 
         $records_list = array_map(function ($value) {
             return (array) $value;
-        }, $records_list);
+        }, $records_list->toArray());
 
         $list = $records_list;
 

@@ -226,7 +226,8 @@
 
                                             @include('partials._messages')
                                             {{-- {!! Form::open(['route' => 'contracts.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!} --}}
-                                            {!! Form::open(['route' => 'atmnew.credentials.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
+                                         {!! Form::open(['route' => ['atmnew.credentials.store', 123], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
+
                                         
                                                 <div class="form-group">
                                                     @if(isset($webservices))
@@ -235,7 +236,7 @@
                                                                 {!! Form::label('service_id', 'Proveedor') !!}
                                                                 <div class="input-group">
                                                                     <div class="input-group-addon">
-                                                                        <i class="fa fa-sitemap""></i>
+                                                                        <i class="fa fa-sitemap"></i>
                                                                     </div>
                                                                     {!! Form::select('service_id',$webservices ,6 , ['class' => 'form-control object-type','placeholder' => 'Seleccione un Proveedor...','disabled' => 'disabled']) !!}
                                                                 </div>

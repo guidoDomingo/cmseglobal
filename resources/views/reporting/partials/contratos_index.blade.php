@@ -25,8 +25,10 @@
                                 </div>
                                 <div class="form-group">
                                     {!! Form::label('atm', 'ATMs') !!}
+                                 
                                     {!! Form::select('atm_id', $atms, $atm_id , ['id' => 'atm_id','class' => 'form-control select2']) !!}
                                 </div>
+                  
                                 {{-- <div class="form-group">
                                     {!! Form::label('contracts', 'Contratos') !!}
                                     {!! Form::select('contract_id', $contracts, $contract_id , ['id' => 'contract_id','class' => 'form-control select2']) !!}
@@ -44,15 +46,16 @@
                                         </div>
                                         <input name="reservationtime" type="text" id="reservationtime"
                                             class="form-control pull-right"
-                                            value="{{ $reservationtime or '' }}" />
+                                            value="{{ old('reservationtime', $reservationtime ?? '') }}" />
                                     </div>
                                     <!-- /.input group -->
                                 </div>
 
                                 <div class="form-group">
                                     {!! Form::label('status', 'Estado del contrato') !!}
-                                    {!! Form::select('status',[ '0'=> 'Todos', '1' =>'Recepcionado', '2' => 'Activo', '3' =>'Inactivo', '4' =>'Vencido'],$status, ['id' => 'status','class' => 'form-control'], '1') !!}
+                                    {!! Form::select('status',[ '0'=> 'Todos', '1' =>'Recepcionado', '2' => 'Activo', '3' =>'Inactivo', '4' =>'Vencido'],$status, ['id' => 'status','class' => 'form-control']) !!}
                                 </div>
+                                
                                 <!-- /.form group -->
                                 <br>
                                 <div class="row">

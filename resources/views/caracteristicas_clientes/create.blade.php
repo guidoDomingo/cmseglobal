@@ -26,10 +26,10 @@
                     <div class="box-body">
                         {{-- @include('partials._flashes') --}}
                         @include('partials._messages')
-                        {!! Form::open(['route' => 'caracteristicas.clientes.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCaracteristica-form']) !!}
+                        {!! Form::open(['route' => ['caracteristicas.clientes.store',123] , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCaracteristica-form']) !!}
                         @include('caracteristicas_clientes.partials.fields')
                         <div class="col-md-12">
-                            <a class="btn btn-default" href="{{ route('caracteristicas.clientes.index') }}" role="button">Cancelar</a>
+                            <a class="btn btn-default" href="{{ route('caracteristicas.clientes') }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
                         {!! Form::close() !!}
