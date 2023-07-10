@@ -181,7 +181,7 @@ class PagoClienteController extends Controller
 
         $date= "'".date('Y-m-d H:i:s')."'";
 
-        $resumen_transacciones_groups = \DB::select(\DB::raw("
+        $resumen_transacciones_groups = \DB::select("
             select
                     bg.id as group_id,
                     concat(bg.description,' | ',bg.ruc) as grupo,
@@ -237,9 +237,9 @@ class PagoClienteController extends Controller
                 + (Case when cuota_v.saldo_venta != 0 then cuota_v.saldo_venta else 0 end)
             ) < 0
             order by saldo desc
-        "));
+        ");
 
-        $date = \DB::select(\DB::raw("
+        $date = \DB::select("
             select concat(TO_CHAR( now(), 'yyyymm'), 
             CASE 
                 WHEN 
@@ -274,7 +274,7 @@ class PagoClienteController extends Controller
                     EXTRACT(second FROM TIMESTAMP $date)::varchar(255)
             END,
             '305', '699')
-        "));
+        ");
         
         $i=0;
         foreach($resumen_transacciones_groups as $resumen_transacciones_group){

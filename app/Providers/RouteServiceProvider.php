@@ -2,8 +2,12 @@
 
 namespace App\Providers;
 
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Routing\Router;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Support\Facades\Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -14,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+   // protected $namespace = 'App\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -28,10 +32,28 @@ class RouteServiceProvider extends ServiceProvider
         parent::boot($router);        
     }*/
 
-    public function boot()
+    // public function boot()
+    // {
+    //     //
+    //     parent::boot();        
+    // }
+
+    public function boot(): void
     {
-        //
-        parent::boot();        
+        RateLimiter::for('api', function (Request $request) {
+            return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
+        });
+
+        $this->routes(function () {
+            Route::middleware('api')
+                ->prefix('api')
+                ->namespace('App\Http')
+                ->group(app_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->namespace('App\Http')
+                ->group(app_path('routes/web.php'));
+        });
     }
 
     /**
@@ -40,10 +62,10 @@ class RouteServiceProvider extends ServiceProvider
      * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
-    public function map(Router $router)
-    {
-        $router->group(['namespace' => $this->namespace], function ($router) {
-            require app_path('Http/routes.php');
-        });
-    }
+    // public function map(Router $router)
+    // {
+    //     $router->group(['namespace' => $this->namespace], function ($router) {
+    //         require app_path('Http/routes.php');
+    //     });
+    // }
 }

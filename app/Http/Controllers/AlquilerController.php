@@ -125,9 +125,9 @@ class AlquilerController extends Controller
             $first_serial= $input['serialnumber'][0];
 
             $ondanet_serial =  \DB::connection('ondanet')
-                ->select(\DB::raw("
+                ->select("
                 select * from LISTADO_SERIALES_PROYECTOFK_ALQUILADOS where SERIAL = '$first_serial'
-            "));
+            ");
         }else{
             if(!isset($input['checkbox'])){
                 Session::flash('error_message', 'Favor seleccion el Codigo de Maquina correspondiente.');
