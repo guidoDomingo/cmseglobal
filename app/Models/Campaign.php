@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class Campaign extends Model
@@ -10,6 +11,28 @@ class Campaign extends Model
     public $timestamps  = false;
     protected $fillable = ['name', 'duration', 'flow', 'perpetuity','tipoCampaña'];
     protected $dates    = ['start_date', 'end_date'];
+
+    public function setEndDateAttribute($value)
+     {
+         $this->attributes['end_date'] = Carbon::parse($value);
+     }
+ 
+     // Accesor (accessor) para obtener el campo `last_login` como instancia de Carbon
+     public function getEndDateAttribute($value)
+     {
+         return Carbon::parse($value);
+     }
+
+    public function setStartDateAttribute($value)
+     {
+         $this->attributes['start_date'] = Carbon::parse($value);
+     }
+ 
+     // Accesor (accessor) para obtener el campo `last_login` como instancia de Carbon
+     public function getStartDateAttribute($value)
+     {
+         return Carbon::parse($value);
+     }
 
     public function scopeName($query, $name)
     {

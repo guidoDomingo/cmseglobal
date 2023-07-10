@@ -8,6 +8,7 @@ use App\Models\Role;
 use Response;
 use Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class RolesController extends Controller
 {
@@ -145,7 +146,7 @@ class RolesController extends Controller
         $input = $request->all();
 
         $currentPermissions = $role->permissions;
-        $expectedPermissions = array_pull($input, 'permissions');
+        $expectedPermissions = Arr::pull($input, 'permissions');
 
         $expectedPermissions = empty($expectedPermissions) ? [] : $expectedPermissions;
         foreach ($expectedPermissions as $p => $v) {

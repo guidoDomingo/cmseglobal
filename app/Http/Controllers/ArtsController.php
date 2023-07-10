@@ -33,7 +33,7 @@ class ArtsController extends Controller
         $campaign_id    = $request->get('campaign_id');
         $campaign       = Campaign::find($campaign_id);
         $arts           = Art::where('campaigns_id',$campaign_id)->get();
-        return view('arts.index', compact('arts', 'name','campaign','campaign_id'));
+        return view('arts.index', compact('arts','campaign','campaign_id'));
     }
 
     public function create(Request $request)

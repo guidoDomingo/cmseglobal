@@ -119,7 +119,7 @@ class AtmHasCampaignController extends Controller
             ]),
             'inputs' => []
         ];
-        return view('campaigns.asociaciones', compact('data','atms_list','branches','business_list','asociaciones', 'name','campaign','campaign_id'));
+        return view('campaigns.asociaciones', compact('data','atms_list','branches','business_list','asociaciones','campaign','campaign_id'));
     }
 
     public function create(Request $request)

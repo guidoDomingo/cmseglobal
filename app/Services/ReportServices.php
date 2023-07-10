@@ -14060,12 +14060,9 @@ class ReportServices
     {
         try {
             //Redes
-            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id');
-            $atms->prepend('Todos', '0');
-            $owners     = Owner::orderBy('name')->get()->pluck('name', 'id');
-            $owners->prepend('Todos', '0');
-            $branches   = Branch::orderBy('description')->get()->pluck('description', 'id');
-            $branches->prepend('Todos', '0');
+            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id')->prepend('Todos', '0')->toArray();
+            $owners     = Owner::orderBy('name')->get()->pluck('name', 'id')->prepend('Todos', '0')->toArray();
+            $branches   = Branch::orderBy('description')->get()->pluck('description', 'id')->prepend('Todos', '0')->toArray();
             $types = array('0' => 'Todos', '1' => 'Estados Atms', '2' => 'Servicios', '4' => 'Saldos');
             $pdvs  = Pos::orderBy('description')->with('Atm')->get();
             $pos = [];
@@ -14103,7 +14100,7 @@ class ReportServices
             }
 
             $resultset = $this->conciliations_detailsSearch();
-
+        
             return $resultset;
         } catch (\Exception $e) {
             \Log::error("Error en la consulta de reportes" . $e->getMessage());
@@ -14116,7 +14113,7 @@ class ReportServices
     {
         try {
             $input = $this->input;
-
+         
             if (isset($input['context']) && $input['context'] <> '' && $input['context'] <> null) {
                 $where = "";
                 $where .= "incomes.id = {$input['context']} ";
@@ -14125,7 +14122,7 @@ class ReportServices
                     $reservation_time = Carbon::today() . ' - ' . Carbon::today()->endOfDay();
                     $status_id = -1;
                     $atm_id = 0;
-                    $service_id = ""; ///ver
+                    $service_id = 0; ///ver
                     $service_request_id = 0;
                 } else {
                     $input = $this->input;
@@ -14213,7 +14210,8 @@ class ReportServices
                     }
                 } elseif ($this->user->hasAccess('ticketea') && !$this->user->hasAccess('superuser')) {
                     $where .= 'transactions.service_id = 28';
-                } else {
+                } 
+                else {
                     $where .= ($service_id <> 0) ? "transactions.service_id = " . $service_id . " AND service_source_id = 0" : "";
                 }
             }
@@ -14221,6 +14219,8 @@ class ReportServices
             $where = trim($where, 'AND');
             $where = trim($where);
 
+   
+           
             $incomes = \DB::table('incomes')
                 ->select('incomes.*', 'atms.name', 'transactions.amount as amount', 'transactions.service_id', 'transactions.service_source_id', 'atms.code as atm_code', 'service_provider_products.description as service_description')
                 //->whereBetween('incomes.created_at',[$begin,$end])
@@ -14231,7 +14231,11 @@ class ReportServices
                 ->whereRaw("$where")
                 ->orderBy('atms.name', 'asc')
                 ->orderBy('incomes.created_at', 'asc')
+                //->toSql();
                 ->paginate(200);
+
+   
+
 
             $incomes_error = \DB::table('incomes')
                 ->select(\DB::raw("array_to_string(array_agg(incomes.id), ',') as ids"))
@@ -14279,8 +14283,7 @@ class ReportServices
                 }
             }
             /*Carga datos del formulario*/
-            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id');
-            $atms->prepend('Todos', '0');
+            $atms     = Atm::orderBy('name')->get()->pluck('name', 'id')->prepend('Todos', '0')->toArray();
             $status = array(
                 "-1"  => 'Todos',
                 " ('0')"        => 'Pendiente',
@@ -14337,6 +14340,8 @@ class ReportServices
                 'service_request_id' => (isset($input['service_request_id']) ? $input['service_request_id'] : 0),
                 'generics' => $generics
             );
+
+            
             return $resultset;
         } catch (\Exception $e) {
             \Log::info($e);

@@ -923,9 +923,7 @@
     -->
     <script>
         $(document).on('select2:select', '#provider_id', function() {
-            $.get("{{ route('campaigns.branches') }}", {
-                provider_id: $(this).val()
-            }).done(function(response) {
+            $.get("/campaigns/branches/" + $(this).val(), function(response) {
                 $('#branch_id').html(response).trigger('change');
             });
         });

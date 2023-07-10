@@ -17,6 +17,7 @@ use Mail;
 use Carbon\Carbon;
 
 use App\Http\Controllers\TerminalInteractionMonitoring\TerminalInteractionAccessController;
+use Illuminate\Support\Arr;
 
 class UsersController extends Controller
 {
@@ -122,7 +123,7 @@ class UsersController extends Controller
                 }
 
                 if ($user = \Sentinel::register($credentials)) {
-                    $expectedPermissions = array_pull($input, 'permissions');
+                    $expectedPermissions = Arr::pull($input, 'permissions');
                     $expectedPermissions = empty($expectedPermissions) ? [] : $expectedPermissions;
 
                     foreach ($expectedPermissions as $p => $v) {
@@ -218,7 +219,7 @@ class UsersController extends Controller
             }
 
             if ($user = \Sentinel::register($credentials)) {
-                $expectedPermissions = array_pull($input, 'permissions');
+                $expectedPermissions = Arr::pull($input, 'permissions');
                 $expectedPermissions = empty($expectedPermissions) ? [] : $expectedPermissions;
 
                 foreach ($expectedPermissions as $p => $v) {
@@ -396,7 +397,7 @@ class UsersController extends Controller
             //  if state is true and inherited is 1 -> already granted permission role inherited
             //  if state is null and inherited is 1 -> already revoked permission role inherited
             //  if state is null and inherited is null -> permission set in neither role nor user
-            $expectedPermissions = array_pull($input, 'permissions');
+            $expectedPermissions = Arr::pull($input, 'permissions');
             $expectedPermissions = empty($expectedPermissions) ? [] : $expectedPermissions;
 
             foreach ($expectedPermissions as $p => $v) {
