@@ -149,7 +149,7 @@ Route::get('atm/{id}/parts', ['as' => 'atm.parts', 'uses' => 'Controllers\AtmCon
 Route::post('atm/{id}/param_store', ['as' => 'atm.param_store', 'uses' => 'Controllers\AtmController@paramStore']);
 Route::post('atm/{id}/parts_update', ['as' => 'atm.parts_update', 'uses' => 'Controllers\AtmController@partsUpdate']);
 Route::get('atm/{id}/check_key', ['as' => 'atm.check_key', 'uses' => 'Controllers\AtmController@checkKey']);
-Route::resource('atm', 'AtmController');
+Route::resource('atm', 'Controllers\AtmController');
 
 //ATMs Listado de ATMS
 
@@ -1598,7 +1598,7 @@ Route::post('info_plant_uml_save', ['as' => 'info_plant_uml_save', 'uses' => 'Co
 |----------------------------------------------------------------------------------------------------------------------+
 */
 
-Route::resource('compra_tarex', 'CompraTarexController');
+Route::resource('compra_tarex', 'Controllers\CompraTarexController');
 Route::get('/reporting/compra_tarex/search_tarex', ['as' => 'compra_tarex.search', 'uses' => 'Controllers\CompraTarexController@search_tarex']);
 
 /*

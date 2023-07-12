@@ -11,10 +11,11 @@
                 <div class="box-body">
                     @include('partials._messages')
                     @include('internet_service_contract.partials.modal_fields')
+
                     
                     @if(isset($pointofsale))
                     @if(!empty($pointofsale))
-                        {!! Form::hidden('branch_id',$branch_internet_contract->id) !!}
+                        {!! Form::hidden('branch_id',$branch_internet_contract->id ?? "") !!}
                     @endif
                     @endif
                 </div>

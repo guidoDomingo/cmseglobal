@@ -76,8 +76,6 @@ class ContractController extends Controller
             'selected_grupo' => null,
         ];
 
-        dd($data);
-
         return view('contratos.create', compact('grupos','groups','contract_types','reservationtime_contract'));
     }
 

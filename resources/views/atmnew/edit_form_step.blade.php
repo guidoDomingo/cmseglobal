@@ -74,7 +74,7 @@
                                     <div class="tab-pane active" id="tab_1">
                                         <div class="box-body">
                                             @include('partials._messages')
-                                            {!! Form::model($atm,['route' => ['atmnew.update', 'id' => $atm->id] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevoAtm-form']) !!}
+                                            {!! Form::model($atm,['route' => ['atmnew.update', 'atmnew' => $atm->id] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevoAtm-form']) !!}
                                                 @include('atmnew.partials.step_fields_1')
                                                 {!! Form::hidden('abm','v2') !!}
 
@@ -271,10 +271,10 @@
                                                 {!! Form::open(['route' => 'atmnew.credentials.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
                                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                                 {!! Form::hidden('abm','v2') !!}
-
+                                            {{ dd($contrato) }}
                                             @else
-                                                {!! Form::model($credencial,['route' => ['atmnew.credentials.update', $credencial->id ] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
-                                                {!! Form::hidden('id',$contrato->id) !!}
+                                                {!! Form::model($credencial,['route' => ['atmnew.credentials.update', $credencial->id,123] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
+                                                {!! Form::hidden('id',$contrato->id ?? '') !!}
                                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                                 {!! Form::hidden('abm','v2') !!}
                                             @endif
@@ -314,7 +314,7 @@
                                         <div class="box-body">
                                             @include('partials._messages')
                                             @if(empty($posVoucher))
-                                                {!! Form::open(['route' => ['pointsofsale.vouchers.store',$pointofsale->id], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoComprobante-form']) !!}
+                                                {!! Form::open(['route' => ['pointsofsale.vouchers.store',$pointofsale->id ?? ''], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoComprobante-form']) !!}
                                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                                 {!! Form::hidden('abm','v2') !!}
 
@@ -363,12 +363,12 @@
                             @if(empty($network))
                                 {!! Form::open(['route' => 'netconections.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoLogistica-form']) !!}
                                 {!! Form::hidden('atm_id',$atm->id) !!}
-                                {!! Form::hidden('branch_id',$pointofsale->branch_id) !!}
+                                {!! Form::hidden('branch_id',$pointofsale->branch_id ?? '') !!}
                                 {!! Form::hidden('abm','v2') !!}
                             @else
                                 {!! Form::model($network,['route' => ['netconections.update', $network->id ] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevoLogistica-form']) !!}
                                 {!! Form::hidden('id',$network->id) !!}
-                                {!! Form::hidden('branch_id',$pointofsale->branch_id) !!}
+                                {!! Form::hidden('branch_id',$pointofsale->branch_id ?? '') !!}
                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                 {!! Form::hidden('abm','v2') !!}
                             @endif

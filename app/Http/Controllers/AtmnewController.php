@@ -429,13 +429,14 @@ class AtmnewController extends Controller
         ->where('points_of_sale.atm_id',$id)
         ->where('contract.number',intval($atm->code))
         ->get();
-        //dd($contract_id);    
+       
         $contract_id_aux = -1;
         if(count ($contract_id)> 0){
             $contract_id_aux = $contract_id[0]->id;
         }
+
         $contrato = Contract::where('id',$contract_id_aux )->first();
-       //dd($contrato);
+      
         if(empty($contrato)){
             //$contrato = [];
             $reservationtime = '';
@@ -544,6 +545,7 @@ class AtmnewController extends Controller
         $sucursal_cash_ondanet = '';
         $deposito_ondanet = '';
         $deposito_cash_ondanet = '';
+        $branch_internet_contract = '';
      
         if(count ($vendedores_ondanet)> 0){
             $vendedor_ondanet       = $vendedores_ondanet[0]->vendedor;
@@ -577,7 +579,7 @@ class AtmnewController extends Controller
         // 
         if($credencial_id <> null ){
 
-            $credencial = AtmServicesCredentials::where('id',$credencial_id->id[0] )->first();
+            $credencial = AtmServicesCredentials::where('id',$credencial_id->id )->first();
 
             if(empty($credencial)){
                 $credencial = [];
@@ -695,25 +697,24 @@ class AtmnewController extends Controller
 
         $webservices                    = WebService::all()->pluck('name', 'id');
         $atm_parts                      = \DB::table('atms_parts')->where('atm_id', $atm->id)->count();
-        $owners                         = Owner::orderBy('name')->get()->pluck('name','id');
-        $branches                       = Branchpluck('description', 'id');
-        $groups                         = Grouppluck('description', 'id');
+        $owners                         = Owner::orderBy('name')->get()->pluck('name','id')->toArray();
+        $branches                       = Branch::pluck('description', 'id')->toArray();
+        $groups                         = Group::pluck('description', 'id')->toArray();
         $sellerType['1']                = 'Testing Seller type';
-        $users                          = User::all()->pluck('description','id');
-        $users->prepend('Asignar usuario','0');
+        $users                          = User::all()->pluck('description','id')->prepend('Asignar usuario','0')->toArray();
         $user_id                        = 0;
-        $voucherTypes                   = VoucherType::orderBy('id')->get()->pluck('description','id');
-        $departamentos                  = \DB::table('departamento')->pluck('descripcion','id');
-        $ciudades                       = \DB::table('ciudades')->pluck('descripcion','id');
-        $barrios                        = \DB::table('barrios')->pluck('descripcion','id');
-        $zonas                          = Zona::pluck('descripcion', 'id');
-        $contract_types                 = \DB::table('contract_type')->pluck('description','id');
-        $insurance_types                = \DB::table('insurance_type')->pluck('description','id');
-        $internet_service_contracts     = \DB::table('internet_service_contract')->pluck('isp_acount_number','id');
-        $network_technologies           = \DB::table('network_technology')->pluck('description','id');
-        $isp_types                      = \DB::table('isp')->pluck('description','id');
-        $contracts                      = \DB::table('contract')->pluck('number','id');
-        $insurances                     = \DB::table('insurance_policy')->pluck('number','id');
+        $voucherTypes                   = VoucherType::orderBy('id')->get()->pluck('description','id')->toArray();
+        $departamentos                  = \DB::table('departamento')->pluck('descripcion','id')->toArray();
+        $ciudades                       = \DB::table('ciudades')->pluck('descripcion','id')->toArray();
+        $barrios                        = \DB::table('barrios')->pluck('descripcion','id')->toArray();
+        $zonas                          = Zona::pluck('descripcion', 'id')->toArray();
+        $contract_types                 = \DB::table('contract_type')->pluck('description','id')->toArray();
+        $insurance_types                = \DB::table('insurance_type')->pluck('description','id')->toArray();
+        $internet_service_contracts     = \DB::table('internet_service_contract')->pluck('isp_acount_number','id')->toArray();
+        $network_technologies           = \DB::table('network_technology')->pluck('description','id')->toArray();
+        $isp_types                      = \DB::table('isp')->pluck('description','id')->toArray();
+        $contracts                      = \DB::table('contract')->pluck('number','id')->toArray();
+        $insurances                     = \DB::table('insurance_policy')->pluck('number','id')->toArray();
         
         $permissions = Permission::orderBy('permission')->get();
         $branches2 = Branch::all(['description', 'id']);
@@ -723,18 +724,18 @@ class AtmnewController extends Controller
         $owners2 = Owner::all(['name', 'id']);
         $ownersJson = json_encode($owners2);
 
-        $bancos                         = \DB::table('clientes_bancos')->pluck('descripcion','id');
+        $bancos                         = \DB::table('clientes_bancos')->pluck('descripcion','id')->toArray();
         $banco_id = 0;
         
-        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id');
+        $tipo_cuentas                   = \DB::table('clientes_tipo_cuenta')->pluck('descripcion','id')->toArray();
         $tipo_cuentas_id = 0;
 
-        $canales                          = \DB::table('canal')->pluck('descripcion','id');
+        $canales                          = \DB::table('canal')->pluck('descripcion','id')->toArray();
         $canal_id = 0;
-        $categorias                     = \DB::table('categorias')->pluck('descripcion','id');
+        $categorias                     = \DB::table('categorias')->pluck('descripcion','id')->toArray();
         $categoria_id = 0;
         $caracteristicas                  = array( 'Agregar caracteristica');
-        $responsables                     = User::where('manager_eglobalt', true)->pluck('description','id');
+        $responsables                     = User::where('manager_eglobalt', true)->pluck('description','id')->toArray();
 
         $data = array(
             'atm'                           => $atm,
@@ -811,7 +812,7 @@ class AtmnewController extends Controller
             'responsables'                  => $responsables,
             'grupo_caracteristica'          => $grupo_caracteristica
         );
-       //dd($data);
+ 
         return view('atmnew.edit_form_step', $data);
     }
 
@@ -1319,8 +1320,10 @@ class AtmnewController extends Controller
         $params = \DB::table('atm_param')
             ->whereRaw($where)
             ->paginate(20);
+        
+        $index = "";
 
-        return view('atmnew.params_list', compact('atmId','params'));
+        return view('atmnew.params_list', compact('atmId','params','index'));
     }
 
     public function paramStore($atmId, Request $request)
@@ -1402,8 +1405,9 @@ class AtmnewController extends Controller
             ->orderBy('tipo_partes','asc')
             ->orderBy('nombre_parte','asc')
             ->paginate(20);
+        $index = "";
 
-        return view('atmnew.parts_list', compact('atmId','parts'));
+        return view('atmnew.parts_list', compact('atmId','parts','index'));
     }
 
     public function partsUpdate($atmId, Request $request)

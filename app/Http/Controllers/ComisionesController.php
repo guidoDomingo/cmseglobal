@@ -2065,7 +2065,10 @@ class ComisionesController extends Controller
                 ->take($i)
             ->get();
 
-            $ventasondanet = implode(';', array_column($idventasondanet, 'destination_operation_id'));
+            //dd($idventasondanet);
+
+            $ventasondanet = implode(';', array_column($idventasondanet->toArray(), 'destination_operation_id'));
+    
             \Log::info('[Recibo Comision - Transacciones] Ventas a cobrar', ['ventasondanet' => $ventasondanet]);
 
             $last_balance = \DB::table('mt_movements')->where('atm_id',$atm_id)->orderBy('id','desc')->first();
@@ -2707,7 +2710,7 @@ class ComisionesController extends Controller
                     ->whereNotNull('branches.user_id')
                     ->whereNull('atms.deleted_at')
                     ->whereNull('points_of_sale.deleted_at')
-            ->pluck('id_atm');
+            ->pluck('id_atm')->toArray();
             
             \Log::info(json_decode(json_encode($atms), true));
 
@@ -3529,7 +3532,7 @@ class ComisionesController extends Controller
                 //->where('atms.owner_id', 44)
                 ->where('id', $atm_id)
                 ->whereNull('atms.deleted_at')
-            ->pluck('id_atm');
+            ->pluck('id_atm')->toArray();
 
             if(empty($atms)){
                 $response['error'] = false;

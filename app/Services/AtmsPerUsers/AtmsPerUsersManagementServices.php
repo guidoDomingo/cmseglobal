@@ -123,9 +123,9 @@ class AtmsPerUsersManagementServices
                         \DB::raw("(u.description || ' - ' || u.username) as user"),
                         \DB::raw("to_char(u.created_at, 'DD/MM/YYYY - HH24:MI:SS') as created_at"),
                         \DB::raw("to_char(u.updated_at, 'DD/MM/YYYY - HH24:MI:SS') as updated_at"),
-                        //\DB::raw("'[]'::json as atms_per_user")
+              
 
-                        \DB::raw('count(apu.id) as atms_per_user_count'),
+                        \DB::raw("COUNT(apu.id) as atms_per_user_count"),
                         \DB::raw("
                             coalesce(
                                 json_agg(
@@ -153,6 +153,8 @@ class AtmsPerUsersManagementServices
                  * Filtros para la búsqueda
                  */
 
+             
+
                 if (isset($request['user_id'])) {
                     if ($request['user_id'] !== '' and $request['user_id'] !== 'Todos') {
                         $records = $records->where('u.id', $request['user_id']);
@@ -162,6 +164,8 @@ class AtmsPerUsersManagementServices
                 if ($super_user == false) {
                     $records = $records->where('u2.id', $user_supervisor_id);
                 }
+
+               
 
                 $records = $records
                     ->groupBy(
@@ -181,9 +185,12 @@ class AtmsPerUsersManagementServices
                     )
                     ->orderBy('atms_per_user_count', 'DESC');
 
+               
+
                 //\Log::info('QUERY:' . $records->toSql());
 
                 $records = $records->get();
+               
 
                 $records = json_decode(json_encode($records), true);
 

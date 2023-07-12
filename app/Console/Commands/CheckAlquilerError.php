@@ -44,7 +44,7 @@ class CheckAlquilerError extends Command
             $atms_ids = [];
 
             //return $gruop_id['group_ids'];
-            $alquileres = \DB::select(\DB::raw(
+            $alquileres = \DB::select(
             "
                 select  ca.id, 
                         bg.description as grupo, 
@@ -65,7 +65,7 @@ class CheckAlquilerError extends Command
                         and ca.cod_venta is null 
                         and ca.fecha_vencimiento < now()
                 order by fecha_vencimiento desc"
-            ));
+            );
 
             //return $resumen_transacciones_groups;
 

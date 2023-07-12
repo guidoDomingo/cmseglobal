@@ -5385,7 +5385,7 @@ class ReportingController extends Controller
             order by saldo desc
         "));
 
-        $date = \DB::select(\DB::raw("
+        $date = \DB::select("
             select concat(TO_CHAR( now(), 'yyyymm'), 
             CASE 
                 WHEN 
@@ -5420,7 +5420,7 @@ class ReportingController extends Controller
                     EXTRACT(second FROM TIMESTAMP $date)::varchar(255)
             END,
             '305', '699')
-        "));
+        ");
 
         $i = 0;
         foreach ($resumen_transacciones_groups as $resumen_transacciones_group) {
@@ -5876,7 +5876,7 @@ class ReportingController extends Controller
             $hasta = Carbon::now()->today()->modify('-1 days');
             $where = "transactions.created_at BETWEEN '{$desde}' AND '{$hasta}' ";
 
-            $transactions = \DB::connection('eglobalt_replica')->select(\DB::raw("
+            $transactions = \DB::connection('eglobalt_replica')->select("
                 select 
                     transactions.created_at as fecha,transactions.created_at as hora, 
                     points_of_sale.description as sede, departamento.descripcion as departamento, 
@@ -5902,7 +5902,7 @@ class ReportingController extends Controller
                     and transactions.service_source_id=8
                 order by 
                     transactions.id desc, transactions.created_at desc
-            "));
+            ");
 
             $url_temp = storage_path('excel/exports');
 
