@@ -20,7 +20,7 @@
                 <h2>Vistas</h2>
                 <div class="box">
                     <div class="box-header">
-                        {!! Form::open(array('action' => array('WebServiceModelController@store', $service_id))) !!}
+                       {!! Form::open(array('route' => ['wsproducts.models.store', 'wsproduct' => $service_id], 'method' => 'POST')) !!}
                         <div class="form-group">
                             {!! Form::label('description', 'Nombre') !!}
                             {!! Form::text('key', null , ['class' => 'form-control', 'placeholder' => 'Nombre', 'required' ]) !!}

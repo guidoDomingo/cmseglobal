@@ -20,7 +20,7 @@
                 <h2>Vistas</h2>
                 <div class="box">
                     <div class="box-header">
-                        {!! Form::open(array('action' => array('WebServiceBuilderController@store', $wsproduct_id))) !!}
+                        {!! Form::open(array('route' => ['wsproducts.wsbuilder.store', 'wsproduct' => $wsproduct_id], 'method' => 'POST')) !!}
                         <div class="form-group">
                             {!! Form::label('description', 'Descripción') !!}
                             {!! Form::text('description', null , ['class' => 'form-control', 'placeholder' => 'Elemento para mostrar ayuda en pantalla' ]) !!}

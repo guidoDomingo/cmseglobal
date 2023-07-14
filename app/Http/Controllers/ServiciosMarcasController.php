@@ -150,9 +150,8 @@ class ServiciosMarcasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($service_id,Request $request)
+    public function edit($service_id,$service_source_id,Request $request)
     {
-        $service_source_id = request()->query('service_source_id');
 
         if (!$this->user->hasAccess('servicio_marca.add|edit')) {
             \Log::error('Unauthorized access attempt',

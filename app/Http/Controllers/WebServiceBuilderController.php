@@ -68,7 +68,7 @@ class WebServiceBuilderController extends Controller
         $screen_view_description->save();
 
 
-        return redirect()->route('wsproducts.wsbuilder.index', ['id' => $wsproduct_id]);
+        return redirect()->route('wsproducts.wsbuilder.index', ['wsproduct' => $wsproduct_id]);
     }
 
     /**

@@ -79,7 +79,7 @@
                                         <td>{{ date('d/m/y H:i', strtotime($servicios_marca->updated_at)) }}</td>
                                         <td>
                                             @if (Sentinel::hasAccess('servicio_marca.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('servicios_marca.edit',['servicios_marca' => $servicios_marca->service_id,'service_source_id' => $servicios_marca->service_source_id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('servicios_marca.edit',['service_id' => $servicios_marca->service_id,'service_source_id' => $servicios_marca->service_source_id])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('servicio_marca.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>

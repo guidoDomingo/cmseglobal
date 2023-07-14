@@ -200,7 +200,7 @@ Route::post('marca/activar_marca', ['as' => 'marca.activar_marca', 'uses' => 'Co
 Route::get('marca/order', ['as' => 'marca.orderget', 'uses' => 'Controllers\MarcasController@order']);
 Route::post('marca/order', ['as' => 'marca.order', 'uses' => 'Controllers\MarcasController@order']);
 Route::get('marca/get_by_category', ['as' => 'marca.get_by_category', 'uses' => 'Controllers\MarcasController@get_by_category']);
-Route::resource('marca', 'MarcasController');
+Route::resource('marca', 'Controllers\MarcasController');
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+
@@ -357,8 +357,8 @@ Route::get('webservices/status/{id}', ['as' => 'services_status', 'uses' => 'Con
  */
 Route::resource('wsproducts', 'Controllers\ServiceProviderProductController');
 Route::resource('wsproducts.wsbuilder', 'Controllers\WebServiceBuilderController');
-Route::resource('wsproducts.models', 'Controllers\WebServiceModelController');
-Route::resource('wsproducts.models', 'Controllers\WebServiceModelController');
+Route::resource('wsproducts.models', 'Controllers\WebServiceModelController')->except(['delete']);
+//Route::resource('wsproducts.models', 'Controllers\WebServiceModelController');
 Route::post('wsproducts/models/delete/{collection}', ['as' => 'wsproducts.models.delete', 'uses' => 'Controllers\WebServiceModelController@destroy']);
 Route::resource('wsproducts.wsbuilder.views', 'Controllers\WebServiceViewsBuilderController');
 
