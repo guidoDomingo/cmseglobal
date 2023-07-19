@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/pruebalaravel', function(){
+    $connection = \DB::connection();
+    $databaseName = $connection->getDatabaseName();
+    $config = $connection->getConfig();
+    $host = $config['host'];
+
+    return  "La conexión actual está apuntando a la base de datos: " . $databaseName . " server: ". $host;
+});

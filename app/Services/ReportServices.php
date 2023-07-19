@@ -3070,42 +3070,50 @@ class ReportServices
                 if (!empty($whereGroup)) {
                     $query->whereRaw($whereGroup);
                 }
-            })->get()->pluck('description', 'id');
-            $groups->prepend('Todos', '0');
+            })->get()->pluck('description', 'id')->prepend('Todos', '0')->toArray();
+
+           
 
             $owners     = Owner::orderBy('owners.name')->where(function ($query) use ($whereOwner) {
                 if (!empty($whereOwner)) {
                     $query->whereRaw($whereOwner);
                 }
-            })->get()->pluck('name', 'id');
-            $owners->prepend('Todos', '0');
+            })->get()->pluck('name', 'id')->prepend('Todos', '0')->toArray();
 
             $branches   = Branch::orderBy('description')->where(function ($query) use ($whereBranch) {
                 if (!empty($whereBranch)) {
                     $query->whereRaw($whereBranch);
                 }
-            })->get()->pluck('description', 'id');
-            $branches->prepend('Todos', '0');
+            })->get()->pluck('description', 'id')->prepend('Todos', '0')->toArray();
 
             $pdvs       = Pos::orderBy('description')->where(function ($query) use ($wherePos) {
                 if (!empty($wherePos)) {
                     $query->whereRaw($wherePos);
                 }
             })->with('Atm')->get();
+
+
             $pos = [];
             $item = array();
             $item[0] = 'Todos';
 
-            foreach ($pdvs  as $pdv) {
+           // dd($pdvs);
+    
+            foreach ($pdvs  as $key => $pdv) {
                 $item[$pdv->id] = $pdv->description . ' - ' . $pdv->Atm->code;
                 $pos = $item;
             }
+
+           // dd([$pos]);
+
             $status = array('0' => 'Todos', 'success' => 'Aprobado', 'canceled' => 'Cancelado', 'error' => 'Error', 'rollback' => 'Reversado', 'iniciated' => 'Iniciado', 'error dispositivo' => 'Error de dispositivo', 'inconsistency' => 'Inconsistencia');
             $atmType = array('0' => 'Todos', 'da' => 'App Billetaje', 'ws' => 'Web Service', 'at' => 'Atm');
             $services   = ServiceProviderProduct::with('WebServiceProvider')->orderBy('service_provider_id', 'DESC')->get();
             $services_data = [];
             $service_item = array();
             $payment_methods = array('0' => 'Todos', 'efectivo' => 'Efectivo', 'canje' => 'Canje', 'QR' => 'Todos QR', 'TC' => 'Tarjeta de crédito', 'TD' => 'Tarjeta de débito');
+
+           
 
             if ($this->user->hasAccess('ticketea') && !$this->user->hasAccess('superuser')) {
                 $service_item[28] = 'Ticketea - Venta de tickets';
@@ -3151,6 +3159,8 @@ class ReportServices
                 'service_id'    => 0,
                 'service_request_id'    => '',
             );
+
+           
 
             return $resultset;
         } catch (\Exception $e) {
@@ -14473,6 +14483,8 @@ class ReportServices
         try {
             $fechaEnd = date('Y-m-d H:i:s');
 
+           
+
             $fecha = date('Y-m-d', strtotime($fechaEnd . "- 30 days"));
             $fechaInit = $fecha . ' 00:00:00';
 
@@ -14501,6 +14513,8 @@ class ReportServices
                 'target'   => 'Ventas pendientes de afectar extractos',
                 'movements' => $movements
             );
+
+            
             \Log::info($resultset);
             return $resultset;
         } catch (\Exception $e) {

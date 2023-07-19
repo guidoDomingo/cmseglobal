@@ -100,9 +100,9 @@ class ReferenceLimitedController extends Controller
     {  
     }
 
-    public function edit($reference, $service_rule_id, $current_params_rule_id , Request $request)
+    public function edit($service_rule_id , $current_params_rule_id , $reference , Request $request)
     {   
-
+    
         if (!$this->user->hasAccess('references_rules.add|edit')) {
             \Log::error('Unauthorized access attempt',
                 ['user' => $this->user->username, 'route' => \Request::route()->getActionName()]);

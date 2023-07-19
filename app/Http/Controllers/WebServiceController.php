@@ -41,6 +41,7 @@ class WebServiceController extends Controller
         $name = $request->get('name');
         $wsproviderId = $request->get('wsprovider');
         $webservices = WebService::filterAndPaginate($wsproviderId, $name);
+   
         return view('webservices.index', compact('webservices', 'name', 'wsproviderId'));
     }
 

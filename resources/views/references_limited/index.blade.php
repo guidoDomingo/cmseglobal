@@ -62,7 +62,7 @@
                                         <td>{{ $reference->created_at }}</td>                                                                              
                                         <td>
                                             @if (Sentinel::hasAccess('references_rules.add|edit'))
-                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('references.edit',['reference' => $reference->reference, 'service_rule_id' => $reference->service_rule_id,'current_params_rule_id' => $reference->current_params_rule_id])}}"><i class="fa fa-pencil"></i></a>
+                                            <a class="btn btn-success btn-flat btn-row" title="Editar" href="{{ route('references.edit',['idparam_rules' => $reference->service_rule_id ,'current_params_rule_id' => $reference->current_params_rule_id , 'reference' => $reference->reference])}}"><i class="fa fa-pencil"></i></a>
                                             @endif
                                             @if (Sentinel::hasAccess('references_rules.delete'))
                                             <a class="btn-delete btn btn-danger btn-flat btn-row" title="Eliminar" href="#" ><i class="fa fa-remove"></i> </a>
