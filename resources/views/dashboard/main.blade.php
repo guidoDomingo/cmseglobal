@@ -33,6 +33,7 @@ Dashboard
     <h1>
         Dashboard
         <small>Monitoreo de la red</small>
+        
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
@@ -58,10 +59,10 @@ Dashboard
         <div class="box-body">-->
 
             <div class="row">
-
+                
                 <div class="col-md-8">
 
-                    <div class="row">
+                    {{-- <div class="row">
                         <div class="col-md-12">
                             @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
                             <div class="box box-default">
@@ -97,7 +98,8 @@ Dashboard
                             </div>
                             @endif
                         </div>
-                    </div>
+                    </div> --}}
+                    <livewire:graficos>
 
                     <div class="row">
                         <div class="col-md-12">
@@ -445,9 +447,9 @@ Dashboard
 <script src="/dashboard/plugins/amcharts/lang/es.js"></script>
 
 <script type="application/javascript">
-    $('input[name=redes]').click(function() {
+    {{-- $('input[name=redes]').click(function() {
         dashboard.main.elements.atms_general($(this).val())
-    });
+    }); --}}
 
     $('input[name=report]').click(function() {
         console.log($(this).val());
@@ -732,10 +734,10 @@ Dashboard
         });
     }
 
-    $('#reload_data_pie').click(function() {
+    {{-- $('#reload_data_pie').click(function() {
         var red = $('input[name=redes]:checked').val();
         dashboard.main.elements.atms_general(red);
-    });
+    }); --}}
 </script>
 
 <script src="/dashboard/graphs.js"></script>
@@ -952,7 +954,7 @@ Dashboard
                         $("#retiro_content").show();
                     });
                 },
-                atms_general:function(redes){                
+                {{-- atms_general:function(redes){                
                     $("#graficoAtm").hide();
                     $("#atm_spinn").show();
 
@@ -1075,7 +1077,7 @@ Dashboard
                     }).error(function(){
                         $("#modal-contenido").html($errorHtml);
                     });
-                },
+                }, --}}
                 balance_online: function(){
                     $.post("/dashboard/balance_online", {_token: token }, function( data ) {
                         console.log(data);
@@ -1186,9 +1188,9 @@ Dashboard
                     dashboard.main.elements.refreshAtm();
                 @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
+                {{-- @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
                     dashboard.main.elements.atms_general('todos');
-                @endif
+                @endif --}}
 
             }
         }
