@@ -31,4 +31,9 @@ class HomeController extends Controller
 
         return view($blade);
     }
+
+    public function analitica()
+    {
+        return view('dashboard.analitica');
+    }
 }

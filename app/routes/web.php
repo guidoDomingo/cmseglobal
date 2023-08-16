@@ -8,6 +8,7 @@ use Carbon\Carbon;
 
 use App\Services\DepositosTerminalesServices;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 
 Route::get('login', ['as' => 'login.page', 'uses' => 'Controllers\Auth\AuthController@loginPage']);
@@ -57,6 +58,15 @@ Route::resource('permissions', 'Controllers\PermissionsController');
 |----------------------------------------------------------------------------------------------------------------------+
 */
 Route::get('/', ['as' => 'home', 'uses' => 'Controllers\HomeController@index']);
+
+/*
+|----------------------------------------------------------------------------------------------------------------------+
+| ANALITICA NUEVA PLANTILLA                                                                                          |
+|----------------------------------------------------------------------------------------------------------------------+
+*/
+Route::get('/analitica', [HomeController::class, 'analitica'])->name('analitica');
+
+
 
 /*
 |----------------------------------------------------------------------------------------------------------------------+

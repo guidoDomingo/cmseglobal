@@ -21,7 +21,15 @@
     <link href="{{ asset('src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
-    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->   
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES --> 
+
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
+    <!-- END THEME GLOBAL STYLES -->  
 
      <!-- Bootstrap 3.3.4 -->
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
@@ -39,6 +47,18 @@
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     
     <livewire:styles />
+
+    <style>
+        .list-group-buscador {
+            display: none;
+            position: absolute;
+            background-color: #060818;
+            padding: 10px;
+            margin: 8px;
+            z-index: 2;
+            width: 100%;
+        }
+    </style>
 
 </head>
 <body class="layout-boxed enable-secondaryNav">
@@ -78,6 +98,11 @@
                 {{-- <ul id="menuList" class="list-group ">
           
                 </ul> --}}
+
+                
+                <div id="menuList" class="list-group list-group-buscador">
+
+                </div>
         
                 
             </div>
@@ -310,10 +335,10 @@
                         </a>
                         <ul class="dropdown-menu submenu list-unstyled" id="dashboard" data-bs-parent="#accordionExample">
                             <li class="active">
-                                <a href="./index.html"> Analytics </a>
+                                <a href="{{ route('analitica') }}"> Analitica </a>
                             </li>
                             <li>
-                                <a href="./index2.html"> Sales </a>
+                                <a href="{{ route('home') }}"> Dashboard </a>
                             </li>
                         </ul>
                     </li>
@@ -1445,49 +1470,64 @@
 
     <script>
         // script.js
-            const searchInput = document.getElementById('searchInput');
-            const menuList = document.getElementById('menuList');
-            const menuItems = [
-                { name: 'Item 1', link: 'pagina1.html' },
-                { name: 'Item 2', link: 'pagina2.html' },
-                { name: 'Item 3', link: 'pagina3.html' },
-                // Agrega más elementos del menú aquí
-            ];
+        const searchInput = document.getElementById('searchInput');
+        const menuList = document.getElementById('menuList');
+        const menuItems = [{
+                name: 'Item 1',
+                link: 'pagina1.html'
+            },
+            {
+                name: 'Item 2',
+                link: 'pagina2.html'
+            },
+            {
+                name: 'Item 3',
+                link: 'pagina3.html'
+            },
+            // Agrega más elementos del menú aquí
+        ];
 
-            searchInput.addEventListener('input', () => {
+        searchInput.addEventListener('input', () => {
 
-                const searchTerm = searchInput.value.toLowerCase();
+            clearList(menuList);
 
-                if(searchTerm == ''){
-                     clearList();
-                }
+            const searchTerm = searchInput.value.toLowerCase();
+            const search = searchInput.value.trim();
+            console.log(search);
+            // Filtrar los elementos del menú
+            const filteredItems = menuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
 
-                // Filtrar los elementos del menú
-                const filteredItems = menuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
+            // Limpiar la lista de resultados antes de cada búsqueda
 
-                // Limpiar la lista de resultados antes de cada búsqueda
-                menuList.innerHTML = '';
 
-                // Crear elementos de lista y enlaces para los elementos filtrados
-                filteredItems.forEach(filteredItem => {
-                    const li = document.createElement('li');
-                    const a = document.createElement('a');
-                    a.href = filteredItem.link;
-                    a.textContent = filteredItem.name;
-                    li.classList.add('list-group-item');
-                    li.appendChild(a);
-                    menuList.appendChild(li);
-                });
+            if (search == "" || filteredItems.length === 0) {
+                menuList.style.display = "none";
+                clearList(menuList);
+                return
+            }
+            // Crear elementos de lista y enlaces para los elementos filtrad
 
+            menuList.style.display = "block";
+
+            filteredItems.forEach(filteredItem => {
+                const a = document.createElement('a');
+                a.href = filteredItem.link;
+                a.textContent = filteredItem.name;
+                a.classList.add('list-group-item', 'list-group-item-action');
+                menuList.appendChild(a);
             });
 
+        });
 
-            // Función para borrar todos los elementos de la lista
-            function clearList() {
-                menuList.innerHTML = '';
+
+        // Función para borrar todos los elementos de la lista
+        function clearList(myDiv) {
+            while (myDiv.firstChild) {
+                myDiv.removeChild(myDiv.firstChild);
             }
-
+        }
     </script>
+
     <livewire:scripts />
 
 </body>
