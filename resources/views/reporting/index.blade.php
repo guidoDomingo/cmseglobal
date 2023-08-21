@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Reportes
 @endsection

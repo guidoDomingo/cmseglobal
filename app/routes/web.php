@@ -10,7 +10,6 @@ use App\Services\DepositosTerminalesServices;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
-
 Route::get('login', ['as' => 'login.page', 'uses' => 'Controllers\Auth\AuthController@loginPage']);
 Route::post('login', ['as' => 'login', 'uses' => 'Controllers\Auth\AuthController@login']);
 Route::get('logout', ['as' => 'logout', 'uses' => 'Controllers\Auth\AuthController@logout']);
@@ -65,6 +64,7 @@ Route::get('/', ['as' => 'home', 'uses' => 'Controllers\HomeController@index']);
 |----------------------------------------------------------------------------------------------------------------------+
 */
 Route::get('/analitica', [HomeController::class, 'analitica'])->name('analitica');
+
 
 
 

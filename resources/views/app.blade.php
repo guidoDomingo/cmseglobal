@@ -58,6 +58,24 @@
             z-index: 2;
             width: 100%;
         }
+
+        #sidebar ul.menu-categories ul.submenu > li a {
+            justify-content: flex-start !important;
+        }
+
+        body.dark #sidebar ul.menu-categories ul.submenu {
+            max-width: 240px;
+            width: 100%;
+            width: 230px;
+
+        }
+
+        body.dark #sidebar ul.menu-categories ul.submenu > li.sub-submenu ul.sub-submenu {
+            max-width: 240px;
+            padding: 10px 0;
+            margin-left: 0px !important;
+        }
+
     </style>
 
 </head>
@@ -334,12 +352,18 @@
                             </div>
                         </a>
                         <ul class="dropdown-menu submenu list-unstyled" id="dashboard" data-bs-parent="#accordionExample">
+
+                            @if (\Sentinel::getUser()->inRole('superuser'))
+
                             <li class="active">
                                 <a href="{{ route('analitica') }}"> Analitica </a>
                             </li>
                             <li>
                                 <a href="{{ route('home') }}"> Dashboard </a>
                             </li>
+
+                            @endif
+
                         </ul>
                     </li>
 
@@ -351,91 +375,173 @@
                         <a href="#apps" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
                             <div class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-cpu"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
-                                <span>Apps</span>
+                                <span>Administración</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
                         <ul class="dropdown-menu submenu list-unstyled" id="apps" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./app-calendar.html"> Calendar </a>
-                            </li>
-                            <li>
-                                <a href="./app-chat.html"> Chat </a>
-                            </li>
-                            <li>
-                                <a href="./app-mailbox.html"> Mailbox </a>
-                            </li>
-                            <li>
-                                <a href="./app-todoList.html"> Todo List </a>
-                            </li>
-                            <li>
-                                <a href="./app-notes.html"> Notes </a>
-                            </li>
-                            <li>
-                                <a href="./app-scrumboard.html"> Scrumboard </a>
-                            </li>
-                            <li>
-                                <a href="./app-contacts.html"> Contacts </a>
-                            </li>
+                            @if (\Sentinel::getUser()->hasAccess('users'))
+                                <li @if (Request::is('users*')) class="active" @endif>
+                                    <a href="{{ route('users.index') }}"><i
+                                            class="fa fa-user"></i><span>Usuarios</span></a>
+                                </li>
+                            @endif
+                            @if (\Sentinel::getUser()->hasAccess('roles'))
+                                <li @if (Request::is('roles'))  @endif>
+                                    <a href="{{ route('roles.index') }}"><i class="fa fa-users"></i>Roles</a>
+                                </li>
+                            @endif
+
+                            @if (\Sentinel::getUser()->hasAccess('roles'))
+                                <li @if (Request::is('roles_report')) class="active" @endif>
+                                    <a href="{{ route('roles_report') }}"><i class="fa fa-users"></i><span>Roles - Reporte</span></a>
+                                </li>
+                            @endif
+
+
+                            @if (Sentinel::getUser()->hasAccess('permissions'))
+                                <li @if (Request::is('permissions*')) class="active" @endif>
+                                    <a href="{{ route('permissions.index') }}"><i
+                                            class="fa fa-key"></i><span>Permisos</span></a>
+                                </li>
+                            @endif
+                            @if (Sentinel::getUser()->hasAccess('usuarios_bahia'))
+                                <li @if (Request::is('usuarios_bahia*')) class="active" @endif>
+                                    <a href="{{ route('usuarios_bahia.index') }}"><i class="fa fa-user"></i><span>Usuarios
+                                            Bahia</span></a>
+                                </li>
+                            @endif
                             <li class="sub-submenu dropend">
-                                <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Invoice <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"> Zonas Geográficas <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
                                 <ul class="dropdown-menu list-unstyled sub-submenu" id="invoice"> 
-                                    <li>
-                                        <a href="./app-invoice-list.html"> List </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-invoice-preview.html"> Preview </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-invoice-add.html"> Add </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-invoice-edit.html"> Edit </a>
-                                    </li>
+                                    @if (Sentinel::getUser()->hasAccess('departamentos'))
+                                        <li @if (Request::is('departamentos*')) class="active" @endif>
+                                            <a href="{{ route('departamentos.index') }}"><i
+                                                    class="fa fa-location-arrow"></i> Departamentos</a>
+                                        </li>
+                                    @endif
+                                    @if (Sentinel::getUser()->hasAccess('ciudades'))
+                                        <li @if (Request::is('ciudades*')) class="active" @endif>
+                                            <a href="{{ route('ciudades.index') }}"><i
+                                                    class="fa fa-location-arrow"></i> Ciudades</a>
+                                        </li>
+                                    @endif
+                                    @if (Sentinel::getUser()->hasAccess('barrios'))
+                                        <li @if (Request::is('barrios*')) class="active" @endif>
+                                            <a href="{{ route('barrios.index') }}"><i
+                                                    class="fa fa-location-arrow"></i> Barrios</a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
+
+                              @if (Sentinel::getUser()->hasAccess('notifications_params'))
+                                <li @if (Request::is('notifications_params*')) class="active" @endif>
+                                    <a href="{{ route('notifications_params.index') }}"><i
+                                            class="fa fa-key"></i><span>Configurar Alertas</span></a>
+                                </li>
+                            @endif
+                            @if (\Sentinel::getUser()->hasAccess('parametros_comisiones'))
+                                <li @if (Request::is('parametros_comisiones*')) class="active" @endif>
+                                    <a href="{{ route('parametros_comisiones.index') }}">
+                                        <i class="fa fa-gears"></i><span>Parametros de Comisiones</span>
+                                    </a>
+                                </li>
+                            @endif
+                            @if (\Sentinel::getUser()->hasAccess('group'))
+                                <li @if (Request::is('group*')) class="active" @endif>
+                                    <a href="{{ route('groups.index') }}">
+                                        <i class="fa fa-object-group"></i></i><span>Grupos</span>
+                                    </a>
+                                </li>
+                            @endif
                             <li class="sub-submenu dropend">
-                                <a href="#ecommerce" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Ecommerce <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <a href="#ecommerce" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Gestión de Miniterminal <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
                                 <ul class="dropdown-menu list-unstyled sub-submenu" id="ecommerce" data-bs-parent="#apps"> 
-                                    <li>
-                                        <a href="./app-ecommerce-product-shop.html"> Shop </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-ecommerce-product.html"> Product </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-ecommerce-product-list.html"> List </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-ecommerce-product-add.html"> Create </a>
-                                    </li>                            
-                                    <li>
-                                        <a href="./app-ecommerce-product-edit.html"> Edit </a>
-                                    </li>
+                                     @if (\Sentinel::getUser()->hasAccess('ventas') || \Sentinel::getUser()->hasAccess('pago_clientes') || \Sentinel::getUser()->hasAccess('descuento_comision'))
+                                        <li @if (Request::is('ventas*, pago_clientes*, recibos_comisiones*')) class="active" @endif>
+                                            @if (\Sentinel::getUser()->hasAccess('ventas'))
+                                                <a href="{{ route('venta.index') }}">
+                                                    <i class="fa fa-briefcase"></i><span>Venta Miniterminal</span>
+                                                </a>
+                                                <a href="{{ route('alquiler.index') }}">
+                                                    <i class="fa fa-briefcase"></i><span>Alquiler Miniterminal</span>
+                                                </a>
+                                                <a href="{{ route('reporting.cuotas_alquiler') }}">
+                                                    <i class="fa fa-tags"></i><span>Cuotas de Alquiler</span>
+                                                </a>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('descuento_comision'))
+                                                <a href="{{ route('recibos_comisiones.index') }}">
+                                                    <i class="fa fa-list-alt"></i><span>Descuento por Comision</span>
+                                                </a>
+                                            @endif
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
+
+                            @if (\Sentinel::getUser()->hasAccess('pago_clientes'))
+                                <li class="sub-submenu dropend">
+                                    <a href="#ecommerce" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Gestión de Miniterminal <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                    <ul class="dropdown-menu list-unstyled sub-submenu" id="blog" data-bs-parent="#apps"> 
+                                        @if (\Sentinel::getUser()->hasAccess('pago_clientes'))
+                                            <li @if (Request::is('pago_clientes')) class="active" @endif>
+                                                @if (\Sentinel::getUser()->hasAccess('pago_clientes'))
+                                                    <a href="{{ route('pago_clientes') }}">
+                                                        <i class="fa fa-money"></i><span>Generar Pago de clientes</span>
+                                                    </a>
+                                                @endif
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('pago_clientes.import_pago'))
+                                            <li @if (Request::is('pago_clientes/register_pago')) class="active" @endif>
+                                                @if (\Sentinel::getUser()->hasAccess('pago_clientes.import_pago'))
+                                                    <a href="{{ route('pago_clientes.register_pago') }}">
+                                                        <i class="fa fa-money"></i><span>Confirmar Pagos</span>
+                                                    </a>
+                                                @endif
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('pago_clientes'))
+                                            <li @if (Request::is('pago_clientes/reporte')) class="active" @endif>
+                                                <a href="{{ route('reporting.pago_cliente') }}">
+                                                    <i class="fa fa-money"></i><span>Reporte de Pagos</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                </li>
+                            @endif
+
                             <li class="sub-submenu dropend">
-                                <a href="#blog" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Blog <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <a href="#ecommerce" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Gestión de Dispositivos <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
                                 <ul class="dropdown-menu list-unstyled sub-submenu" id="blog" data-bs-parent="#apps"> 
-                                    <li>
-                                        <a href="./app-blog-grid.html"> Grid </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-blog-list.html"> List </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-blog-post.html"> Post </a>
-                                    </li>
-                                    <li>
-                                        <a href="./app-blog-create.html"> Create </a>
-                                    </li>                            
-                                    <li>
-                                        <a href="./app-blog-edit.html"> Edit </a>
-                                    </li>
+                                    @if (\Sentinel::getUser()->hasAccess('housing'))
+                                        <li @if (Request::is('housing*')) class="active" @endif>
+                                            <a href="{{ route('brands.index') }}">
+                                                <i class="fa fa-eject" aria-hidden="true"></i><span>Marcas -
+                                                    Modelos</span>
+                                            </a>
+                                            <a href="{{ route('miniterminales.index') }}">
+                                                <i class="fa fa-building"></i><span>Housing</span>
+                                            </a>
+                                            <a href="{{ route('devices.showGet') }}">
+                                                <i class="fa fa-server"></i><span>Listado de dispositivos</span>
+                                            </a>
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
+
+                             @if (\Sentinel::getUser()->hasAccess('compra_tarex'))
+                                <li @if (Request::is('compra_tarex*')) class="active" @endif>
+                                    <a href="{{ route('compra_tarex.index') }}"><i class="fa fa-credit-card"></i><span>Compra de Saldo</span></a>
+                                </li>
+                            @endif
+
                         </ul>
                     </li>
 
@@ -1466,26 +1572,63 @@
     <script src="{{ asset('src/assets/js/dashboard/dash_1.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
     @include('partials._js')
+
+    <?php
+
+        $role = \Sentinel::getRoles();
+        
+        $user_permisos = \Sentinel::findRoleById($role[0]->id);
+
+    ?>
+
+    <div id="user-permisos" data-permisos="{{ json_encode($user_permisos->permissions) }}"></div>
+
     @yield('js')
 
     <script>
         // script.js
+       // Obtén el elemento HTML con los datos de permisos
+        const userPermisosElement = document.getElementById('user-permisos');
+
+        // Accede a los datos de permisos almacenados en el atributo data-permisos
+        const userPermisos = JSON.parse(userPermisosElement.getAttribute('data-permisos'));
+        const userPermisosArray = Object.keys(userPermisos);
+
+        // Ahora puedes utilizar userPermisos en JavaScript
+        console.log(userPermisos);
+
         const searchInput = document.getElementById('searchInput');
         const menuList = document.getElementById('menuList');
-        const menuItems = [{
-                name: 'Item 1',
-                link: 'pagina1.html'
+        const menuItems = [
+            {
+                name: 'Dashboard',
+                link: '{{ route('home') }}',
+                requiredPermission: ['departamentoss','monitoreo']
             },
             {
-                name: 'Item 2',
-                link: 'pagina2.html'
+                name: 'Analitica',
+                link: '{{ route('analitica') }}',
+                requiredPermission: ['monitoreo']
             },
             {
-                name: 'Item 3',
-                link: 'pagina3.html'
+                name: 'Usuarios',
+                link: '{{ route('users.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Roles',
+                link: '{{ route('roles.index') }}',
+                requiredPermission: ['monitoreo']
             },
             // Agrega más elementos del menú aquí
         ];
+
+        // Filtrar el array de objetos en base a los permisos del usuario
+        const filteredMenuItems = menuItems.filter(item => {
+            return item.requiredPermission.some(permission => userPermisosArray.includes(permission));
+        });
+
+        console.log(filteredMenuItems);
 
         searchInput.addEventListener('input', () => {
 
@@ -1495,7 +1638,7 @@
             const search = searchInput.value.trim();
             console.log(search);
             // Filtrar los elementos del menú
-            const filteredItems = menuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
+            const filteredItems = filteredMenuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
 
             // Limpiar la lista de resultados antes de cada búsqueda
 
@@ -1526,6 +1669,7 @@
                 myDiv.removeChild(myDiv.firstChild);
             }
         }
+
     </script>
 
     <livewire:scripts />

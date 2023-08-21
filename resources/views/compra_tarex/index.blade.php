@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Compra de saldo Epin
 @endsection

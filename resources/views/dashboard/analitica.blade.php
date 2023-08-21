@@ -74,6 +74,66 @@
                 </div>
             </div>
         </div>
+
+        <div id="chartBar" class="col-xl-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Simple Bar</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div id="s-bar" class=""></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chartMixed" class="col-xl-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Mixed</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div id="mixed-chart" class=""></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chartDonut" class="col-xl-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Donut</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div id="donut-chart" class=""></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="chartRadial" class="col-xl-12 layout-spacing">
+            <div class="statbox widget box box-shadow">
+                <div class="widget-header">
+                    <div class="row">
+                        <div class="col-xl-12 col-md-12 col-sm-12 col-12">
+                            <h4>Radial</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="widget-content widget-content-area">
+                    <div id="radial-chart" class=""></div>
+                </div>
+            </div>
+        </div>
     @endsection
 
 
@@ -288,6 +348,164 @@
             );
 
             chart.render();
-            
+
+            /* CHART BAR*/
+
+            var sBar = {
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                series: [{
+                    data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+                }],
+                xaxis: {
+                    categories: ['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan',
+                        'United States', 'China', 'Germany'
+                    ],
+                }
+            }
+
+            var chart = new ApexCharts(
+                document.querySelector("#s-bar"),
+                sBar
+            );
+
+            chart.render();
+
+            /* CHART MIXED*/
+
+            var options = {
+                chart: {
+                    height: 350,
+                    type: 'line',
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                series: [{
+                    name: 'Website Blog',
+                    type: 'column',
+                    data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+                }, {
+                    name: 'Social Media',
+                    type: 'line',
+                    data: [23, 42, 35, 27, 43, 22, 17, 31, 22, 22, 12, 16]
+                }],
+                stroke: {
+                    width: [0, 4]
+                },
+                title: {
+                    text: 'Traffic Sources'
+                },
+                labels: ['01 Jan 2001', '02 Jan 2001', '03 Jan 2001', '04 Jan 2001', '05 Jan 2001', '06 Jan 2001',
+                    '07 Jan 2001', '08 Jan 2001', '09 Jan 2001', '10 Jan 2001', '11 Jan 2001', '12 Jan 2001'
+                ],
+                xaxis: {
+                    type: 'datetime'
+                },
+                yaxis: [{
+                    title: {
+                        text: 'Website Blog',
+                    },
+
+                }, {
+                    opposite: true,
+                    title: {
+                        text: 'Social Media'
+                    }
+                }]
+
+            }
+
+            var chart = new ApexCharts(
+                document.querySelector("#mixed-chart"),
+                options
+            );
+
+            chart.render();
+
+            /* donut-chart   */
+
+            var donutChart = {
+                chart: {
+                    height: 350,
+                    type: 'donut',
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                series: [44, 55, 41, 17],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+            var donut = new ApexCharts(
+                document.querySelector("#donut-chart"),
+                donutChart
+            );
+
+            donut.render();
+
+            /* RADIAL CHART */
+
+            var radialChart = {
+                chart: {
+                    height: 350,
+                    type: 'radialBar',
+                    toolbar: {
+                        show: false,
+                    }
+                },
+                plotOptions: {
+                    radialBar: {
+                        dataLabels: {
+                            name: {
+                                fontSize: '22px',
+                            },
+                            value: {
+                                fontSize: '16px',
+                            },
+                            total: {
+                                show: true,
+                                label: 'Total',
+                                formatter: function(w) {
+                                    // By default this function returns the average of all series. The below is just an example to show the use of custom formatter function
+                                    return 249
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [44, 55, 67, 83],
+                labels: ['Apples', 'Oranges', 'Bananas', 'Berries'],
+            }
+
+            var chart = new ApexCharts(
+                document.querySelector("#radial-chart"),
+                radialChart
+            );
+
+            chart.render();
         </script>
     @endsection

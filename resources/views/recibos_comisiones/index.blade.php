@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Descuento por Comision
 @endsection

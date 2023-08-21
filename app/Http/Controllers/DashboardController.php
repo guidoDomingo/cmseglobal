@@ -18,7 +18,7 @@ class DashboardController extends Controller
     public function __construct()
     {
        $this->middleware('auth');
-        $this->user = \Sentinel::getUser();
+       $this->user = \Sentinel::getUser();
     }
 
     public $message = array(

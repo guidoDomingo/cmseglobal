@@ -36,6 +36,7 @@ class PermissionsController extends Controller
         return view('permissions.index', $data);
     }
 
+
     /**
      * Show the form for creating a new resource.
      *

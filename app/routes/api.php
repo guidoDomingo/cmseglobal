@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PermissionsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,10 +20,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/pruebalaravel', function(){
-    $connection = \DB::connection();
-    $databaseName = $connection->getDatabaseName();
-    $config = $connection->getConfig();
-    $host = $config['host'];
+    // $connection = \DB::connection();
+    // $databaseName = $connection->getDatabaseName();
+    // $config = $connection->getConfig();
+    // $host = $config['host'];
 
-    return  "La conexión actual está apuntando a la base de datos: " . $databaseName . " server: ". $host;
+    // return  "La conexión actual está apuntando a la base de datos: " . $databaseName . " server: ". $host;
+
+    $user = \Cartalyst\Sentinel\Laravel\Facades\Sentinel::getUser();
+
+    return [$user];
 });
+
+Route::get('/userpermissions', [PermissionsController::class, 'userpermissions']);

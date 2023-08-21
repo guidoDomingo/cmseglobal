@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Configuración de Alertas
 @endsection

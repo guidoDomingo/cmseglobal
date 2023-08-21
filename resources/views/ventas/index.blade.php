@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Venta de Miniterminal
 @endsection
@@ -69,7 +69,7 @@
                                         <tr data-id="{{ $venta->id }}">
                                             <td>{{ $venta->id }}.</td>
                                             <td>{{ $venta->num_serie }}</td>
-                                            <td>{{ $venta->group->description }}</td>
+                                            <td>{{ $venta->group->description ?? "" }}</td>
                                             @if ($venta->tipo_venta == 'co')
                                                 <td>Contado</td>
                                             @else
