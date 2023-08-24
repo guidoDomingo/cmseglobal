@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>Eglobalt S.A </title>
-    <link rel="icon" type="image/x-icon" href="../src/assets/img/favicon.ico"/>
+
+    <link rel="icon" type="image/x-icon" href="{{ asset('src/assets/img/favicon.ico') }}"/>
     <link href="{{ asset('layouts/horizontal-dark-menu/css/light/loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('layouts/horizontal-dark-menu/css/dark/loader.css') }}" rel="stylesheet" type="text/css" />
     <script src="{{ asset('layouts/horizontal-dark-menu/loader.js') }}"></script>
@@ -26,22 +27,39 @@
     <!-- BEGIN THEME GLOBAL STYLES -->
     <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/light/components/list-group.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css" />
 
     <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/assets/css/dark/components/list-group.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css" />
     <!-- END THEME GLOBAL STYLES -->  
 
-     <!-- Bootstrap 3.3.4 -->
-    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
+    <!-- BEGIN PAGE LEVEL STYLES -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- END PAGE LEVEL STYLES -->
+
+    {{-- TEMA ANTIGUA --}}
+
+    <!-- Bootstrap 3.3.4 -->
+    {{-- <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}"> --}}
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ 'https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' }}">
     <!-- Ionicons -->
-    <!-- <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"> -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/dist/css/skins/skin-black.min.css') }}"> 
 
     @include('partials._css')
+
+    {{-- CUSTOM --}}
+    <link href="{{ asset('src/assets/css/dark/custom.css') }}" rel="stylesheet" type="text/css" />
+
+    
+
     @yield('aditional_css')
 
     <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
@@ -74,6 +92,10 @@
             max-width: 240px;
             padding: 10px 0;
             margin-left: 0px !important;
+        }
+
+        .buscador-cms{
+            font-size: 15px;
         }
 
     </style>
@@ -1571,6 +1593,31 @@
     <script src="{{ asset('src/plugins/src/apex/apexcharts.min.js') }}"></script>
     <script src="{{ asset('src/assets/js/dashboard/dash_1.js') }}"></script>
     <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+
+    <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script>
+
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+
     @include('partials._js')
 
     <?php
@@ -1593,9 +1640,6 @@
         // Accede a los datos de permisos almacenados en el atributo data-permisos
         const userPermisos = JSON.parse(userPermisosElement.getAttribute('data-permisos'));
         const userPermisosArray = Object.keys(userPermisos);
-
-        // Ahora puedes utilizar userPermisos en JavaScript
-        console.log(userPermisos);
 
         const searchInput = document.getElementById('searchInput');
         const menuList = document.getElementById('menuList');
@@ -1620,6 +1664,51 @@
                 link: '{{ route('roles.index') }}',
                 requiredPermission: ['monitoreo']
             },
+            {
+                name: 'Roles Reporte',
+                link: '{{ route('roles_report') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Permisos',
+                link: '{{ route('permissions.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Usuarios Bahia',
+                link: '{{ route('usuarios_bahia.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Departamentos',
+                link: '{{ route('departamentos.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Ciudades',
+                link: '{{ route('ciudades.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Barrios',
+                link: '{{ route('barrios.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Configurar Alertas',
+                link: '{{ route('notifications_params.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Parametros de Comisiones',
+                link: '{{ route('parametros_comisiones.index') }}',
+                requiredPermission: ['monitoreo']
+            },
+            {
+                name: 'Grupos',
+                link: '{{ route('groups.index') }}',
+                requiredPermission: ['monitoreo']
+            },
             // Agrega más elementos del menú aquí
         ];
 
@@ -1627,8 +1716,6 @@
         const filteredMenuItems = menuItems.filter(item => {
             return item.requiredPermission.some(permission => userPermisosArray.includes(permission));
         });
-
-        console.log(filteredMenuItems);
 
         searchInput.addEventListener('input', () => {
 
@@ -1656,7 +1743,7 @@
                 const a = document.createElement('a');
                 a.href = filteredItem.link;
                 a.textContent = filteredItem.name;
-                a.classList.add('list-group-item', 'list-group-item-action');
+                a.classList.add('list-group-item', 'list-group-item-action','buscador-cms');
                 menuList.appendChild(a);
             });
 

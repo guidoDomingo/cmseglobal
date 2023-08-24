@@ -399,6 +399,8 @@ class User extends EloquentUser
             }
         }
 
+        // dd($this->permissions);
+
         // Merge the Users permissions, taking priority over roles
         foreach ($this->permissions as $permission => $state) {
             $processedPermissions->put($permission, ['state' => $state, 'inherited' => false]);
