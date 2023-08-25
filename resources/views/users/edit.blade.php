@@ -158,18 +158,15 @@
                                 <div class="tab-content" id="myTabContent">
                                     <div class="tab-pane fade show active" id="home-tab-icon-pane" role="tabpanel"
                                         aria-labelledby="home-tab-icon" tabindex="0">
-                                        <div class="" id="tab_help_0">
+                                        <div class="" id="">
                                             {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'PATCH', 'role' => 'form']) !!}
 
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="">
-                                                        <div class="box-header with-border">
-                                                            <h3 class="box-title">Usuario</h3>
-                                                            <div class="box-tools pull-right">
-                                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                                        class="fa fa-minus"></i></button>
-                                                            </div>
+                                                        <div class="">
+                                                            <h3 class="">Usuario</h3>
+                                                            
                                                         </div>
                                                         <div class="box-body">
                                                             @include('users.partials.fields')
@@ -178,13 +175,10 @@
                                                 </div>
 
                                                 <div class="col-md-6">
-                                                    <div class="box box-default">
+                                                    <div class="">
                                                         <div class="box-header with-border">
                                                             <h3 class="box-title">Opciones</h3>
-                                                            <div class="box-tools pull-right">
-                                                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
-                                                                        class="fa fa-minus"></i></button>
-                                                            </div>
+                                                            
                                                         </div>
                                                         <div class="box-body">
                                                             <a class="btn btn-default" href="{{ route('users.index') }}" role="button">Cancelar</a>

@@ -5,7 +5,9 @@
 
 
 @section('aditional_css')
-    
+       <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
+
 @endsection
 
 @section('content')

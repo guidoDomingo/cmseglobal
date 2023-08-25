@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Rol {{ $role->name }}
@@ -19,7 +19,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Modificar {{ $role->name }}</h3>
                     </div>
@@ -27,10 +27,23 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($role, ['route' => ['roles.update', $role ] , 'method' => 'PUT']) !!}
-                        @include('roles.partials.fields')
-                        @include('roles.partials.permissions')
-                        <a class="btn btn-default" href="{{ route('roles.index') }}" role="button">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <div class="d-flex">
+                            <div class="col-md-6">
+                                @include('roles.partials.fields')
+                            </div>
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-default" href="{{ route('roles.index') }}" role="button">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                             
+                        <div class="col-md-12 mt-5">
+                            @include('roles.partials.permissions')
+                        </div>
+
+
+                        
+                        
                         {!! Form::close() !!}
                     </div>
                 </div>

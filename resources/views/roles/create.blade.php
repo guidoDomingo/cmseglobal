@@ -1,8 +1,20 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo Rol
 @endsection
+
+@section('aditional_css')
+     
+     <style>
+        .roles-create {
+            display: flex;
+            justify-content: space-around !important;
+        }
+     </style>
+
+@endsection
+
 @section('content')
     <section class="content-header">
         <h1>
@@ -17,7 +29,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Nuevo Rol </h3>
                     </div>
@@ -25,10 +37,18 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::open(['route' => ['roles.store'] , 'method' => 'POST']) !!}
-                        @include('roles.partials.fields')
-                        @include('roles.partials.permissions')
-                        <a class="btn btn-default" href="{{ route('roles.index') }}" role="button">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <div class="roles-create">
+                             <div class="col-md-6">
+                                @include('roles.partials.fields')
+                            </div>
+                            <div class="col-md-6 p-5">
+                                <a class="btn btn-default" href="{{ route('roles.index') }}" role="button">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mt-5">
+                            @include('roles.partials.permissions')
+                        </div>
                         {!! Form::close() !!}
                     </div>
                 </div>
