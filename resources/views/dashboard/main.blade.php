@@ -10,7 +10,14 @@ Dashboard
 <meta http-equiv='pragma' content='no-cache'>
 @endsection
 @section('aditional_css')
-<link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM STYLES - STYLE PARA AGREGAR GRAFICOS-->
+        <link href="{{ asset('src/plugins/src/apex/apexcharts.css') }}" rel="stylesheet" type="text/css">
+        <link href="{{ asset('src/assets/css/light/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('src/assets/css/dark/dashboard/dash_1.css') }}" rel="stylesheet" type="text/css" />
+    <!-- END PAGE LEVEL PLUGINS/CUSTOM STYLES -->
+    <link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
 @endsection
 @section('content')
 
@@ -440,181 +447,237 @@ Dashboard
 </style>
 @section('js')
 
-<script src="/dashboard/plugins/amcharts/amcharts.js"></script>
-<script src="/dashboard/plugins/amcharts/serial.js"></script>
-<script src="/dashboard/plugins/amcharts/pie.js"></script>
-<script src="/dashboard/plugins/amcharts/plugins/export/export.min.js"></script>
-<script src="/dashboard/plugins/amcharts/themes/dark.js"></script>
-<script src="/dashboard/plugins/amcharts/lang/es.js"></script>
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS - SCRIPT PARA AGREGAR GRAFICOS -->
+        <script src="{{ asset('src/plugins/src/apex/apexcharts.min.js') }}"></script>
+        <script src="{{ asset('src/assets/js/dashboard/dash_1.js') }}"></script>
+    <!-- BEGIN PAGE LEVEL PLUGINS/CUSTOM SCRIPTS -->
 
-<script type="application/javascript">
-    {{-- $('input[name=redes]').click(function() {
-        dashboard.main.elements.atms_general($(this).val())
-    }); --}}
+    <script src="/dashboard/plugins/amcharts/amcharts.js"></script>
+    <script src="/dashboard/plugins/amcharts/serial.js"></script>
+    <script src="/dashboard/plugins/amcharts/pie.js"></script>
+    <script src="/dashboard/plugins/amcharts/plugins/export/export.min.js"></script>
+    <script src="/dashboard/plugins/amcharts/themes/dark.js"></script>
+    <script src="/dashboard/plugins/amcharts/lang/es.js"></script>
 
-    $('input[name=report]').click(function() {
-        console.log($(this).val());
-        dashboard.main.elements.transactions($(this).val())
-    });
+    <script type="application/javascript">
+        {{-- $('input[name=redes]').click(function() {
+            dashboard.main.elements.atms_general($(this).val())
+        }); --}}
 
-    $("#reservationtime").change(function() {
-        dashboard.main.elements.transactions($(this).val())
-    });
+        $('input[name=report]').click(function() {
+            console.log($(this).val());
+            dashboard.main.elements.transactions($(this).val())
+        });
 
-    $('#reload_keys').click(function() {
-        dashboard.main.elements.refresh()
-    });
+        $("#reservationtime").change(function() {
+            dashboard.main.elements.transactions($(this).val())
+        });
 
-    $('#keys_content').on("click", "li", function() {
-        var key_id = $(this).data("id");
-        dashboard.main.elements.showkey(key_id);
-    });
+        $('#reload_keys').click(function() {
+            dashboard.main.elements.refresh()
+        });
 
-    $('#reload_retiro').click(function() {
-        dashboard.main.elements.refreshAtm('')
-    });
+        $('#keys_content').on("click", "li", function() {
+            var key_id = $(this).data("id");
+            dashboard.main.elements.showkey(key_id);
+        });
 
-    function obtenerAtm() {
-        let id = $("#atms").val();
-        dashboard.main.elements.refreshAtm(id);
-    }
+        $('#reload_retiro').click(function() {
+            dashboard.main.elements.refreshAtm('')
+        });
 
-    function modalView(data) {
+        function obtenerAtm() {
+            let id = $("#atms").val();
+            dashboard.main.elements.refreshAtm(id);
+        }
 
-        let json = jQuery.parseJSON(data['parameters']);
-        let parameter = jQuery.parseJSON(json);
+        function modalView(data) {
 
-        $("#id").text(data.id);
-        $("#id").hide();
-        $("#atm_id").text(data.atm_id);
-        $("#atm_id").hide();
-        $("#modal_detalle_mini").modal();
-        $("#monto").hide();
-        $("#comision").hide();
-        $("#montotd").hide();
-        $("#comisiontd").hide();
+            let json = jQuery.parseJSON(data['parameters']);
+            let parameter = jQuery.parseJSON(json);
 
-        let amount;
+            $("#id").text(data.id);
+            $("#id").hide();
+            $("#atm_id").text(data.atm_id);
+            $("#atm_id").hide();
+            $("#modal_detalle_mini").modal();
+            $("#monto").hide();
+            $("#comision").hide();
+            $("#montotd").hide();
+            $("#comisiontd").hide();
 
-        switch (data.marca) {
-            case 'Claro Billetera':
-                amount = NumberFormat(parameter.monto);
-                $("#referenciatd").text(parameter.numero_destino);
+            let amount;
+
+            switch (data.marca) {
+                case 'Claro Billetera':
+                    amount = NumberFormat(parameter.monto);
+                    $("#referenciatd").text(parameter.numero_destino);
+                    $("#entregartd").text(amount);
+                    break;
+
+                case 'Billetera Personal':
+                    amount = NumberFormat(parameter.amount);
+                    $("#referenciatd").text(parameter.source_msisdn);
+                    $("#entregartd").text(amount);
+                    break;
+
+                case 'Tigo Money':
+                    amount = NumberFormat(parameter.amount);
+                    $("#referenciatd").text(parameter.msisdn);
+                    $("#entregartd").text(amount);
+                    break;
+
+                case 'Telebingo':
+                    amount = NumberFormat(parameter.amount);
+                    $("#referenciatd").text(parameter.Rcaridout);
+                    $("#entregartd").text(amount);
+                    break;
+
+                case 'Apostala':
+                    amount = NumberFormat(parameter.amount);
+                    let calculation = NumberFormat(parameter.calculation);
+                    let subtraction = NumberFormat(parameter.subtraction);
+                    $("#referenciatd").text(parameter.ci);
+                    $("#montotd").text(amount);
+                    $("#comisiontd").text(calculation);
+                    $("#entregartd").text(subtraction);
+
+                    $("#montotd").show();
+                    $("#comisiontd").show();
+                    $("#monto").show();
+                    $("#comision").show();
+                    break;
+
+                    // case 'Quiniela': 
+                    // $("#referenciatd").text(parameter.ticket);
+                    // $("#entregartd").text('A definirse');
+                    //     break;
+                default:
+
+                    $("#referenciatd").text('No existe dato');
+                    $("#entregartd").text('No existe dato');
+            }
+
+            if (data.tipo == 'Devolucion' || data.tipo == 'Vuelto') {
+                amount = NumberFormat(parameter.valor_entrega);
+                $("#referenciatd").text(data.tipo);
                 $("#entregartd").text(amount);
-                break;
-
-            case 'Billetera Personal':
-                amount = NumberFormat(parameter.amount);
-                $("#referenciatd").text(parameter.source_msisdn);
-                $("#entregartd").text(amount);
-                break;
-
-            case 'Tigo Money':
-                amount = NumberFormat(parameter.amount);
-                $("#referenciatd").text(parameter.msisdn);
-                $("#entregartd").text(amount);
-                break;
-
-            case 'Telebingo':
-                amount = NumberFormat(parameter.amount);
-                $("#referenciatd").text(parameter.Rcaridout);
-                $("#entregartd").text(amount);
-                break;
-
-            case 'Apostala':
-                amount = NumberFormat(parameter.amount);
-                let calculation = NumberFormat(parameter.calculation);
-                let subtraction = NumberFormat(parameter.subtraction);
-                $("#referenciatd").text(parameter.ci);
-                $("#montotd").text(amount);
-                $("#comisiontd").text(calculation);
-                $("#entregartd").text(subtraction);
-
-                $("#montotd").show();
-                $("#comisiontd").show();
-                $("#monto").show();
-                $("#comision").show();
-                break;
-
-                // case 'Quiniela': 
-                // $("#referenciatd").text(parameter.ticket);
-                // $("#entregartd").text('A definirse');
-                //     break;
-            default:
-
-                $("#referenciatd").text('No existe dato');
-                $("#entregartd").text('No existe dato');
+            }
         }
 
-        if (data.tipo == 'Devolucion' || data.tipo == 'Vuelto') {
-            amount = NumberFormat(parameter.valor_entrega);
-            $("#referenciatd").text(data.tipo);
-            $("#entregartd").text(amount);
-        }
-    }
-
-    function NumberFormat(number) {
-        let amount = new Intl.NumberFormat('es-MX').format(number);
-        return amount;
-    }
-
-    function modalViewCancel(id) {
-        $("#divData").hide();
-        $("#idData").text(id)
-        $("#modal_detalle_cancel").modal();
-    }
-
-    function validadorCheck() {
-
-        let cancel = '';
-
-        $('#check1')
-
-        if ($('#check1').prop('checked')) {
-            cancel = $('#check1').val();
-        }
-        if ($('#check2').prop('checked')) {
-            cancel = $('#check2').val();
-        }
-        if ($('#check3').prop('checked')) {
-            cancel = $('#check3').val();
-        }
-        if (cancel == '') {
-
-            swal({
-                    title: 'Acción no válida',
-                    text: 'Favor, seleccione una opción para realizar el envío',
-                    type: 'error',
-                    confirmButtonText: "Aceptar"
-                },
-                function(isConfirm) {});
-
+        function NumberFormat(number) {
+            let amount = new Intl.NumberFormat('es-MX').format(number);
+            return amount;
         }
 
-        return cancel;
-    }
+        function modalViewCancel(id) {
+            $("#divData").hide();
+            $("#idData").text(id)
+            $("#modal_detalle_cancel").modal();
+        }
 
-    $(document).ready(function() {
+        function validadorCheck() {
 
-        $("#cancel").click(function(e) {
-            e.preventDefault();
-            var id = $("#idData").text()
-            // $("#cancel").prop('disabled', true);
+            let cancel = '';
 
-            cancel = validadorCheck();
+            $('#check1')
 
-            if (cancel != '') {
-                console.log(cancel);
+            if ($('#check1').prop('checked')) {
+                cancel = $('#check1').val();
+            }
+            if ($('#check2').prop('checked')) {
+                cancel = $('#check2').val();
+            }
+            if ($('#check3').prop('checked')) {
+                cancel = $('#check3').val();
+            }
+            if (cancel == '') {
 
-                var url = '/cancelMiniMoney';
+                swal({
+                        title: 'Acción no válida',
+                        text: 'Favor, seleccione una opción para realizar el envío',
+                        type: 'error',
+                        confirmButtonText: "Aceptar"
+                    },
+                    function(isConfirm) {});
+
+            }
+
+            return cancel;
+        }
+
+        $(document).ready(function() {
+
+            $("#cancel").click(function(e) {
+                e.preventDefault();
+                var id = $("#idData").text()
+                // $("#cancel").prop('disabled', true);
+
+                cancel = validadorCheck();
+
+                if (cancel != '') {
+                    console.log(cancel);
+
+                    var url = '/cancelMiniMoney';
+                    var type = "";
+                    var title = "";
+
+                    $.post(url, {
+                        _token: token,
+                        id: id,
+                        motivo: cancel
+                    }, function(result) {
+                        if (result.error == true) {
+                            type = "error";
+                            title = "No se pudo realizar la operación";
+                            $("#procesar").prop('disabled', false);
+
+                        } else {
+                            type = "success";
+                            title = "Operación realizada!" /*+result.amount*/ ;
+                            $("#procesar").prop('disabled', false);
+                        }
+                        swal({
+                                title: title,
+                                text: result.message,
+                                type: type,
+                                confirmButtonText: "Aceptar"
+                            },
+                            function(isConfirm) {
+                                location.reload();
+                            });
+                    }).fail(function() {
+                        swal('No se pudo realizar la petición.');
+                    });
+
+                    $("#micheckbox").modal('hide');
+                }
+
+
+            });
+
+            //para relizar el procesar
+            $("#procesar").click(function(e) {
+                e.preventDefault();
+                var id = $("#id").text()
+                var atm_id = $("#atm_id").text();
+                $("#procesar").prop('disabled', true);
+
+                var url = '/successMiniMoney';
                 var type = "";
                 var title = "";
+
+                $("#retiro_spinn").show();
+                $("#retiro_content").hide();
 
                 $.post(url, {
                     _token: token,
                     id: id,
-                    motivo: cancel
+                    atm_id: atm_id
                 }, function(result) {
+                    $("#retiro_spinn").hide();
+                    $("#retiro_content").show();
+                    console.log(result);
                     if (result.error == true) {
                         type = "error";
                         title = "No se pudo realizar la operación";
@@ -638,43 +701,37 @@ Dashboard
                     swal('No se pudo realizar la petición.');
                 });
 
-                $("#micheckbox").modal('hide');
-            }
+                $("#modal_detalle_mini").modal('hide');
 
-
+            });
         });
 
-        //para relizar el procesar
-        $("#procesar").click(function(e) {
-            e.preventDefault();
-            var id = $("#id").text()
-            var atm_id = $("#atm_id").text();
-            $("#procesar").prop('disabled', true);
+        function modal_detalle_close() {
+            $("#modal_detalle_mini").modal('hide');
+        }
 
-            var url = '/successMiniMoney';
+        function modal_detalle_cancel_close() {
+            $("#modal_detalle_cancel").modal('hide');
+        }
+
+        function danger(data) {
+            var id = $(data).data('value');
+
+            var url = '/cancelMiniMoney';
             var type = "";
             var title = "";
 
-            $("#retiro_spinn").show();
-            $("#retiro_content").hide();
-
             $.post(url, {
                 _token: token,
-                id: id,
-                atm_id: atm_id
+                id: id
             }, function(result) {
-                $("#retiro_spinn").hide();
-                $("#retiro_content").show();
-                console.log(result);
                 if (result.error == true) {
                     type = "error";
                     title = "No se pudo realizar la operación";
-                    $("#procesar").prop('disabled', false);
 
                 } else {
                     type = "success";
-                    title = "Operación realizada!" /*+result.amount*/ ;
-                    $("#procesar").prop('disabled', false);
+                    title = "Operación realizada!";
                 }
                 swal({
                         title: title,
@@ -688,659 +745,614 @@ Dashboard
             }).fail(function() {
                 swal('No se pudo realizar la petición.');
             });
+        }
 
-            $("#modal_detalle_mini").modal('hide');
+        {{-- $('#reload_data_pie').click(function() {
+            var red = $('input[name=redes]:checked').val();
+            dashboard.main.elements.atms_general(red);
+        }); --}}
+    </script>
 
-        });
-    });
+    <script src="/dashboard/graphs.js"></script>
+    <!--
+        Comentado, el código que estaba en este archivo, ahora está en este blade para mejor manejo.
+        <script src="/dashboard/dash.objects.js"></script>
+    -->
 
-    function modal_detalle_close() {
-        $("#modal_detalle_mini").modal('hide');
-    }
+    <!-- InputMask -->
+    <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
+    <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
+    <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
+    <!-- date-range-picker -->
+    <link href="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <script src="/bower_components/admin-lte/plugins/daterangepicker/moment.min.js"></script>
+    <script src="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js"></script>
 
-    function modal_detalle_cancel_close() {
-        $("#modal_detalle_cancel").modal('hide');
-    }
+    <!-- bootstrap datepicker -->
+    <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-    function danger(data) {
-        var id = $(data).data('value');
+    <script>
 
-        var url = '/cancelMiniMoney';
-        var type = "";
-        var title = "";
+        var $errorHtml = '<div title="Error al consultar" class="animated fadeIn text-center"><i class="fa fa-exclamation-triangle"></i><br></div>';
+        var urlGetDetalle = '/dashboard/atms_detalles/';
 
-        $.post(url, {
-            _token: token,
-            id: id
-        }, function(result) {
-            if (result.error == true) {
-                type = "error";
-                title = "No se pudo realizar la operación";
-
-            } else {
-                type = "success";
-                title = "Operación realizada!";
-            }
-            swal({
-                    title: title,
-                    text: result.message,
-                    type: type,
-                    confirmButtonText: "Aceptar"
-                },
-                function(isConfirm) {
-                    location.reload();
-                });
-        }).fail(function() {
-            swal('No se pudo realizar la petición.');
-        });
-    }
-
-    {{-- $('#reload_data_pie').click(function() {
-        var red = $('input[name=redes]:checked').val();
-        dashboard.main.elements.atms_general(red);
-    }); --}}
-</script>
-
-<script src="/dashboard/graphs.js"></script>
-<!--
-    Comentado, el código que estaba en este archivo, ahora está en este blade para mejor manejo.
-    <script src="/dashboard/dash.objects.js"></script>
--->
-
-<!-- InputMask -->
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
-<script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.extensions.js"></script>
-<!-- date-range-picker -->
-<link href="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-<script src="/bower_components/admin-lte/plugins/daterangepicker/moment.min.js"></script>
-<script src="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js"></script>
-
-<!-- bootstrap datepicker -->
-<script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
-
-<script>
-
-    var $errorHtml = '<div title="Error al consultar" class="animated fadeIn text-center"><i class="fa fa-exclamation-triangle"></i><br></div>';
-    var urlGetDetalle = '/dashboard/atms_detalles/';
-
-    var dashboard =  {
-        main:{
-            elements:{
-                atms: function(){
-                    $.post("/dashboard/atms", {_token: token }, function( data ) {
-                        if(data.status){
-                            $(".atm_info").html(data.result.message);
-                        }else{
-                            $(".atm_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".atm_info").html($errorHtml);
-                    });
-
-
-                },
-                services: function(){
-                    $.post("/dashboard/services", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".service_info").html(data.result.message);
-                        }else{
-                            $(".service_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".service_info").html($errorHtml);
-                    });
-                },
-                atm_balances: function(){
-                    $.post("/dashboard/balances", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".balances_info").html(data.result.message);
-                        }else{
-                            $(".balances_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".balances_info").html($errorHtml);
-                    });
-                },
-                warnings:function(){
-                    /*
-
-                    Comentado porque explota: 
-
-                    $.post("/dashboard/warnings", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".warning_info").html(data.result.message);
-                        }else{
-                            $(".warning_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".warning_info_info").html($errorHtml);
-                    });
-                    */
-                },
-                rollback:function(){
-                    $.post("/dashboard/rollback", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".rollback_info").html(data.result.message);
-                        }else{
-                            $(".rollback_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".rollback_info").html($errorHtml);
-                    });
-                },
-                montoCero:function(){
-                    $.post("/dashboard/montoCero", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".monto_cero_info").html(data.result.message);
-                        }else{
-                            $(".monto_cero_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".monto_cero_info").html($errorHtml);
-                    });
-                },
-                pendiente:function(){
-                    $.post("/dashboard/pendiente", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".pendiente_info").html(data.result.message);
-                        }else{
-                            $(".pendiente_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".pendiente_info").html($errorHtml);
-                    });
-                },
-                conciliations:function(){
-                    $.post("/dashboard/conciliations", {_token: token }, function( data ) {
-
-                        if(data.status){
-                            $(".conciliations_info").html(data.result.message);
-                        }else{
-                            $(".conciliations_info").html("");
-                        }
-
-                    }).error(function(){
-                        $(".conciliations_info").html($errorHtml);
-                    });
-                },
-                transactions:function(frecuency){
-                    $("#graph_spinn").show();  
-                    $("#chartdiv").hide(); 
-                    $.post("/dashboard/transactions", {_token: token, _frecuency: frecuency},function(data) {
-                        if(data.status){
-                            graphs.lines('title',data.result.data)
-                            $("#graph-title").html(data.result.dates);
-                            $("#graph_spinn").hide();
-                            $("#chartdiv").show(); 
-                        }else{
-                            $("#chartdiv").html($errorHtml);
-                        }
-
-                        console.log('hizo pos');
-                    }).error(function(){
-                
-                        $("#chartdiv").html($errorHtml);
-                    });
-
-
-                },
-                refresh:function(){
-                    $("#keys_content").hide();
-                    $("#keys_spinn").show();
-                    $.post("/dashboard/keys", {_token: token }, function( data ) {
-                        if(data.status){
-                            $("#keys_spinn").hide();
-                            $("#keys_content").html(data.result.message);
-                            $("#keys_content").show();
-                        }else{
-                            $("#keys_spinn").hide();
-                            $(".keys_content").html("");
-                            $("#keys_content").show();
-                        }
-
-                    }).error(function(){
-                        $("#keys_spinn").hide();
-                        $(".keys_content").html($errorHtml);
-                        $("#keys_content").show();
-                    });
-                },
-                showkey:function(key_id){
-                    var key_pass    = '#pass_'+key_id;
-                    var key_eye     = '#eye_'+key_id;
-                    var key_forb     = '#forb_'+key_id;
-                    $.post("/dashboard/show_keys", {_token: token,_key_id: key_id }, function( data ) {
-                        if(data.status){
-                            $(key_pass).html(data.result.message);
-                            $(key_eye).hide();
-                            if(data.result == -213){
-                                $(key_forb).show();
+        var dashboard =  {
+            main:{
+                elements:{
+                    atms: function(){
+                        $.post("/dashboard/atms", {_token: token }, function( data ) {
+                            if(data.status){
+                                $(".atm_info").html(data.result.message);
+                            }else{
+                                $(".atm_info").html("");
                             }
-                        }else{
-                            $(key_pass).html('Error');
-                            $(key_eye).hide();
-                        }
-                    });
-                },
-                refreshAtm:function(id){
-                    $("#retiro_content").hide();
-                    $("#retiro_spinn").show();
-                    $.post("/dashboard/atmsView", {_token: token, id: id }, function( data ) {
-                        if(data.status){
-                            $("#retiro_spinn").hide();
-                            $("#retiro_content").html(data.result.message);
-                            $("#retiro_content").show();
-                        }else{
-                            $("#retiro_spinn").hide();
-                            $(".retiro_content").html("");
-                            $("#retiro_content").show();
-                        }
 
-                    }).error(function(){
-                        $("#retiro_spinn").hide();
-                        $(".retiro_content").html($errorHtml);
-                        $("#retiro_content").show();
-                    });
-                },
-                {{-- atms_general:function(redes){                
-                    $("#graficoAtm").hide();
-                    $("#atm_spinn").show();
-
-                    $.post("/dashboard/atms_general", {_token: token, _redes: redes },function(data) {
-                        var valores = data.result.data;
-
-                        var chart = AmCharts.makeChart("graficoAtm", {
-                            // "language": "es",
-                            "type": "pie",
-                            "startDuration": 0,
-                            "pullOutDuration": 0,
-                            "pullOutRadius": 0,
-                            "radius": 80,
-                            "theme": "none",
-                            "addClassNames": true,
-                            "legend":{
-                                "position":"bottom",
-                                "autoMargins":true
-                            },
-                            "colorField": "color",
-                            "innerRadius": "20%",
-                            "fontFamily": "Helvetica",
-                            "defs": {
-                                "filter": [{
-                                    "id": "shadow",
-                                    "width": "200%",
-                                    "height": "200%",
-                                    "feOffset": {
-                                        "result": "offOut",
-                                        "in": "SourceAlpha",
-                                        "dx": 0,
-                                        "dy": 0
-                                    },
-                                    "feGaussianBlur": {
-                                        "result": "blurOut",
-                                        "in": "offOut",
-                                        "stdDeviation": 5
-                                    },
-                                    "feBlend": {
-                                        "in": "SourceGraphic",
-                                        "in2": "blurOut",
-                                        "mode": "normal"
-                                    }
-                                }]
-                            },
-                            "dataProvider": [
-                                {
-                                    "estado": "Cap. Máxima",
-                                    "minutos": valores.capacidad_maxima,
-                                    "color": "#00008e",
-                                    "param": "capacidad_maxima"
-                                }, 
-                                {
-                                    "estado": "Cant. Mínima",
-                                    "minutos": valores.cantidad_minima,
-                                    "color": "#00b8ef",
-                                    "param": "cantidad_minima"
-                                },
-                                {
-                                    "estado": "Online",
-                                    "minutos": valores.online,
-                                    "color": "#0A8B19",
-                                    "param": "online"
-                                }, 
-                                {
-                                    "estado": "Offline",
-                                    "minutos": valores.offline,
-                                    "color": "#FDB504",
-                                    "param": "offline"
-                                }, 
-                                {
-                                    "estado": "Suspendido",
-                                    "minutos": valores.suspendido,
-                                    "color": "#FD0404",
-                                    "param": "suspendido"
-                                },
-                                {
-                                    "estado": "Bloqueados",
-                                    "minutos": valores.bloqueados,
-                                    "color": "#770000",
-                                    "param": "bloqueados"
-                                }, 
-                            ],
-                            "valueField": "minutos",
-                            "titleField": "estado",
-                            "export": {
-                                "enabled": true,
-                                "label": "Exportar",
-                            }
+                        }).error(function(){
+                            $(".atm_info").html($errorHtml);
                         });
 
-                        chart.addListener("clickSlice", handleClick);
 
-                        function handleClick(e)
-                        {
-                            if(e.dataItem.dataContext.param == 'capacidad_maxima'){
-                                $('.actual').show();
-                                $('.maxima').show();
+                    },
+                    services: function(){
+                        $.post("/dashboard/services", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".service_info").html(data.result.message);
                             }else{
-                                $('.maxima').hide();
-                                $('.actual').hide();
+                                $(".service_info").html("");
                             }
 
-                            $("#modal-contenido").html('');
-                            $("#modal-footer").html('');
-                            console.log(urlGetDetalle+e.dataItem.dataContext.param+'/'+redes);
-                            $.get(urlGetDetalle+e.dataItem.dataContext.param+'/'+redes, 
-                            {
-                                status: e.dataItem.dataContext.param,
-                                redes: redes
-                            },
-                            function(data) {
-                                $("#modal-contenido").html(data.modal_contenido);
-                                $("#modal-footer").html(data.modal_footer);
-                                $("#modalDetalleAtms").modal('show');
+                        }).error(function(){
+                            $(".service_info").html($errorHtml);
+                        });
+                    },
+                    atm_balances: function(){
+                        $.post("/dashboard/balances", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".balances_info").html(data.result.message);
+                            }else{
+                                $(".balances_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".balances_info").html($errorHtml);
+                        });
+                    },
+                    warnings:function(){
+                        /*
+
+                        Comentado porque explota: 
+
+                        $.post("/dashboard/warnings", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".warning_info").html(data.result.message);
+                            }else{
+                                $(".warning_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".warning_info_info").html($errorHtml);
+                        });
+                        */
+                    },
+                    rollback:function(){
+                        $.post("/dashboard/rollback", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".rollback_info").html(data.result.message);
+                            }else{
+                                $(".rollback_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".rollback_info").html($errorHtml);
+                        });
+                    },
+                    montoCero:function(){
+                        $.post("/dashboard/montoCero", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".monto_cero_info").html(data.result.message);
+                            }else{
+                                $(".monto_cero_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".monto_cero_info").html($errorHtml);
+                        });
+                    },
+                    pendiente:function(){
+                        $.post("/dashboard/pendiente", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".pendiente_info").html(data.result.message);
+                            }else{
+                                $(".pendiente_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".pendiente_info").html($errorHtml);
+                        });
+                    },
+                    conciliations:function(){
+                        $.post("/dashboard/conciliations", {_token: token }, function( data ) {
+
+                            if(data.status){
+                                $(".conciliations_info").html(data.result.message);
+                            }else{
+                                $(".conciliations_info").html("");
+                            }
+
+                        }).error(function(){
+                            $(".conciliations_info").html($errorHtml);
+                        });
+                    },
+                    transactions:function(frecuency){
+                        $("#graph_spinn").show();  
+                        $("#chartdiv").hide(); 
+                        $.post("/dashboard/transactions", {_token: token, _frecuency: frecuency},function(data) {
+                            if(data.status){
+                                graphs.lines('title',data.result.data)
+                                $("#graph-title").html(data.result.dates);
+                                $("#graph_spinn").hide();
+                                $("#chartdiv").show(); 
+                            }else{
+                                $("#chartdiv").html($errorHtml);
+                            }
+
+                            console.log('hizo pos');
+                        }).error(function(){
+                    
+                            $("#chartdiv").html($errorHtml);
+                        });
+
+
+                    },
+                    refresh:function(){
+                        $("#keys_content").hide();
+                        $("#keys_spinn").show();
+                        $.post("/dashboard/keys", {_token: token }, function( data ) {
+                            if(data.status){
+                                $("#keys_spinn").hide();
+                                $("#keys_content").html(data.result.message);
+                                $("#keys_content").show();
+                            }else{
+                                $("#keys_spinn").hide();
+                                $(".keys_content").html("");
+                                $("#keys_content").show();
+                            }
+
+                        }).error(function(){
+                            $("#keys_spinn").hide();
+                            $(".keys_content").html($errorHtml);
+                            $("#keys_content").show();
+                        });
+                    },
+                    showkey:function(key_id){
+                        var key_pass    = '#pass_'+key_id;
+                        var key_eye     = '#eye_'+key_id;
+                        var key_forb     = '#forb_'+key_id;
+                        $.post("/dashboard/show_keys", {_token: token,_key_id: key_id }, function( data ) {
+                            if(data.status){
+                                $(key_pass).html(data.result.message);
+                                $(key_eye).hide();
+                                if(data.result == -213){
+                                    $(key_forb).show();
+                                }
+                            }else{
+                                $(key_pass).html('Error');
+                                $(key_eye).hide();
+                            }
+                        });
+                    },
+                    refreshAtm:function(id){
+                        $("#retiro_content").hide();
+                        $("#retiro_spinn").show();
+                        $.post("/dashboard/atmsView", {_token: token, id: id }, function( data ) {
+                            if(data.status){
+                                $("#retiro_spinn").hide();
+                                $("#retiro_content").html(data.result.message);
+                                $("#retiro_content").show();
+                            }else{
+                                $("#retiro_spinn").hide();
+                                $(".retiro_content").html("");
+                                $("#retiro_content").show();
+                            }
+
+                        }).error(function(){
+                            $("#retiro_spinn").hide();
+                            $(".retiro_content").html($errorHtml);
+                            $("#retiro_content").show();
+                        });
+                    },
+                    {{-- atms_general:function(redes){                
+                        $("#graficoAtm").hide();
+                        $("#atm_spinn").show();
+
+                        $.post("/dashboard/atms_general", {_token: token, _redes: redes },function(data) {
+                            var valores = data.result.data;
+
+                            var chart = AmCharts.makeChart("graficoAtm", {
+                                // "language": "es",
+                                "type": "pie",
+                                "startDuration": 0,
+                                "pullOutDuration": 0,
+                                "pullOutRadius": 0,
+                                "radius": 80,
+                                "theme": "none",
+                                "addClassNames": true,
+                                "legend":{
+                                    "position":"bottom",
+                                    "autoMargins":true
+                                },
+                                "colorField": "color",
+                                "innerRadius": "20%",
+                                "fontFamily": "Helvetica",
+                                "defs": {
+                                    "filter": [{
+                                        "id": "shadow",
+                                        "width": "200%",
+                                        "height": "200%",
+                                        "feOffset": {
+                                            "result": "offOut",
+                                            "in": "SourceAlpha",
+                                            "dx": 0,
+                                            "dy": 0
+                                        },
+                                        "feGaussianBlur": {
+                                            "result": "blurOut",
+                                            "in": "offOut",
+                                            "stdDeviation": 5
+                                        },
+                                        "feBlend": {
+                                            "in": "SourceGraphic",
+                                            "in2": "blurOut",
+                                            "mode": "normal"
+                                        }
+                                    }]
+                                },
+                                "dataProvider": [
+                                    {
+                                        "estado": "Cap. Máxima",
+                                        "minutos": valores.capacidad_maxima,
+                                        "color": "#00008e",
+                                        "param": "capacidad_maxima"
+                                    }, 
+                                    {
+                                        "estado": "Cant. Mínima",
+                                        "minutos": valores.cantidad_minima,
+                                        "color": "#00b8ef",
+                                        "param": "cantidad_minima"
+                                    },
+                                    {
+                                        "estado": "Online",
+                                        "minutos": valores.online,
+                                        "color": "#0A8B19",
+                                        "param": "online"
+                                    }, 
+                                    {
+                                        "estado": "Offline",
+                                        "minutos": valores.offline,
+                                        "color": "#FDB504",
+                                        "param": "offline"
+                                    }, 
+                                    {
+                                        "estado": "Suspendido",
+                                        "minutos": valores.suspendido,
+                                        "color": "#FD0404",
+                                        "param": "suspendido"
+                                    },
+                                    {
+                                        "estado": "Bloqueados",
+                                        "minutos": valores.bloqueados,
+                                        "color": "#770000",
+                                        "param": "bloqueados"
+                                    }, 
+                                ],
+                                "valueField": "minutos",
+                                "titleField": "estado",
+                                "export": {
+                                    "enabled": true,
+                                    "label": "Exportar",
+                                }
                             });
-                        }
-                        $("#atm_spinn").hide();
-                        $("#graficoAtm").show();
-                    }).error(function(){
-                        $("#modal-contenido").html($errorHtml);
-                    });
-                }, --}}
-                balance_online: function(){
-                    $.post("/dashboard/balance_online", {_token: token }, function( data ) {
-                        console.log(data);
 
-                        var principal_html = '';
-                        var bg_class = 'gray';
-                        var epin_estado = 'Error en la consulta';
-                        var credit_online = 'Sin información';
-                        var moneda = 'Sin información';
+                            chart.addListener("clickSlice", handleClick);
 
-                        if(data.status) {
+                            function handleClick(e)
+                            {
+                                if(e.dataItem.dataContext.param == 'capacidad_maxima'){
+                                    $('.actual').show();
+                                    $('.maxima').show();
+                                }else{
+                                    $('.maxima').hide();
+                                    $('.actual').hide();
+                                }
 
-                            credit_online = data.result.data.credit;
-                            moneda = data.result.data.moneda;
+                                $("#modal-contenido").html('');
+                                $("#modal-footer").html('');
+                                console.log(urlGetDetalle+e.dataItem.dataContext.param+'/'+redes);
+                                $.get(urlGetDetalle+e.dataItem.dataContext.param+'/'+redes, 
+                                {
+                                    status: e.dataItem.dataContext.param,
+                                    redes: redes
+                                },
+                                function(data) {
+                                    $("#modal-contenido").html(data.modal_contenido);
+                                    $("#modal-footer").html(data.modal_footer);
+                                    $("#modalDetalleAtms").modal('show');
+                                });
+                            }
+                            $("#atm_spinn").hide();
+                            $("#graficoAtm").show();
+                        }).error(function(){
+                            $("#modal-contenido").html($errorHtml);
+                        });
+                    }, --}}
+                    balance_online: function(){
+                        $.post("/dashboard/balance_online", {_token: token }, function( data ) {
+                            console.log(data);
 
-                            if(data.result.data.valor > 30000000) {
+                            var principal_html = '';
+                            var bg_class = 'gray';
+                            var epin_estado = 'Error en la consulta';
+                            var credit_online = 'Sin información';
+                            var moneda = 'Sin información';
 
-                                bg_class = 'green';
-                                epin_estado = 'Estado: OK';
+                            if(data.status) {
 
-                            } else if(data.result.data.valor <= 30000000 && data.result.data.valor > 20000000) {
+                                credit_online = data.result.data.credit;
+                                moneda = data.result.data.moneda;
 
-                                bg_class = 'yellow';
-                                epin_estado = 'Estado: Saldo bajo';
+                                if(data.result.data.valor > 30000000) {
 
-                            } else if(data.result.data.valor <= 20000000 && data.result.data.valor > 5000000) {
+                                    bg_class = 'green';
+                                    epin_estado = 'Estado: OK';
 
-                                bg_class = 'orange';
-                                epin_estado = 'Estado: Crítico';
+                                } else if(data.result.data.valor <= 30000000 && data.result.data.valor > 20000000) {
 
-                            } else if(data.result.data.valor >= 0 && data.result.data.valor <= 5000000){
+                                    bg_class = 'yellow';
+                                    epin_estado = 'Estado: Saldo bajo';
 
-                                bg_class = 'red';
-                                epin_estado = 'Estado: Sin saldo';
+                                } else if(data.result.data.valor <= 20000000 && data.result.data.valor > 5000000) {
+
+                                    bg_class = 'orange';
+                                    epin_estado = 'Estado: Crítico';
+
+                                } else if(data.result.data.valor >= 0 && data.result.data.valor <= 5000000){
+
+                                    bg_class = 'red';
+                                    epin_estado = 'Estado: Sin saldo';
+
+                                }
 
                             }
 
-                        }
+                            principal_html += '<div class="small-box bg-' + bg_class + '" style="border-radius: 15px;">';
+                            principal_html += '     <div class="inner" style="padding: 20px">';
+                            principal_html += '         <h3 class="credit_online">' + credit_online + '</h3>';
+                            principal_html += '         <h4 class="moneda">' + moneda + '</h4>';
+                            principal_html += '     </div>';
+                            principal_html += '     <div class="icon" style="margin-top: 60px; margin-right: 10px;">';
+                            principal_html += '         <i class="fa fa-money"></i>';
+                            principal_html += '     </div>';
+                            principal_html += '     <h4 class="small-box-footer">Saldo EPIN ( ' + epin_estado + ' )</h4>';
+                            principal_html += '</div>';
 
-                        principal_html += '<div class="small-box bg-' + bg_class + '" style="border-radius: 15px;">';
-                        principal_html += '     <div class="inner" style="padding: 20px">';
-                        principal_html += '         <h3 class="credit_online">' + credit_online + '</h3>';
-                        principal_html += '         <h4 class="moneda">' + moneda + '</h4>';
-                        principal_html += '     </div>';
-                        principal_html += '     <div class="icon" style="margin-top: 60px; margin-right: 10px;">';
-                        principal_html += '         <i class="fa fa-money"></i>';
-                        principal_html += '     </div>';
-                        principal_html += '     <h4 class="small-box-footer">Saldo EPIN ( ' + epin_estado + ' )</h4>';
-                        principal_html += '</div>';
+                            $('#principal').append(principal_html);
 
-                        $('#principal').append(principal_html);
-
-                    }).error(function(){
-                        $(".atm_info").html($errorHtml);
-                    });
+                        }).error(function(){
+                            $(".atm_info").html($errorHtml);
+                        });
 
 
+                    },
                 },
-            },
-            load:function(){
+                load:function(){
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.saldo') || \Sentinel::getUser()->inRole('superuser'))
-                    dashboard.main.elements.balance_online();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.saldo') || \Sentinel::getUser()->inRole('superuser'))
+                        dashboard.main.elements.balance_online();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
-                    dashboard.main.elements.atms();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
+                        dashboard.main.elements.atms();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.servicios'))
-                    dashboard.main.elements.services();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.servicios'))
+                        dashboard.main.elements.services();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.saldos'))
-                    dashboard.main.elements.atm_balances();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.saldos'))
+                        dashboard.main.elements.atm_balances();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.alertas'))
-                    dashboard.main.elements.warnings();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.alertas'))
+                        dashboard.main.elements.warnings();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.billetaje'))
-                    dashboard.main.elements.rollback();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.billetaje'))
+                        dashboard.main.elements.rollback();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.transacionmontocero'))
-                    dashboard.main.elements.montoCero();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.transacionmontocero'))
+                        dashboard.main.elements.montoCero();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.ventasPendientesExtractos'))
-                    dashboard.main.elements.pendiente();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.ventasPendientesExtractos'))
+                        dashboard.main.elements.pendiente();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('monitoreo.conciliaciones'))
-                    dashboard.main.elements.conciliations();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('monitoreo.conciliaciones'))
+                        dashboard.main.elements.conciliations();
+                    @endif
 
-                //Se agrega esta validación solo para que el super user pueda ver esta información
-                @if (\Sentinel::getUser()->hasAccess('superuser') and \Sentinel::getUser()->hasAccess('monitoreo.transacciones'))
-                    dashboard.main.elements.transactions('daily');
-                @endif
+                    //Se agrega esta validación solo para que el super user pueda ver esta información
+                    @if (\Sentinel::getUser()->hasAccess('superuser') and \Sentinel::getUser()->hasAccess('monitoreo.transacciones'))
+                        dashboard.main.elements.transactions('daily');
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('mantenimiento.clave'))
-                    dashboard.main.elements.refresh();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('mantenimiento.clave'))
+                        dashboard.main.elements.refresh();
+                    @endif
 
-                @if (\Sentinel::getUser()->hasAccess('minis_cashout_devolucion_vuelto'))
-                    dashboard.main.elements.refreshAtm();
-                @endif
+                    @if (\Sentinel::getUser()->hasAccess('minis_cashout_devolucion_vuelto'))
+                        dashboard.main.elements.refreshAtm();
+                    @endif
 
-                {{-- @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
-                    dashboard.main.elements.atms_general('todos');
-                @endif --}}
+                    {{-- @if (\Sentinel::getUser()->hasAccess('monitoreo.atms'))
+                        dashboard.main.elements.atms_general('todos');
+                    @endif --}}
 
+                }
             }
+        };
+
+        dashboard.main.load();
+
+
+        //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Datemask dd/mm/yyyy
+        $("#datemask").inputmask("dd/mm/yyyy", {
+            "placeholder": "dd/mm/yyyy"
+        });
+        //Datemask2 mm/dd/yyyy
+        $("#datemask2").inputmask("mm/dd/yyyy", {
+            "placeholder": "mm/dd/yyyy"
+        });
+        //reservation date preset
+        $('#reservationtime').val()
+        if ($('#reservationtime').val() == '' || $('#reservationtime').val() == 0) {
+            var date = new Date();
+            var init = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+            var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+            var initWithSlashes = (init.getDate()) + '/' + (init.getMonth() + 1) + '/' + init.getFullYear() + ' 00:00:00';
+            var endDayWithSlashes = (end.getDate()) + '/' + (end.getMonth() + 1) + '/' + end.getFullYear() + ' 23:59:59';
+
+            $('#reservationtime').val(initWithSlashes + ' - ' + endDayWithSlashes);
         }
-    };
+        //Date range picker
+        $('#reservation').daterangepicker();
 
-    dashboard.main.load();
-
-
-    //-------------------------------------------------------------------------------------------------------------------------------------------------------------------
+        $('#reservationtime').daterangepicker({
 
 
+            ranges: {
+                'Hoy': [moment(), moment()],
+                'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                'Ultimos 7 Dias': [moment().subtract(6, 'days'), moment()],
+                'Ultimos 30 Dias': [moment().subtract(29, 'days'), moment()],
+                'Mes': [moment().startOf('month'), moment().endOf('month')],
+                'Mes Pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
+                    'month')]
+            },
+            dateLimit: {
+                'months': 1,
+                'days': -1,
 
+            },
+            minDate: new Date(2000, 1 - 1, 1),
+            maxDate: new Date(),
+            showDropdowns: true,
 
+            locale: {
+                applyLabel: 'Aplicar',
+                fromLabel: 'Desde',
+                toLabel: 'Hasta',
+                customRangeLabel: 'Rango Personalizado',
+                daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+                monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre',
+                    'Octubre', 'Noviembre', 'Diciembre'
+                ],
+                firstDay: 1,
+                format: 'DD/MM/YYYY H:mm',
+            },
 
+            format: 'DD/MM/YYYY HH:mm:ss',
+            startDate: moment().startOf('month'),
+            endDate: moment().endOf('month'),
 
+        });
 
+        $(document).on('click', '.pay-info', function(e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var atm_id = row.data('id');
+            $.get('{{ url('reports') }}/info/atm_notification/' + atm_id,
+                function(data) {
+                    $(".idAtm").html(atm_id);
+                    $("#modal-contenido-notifications").html(data);
+                    $("#detalles").show();
+                    $('#keys_spinn').hide();
+                    $('#process-reactivacion').hide();
+                    $('#message_box').hide();
+                    $("#myModal").modal();
+                });
+        });
 
+        $(document).on('click', '.detalle_minimo', function(e) {
+            e.preventDefault();
+            var row = $(this).parents('tr');
+            var atm_id = row.data('id');
+            $.get('{{ url('dashboard') }}/detalle_cantidad_minima/' + atm_id,
+                function(data) {
+                    $(".idAtm").html(atm_id);
+                    $("#modal-contenido-cantidades").html(data.modal_contenido);
+                    $("#detalles").show();
+                    $('#keys_spinn').hide();
+                    $('#process-reactivacion').hide();
+                    $('#message_box').hide();
+                    $("#modal-cantidades-minimas").modal();
+                });
+        });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Datemask dd/mm/yyyy
-    $("#datemask").inputmask("dd/mm/yyyy", {
-        "placeholder": "dd/mm/yyyy"
-    });
-    //Datemask2 mm/dd/yyyy
-    $("#datemask2").inputmask("mm/dd/yyyy", {
-        "placeholder": "mm/dd/yyyy"
-    });
-    //reservation date preset
-    $('#reservationtime').val()
-    if ($('#reservationtime').val() == '' || $('#reservationtime').val() == 0) {
-        var date = new Date();
-        var init = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-
-        var initWithSlashes = (init.getDate()) + '/' + (init.getMonth() + 1) + '/' + init.getFullYear() + ' 00:00:00';
-        var endDayWithSlashes = (end.getDate()) + '/' + (end.getMonth() + 1) + '/' + end.getFullYear() + ' 23:59:59';
-
-        $('#reservationtime').val(initWithSlashes + ' - ' + endDayWithSlashes);
-    }
-    //Date range picker
-    $('#reservation').daterangepicker();
-
-    $('#reservationtime').daterangepicker({
-
-
-        ranges: {
-            'Hoy': [moment(), moment()],
-            'Ayer': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
-            'Ultimos 7 Dias': [moment().subtract(6, 'days'), moment()],
-            'Ultimos 30 Dias': [moment().subtract(29, 'days'), moment()],
-            'Mes': [moment().startOf('month'), moment().endOf('month')],
-            'Mes Pasado': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf(
-                'month')]
-        },
-        dateLimit: {
-            'months': 1,
-            'days': -1,
-
-        },
-        minDate: new Date(2000, 1 - 1, 1),
-        maxDate: new Date(),
-        showDropdowns: true,
-
-        locale: {
-            applyLabel: 'Aplicar',
-            fromLabel: 'Desde',
-            toLabel: 'Hasta',
-            customRangeLabel: 'Rango Personalizado',
-            daysOfWeek: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
-            monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre',
-                'Octubre', 'Noviembre', 'Diciembre'
-            ],
-            firstDay: 1,
-            format: 'DD/MM/YYYY H:mm',
-        },
-
-        format: 'DD/MM/YYYY HH:mm:ss',
-        startDate: moment().startOf('month'),
-        endDate: moment().endOf('month'),
-
-    });
-
-    $(document).on('click', '.pay-info', function(e) {
-        e.preventDefault();
-        var row = $(this).parents('tr');
-        var atm_id = row.data('id');
-        $.get('{{ url('reports') }}/info/atm_notification/' + atm_id,
-            function(data) {
-                $(".idAtm").html(atm_id);
-                $("#modal-contenido-notifications").html(data);
-                $("#detalles").show();
-                $('#keys_spinn').hide();
-                $('#process-reactivacion').hide();
-                $('#message_box').hide();
-                $("#myModal").modal();
-            });
-    });
-
-    $(document).on('click', '.detalle_minimo', function(e) {
-        e.preventDefault();
-        var row = $(this).parents('tr');
-        var atm_id = row.data('id');
-        $.get('{{ url('dashboard') }}/detalle_cantidad_minima/' + atm_id,
-            function(data) {
-                $(".idAtm").html(atm_id);
-                $("#modal-contenido-cantidades").html(data.modal_contenido);
-                $("#detalles").show();
-                $('#keys_spinn').hide();
-                $('#process-reactivacion').hide();
-                $('#message_box').hide();
-                $("#modal-cantidades-minimas").modal();
-            });
-    });
-
-    $(document).on('hidden.bs.modal', '.modal', function() {
-        $('.modal:visible').length && $(document.body).addClass('modal-open');
-    });
-</script>
+        $(document).on('hidden.bs.modal', '.modal', function() {
+            $('.modal:visible').length && $(document.body).addClass('modal-open');
+        });
+    </script>
 
 @endsection
 <!-- Modal detalle atms-->

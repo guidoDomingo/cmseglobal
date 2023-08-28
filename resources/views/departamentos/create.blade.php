@@ -1,8 +1,17 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo Departamento
 @endsection
+
+@section('aditional_css')
+    <style>
+        #nuevoDepartamento-form a, button {
+            margin-top : 5px;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <section class="content-header">
@@ -19,7 +28,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Nuevo</h3>
                     </div>

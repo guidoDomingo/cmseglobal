@@ -1,8 +1,24 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Ciudad {{ $ciudad->descripcion }}
 @endsection
+
+@section('aditional_css')
+    
+    {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    {{-- FIN DE SELECT  --}}
+
+    <style>
+        #editarCiudad-form a, button {
+            margin-top : 10px;
+        }
+    </style>
+@endsection
+
 @section('content')
     <section class="content-header">
         <h1>
@@ -19,7 +35,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Modificar {{ $ciudad->descripcion }}</h3>
                     </div>
@@ -46,7 +62,7 @@
 <script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <script type="text/javascript">
-    $('.select2').select2();
+    //$('.select2').select2();
 
     //validacion formulario 
     $('#editarCiudad-form').validate({
@@ -75,4 +91,18 @@
 @endsection
 @section('aditional_css')
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+     {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        new TomSelect(".select2",{
+            create: true,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    </script>
+    {{-- FIN SELECT  --}}
 @endsection

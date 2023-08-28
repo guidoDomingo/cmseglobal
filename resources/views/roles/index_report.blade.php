@@ -3,6 +3,24 @@
 @section('title')
 Roles - Reporte
 @endsection
+
+@section('aditional_css')
+    <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
+    <!-- SWEET ALERTS -->
+    {{-- <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" /> --}}
+    <!-- SWEET ALERTS - FIN -->
+
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+
+@endsection
 @section('content')
 
 <?php
@@ -34,7 +52,7 @@ $user_id = $data['inputs']['user_id'];
     <div class="row">
         <div class="col-md-4"></div>
 
-        <div class="col-md-4">
+        {{-- <div class="col-md-4">
             <div class="box box-default" style="border-radius: 5px; margin-top: 50px" id="div_load">
                 <div class="box-body">
                     <div style="text-align: center; font-size: 20px;">
@@ -45,12 +63,12 @@ $user_id = $data['inputs']['user_id'];
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="col-md-4"></div>
     </div>
 
-    <div class="box box-default" style="border-radius: 5px;" id="content" style="display: none">
+    <div class="box-default" style="border-radius: 5px;"  style="display: none">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Roles - Reporte
             </h3>
@@ -66,7 +84,7 @@ $user_id = $data['inputs']['user_id'];
 
         <div class="box-body">
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
+            <div class="box-default" style="border: 1px solid #d2d6de;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtrar búsqueda:</h3>
                     <div class="box-tools pull-right">
@@ -105,7 +123,7 @@ $user_id = $data['inputs']['user_id'];
                 </div>
             </div>
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
+            <div class="box-default" style="border: 1px solid #d2d6de;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Listado:</h3>
                     <div class="box-tools pull-right">
@@ -113,7 +131,8 @@ $user_id = $data['inputs']['user_id'];
                     </div>
                 </div>
                 <div class="box-body">
-                    <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
+                    <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                         <thead>
                             <tr>
                                 <th style="max-width: 400px;">Usuario</th>
@@ -251,257 +270,277 @@ $user_id = $data['inputs']['user_id'];
 @endsection
 
 @section('js')
-<!-- datatables -->
-<link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
-<script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js"></script>
-
-<!-- date-range-picker -->
-<link href="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-<script src="/bower_components/admin-lte/plugins/daterangepicker/moment.min.js"></script>
-<script src="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js"></script>
-
-<!-- bootstrap datepicker -->
-<script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
-
-<!-- select2 -->
-<script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
-<link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
-
-<!-- iCheck -->
-<link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/grey.css">
-<link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/orange.css">
-<script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
-
-<!-- jQuery Number Format -->
-<script src="/js/number_format/jquery.number.js"></script>
-
-<!-- Iniciar objetos -->
-<script type="text/javascript">
-    $('.select2').select2();
-
-    var roles = {!!$roles!!};
-    var permissions = {!!$permissions!!};
-    var users = {!!$users!!};
-
-    var json = {!!$json!!};
-    json = JSON.stringify(json);
-    $('#json').val(json);
-
-    //window.onload = function() {
-
-    $('#rol_id').val(null).trigger('change');
-    $('#rol_id').empty().trigger('change');
-
-    var option = new Option('Todos', 'Todos', false, false);
-    $('#rol_id').append(option);
-
-    for (var i = 0; i < roles.length; i++) {
-        var item = roles[i];
-        var id = item.id;
-        var description = item.description;
-        var option = new Option(description, id, false, false);
-        $('#rol_id').append(option);
-    }
-
-    $('#rol_id').val(null).trigger('change');
-    $('#rol_id').val("{{ $rol_id }}").trigger('change');
-
-    //----------------------------------------------------------------------------
-
-    $('#permission_id').val(null).trigger('change');
-    $('#permission_id').empty().trigger('change');
-
-    var option = new Option('Todos', 'Todos', false, false);
-    $('#permission_id').append(option);
-
-    for (var i = 0; i < permissions.length; i++) {
-        var item = permissions[i];
-        var id = item.id;
-        var description = item.description;
-        var option = new Option(description, id, false, false);
-        $('#permission_id').append(option);
-    }
-
-    $('#permission_id').val(null).trigger('change');
-    $('#permission_id').val("{{ $permission_id }}").trigger('change');
-
-    //----------------------------------------------------------------------------
-
-    $('#user_id').val(null).trigger('change');
-    $('#user_id').empty().trigger('change');
-
-    var option = new Option('Todos', 'Todos', false, false);
-    $('#user_id').append(option);
-
-    for (var i = 0; i < users.length; i++) {
-        var item = users[i];
-        var id = item.id;
-        var description = item.description;
-        var option = new Option(description, id, false, false);
-        $('#user_id').append(option);
-    }
-
-    $('#user_id').val(null).trigger('change');
-    $('#user_id').val("{{ $user_id }}").trigger('change');
-
-    //----------------------------------------------------------------------------
-
-    $('.select2').on('select2:select', function(e) {
-
-        var id = e.currentTarget.id;
-
-        switch (id) {
-            case 'rol_id':
-                $('#permission_id').val('Todos').trigger('change');
-                $('#user_id').val('Todos').trigger('change');
-                break;
-
-            case 'permission_id':
-                $('#rol_id').val('Todos').trigger('change');
-                $('#user_id').val('Todos').trigger('change');
-                break;
-
-            case 'user_id':
-                $('#rol_id').val('Todos').trigger('change');
-                $('#permission_id').val('Todos').trigger('change');
-                break;
-        }
-    });
-
-
-    //-----------------------------------------------------------------------------------------------
-
-    function get_roles_permissions(rol_id) {
-
-        var url = '/get_roles_permissions/';
-
-        var rol_id = parseInt($('#rol_id').val());
-        rol_id = (Number.isNaN(rol_id)) ? 'Todos' : rol_id;
-
-        var json = {
-            _token: token,
-            rol_id: rol_id
-        };
-
-        $.post(url, json, function(data, status) {
-
-            console.log('data:', data);
-
-            $('#permission_id').val(null).trigger('change');
-            $('#permission_id').empty().trigger("change");
-
-            var option = new Option('Todos', 'Todos', false, false);
-            $('#permission_id').append(option);
-
-            for (var i = 0; i < data.length; i++) {
-                var item = data[i];
-                var id = item.id;
-                var description = item.description;
-                var option = new Option(description, id, false, false);
-                $('#permission_id').append(option);
-            }
-
-            $('#permission_id').val(null).trigger('change');
-            $('#permission_id').val('Todos').trigger("change");
+    <!-- DATA TABLE-->
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
         });
-    }
+    </script>
+    <!-- DATA TABLE - FIN -->
+    <!-- datatables -->
+    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
+    <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
-    //-----------------------------------------------------------------------------------------------
+    <!-- date-range-picker -->
+    <link href="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+    <script src="/bower_components/admin-lte/plugins/daterangepicker/moment.min.js"></script>
+    <script src="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker.js"></script>
 
-    function search(button_name) {
+    <!-- bootstrap datepicker -->
+    <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-        if ($('#rol_id').val() == 'Todos' && $('#permission_id').val() == 'Todos' && $('#user_id').val() == 'Todos') {
-            swal({
-                    title: 'Atención',
-                    text: 'Seleccionar un filtro para la búsqueda.',
-                    type: 'error',
-                    showCancelButton: false,
-                    confirmButtonColor: '#3c8dbc',
-                    confirmButtonText: 'Aceptar',
-                    cancelButtonText: 'Cancelar.',
-                    closeOnClickOutside: false,
-                    closeOnConfirm: true,
-                    closeOnCancel: true
-                },
-                function(isConfirm) {
-                    if (isConfirm) {
+    <!-- select2 -->
+    <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
+    <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
-                    }
-                }
-            );
-        } else {
-            var input = $('<input>').attr({
-                'type': 'hidden',
-                'id': 'button_name',
-                'name': 'button_name',
-                'value': button_name
-            });
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/grey.css">
+    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/orange.css">
+    <script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
 
-            if (button_name == 'search') {
-                $('#content').css('display', 'none');
-                $('#div_load').css('display', 'block');
+    <!-- jQuery Number Format -->
+    <script src="/js/number_format/jquery.number.js"></script>
+
+    <!-- Iniciar objetos -->
+    <script type="text/javascript">
+        $('.select2').select2();
+
+        var roles = {!!$roles!!};
+        var permissions = {!!$permissions!!};
+        var users = {!!$users!!};
+
+        var json = {!!$json!!};
+        json = JSON.stringify(json);
+        $('#json').val(json);
+
+        //window.onload = function() {
+
+        $('#rol_id').val(null).trigger('change');
+        $('#rol_id').empty().trigger('change');
+
+        var option = new Option('Todos', 'Todos', false, false);
+        $('#rol_id').append(option);
+
+        for (var i = 0; i < roles.length; i++) {
+            var item = roles[i];
+            var id = item.id;
+            var description = item.description;
+            var option = new Option(description, id, false, false);
+            $('#rol_id').append(option);
+        }
+
+        $('#rol_id').val(null).trigger('change');
+        $('#rol_id').val("{{ $rol_id }}").trigger('change');
+
+        //----------------------------------------------------------------------------
+
+        $('#permission_id').val(null).trigger('change');
+        $('#permission_id').empty().trigger('change');
+
+        var option = new Option('Todos', 'Todos', false, false);
+        $('#permission_id').append(option);
+
+        for (var i = 0; i < permissions.length; i++) {
+            var item = permissions[i];
+            var id = item.id;
+            var description = item.description;
+            var option = new Option(description, id, false, false);
+            $('#permission_id').append(option);
+        }
+
+        $('#permission_id').val(null).trigger('change');
+        $('#permission_id').val("{{ $permission_id }}").trigger('change');
+
+        //----------------------------------------------------------------------------
+
+        $('#user_id').val(null).trigger('change');
+        $('#user_id').empty().trigger('change');
+
+        var option = new Option('Todos', 'Todos', false, false);
+        $('#user_id').append(option);
+
+        for (var i = 0; i < users.length; i++) {
+            var item = users[i];
+            var id = item.id;
+            var description = item.description;
+            var option = new Option(description, id, false, false);
+            $('#user_id').append(option);
+        }
+
+        $('#user_id').val(null).trigger('change');
+        $('#user_id').val("{{ $user_id }}").trigger('change');
+
+        //----------------------------------------------------------------------------
+
+        $('.select2').on('select2:select', function(e) {
+
+            var id = e.currentTarget.id;
+
+            switch (id) {
+                case 'rol_id':
+                    $('#permission_id').val('Todos').trigger('change');
+                    $('#user_id').val('Todos').trigger('change');
+                    break;
+
+                case 'permission_id':
+                    $('#rol_id').val('Todos').trigger('change');
+                    $('#user_id').val('Todos').trigger('change');
+                    break;
+
+                case 'user_id':
+                    $('#rol_id').val('Todos').trigger('change');
+                    $('#permission_id').val('Todos').trigger('change');
+                    break;
             }
+        });
 
-            $('#form_search').append(input);
-            $('#form_search').submit();
+
+        //-----------------------------------------------------------------------------------------------
+
+        function get_roles_permissions(rol_id) {
+
+            var url = '/get_roles_permissions/';
+
+            var rol_id = parseInt($('#rol_id').val());
+            rol_id = (Number.isNaN(rol_id)) ? 'Todos' : rol_id;
+
+            var json = {
+                _token: token,
+                rol_id: rol_id
+            };
+
+            $.post(url, json, function(data, status) {
+
+                console.log('data:', data);
+
+                $('#permission_id').val(null).trigger('change');
+                $('#permission_id').empty().trigger("change");
+
+                var option = new Option('Todos', 'Todos', false, false);
+                $('#permission_id').append(option);
+
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    var id = item.id;
+                    var description = item.description;
+                    var option = new Option(description, id, false, false);
+                    $('#permission_id').append(option);
+                }
+
+                $('#permission_id').val(null).trigger('change');
+                $('#permission_id').val('Todos').trigger("change");
+            });
         }
-    }
 
+        //-----------------------------------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------------------------------
+        function search(button_name) {
 
-    var groupColumn = 0;
+            if ($('#rol_id').val() == 'Todos' && $('#permission_id').val() == 'Todos' && $('#user_id').val() == 'Todos') {
+                swal({
+                        title: 'Atención',
+                        text: 'Seleccionar un filtro para la búsqueda.',
+                        type: 'error',
+                        showCancelButton: false,
+                        confirmButtonColor: '#3c8dbc',
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Cancelar.',
+                        closeOnClickOutside: false,
+                        closeOnConfirm: true,
+                        closeOnCancel: true
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
 
-    var table = $('#datatable_1').DataTable({
-        orderCellsTop: true,
-        fixedHeader: true,
-        pageLength: 10,
-        lengthMenu: [
-            1, 2, 5, 10, 20, 30, 50, 70, 100, 150, 300, 500, 1000, 1500, 2000, 5000, 10000
-        ],
-        dom: '<"pull-left"f><"pull-right"l>tip',
-        language: {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-        },
-        scroller: true,
-        processing: true,
-        order: [
-            [groupColumn, 'asc']
-        ],
-        displayLength: 5,
-        drawCallback: function(settings) {
-            $('#div_load').css('display', 'none');
-            $('#content').css('display', 'block');
+                        }
+                    }
+                );
+            } else {
+                var input = $('<input>').attr({
+                    'type': 'hidden',
+                    'id': 'button_name',
+                    'name': 'button_name',
+                    'value': button_name
+                });
+
+                if (button_name == 'search') {
+                    $('#content').css('display', 'none');
+                    $('#div_load').css('display', 'block');
+                }
+
+                $('#form_search').append(input);
+                $('#form_search').submit();
+            }
         }
-    });
 
-    // Order by the grouping
-    $('#datatable_1 tbody').on('click', 'tr.group', function() {
-        var currentOrder = table.order()[0];
-        if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
-            table.order([groupColumn, 'desc']).draw();
-        } else {
-            table.order([groupColumn, 'asc']).draw();
-        }
-    });
 
-    $('.sub_datatables').DataTable({
-        orderCellsTop: true,
-        fixedHeader: true,
-        pageLength: 5,
-        lengthMenu: [
-            1, 2, 5, 10, 20, 30, 50, 70, 100, 150, 300, 500, 1000, 1500, 2000, 5000, 10000
-        ],
-        dom: '<"pull-left"f><"pull-right"l>tip',
-        language: {
-            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-        },
-        scroller: true,
-        processing: true,
-        displayLength: 5
-    });
+        //-----------------------------------------------------------------------------------------------
 
-    //-----------------------------------------------------------------------------------------------
-</script>
+        var groupColumn = 0;
+
+        var table = $('#datatable_1').DataTable({
+            orderCellsTop: true,
+            fixedHeader: true,
+            pageLength: 10,
+            lengthMenu: [
+                1, 2, 5, 10, 20, 30, 50, 70, 100, 150, 300, 500, 1000, 1500, 2000, 5000, 10000
+            ],
+            dom: '<"pull-left"f><"pull-right"l>tip',
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            scroller: true,
+            processing: true,
+            order: [
+                [groupColumn, 'asc']
+            ],
+            displayLength: 5,
+            drawCallback: function(settings) {
+                $('#div_load').css('display', 'none');
+                $('#content').css('display', 'block');
+            }
+        });
+
+        // Order by the grouping
+        $('#datatable_1 tbody').on('click', 'tr.group', function() {
+            var currentOrder = table.order()[0];
+            if (currentOrder[0] === groupColumn && currentOrder[1] === 'asc') {
+                table.order([groupColumn, 'desc']).draw();
+            } else {
+                table.order([groupColumn, 'asc']).draw();
+            }
+        });
+
+        $('.sub_datatables').DataTable({
+            orderCellsTop: true,
+            fixedHeader: true,
+            pageLength: 5,
+            lengthMenu: [
+                1, 2, 5, 10, 20, 30, 50, 70, 100, 150, 300, 500, 1000, 1500, 2000, 5000, 10000
+            ],
+            dom: '<"pull-left"f><"pull-right"l>tip',
+            language: {
+                "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+            },
+            scroller: true,
+            processing: true,
+            displayLength: 5
+        });
+
+        //-----------------------------------------------------------------------------------------------
+    </script>
 @endsection

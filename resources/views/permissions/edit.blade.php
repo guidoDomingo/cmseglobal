@@ -1,7 +1,15 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     {{ $permission->description }} Permiso
+@endsection
+
+@section('aditional_css')
+    <style>
+        .permiso-edit a, button{
+            margin-top: 5px;
+        }
+    </style>
 @endsection
 @section('content')
     <section class="content-header">
@@ -19,17 +27,17 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Modificar {{ $permission->name }}</h3>
                     </div>
                     <div class="box-body">
                         @include('partials._flashes')
                         @include('partials._messages')
-                        {!! Form::open(['route' => ['permissions.update', $permission->id ] , 'method' => 'PUT']) !!}
-                        @include('permissions.partials.fields')
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        {!! Form::close() !!}
+                            {!! Form::open(['route' => ['permissions.update', $permission->id ] ,  'method' => 'PUT', 'class' => 'permiso-edit']) !!}
+                            @include('permissions.partials.fields')
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            {!! Form::close() !!}
                     </div>
                 </div>
                 {{--<div class="box-footer">--}}

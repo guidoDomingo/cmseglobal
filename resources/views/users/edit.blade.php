@@ -208,33 +208,11 @@
                                     </div>
                                     <div class="tab-pane fade" id="profile-tab-icon-panes" role="tabpanel"
                                         aria-labelledby="profile-tab-icon" tabindex="0">
-                                        <p class="mt-3">Aliquam at sem nunc. Maecenas tincidunt lacus justo, non ultrices mauris
-                                            egestas eu. Vestibulum ut ipsum ac eros rutrum blandit in eget quam. Nullam et lobortis
-                                            nunc. Nam sodales, ante sed sodales rhoncus, diam ipsum faucibus mauris, non interdum
-                                            nisl lacus vel justo.</p>
-                                        <p>Sed imperdiet mi tincidunt mauris convallis, ut ullamcorper nunc interdum. Praesent
-                                            maximus massa eu varius gravida. Nullam in malesuada enim. Morbi commodo pellentesque
-                                            velit sodales pretium. Mauris scelerisque augue vel est pulvinar laoreet.</p>
-                                    </div>
-                                    <div class="tab-pane fade" id="contact-tab-icon-pane" role="tabpanel"
-                                        aria-labelledby="contact-tab-icon" tabindex="0">
-                                        <p class="mt-3">In diam odio, ullamcorper vitae dolor vel, lobortis rhoncus odio. Nullam
-                                            lacinia euismod ex vitae ullamcorper. Integer fringilla arcu nunc, et tempus sapien
-                                            ornare sed. Nam fringilla velit nec bibendum consectetur. Etiam pellentesque eu nulla
-                                            vel tincidunt. </p>
-                                        <p>Ut nec nunc sed risus viverra vehicula non non purus. Nunc semper sem ut ante suscipit
-                                            vulputate. Integer tempus ornare ligula, sed lacinia leo posuere eu. </p>
-                                    </div>
-                                    <div class="tab-pane fade" id="disabled-tab-icon-pane" role="tabpanel"
-                                        aria-labelledby="disabled-tab-icon" tabindex="0">
-                                        <p class="mt-3">Nullam feugiat, sapien a lacinia condimentum, libero nibh fermentum
-                                            lectus, eu dictum justo ex sit amet neque. Sed felis arcu, efficitur eget diam eget,
-                                            maximus dapibus enim. Sed vitae varius lorem. Fusce non accumsan diam, quis porttitor
-                                            dolor. </p>
-                                        <p>Aenean ut aliquet dolor. Integer accumsan odio non dignissim lobortis. Sed rhoncus ante
-                                            eros, vel ullamcorper orci molestie congue. Phasellus vel faucibus dolor. Morbi magna
-                                            eros, vulputate eu sem nec, venenatis egestas quam. Maecenas hendrerit mollis eros, eget
-                                            faucibus quam dignissim vel.</p>
+                                         @if (\Sentinel::getUser()->hasAccess('pos_boxes_edit'))
+                                            <div class="tab-pane fade" id="tab_help_2">
+                                                @include('terminal_interaction_monitoring.pos_box.pos_boxes')
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 
@@ -259,5 +237,5 @@
     <script src="{{ asset('src/plugins/src/highlight/highlight.pack.js') }}"></script>
     <!-- END GLOBAL MANDATORY STYLES -->
     --}}
-    <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script>
+    {{-- <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script> --}}
 @endsection

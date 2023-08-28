@@ -1,8 +1,25 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nueva Ciudad
 @endsection
+
+@section('aditional_css')
+    <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    
+    {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    {{-- FIN DE SELECT  --}}
+
+    <style>
+        #nuevaCiudad-form a, button {
+            margin-top : 10px;
+        }
+    </style>
+@endsection
+
 @section('content')
 
     <section class="content-header">
@@ -19,7 +36,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Nueva</h3>
                     </div>
@@ -38,47 +55,59 @@
 @endsection
 
 @section('js')
-<script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
-<script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
-<script type="text/javascript">
-    $('.select2').select2();
+    <script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
+    <script type="text/javascript">
+        //$('.select2').select2();
 
-    //validacion formulario 
-    $('#nuevaCiudad-form').validate({
-        rules: {
-            "descripcion": {
-                required: true,
+        //validacion formulario 
+        $('#nuevaCiudad-form').validate({
+            rules: {
+                "descripcion": {
+                    required: true,
+                },
+                "departamento_id": {
+                    required: true,
+                },
             },
-            "departamento_id": {
-                required: true,
+            messages: {
+                "descripcion": {
+                    required: "Ingrese la descripción",
+                },
+                "departamento_id": {
+                    required: "Seleccione el departamento",
+                },
             },
-        },
-        messages: {
-            "descripcion": {
-                required: "Ingrese la descripción",
-            },
-            "departamento_id": {
-                required: "Seleccione el departamento",
-            },
-        },
-        errorPlacement: function (error, element) {
-            error.appendTo(element.parent());
-        }
-    });
+            errorPlacement: function (error, element) {
+                error.appendTo(element.parent());
+            }
+        });
 
-    // Turn input element into a pond
-    FilePond.registerPlugin(
-        FilePondPluginFileEncode,
-        FilePondPluginImagePreview,
-        FilePondPluginImageExifOrientation,
-        FilePondPluginFileValidateSize
-    );
+        // Turn input element into a pond
+        FilePond.registerPlugin(
+            FilePondPluginFileEncode,
+            FilePondPluginImagePreview,
+            FilePondPluginImageExifOrientation,
+            FilePondPluginFileValidateSize
+        );
 
-    $('.filepond').filepond({
-        allowMultiple: false
-    });
-</script>
-@endsection
-@section('aditional_css')
-    <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+        $('.filepond').filepond({
+            allowMultiple: false
+        });
+    </script>
+
+    
+    {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        new TomSelect(".select2",{
+            create: true,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    </script>
+    {{-- FIN SELECT  --}}
 @endsection
