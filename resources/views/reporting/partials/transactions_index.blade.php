@@ -1,3 +1,64 @@
+
+@section('aditional_css')
+    {{-- <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" /> --}}
+    <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
+    {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    {{-- FIN DE SELECT  --}}
+
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+    <style type="text/css">
+        @media print {
+            body * {
+                visibility: hidden;
+
+            }
+
+            #printSection,
+            #printSection * {
+                visibility: visible;
+            }
+
+
+
+            #printSection {
+                font-size: 11px;
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+                left: 0;
+                top: 0;
+            }
+       }
+
+       .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
+
+       body.dark .box-body{
+        overflow: unset !important; 
+       }
+
+       body.dark .table tbody tr td {
+            white-space: normal;
+       }
+       body.dark .table thead tr th {
+            white-space: normal;
+       }
+
+    </style>
+@endsection
+
 <section class="content">
 
     <!-- Modal -->
@@ -462,7 +523,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class=" box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -514,9 +575,9 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <div class="row mt-5">
                                     <div class="col-md-12">
-                                        <div style="border: 1px solid #d2d6de; border-radius: 5px; background-color: #ecf0f5; padding: 5px">
+                                        <div style="border: 1px solid #d2d6de; border-radius: 5px; padding: 5px">
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     {!! Form::label('pdv', 'Puntos de venta') !!}
@@ -526,7 +587,7 @@
                                                 <div class="col-md-4">
                                                     <br />
                                                     <div style="padding: 5px;" title="Filtrar Puntos de ventas inactivos">
-                                                        <input type="checkbox" id="pos_active" name="pos_active"></input> &nbsp; <b>Filtrar Inactivos</b> &nbsp;
+                                                        <input type="checkbox" id="pos_active" name="pos_active"> &nbsp; <b>Filtrar Inactivos</b> &nbsp;
                                                     </div>
                                                 </div>
                                             </div>
@@ -617,7 +678,7 @@
                         </div>
 
 
-                        <div style="border: 1px solid #d2d6de; border-radius: 5px; background-color: #ecf0f5; padding: 5px">
+                        <div style="border: 1px solid #d2d6de; border-radius: 5px; padding: 5px; margin-top:10px">
                             <div class="row">
                                 <div class="col-md-3">
                                     <label>Tipo de transacción</label>
@@ -859,261 +920,282 @@
 
     @if (isset($transactions) and $transactions_total > 0)
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Resumen de totales:</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="info-box" style="background-color: aliceblue !important; color: #444;">
-                                <span class="info-box-icon"><i class="fa fa-list"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Cantidad de Transacciones</span>
-                                    <span class="info-box-number" style="font-size: 30px" id="number_of_transactions">{{ $transactions_total }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="info-box" style="background-color: aliceblue !important; color: #444;">
-                                <span class="info-box-icon"><i class="fa fa-money"></i></span>
-                                <div class="info-box-content">
-                                    <span class="info-box-text">Monto total de Transacciones</span>
-                                    <span class="info-box-number" style="font-size: 30px" id="total_amount_of_transactions"><b>{{ $total_transactions }}</b></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <!--Si es mayor a 19 que es el limite por página mostramos el páginador-->
-            @if (count($transactions) > 19)
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Ir a la página:</h3>
-                </div>
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="dataTables_paginate paging_simple_numbers">
-
-                                {!! $transactions->appends(
-                                ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
-                                'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
-                                'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
-                                ])->render() !!}
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
-    </div>
-
-    <!--<div class="row">
-            <div class="col-md-12">
-                <div class="box box-primary">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="box-default" style="border: 1px solid #d2d6de;">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Totales</h3>
+                        <h3 class="box-title">Resumen de totales:</h3>
                     </div>
-
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="dataTables_info" role="status" aria-live="polite">
-                                    {{ $transactions_total }} registros en total</div>
+                                <div class="info-box" style="background-color: aliceblue !important; color: #444;">
+                                    <span class="info-box-icon"><i class="fa fa-list"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Cantidad de Transacciones</span>
+                                        <span class="info-box-number" style="font-size: 30px" id="number_of_transactions">{{ $transactions_total }}</span>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="dataTables_info" role="status" aria-live="polite">
-                                    Monto total: <b>{{ $total_transactions }}</b> <i class="fa fa-money"></i>
+                                <div class="info-box" style="background-color: aliceblue !important; color: #444;">
+                                    <span class="info-box-icon"><i class="fa fa-money"></i></span>
+                                    <div class="info-box-content">
+                                        <span class="info-box-text">Monto total de Transacciones</span>
+                                        <span class="info-box-number" style="font-size: 30px" id="total_amount_of_transactions"><b>{{ $total_transactions }}</b></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>-->
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Resultados</h3>
-                    <div class="box-tools">
-                        <div class="input-group" style="width:150px;">
-                            {!! Form::model(Request::only(['context']), ['route' => 'reports.transactions.search', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
-                            {!! Form::text('context', null, ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Buscar', 'autocomplete' => 'off']) !!}
-                            {!! Form::close() !!}
+            <div class="col-md-4">
+                <!--Si es mayor a 19 que es el limite por página mostramos el páginador-->
+                @if (count($transactions) > 19)
+                <div class="box box-default" style="border: 1px solid #d2d6de;">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Ir a la página:</h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="dataTables_paginate paging_simple_numbers">
+
+                                    {!! $transactions->appends(
+                                    ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
+                                    'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
+                                    'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
+                                    ])->render() !!}
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- /.box-header -->
-                <div class="box-body" style="overflow: scroll">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
-                                <thead>
-                                    <tr>
-                                        <th style="max-width:50px;">ID</th>
-                                        <th>Tipo</th>
-                                        <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Valor Transacción</th>
-                                        @if (\Sentinel::getUser()->inRole('superuser'))
-                                        <th>Monto Comisión</th>
-                                        @endif
-                                        <th style="max-width:100px;">Cód. Pago</th>
-                                        <th>Identificador de transacción</th>
-                                        <th>Factura nro</th>
-                                        <th>Sede</th>
-                                        <th>Ref 1</th>
-                                        <th>Ref 2</th>
-                                        <th>Codigo Cajero</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($transactions as $transaction)
-                                    <?php
-                                    if ($transaction->status == 'success') {
-                                        if (is_null($transaction->reversion_id)) {
-                                            $transaction->status = '<span class="label label-success">' . $transaction->status . '</span>';
+                @endif
+            </div>
+        </div>
+
+        <!--<div class="row">
+                <div class="col-md-12">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Totales</h3>
+                        </div>
+
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="dataTables_info" role="status" aria-live="polite">
+                                        {{ $transactions_total }} registros en total</div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="dataTables_info" role="status" aria-live="polite">
+                                        Monto total: <b>{{ $total_transactions }}</b> <i class="fa fa-money"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class=" box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Resultados</h3>
+                        <div class="box-tools">
+                            <div class="input-group" style="width:150px;">
+                                {!! Form::model(Request::only(['context']), ['route' => 'reports.transactions.search', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
+                                {!! Form::text('context', null, ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Buscar', 'autocomplete' => 'off']) !!}
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="overflow: scroll">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <th style="max-width:50px;">ID</th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                            <th>Fecha</th>
+                                            <th>Valor Transacción</th>
+                                            @if (\Sentinel::getUser()->inRole('superuser'))
+                                            <th>Monto Comisión</th>
+                                            @endif
+                                            <th style="max-width:100px;">Cód. Pago</th>
+                                            <th>Identificador de transacción</th>
+                                            <th>Factura nro</th>
+                                            <th>Sede</th>
+                                            <th>Ref 1</th>
+                                            <th>Ref 2</th>
+                                            <th>Codigo Cajero</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($transactions as $transaction)
+                                        <?php
+                                        if ($transaction->status == 'success') {
+                                            if (is_null($transaction->reversion_id)) {
+                                                $transaction->status = '<span class="label label-success">' . $transaction->status . '</span>';
+                                            } else {
+                                                $transaction->status = '<span class="label label-primary label_reversion">' . $transaction->status . '</span>';
+                                            }
+                                        } elseif ($transaction->status == 'canceled' || $transaction->status == 'iniciated') {
+                                            $transaction->status = '<span class="label label-warning">' . $transaction->status . '</span>';
+                                        } elseif ($transaction->status == 'inconsistency') {
+                                            $transaction->status = '<span class="label label-danger">' . 'Inconsistencia' . '</span>';
                                         } else {
-                                            $transaction->status = '<span class="label label-primary label_reversion">' . $transaction->status . '</span>';
+                                            $transaction->status = '<span class="label label-danger">' . $transaction->status . '</span>';
                                         }
-                                    } elseif ($transaction->status == 'canceled' || $transaction->status == 'iniciated') {
-                                        $transaction->status = '<span class="label label-warning">' . $transaction->status . '</span>';
-                                    } elseif ($transaction->status == 'inconsistency') {
-                                        $transaction->status = '<span class="label label-danger">' . 'Inconsistencia' . '</span>';
-                                    } else {
-                                        $transaction->status = '<span class="label label-danger">' . $transaction->status . '</span>';
-                                    }
-                                    ?>
+                                        ?>
 
 
-                                    <tr 
-                                        data-id="{{ $transaction->id }}" 
-                                        data-description="{{ $transaction->provider }} - {{ $transaction->servicio }}" 
-                                        data-amount="{{ $transaction->amount }}" 
-                                        data-ref1="{{ $transaction->referencia_numero_1 }}" 
-                                        data-ref2="{{ $transaction->referencia_numero_2 }}" 
-                                        data-estado="{{ $transaction->estado }}" 
-                                        data-payid="{{ $transaction->cod_pago }}" 
-                                        data-status="{{ $transaction->status_description }}" 
-                                        data-transaction="{{ $transaction->atm_transaction_id }}"
-                                        data-service_source_id="{{ $transaction->service_source_id }}" 
-                                        data-service_id="{{ $transaction->service_id }}">
+                                        <tr 
+                                            data-id="{{ $transaction->id }}" 
+                                            data-description="{{ $transaction->provider }} - {{ $transaction->servicio }}" 
+                                            data-amount="{{ $transaction->amount }}" 
+                                            data-ref1="{{ $transaction->referencia_numero_1 }}" 
+                                            data-ref2="{{ $transaction->referencia_numero_2 }}" 
+                                            data-estado="{{ $transaction->estado }}" 
+                                            data-payid="{{ $transaction->cod_pago }}" 
+                                            data-status="{{ $transaction->status_description }}" 
+                                            data-transaction="{{ $transaction->atm_transaction_id }}"
+                                            data-service_source_id="{{ $transaction->service_source_id }}" 
+                                            data-service_id="{{ $transaction->service_id }}">
+                                            
                                         
-                                    
-                                        <td align="left" class="{{ $transaction->id }}">
-                                            ID: {{ $transaction->id }} <br>
-                                            <div class="btn-group">
+                                            <td align="left" class="{{ $transaction->id }}">
+                                                ID: {{ $transaction->id }} <br>
+                                                <div class="btn-group">
 
-                                                <button class="info btn btn-default btn-xs" title="Mostrar info">
-                                                    <i class="fa fa-info-circle" style="cursor:pointer"></i>
+                                                    <button class="info btn btn-default btn-xs" title="Mostrar info">
+                                                        <i class="fa fa-info-circle" style="cursor:pointer"></i>
+                                                    </button>
+
+                                                    @if (\Sentinel::getUser()->hasAccess('reporting.print'))
+                                                    <button class="btn btn-default btn-xs" title="Reimprimir Ticket">
+                                                        <i class="print fa fa-print"></i>
+                                                    </button>
+                                                    @endif
+                                                    @if (\Sentinel::getUser()->owner_id == 45)
+                                                    <button class="btn btn-default btn-xs" title="Reimprimir Ticket">
+                                                        <i class="print fa fa-print"></i>
+                                                    </button>
+                                                    @endif
+                                                </div>
+                                            </td>
+
+                                            @if ($transaction->service_source_id == 0)
+                                            <td>{{ $transaction->provider }} -
+                                                {{ $transaction->servicio }}
+                                            </td>
+                                            @else
+                                            <td>{{ $transaction->proveedor }} - {{ $transaction->tipo }}
+                                            </td>
+                                            @endif
+
+                                            <td class="status" style="cursor:pointer">
+                                                {!! $transaction->status !!}
+                                            </td>
+                                            <td>{{ $transaction->created_at }}</td>
+                                            @if ($transaction->forma_pago == 'efectivo')
+                                            <td align="right">{{ $transaction->amount }} <i title="Efectivo" class="fa fa-money"></i> </td>
+                                            @elseif($transaction->forma_pago == 'canje')
+                                            <td align="right">{{ $transaction->amount }} <i title="Canje" class="fa fa-tags"></i></td>
+                                            @elseif($transaction->forma_pago == 'TC')
+                                            <td align="right">{{ $transaction->amount }} <i title="TC" class="fa fa-credit-card"></i></td>
+                                            @elseif($transaction->forma_pago == 'TD')
+                                            <td align="right">{{ $transaction->amount }} <i title="TD" class="fa fa-credit-card"></i></td>
+                                            @elseif($transaction->forma_pago == 'DC')
+                                            <td align="right">{{ $transaction->amount }} <i title="DC" class="fa fa-credit-card"></i></td>
+                                            @elseif($transaction->transaction_type == 12 || $transaction->transaction_type == 13 || $transaction->transaction_type == 17)
+                                            <td align="right">{{ $transaction->amount }} <i title="DC" class="fa fa-barcode"> - Qr</i></td>
+                                            @else
+                                            <td align="right"> {{ $transaction->amount }} |
+                                                {{ $transaction->forma_pago }}
+                                            </td>
+                                            @endif
+                                            @if (\Sentinel::getUser()->inRole('superuser'))
+                                            <td>{{ $transaction->commission_amount }}</td>
+                                            @endif
+                                            @if ($transaction->cod_pago == '')
+                                            <td align="right" style="color: red">
+                                                <button class="btn btn-danger btn-xs" title="Transacción no posee cod Pago">
+                                                    <i class="pay-info fa fa-warning"></i>
                                                 </button>
-
-                                                @if (\Sentinel::getUser()->hasAccess('reporting.print'))
-                                                <button class="btn btn-default btn-xs" title="Reimprimir Ticket">
-                                                    <i class="print fa fa-print"></i>
+                                            </td>
+                                            @else
+                                            <td align="right">{{ $transaction->cod_pago }}
+                                                <button class="btn btn-default btn-xs" title="Mostrar info">
+                                                    <i class="pay-info fa fa-eye" style="cursor:pointer"></i>
                                                 </button>
-                                                @endif
-                                                @if (\Sentinel::getUser()->owner_id == 45)
-                                                <button class="btn btn-default btn-xs" title="Reimprimir Ticket">
-                                                    <i class="print fa fa-print"></i>
-                                                </button>
-                                                @endif
-                                            </div>
-                                        </td>
+                                            </td>
+                                            @endif
 
-                                        @if ($transaction->service_source_id == 0)
-                                        <td>{{ $transaction->provider }} -
-                                            {{ $transaction->servicio }}
-                                        </td>
-                                        @else
-                                        <td>{{ $transaction->proveedor }} - {{ $transaction->tipo }}
-                                        </td>
-                                        @endif
-
-                                        <td class="status" style="cursor:pointer">
-                                            {!! $transaction->status !!}
-                                        </td>
-                                        <td>{{ $transaction->created_at }}</td>
-                                        @if ($transaction->forma_pago == 'efectivo')
-                                        <td align="right">{{ $transaction->amount }} <i title="Efectivo" class="fa fa-money"></i> </td>
-                                        @elseif($transaction->forma_pago == 'canje')
-                                        <td align="right">{{ $transaction->amount }} <i title="Canje" class="fa fa-tags"></i></td>
-                                        @elseif($transaction->forma_pago == 'TC')
-                                        <td align="right">{{ $transaction->amount }} <i title="TC" class="fa fa-credit-card"></i></td>
-                                        @elseif($transaction->forma_pago == 'TD')
-                                        <td align="right">{{ $transaction->amount }} <i title="TD" class="fa fa-credit-card"></i></td>
-                                        @elseif($transaction->forma_pago == 'DC')
-                                        <td align="right">{{ $transaction->amount }} <i title="DC" class="fa fa-credit-card"></i></td>
-                                        @elseif($transaction->transaction_type == 12 || $transaction->transaction_type == 13 || $transaction->transaction_type == 17)
-                                        <td align="right">{{ $transaction->amount }} <i title="DC" class="fa fa-barcode"> - Qr</i></td>
-                                        @else
-                                        <td align="right"> {{ $transaction->amount }} |
-                                            {{ $transaction->forma_pago }}
-                                        </td>
-                                        @endif
-                                        @if (\Sentinel::getUser()->inRole('superuser'))
-                                        <td>{{ $transaction->commission_amount }}</td>
-                                        @endif
-                                        @if ($transaction->cod_pago == '')
-                                        <td align="right" style="color: red">
-                                            <button class="btn btn-danger btn-xs" title="Transacción no posee cod Pago">
-                                                <i class="pay-info fa fa-warning"></i>
-                                            </button>
-                                        </td>
-                                        @else
-                                        <td align="right">{{ $transaction->cod_pago }}
-                                            <button class="btn btn-default btn-xs" title="Mostrar info">
-                                                <i class="pay-info fa fa-eye" style="cursor:pointer"></i>
-                                            </button>
-                                        </td>
-                                        @endif
-
-                                        <td align="right">{{ $transaction->identificador_transaction_id }}
-                                        </td>
-                                        <td align="right">{{ $transaction->factura_numero }}</td>
-                                        <td>{{ $transaction->sede }}</td>
-                                        <td align="right">{{ $transaction->referencia_numero_1 }}</td>
-                                        <td align="right">{{ $transaction->referencia_numero_2 }}</td>
-                                        <td align="right">{{ $transaction->code }}</td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                            <td align="right">{{ $transaction->identificador_transaction_id }}
+                                            </td>
+                                            <td align="right">{{ $transaction->factura_numero }}</td>
+                                            <td>{{ $transaction->sede }}</td>
+                                            <td align="right">{{ $transaction->referencia_numero_1 }}</td>
+                                            <td align="right">{{ $transaction->referencia_numero_2 }}</td>
+                                            <td align="right">{{ $transaction->code }}</td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="box-footer clearfix">
-                    <div class="row">
-                        <div class="col-sm-7">
+                    <div class="box-footer clearfix">
+                        <div class="row">
+                            <div class="col-sm-7">
 
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
     @elseif($search)
-    <div class="box box-danger">
-        <div class="box-header with-border">
-            <h1 class="box-title">Sin resultados en la búsqueda.</h1>
+        <div class="box box-danger">
+            <div class="box-header with-border">
+                <h1 class="box-title">Sin resultados en la búsqueda.</h1>
+            </div>
         </div>
-    </div>
     @endif
 </section>
 
 @section('js')
+<!-- DATA TABLE-->
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+<!-- DATA TABLE - FIN -->
 <!-- InputMask -->
 <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -1143,12 +1225,25 @@
 <link rel="stylesheet" href="/js/json-formatter/jquery.json-viewer.css">
 <script src="/js/json-formatter/jquery.json-viewer.js"></script>
 
+{{-- AGREGAR SELECT  --}}
+<script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+<script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+<script>
+    new TomSelect(".select2",{
+        create: true,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+</script>
+{{-- FIN SELECT  --}}
 <script>
 
     var transaction_id_aux = null;
 
     //Cascading dropdown list de redes / sucursales
-    $('.select2').select2();
+    //$('.select2').select2();
     var servicioSeleccionado = '{{ $service_request_id }}';
 
     $('.mostrar').hide();
@@ -2442,31 +2537,4 @@
     });
 
 </script>
-@endsection
-@section('aditional_css')
-<link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
-<style type="text/css">
-    @media print {
-        body * {
-            visibility: hidden;
-
-        }
-
-        #printSection,
-        #printSection * {
-            visibility: visible;
-        }
-
-
-
-        #printSection {
-            font-size: 11px;
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            left: 0;
-            top: 0;
-        }
-</style>
 @endsection

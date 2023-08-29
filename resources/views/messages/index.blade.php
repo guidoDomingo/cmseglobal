@@ -52,7 +52,7 @@ if (isset($data['error_detail'])) {
 
 ?>
 
-@extends('layout')
+@extends('app')
 
 @section('title')
 {{ $title }}
