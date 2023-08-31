@@ -1,10 +1,14 @@
+
 <?php
 use Carbon\Carbon;
+
 /*
 |----------------------------------------------------------------------------------------------------------------------+
 | Authentication & Authorization Routes - Sentinel Implementation                                                      |
 |----------------------------------------------------------------------------------------------------------------------+
 */
+
+
 
 use App\Services\DepositosTerminalesServices;
 use Illuminate\Support\Facades\Route;

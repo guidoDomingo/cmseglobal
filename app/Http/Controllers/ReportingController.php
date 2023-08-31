@@ -255,6 +255,11 @@ class ReportingController extends Controller
 
                         if ($result) {
 
+                            $result = json_decode($result,true);
+
+                            
+                            
+
                             //Excel::create($filename, function ($excel) use ($result, $result2) {
 
                                 $result_aux = [];
@@ -429,6 +434,8 @@ class ReportingController extends Controller
     public function jsons_transaction(Request $request)
     {
 
+        \Log::debug("entro en json_transaction");
+
         if (!(\Sentinel::getUser()->inRole('superuser'))) {
             return [];
         }
@@ -539,12 +546,13 @@ class ReportingController extends Controller
      */
     public function jsons_service(Request $request)
     {
+        \Log::info("Campos:", [$request->all()]);
 
         if (!(\Sentinel::getUser()->inRole('superuser') or \Sentinel::getUser()->inRole('ATC') or \Sentinel::getUser()->inRole('accounting.admin'))) {
             return [];
         }
 
-        //\Log::info("Campos:", [$request->all()]);
+        \Log::info("Campos:", [$request->all()]);
 
         $transaction_id = $request['transaction_id'];
         $service_source_id = $request['service_source_id'];
