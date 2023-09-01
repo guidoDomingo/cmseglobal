@@ -762,10 +762,10 @@
                                         <div class="form-group">
                                             <label>Rango de Tiempo & Fecha:</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-clock-o"></i>
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
+                                                    <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{ old('reservationtime', $reservationtime ?? '') }}" />
                                                 </div>
-                                                <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{ old('reservationtime', $reservationtime ?? '') }}" />
                                             </div>
                                         </div>
                                     </div>
@@ -776,10 +776,10 @@
                                         <div class="form-group">
                                             <label>ID de transacción:</label>
                                             <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    ID
+                                                <div class="input-group mb-3">
+                                                    <span class="input-group-text" id="basic-addon1">ID</span>
+                                                    <input type="number" id="transaction_id" name="transaction_id" class="form-control" placeholder="Buscar por ID" />
                                                 </div>
-                                                <input type="number" id="transaction_id" name="transaction_id" class="form-control" placeholder="Buscar por ID" />
                                             </div>
                                         </div>
                                     </div>
@@ -1148,13 +1148,13 @@
                 <div class=" box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Resultados</h3>
-                        <div class="box-tools">
-                            <div class="input-group" style="width:150px;">
+                        {{-- <div class="box-tools">
+                            <div class="input-group" style="width:200px;">
                                 {!! Form::model(Request::only(['context']), ['route' => 'reports.transactions.search', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
-                                {!! Form::text('context', null, ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Buscar', 'autocomplete' => 'off']) !!}
+                                {!! Form::text('context', null, ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Buscar por id', 'autocomplete' => 'off']) !!}
                                 {!! Form::close() !!}
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body" style="overflow: scroll">
@@ -1922,7 +1922,7 @@
     @endif
     
 
-    $('.info').on('click', function(e) {
+    $(document).on('click', '.info', function(e) {
         
         e.preventDefault();
 
@@ -2073,8 +2073,7 @@
 
 
 
-
-    $('.pay-info').on('click', function(e) {
+    $(document).on('click', '.pay-info', function(e) {
         e.preventDefault();
         var row = $(this).parents('tr');
         var payid = row.data('payid');
@@ -2123,7 +2122,7 @@
             });
     });
 
-    $('.print').on('click', function(e) {
+    $(document).on('click', '.print', function(e) {
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
