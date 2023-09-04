@@ -6,7 +6,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -61,7 +61,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
 
@@ -71,7 +71,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -115,11 +115,9 @@
                                 <!-- Date and time range -->
                                 <div class="form-group">
                                     <label>Fecha:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
+                                        <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{ old('reservationtime', $reservationtime ?? '') }}" />
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -170,81 +168,81 @@
     @if(isset($transactions))
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Resultados</h3>
                         <div class="box-tools">
-                            <div class="input-group" style="width:150px;">
+                            {{-- <div class="input-group" style="width:150px;">
                                 {!! Form::model(Request::only(['context']),['route' => 'reports.one_day_transactions.search', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
                                 {!! Form::text('context' ,null , ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Buscar', 'autocomplete' => 'off' ]) !!}
                                 {!! Form::close()!!}
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body  no-padding" style="overflow: scroll">
+                    <div class="box-body" style="overflow: scroll">
                         <div class="row">
                             <div class="col-xs-12">
-                                <table class="table table-striped">
-                                    <tbody>
+                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                     <thead>
-                                    <tr>
-                                        <th style="width:10px">#ID</th>
-                                        <th></th>
-                                        <th>Tipo</th>
-                                        <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Valor Transacción</th>
-                                        <th style="min-width:100px;">Cód. Pago</th>
-                                        <!--<th>Valor Pago</th>
-                                        <th>Valor Ingresado</th>
-                                        <th>Vuelto</th>-->
-                                        <th>Identificador de transacción</th>
-                                        <th>Factura nro</th>
-                                        <th>Sede</th>
-                                        <th>Ref 1</th>
-                                        <th>Ref 2</th>
-                                        <th>Codigo Cajero</th>
-                                    </tr>
+                                        <tr>
+                                            <th style="width:10px">#ID</th>
+                                            <th></th>
+                                            <th>Tipo</th>
+                                            <th>Estado</th>
+                                            <th>Fecha</th>
+                                            <th>Valor Transacción</th>
+                                            <th style="min-width:100px;">Cód. Pago</th>
+                                            <!--<th>Valor Pago</th>
+                                            <th>Valor Ingresado</th>
+                                            <th>Vuelto</th>-->
+                                            <th>Identificador de transacción</th>
+                                            <th>Factura nro</th>
+                                            <th>Sede</th>
+                                            <th>Ref 1</th>
+                                            <th>Ref 2</th>
+                                            <th>Codigo Cajero</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach($transactions as $transaction)
-                                        <tr  data-id="{{ $transaction->id  }}" data-payid="{{ $transaction->cod_pago  }}" data-status="{{$transaction->status_description}}"  data-transaction="{{ $transaction->atm_transaction_id }}">
-                                            <td align="right" class="{{$transaction->id}}">
-                                                {{ $transaction->id }}
-                                                @if($transaction->reprinted <> true && \Sentinel::getUser()->hasAccess('reporting.print'))
-                                                    <i class="print fa fa-print"></i>
+                                        @foreach($transactions as $transaction)
+                                            <tr  data-id="{{ $transaction->id  }}" data-payid="{{ $transaction->cod_pago  }}" data-status="{{$transaction->status_description}}"  data-transaction="{{ $transaction->atm_transaction_id }}">
+                                                <td align="right" class="{{$transaction->id}}">
+                                                    {{ $transaction->id }}
+                                                    @if($transaction->reprinted <> true && \Sentinel::getUser()->hasAccess('reporting.print'))
+                                                        <i class="print fa fa-print"></i>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <i class="info fa fa-info-circle" style="cursor:pointer"></i>
+                                                </td>
+                                                <td>{{ $transaction->provider }} - {{ $transaction->servicio }}</td>
+                                                <td class="status" style="cursor:pointer">{!! $transaction->status !!} </td>
+                                                <td>{{ Carbon\Carbon::parse($transaction->created_at)->format('d/m/Y H:i:s') }}</td>
+                                                @if($transaction->forma_pago == 'efectivo')
+                                                    <td align="right">{{ number_format($transaction->amount,0) }} <i class="fa fa-money"></i> </td>
+                                                @elseif($transaction->forma_pago == 'canje')
+                                                    <td align="right">{{ number_format($transaction->amount,0) }} <i class="fa fa-tags"></i></td>
+                                                @else
+                                                    <td align="right"> {{ number_format($transaction->amount,0) }} | {{$transaction->forma_pago}}</td>
                                                 @endif
-                                            </td>
-                                            <td>
-                                                <i class="info fa fa-info-circle" style="cursor:pointer"></i>
-                                            </td>
-                                            <td>{{ $transaction->provider }} - {{ $transaction->servicio }}</td>
-                                            <td class="status" style="cursor:pointer">{!! $transaction->status !!} </td>
-                                            <td>{{ Carbon\Carbon::parse($transaction->created_at)->format('d/m/Y H:i:s') }}</td>
-                                            @if($transaction->forma_pago == 'efectivo')
-                                                <td align="right">{{ number_format($transaction->amount,0) }} <i class="fa fa-money"></i> </td>
-                                            @elseif($transaction->forma_pago == 'canje')
-                                                <td align="right">{{ number_format($transaction->amount,0) }} <i class="fa fa-tags"></i></td>
-                                            @else
-                                                <td align="right"> {{ number_format($transaction->amount,0) }} | {{$transaction->forma_pago}}</td>
-                                            @endif
-                                            @if($transaction->cod_pago == '')
-                                                <td align="right" style="color: red"><i class="pay-info fa fa-warning" ></i></td>
-                                            @else()
-                                                <td align="right">{{ $transaction->cod_pago  }} <i class="pay-info fa fa-eye" style="cursor:pointer"></i></td>
-                                            @endif
-                                            <!--<td>{{ number_format($transaction->valor_a_pagar,0) }}</td>
-                                            <td>{{ number_format($transaction->valor_recibido,0) }}</td>
-                                            <td>{{ number_format($transaction->valor_entregado,0) }}</td> -->
-                                            <td align="right">{{ $transaction->identificador_transaction_id}}</td>
-                                            <td align="right">{{ $transaction->factura_numero}}</td>
-                                            <td>{{ $transaction->sede }}</td>
-                                            <td align="right">{{ $transaction->referencia_numero_1 }}</td>
-                                            <td align="right">{{ $transaction->referencia_numero_2 }}</td>
-                                            <td align="right">{{ $transaction->code }}</td>
-                                        </tr>
-                                    @endforeach
+                                                @if($transaction->cod_pago == '')
+                                                    <td align="right" style="color: red"><i class="pay-info fa fa-warning" ></i></td>
+                                                @else()
+                                                    <td align="right">{{ $transaction->cod_pago  }} <i class="pay-info fa fa-eye" style="cursor:pointer"></i></td>
+                                                @endif
+                                                <!--<td>{{ number_format($transaction->valor_a_pagar,0) }}</td>
+                                                <td>{{ number_format($transaction->valor_recibido,0) }}</td>
+                                                <td>{{ number_format($transaction->valor_entregado,0) }}</td> -->
+                                                <td align="right">{{ $transaction->identificador_transaction_id}}</td>
+                                                <td align="right">{{ $transaction->factura_numero}}</td>
+                                                <td>{{ $transaction->sede }}</td>
+                                                <td align="right">{{ $transaction->referencia_numero_1 }}</td>
+                                                <td align="right">{{ $transaction->referencia_numero_2 }}</td>
+                                                <td align="right">{{ $transaction->code }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -261,13 +259,40 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="row">
+                        {{-- <div class="row">
                             <div class="col-sm-7">
                                 <div class="dataTables_paginate paging_simple_numbers">
                                     {!! $transactions->appends(['type' => $type_set, 'group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->render() !!}
                                 </div>
                             </div>
+                        </div> --}}
+                        {{-- <div class="row">
+                            <div class="col-sm-7">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        {!! $transactions->appends(['type' => $type_set, 'group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->render() !!}
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div> --}}
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <ul class="pagination">
+                                    @if ($transactions->onFirstPage())
+                                        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                                    @else
+                                        <li class="page-item"><a class="page-link" href="{{ $transactions->previousPageUrl() }}">Anterior</a></li>
+                                    @endif
+
+                                    @if ($transactions->hasMorePages())
+                                        <li class="page-item"><a class="page-link siguiente" href="{{ $transactions->nextPageUrl() }}">Siguiente</a></li>
+                                    @else
+                                        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                                    @endif
+                                </ul>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -276,6 +301,47 @@
 </section>
 
 @section('js')
+
+    <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+    <script src="{{ asset('src/plugins/src/flatpickr/flatpickr.js') }}"></script>
+
+    <script src="{{ asset('src/plugins/src/flatpickr/custom-flatpickr.js') }}"></script>
+    <!-- END PAGE LEVEL SCRIPTS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+
+
+    <!-- DATA TABLE-->
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+    <!-- DATA TABLE - FIN -->
     <!-- InputMask -->
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -290,6 +356,12 @@
 
     <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
     <script>
+
+        var f3 = flatpickr(document.getElementById('reservationtime'), {
+            dateFormat: "Y-m-d H:i",
+            locale: "es"
+        });
+
         $('.select2').select2();
         var servicioSeleccionado = '{{ $service_request_id }}';
 
@@ -312,17 +384,19 @@
 
         $('.info').on('click',function(e){
             e.preventDefault();
+            console.log("entro aca");
             var row = $(this).parents('tr');
             var id = row.data('id');
             var transaction_id = row.data('transaction');
-
+            console.log(transaction_id);
             $.get('{{ url('reports') }}/info/details/' + id, function(data) {
+                 console.log(data);
                 $(".idTransaccion").html(transaction_id);
                 $("#modal-contenido").html(data);
                 $("#status_description").hide();
                 $("#payment_details").hide();
                 $("#detalles").show();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -337,7 +411,7 @@
                 $("#detalles").hide();
                 $("#modal-contenido-payments").html(data);
                 $("#payment_details").show();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -345,14 +419,16 @@
             e.preventDefault();
             var row = $(this).parents('tr');
             var id = row.data('id');
+            console.log('id',id);
             $("#printSection").html('');
             $.get('{{ url('reports') }}/info/tickets/' + id, function(data) {
+                console.log(data);
                 $("#printSection").html(data);
                 if(data){
                     window.print();
                     $("#printSection").html('');
-                    $tag = '.'+id;
-                    $($tag).html(id);
+                    //$tag = '.'+id;
+                    //$($tag).html(id);
                 }
             });
         });
@@ -420,10 +496,12 @@
             $('#reservationtime').val(today);
         }
         //Date range picker
+        /*
         $('#reservationtime').datepicker({
             language: 'es',
             format: 'dd/mm/yyyy',
         });
+        */
 
         $(document).on('change','#serviceId',function(){
             var valor = this.value;
@@ -446,8 +524,45 @@
 
         $('#serviceId').trigger('change');
     </script>
+
 @endsection
 @section('aditional_css')
+
+
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+
+    <!-- BEGIN THEME GLOBAL STYLES -->
+    <link href="{{ asset('src/plugins/src/flatpickr/flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/plugins/src/noUiSlider/nouislider.min.css') }}" rel="stylesheet" type="text/css">
+    <!-- END THEME GLOBAL STYLES -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/plugins/css/light/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/plugins/css/dark/flatpickr/custom-flatpickr.css') }}" rel="stylesheet" type="text/css">
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/scrollspyNav.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         @media print {
@@ -468,5 +583,28 @@
                 top:0;
             }
         }
+
+        /* Estilos CSS */
+        body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+
+
+        
+
     </style>
+    
+    {{-- <link rel="stylesheet" href="{{ asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}"> --}}
+
 @endsection

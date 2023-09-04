@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/dist/css/AdminLTE.min.css') }}">
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/dist/css/skins/skin-black.min.css') }}"> 
 
-    @include('partials._css')
+    {{-- @include('partials._css') --}}
 
     @yield('aditional_css')
 
@@ -562,29 +562,32 @@
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
+                        
                         <ul class="dropdown-menu submenu list-unstyled" id="components" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="{{ route('reports.transactions') }}">Historico Transacciones</a>
-                            </li>
-                            <li>
-                                <a href="./component-accordion.html"> Accordions  </a>
-                            </li>
-                            <li>
-                                <a href="./component-modal.html"> Modals </a>
-                            </li>                            
-                            <li>
-                                <a href="./component-cards.html"> Cards </a>
-                            </li>
-                            <li>
-                                <a href="./component-bootstrap-carousel.html">Carousel</a>
-                            </li>
-                            <li>
-                                <a href="./component-splide.html">Splide</a>
-                            </li>
-                            <li>
-                                <a href="./component-sweetalert.html"> Sweet Alerts </a>
-                            </li>
-                            <li>
+                            <li class="sub-submenu dropend">
+                                <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Transacciones<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <ul class="dropdown-menu list-unstyled sub-submenu" id="invoice"> 
+                                    <li>
+                                        <a href="{{ route('reports.transactions') }}">Historico Transacciones</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('reports.one_day_transactions') }}">Transacciones del Día</a>
+                                    </li>
+                                        </ul>
+                                    </li>                           
+                                    <li>
+                                        <a href="./component-cards.html"> Cards </a>
+                                    </li>
+                                    <li>
+                                        <a href="./component-bootstrap-carousel.html">Carousel</a>
+                                    </li>
+                                    <li>
+                                        <a href="./component-splide.html">Splide</a>
+                                    </li>
+                                    <li>
+                                        <a href="./component-sweetalert.html"> Sweet Alerts </a>
+                                    </li>
+                                    <li>
                                 <a href="./component-timeline.html"> Timeline </a>
                             </li>
                             <li>
