@@ -1,7 +1,27 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Pagos por Terminal - Reporte
+@endsection
+
+@section("aditional_css")
+
+    <style>
+
+        #content {
+            padding-top: 0px;
+            margin-top: 0px;
+            width: 100% !important;
+        }
+
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
+
+
+    </style>
+
 @endsection
 
 @section('content')
@@ -34,7 +54,7 @@ $receipt_ids = '[]';
 
 ?>
 
-<section class="content-header">
+<section class="">
 
     <div class="row">
         <div class="col-md-12">
@@ -46,7 +66,7 @@ $receipt_ids = '[]';
         <div class="col-md-4"></div>
 
         <div class="col-md-4">
-            <div class="box box-default" style="border-radius: 5px; margin-top: 50px" id="div_load">
+            <div class=" box-default" style="border-radius: 5px; margin-top: 50px" id="div_load">
                 <div class="box-body">
                     <div style="text-align: center; font-size: 20px;">
                         <div>
@@ -63,14 +83,14 @@ $receipt_ids = '[]';
 
     {!! Form::open(['route' => 'terminals_payments', 'method' => 'POST', 'role' => 'form', 'id' => 'form_search']) !!}
 
-    <div class="box box-default" style="border-radius: 5px;" id="content" style="display: none">
+    <div class="" style="border-radius: 5px;" id="content" style="display: none;">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Pagos por Terminal - Reporte
             </h3>
             <div class="box-tools pull-right">
 
                 <div class="btn-toolbar">
-                    <div class="btn-group" style="margin-top: 3px !important;">
+                    <div class="btn-group" style="margin-top: 3px !important; margin-right: 8px">
                         <select name="search_type" id="search_type" class="select2" style="width: 400px !important;">
                             <option value="1">Tipo de búsqueda: Recibos Pendientes de Migrar</option>
                             <option value="2">Tipo de búsqueda: Detalle de Ventas</option>
@@ -90,7 +110,7 @@ $receipt_ids = '[]';
 
         <div class="box-body">
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
+            <div class="box-default" style="border: 1px solid #d2d6de;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtrar búsqueda:</h3>
                     <div class="box-tools pull-right">
@@ -182,7 +202,7 @@ $receipt_ids = '[]';
     }
     ?>
 
-    <div class="box box-default" style="border: 1px solid #d2d6de;">
+    <div class="box-default" style="border: 1px solid #d2d6de;">
         <div class="box-header with-border">
             <h3 class="box-title">Resumen de Recibos Pendientes:</h3>
         </div>
@@ -1395,7 +1415,6 @@ $receipt_ids = '[]';
 
 <!-- json_data_viewer -->
 <link rel="stylesheet" href="/js/simple-beautify-json/beautify-json.css">
-</link>
 <script src="/js/simple-beautify-json/jquery.beautify-json.js"></script>
 
 

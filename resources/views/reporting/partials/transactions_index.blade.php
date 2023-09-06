@@ -77,6 +77,16 @@
             white-space: normal; /* Evitar el ajuste de línea */
         }
 
+        .pagination .page-item {
+            padding: 0 10px;
+	        margin-left: 15px;
+        }
+        
+        .pagination li:hover {
+            border-radius: 10px;
+            background-color: #191E3A !important;
+        }
+
     </style>
 @endsection
 
@@ -1092,31 +1102,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <!--Si es mayor a 19 que es el limite por página mostramos el páginador-->
-                @if (count($transactions) > 19)
-                <div class="box box-default" style="border: 1px solid #d2d6de;">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Ir a la página:</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="dataTables_paginate paging_simple_numbers">
-
-                                    {!! $transactions->appends(
-                                    ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
-                                    'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
-                                    'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
-                                    ])->render() !!}
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endif
-            </div>
+          
         </div>
 
         <!--<div class="row">
@@ -1305,9 +1291,34 @@
                     <div class="box-footer clearfix">
                         <div class="row">
                             <div class="col-sm-7">
-
+                                    
                             </div>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+                            <!--Si es mayor a 19 que es el limite por página mostramos el páginador-->
+                            @if (count($transactions) > 19)
+                            <div class="box-default" style="border: 1px solid #d2d6de;">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Ir a la página:</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="dataTables_paginate paging_simple_numbers">
+
+                                                {!! $transactions->appends(
+                                                ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
+                                                'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
+                                                'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
+                                                ])->links('paginator') !!}
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            @endif
                     </div>
                 </div>
             </div>

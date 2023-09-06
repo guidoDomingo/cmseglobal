@@ -1,12 +1,15 @@
 <section class="content">
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModal" class="modal fade modal-xl" tabindex="-1" role="dialog"
+        aria-labelledby="tabsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <button type="button" class="btn btn-danger btn-sm pull-right" data-bs-dismiss="modal" id="button_modal_close_x" title="Cerrar Ventana"> 
+                        <i class="fa fa-times"></i>
+                    </button>
                     <h4 class="modal-title" id="modalTitle">Reprocesar transacción batch <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -31,7 +34,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default pull-left" data-dismiss="modal">CANCELAR</button>
+                    <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal" id="button_modal_close" title="Cerrar Ventana"> 
+                        <i class="fa fa-close"></i> &nbsp; Cerrar Ventana
+                    </button>
                     <button id="reprocesar" type="button" class="btn btn-primary">NO TENGO ID</button>
                 </div>
             </div>
@@ -40,13 +45,16 @@
     </div>
 
     <!-- Modal -->
-    <div id="myModalDetails" class="modal fade" role="dialog">
+    <div id="myModalDetails" class="modal fade modal-xl" tabindex="-1" role="dialog"
+        aria-labelledby="tabsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                     <button type="button" class="btn btn-danger btn-sm pull-right" data-bs-dismiss="modal" id="button_modal_close_x" title="Cerrar Ventana"> 
+                        <i class="fa fa-times"></i>
+                    </button>
                     <h4 class="modal-title" id="trxmodalTitle">Detalles de la transacción <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -82,7 +90,9 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">CERRAR</button>
+                    <button type="button" class="btn btn-danger pull-right" data-bs-dismiss="modal" id="button_modal_close" title="Cerrar Ventana"> 
+                        <i class="fa fa-close"></i> &nbsp; Cerrar Ventana
+                    </button>
                 </div>
             </div>
 
@@ -91,7 +101,7 @@
 
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
                     <div class="box-tools pull-right">
@@ -148,11 +158,10 @@
                                 <!-- Date and time range -->
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
-                                        <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
+                                    
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
+                                        <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{ old('reservationtime', $reservationtime ?? '') }}" />
                                     </div>
                                     <!-- /.input group -->
                                 </div>
@@ -181,7 +190,7 @@
     <!-- Tabla -->
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-primary">
+            <div class=" box-primary">
                 <div class="box-header with-border">
                     <h3 class="box-title">Resultados</h3>
                     <div class="box-tools">
@@ -196,8 +205,8 @@
                 <div class="box-body  no-padding" style="overflow: scroll">
                     <div class="row">
                         <div class="col-xs-12">
-                            <table class="table table-striped">
-                                <tbody>
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                 <thead>
                                 <tr>
                                     <th style="width:10px">#ID</th>
@@ -254,7 +263,7 @@
                     <div class="row">
                         <div class="col-sm-7">
                             <div class="dataTables_paginate paging_simple_numbers">
-                                {!! $batch_transactions->appends(['group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime ])->render() !!}
+                                {!! $batch_transactions->appends(['group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime ])->links('paginator') !!}
                             </div>
                         </div>
                     </div>
@@ -266,6 +275,42 @@
 </section>
 
 @section('js')
+
+     <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+    <!-- DATA TABLE - FIN -->
     <!-- InputMask -->
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -418,8 +463,7 @@
                     location.reload();
                 }, 5000);
             });
-
-            $('.info').on('click',function(e){
+            $(document).on('click', '.info', function(e) {
                 e.preventDefault();
                 $("#modalTitle").html('Detalle de la transaccion ');
                 var row = $(this).parents('tr');
@@ -428,11 +472,11 @@
                 $.get('{{ url('reports') }}/info/batch_transaction_data/' + transaction_id, function(data) {
                     $("#modal-contenido").html(data);
                     $("#trxmodalTitle").html('Detalles de la transacción: '+transaction_id);
-                    $("#myModalDetails").modal();
+                    $("#myModalDetails").modal("show");
                 });
             });
 
-            $('.trx_info').on('click',function(e){
+            $(document).on('click', '.trx_info', function(e) {
                 e.preventDefault();
                 $("#modalTitle").html('Detalle de la transaccion ');
                 var row = $(this).parents('tr');
@@ -441,7 +485,7 @@
                 $.get('{{ url('reports') }}/info/batch_transaction_data/' + transaction_id, function(data) {
                     $("#modal-contenido").html(data);
                     $("#trxmodalTitle").html('Detalles de la transacción de origen: '+transaction_id);
-                    $("#myModalDetails").modal();
+                    $("#myModalDetails").modal("show");
                 });
             });
 
@@ -492,5 +536,32 @@
     </script>
 @endsection
 @section('aditional_css')
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <style>
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
+    </style>
 @endsection

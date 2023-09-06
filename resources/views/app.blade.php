@@ -573,22 +573,16 @@
                                     <li>
                                         <a href="{{ route('reports.one_day_transactions') }}">Transacciones del Día</a>
                                     </li>
-                                        </ul>
-                                    </li>                           
                                     <li>
-                                        <a href="./component-cards.html"> Cards </a>
+                                        <a href="{{ route('reports.batch_transactions') }}">Transacciones Batch</a>
                                     </li>
                                     <li>
-                                        <a href="./component-bootstrap-carousel.html">Carousel</a>
+                                        <a href="{{ route('reports.payments') }}">Pagos</a>
                                     </li>
                                     <li>
-                                        <a href="./component-splide.html">Splide</a>
+                                        <a href="{{ route('terminals_payments') }}">Pagos por terminal</a>
                                     </li>
-                                    <li>
-                                        <a href="./component-sweetalert.html"> Sweet Alerts </a>
-                                    </li>
-                                    <li>
-                                <a href="./component-timeline.html"> Timeline </a>
+                                </ul>
                             </li>
                             <li>
                                 <a href="./component-notifications.html"> Notifications </a>
@@ -1047,12 +1041,12 @@
     {{-- @include('partials._js')  --}}
 
     <!-- jQuery 2.1.4 -->
-    {{--<script src="{{ public_path('/js/jquery.js') }}"></script>--}}
+    {{-- <script src="{{ public_path('js/jquery.js') }}"></script> --}}
     <script src="{{ "/bower_components/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js" }}"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script> --}}
     <script src="/js/jquery-ui.js"></script>
 
-    {{--{!! Html::script('assets/js/libs/libs.js') !!}--}}
+    {!! Html::script('assets/js/libs/libs.js') !!}
     <!-- REQUIRED JS SCRIPTS -->
     <!-- Bootstrap 3.3.4 -->
     <script src="{{ "/bower_components/admin-lte/bootstrap/js/bootstrap.min.js" }}"></script>
