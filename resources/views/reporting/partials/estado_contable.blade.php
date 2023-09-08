@@ -11,11 +11,12 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
-                    <table id="detalles" class="table table-bordered table-hover dataTable" role="grid" aria-describedby="Table1_info">
+                    <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                         <thead>
                         <tr role="row">
                             <th style="display:none;" class="sorting_disabled" rowspan="1" colspan="1"></th>
@@ -102,7 +103,10 @@
                     <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                     <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                     <!--para Cancelar sin hacer nada -->
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                    
+                    <button type="button" class="btn btn-danger btn-sm pull-right" data-bs-dismiss="modal" id="button_modal_close_x" title="Cerrar Ventana"> 
+                        <i class="fa fa-times"></i>
+                    </button>
                 </div>
             </div>
 
@@ -113,7 +117,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class=" box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -147,9 +151,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                     <div class="resumen">
@@ -175,7 +177,10 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
+                                           <button id="loadingButton" class="btn btn-info btn-lg mb-2 me-4" style="display: none;">
+                                                <span class="spinner-border text-white me-2 align-self-center loader-sm "></span> Loading
+                                           </button>
+                                           <button id="saveButton" type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-block btn-success" name="download" value="download">EXPORTAR</button>
@@ -210,7 +215,8 @@
                     <div class="box-body  no-padding" style="overflow: scroll">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table class="table table-striped" role="grid">
+                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                     <tbody>
                                     <thead>
                                     <tr>
@@ -456,6 +462,41 @@
 </section>
 
 @section('js')
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
+
+       <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
     <!-- InputMask -->
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -556,9 +597,45 @@
             $('.activar_cierre').trigger('change');
             }
         });
+
+         document.getElementById('saveButton').addEventListener('click', function() {
+            // Oculta el botón "Guardar"
+            this.style.display = 'none';
+
+            // Muestra el botón "Loading"
+            document.getElementById('loadingButton').style.display = 'inline-block';
+            document.getElementById('loadingButton').disabled = true;
+
+            // Aquí puedes añadir el código para enviar los datos o cualquier otra lógica que necesites
+        });
     </script>
+    
 @endsection
 @section('aditional_css')
+             <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/plugins/css/light/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  --> 
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style>
         /* The switch - the box around the slider */
@@ -628,6 +705,11 @@
             margin-top: 7px;
             margin-bottom: -28px;
         }
+
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
 
     </style>
 @endsection

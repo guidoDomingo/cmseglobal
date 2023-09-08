@@ -163,6 +163,8 @@ class ExtractosServices
             
             $atm_id = $input['atm_id'];
 
+            $owners = $owners->toArray();
+            
             if(in_array(21,  array_column($owners, 'owner_id')) || in_array(25,  array_column($owners, 'owner_id')) || in_array(false,  array_column($owners, 'grilla_tradicional'))){
                 $bloqueo_diario = true;
             }

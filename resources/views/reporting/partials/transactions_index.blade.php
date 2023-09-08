@@ -1,5 +1,11 @@
 
 @section('aditional_css')
+
+       <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->  
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <!-- Bootstrap 3.3.4 -->
     {{-- <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}"> --}}
@@ -32,6 +38,10 @@
     <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
     <!--  END CUSTOM STYLE FILE  -->
+      <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/plugins/css/light/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  --> 
     <style type="text/css">
         @media print {
             body * {
@@ -813,7 +823,11 @@
                                     <div class="col-md-2"></div>
 
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-primary btn-block" name="search" value="search" id="buscar">
+                                        <button id="loadingButton" class="btn btn-info btn-lg mb-2 me-4" style="display: none;">
+                                            <span class="spinner-border text-white me-2 align-self-center loader-sm "></span> Loading
+                                        </button>
+
+                                        <button id="saveButton" type="submit" class="btn btn-primary btn-block" name="search" value="search" id="buscar">
                                             <i class="fa fa-search"></i> &nbsp; Buscar
                                         </button>
                                     </div>
@@ -1288,38 +1302,27 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class="clearfix">
                         <div class="row">
                             <div class="col-sm-7">
                                     
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                            <!--Si es mayor a 19 que es el limite por página mostramos el páginador-->
-                            @if (count($transactions) > 19)
-                            <div class="box-default" style="border: 1px solid #d2d6de;">
-                                <div class="box-header with-border">
-                                    <h3 class="box-title">Ir a la página:</h3>
-                                </div>
-                                <div class="box-body">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="dataTables_paginate paging_simple_numbers">
+                         <div class="row">
+                            <div class="col-md-12">
+                                
 
-                                                {!! $transactions->appends(
-                                                ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
-                                                'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
-                                                'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
-                                                ])->links('paginator') !!}
+                                    {!! $transactions->appends(
+                                    ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
+                                    'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
+                                    'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
+                                    ])->links('paginator') !!}
 
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
-                            @endif
+                        </div>
                     </div>
+                   
                 </div>
             </div>
         </div>
@@ -2708,6 +2711,18 @@
             [0, 'desc']
         ],
         displayLength: 20
+    });
+
+    
+    document.getElementById('saveButton').addEventListener('click', function() {
+            // Oculta el botón "Guardar"
+            this.style.display = 'none';
+
+            // Muestra el botón "Loading"
+            document.getElementById('loadingButton').style.display = 'inline-block';
+            document.getElementById('loadingButton').disabled = true;
+
+            // Aquí puedes añadir el código para enviar los datos o cualquier otra lógica que necesites
     });
 
 </script>

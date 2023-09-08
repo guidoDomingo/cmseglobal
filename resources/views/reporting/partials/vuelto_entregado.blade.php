@@ -5,7 +5,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -95,7 +95,9 @@
                     <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                     <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                     <!--para Cancelar sin hacer nada -->
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-danger btn-sm pull-right" data-bs-dismiss="modal" id="button_modal_close_x" title="Cerrar Ventana"> 
+                        <i class="fa fa-times"></i>
+                    </button>
                 </div>
             </div>
 
@@ -105,7 +107,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -147,9 +149,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                     <!-- /.input group -->
@@ -158,7 +158,10 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
+                                           <button id="loadingButton" class="btn btn-info btn-lg mb-2 me-4" style="display: none;">
+                                                <span class="spinner-border text-white me-2 align-self-center loader-sm "></span> Loading
+                                            </button>
+                                            <button id="saveButton" type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-block btn-success" name="download" value="download">EXPORTAR</button>
@@ -338,7 +341,7 @@
             $('#process_devolucion').hide();
             $('#run_reprocesar').hide();
 
-            $("#myModal").modal();
+            $("#myModal").modal("show");
 
         });
 
@@ -355,7 +358,7 @@
                 $("#detalles").show();
                 $('#devoluciones').hide();
                 $('#reprocesos').hide();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
                 //botones
                 $('.devolucion').hide();
                 $('.reprocesar').hide();
@@ -397,7 +400,7 @@
                 $('#process_devolucion').hide();
                 $('#run_reprocesar').hide();
 
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -648,9 +651,50 @@
 
         $('#serviceId').trigger('change');
 
+         document.getElementById('saveButton').addEventListener('click', function() {
+            // Oculta el botón "Guardar"
+            this.style.display = 'none';
+
+            // Muestra el botón "Loading"
+            document.getElementById('loadingButton').style.display = 'inline-block';
+            document.getElementById('loadingButton').disabled = true;
+
+            // Aquí puedes añadir el código para enviar los datos o cualquier otra lógica que necesites
+        });
+
     </script>
+     <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
 @endsection
 @section('aditional_css')
+             <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/plugins/css/light/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  --> 
+    <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         @media print {
@@ -674,5 +718,10 @@
                 top:0;
             }
         }
+
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
     </style>
 @endsection

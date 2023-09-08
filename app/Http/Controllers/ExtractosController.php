@@ -51,7 +51,7 @@ class ExtractosController extends Controller
             $report = new ExtractosServices($input);
             $result = $report->estadoContableSearch($request);
             //dd($result);
-            return view('reporting.index', compact('target', 'reservationtime'))->with($result);
+            return view('reporting.index')->with($result);
         }
 
         if(isset($input['download'])){

@@ -582,6 +582,34 @@
                                     <li>
                                         <a href="{{ route('terminals_payments') }}">Pagos por terminal</a>
                                     </li>
+                                    <li>
+                                        <a href="{{ route('reports.transactions_vuelto') }}">Tickets de devolucion</a>
+                                    </li>
+                                    @if (\Sentinel::getUser()->hasAccess('reporting.vueltos'))
+                                        <li>
+                                            <a href="{{ route('reports.vuelto_entregado') }}">Vueltos entregados</a>
+                                        </li>
+                                        <li class="sub-submenu dropend">
+                                        <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Miniterminales<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                            <ul class="dropdown-menu list-unstyled sub-submenu" id="invoice"> 
+                                                @if (\Sentinel::getUser()->hasAccess('reporting.estado_contable'))
+                                                    <li>
+                                                        <a href="{{ route('reporting.estado_contable') }}">Estado Contable</a>
+                                                    </li>
+                                                @endif
+                                                @if (\Sentinel::getUser()->hasAccess('accounting_statement_report'))
+
+                                                    <li @if (Request::is('accounting_statement*')) class="active" @endif>
+                                                        <a href="{{ route('accounting_statement') }}">
+                                                            <span style="">Estado Contable Unificado</span>
+                                                        </a>
+                                                    </li>
+                                                    
+                                                @endif
+                                            </ul>
+
+                                        </li>
+                                    @endif
                                 </ul>
                             </li>
                             <li>

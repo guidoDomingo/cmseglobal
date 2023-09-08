@@ -1,8 +1,17 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Estado Contable Unificado - Reporte
 @endsection
+
+@section("aditional_css")
+    <style>
+        #content{
+            width: 100% !important;
+        }
+    </style>
+@endsection
+
 @section('content')
 
 <?php
@@ -64,8 +73,8 @@ $totals_list = $data['totals'];
         }
     </style>
 
-
-    <div class="box box-default" style="border-radius: 5px; margin-bottom: 2000px; color: #285f6c;" id="div_load">
+{{-- 
+    <div class="box-default" style="border-radius: 5px; margin-bottom: 2000px; color: #285f6c;" id="div_load">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Cargando...
             </h3>
@@ -79,9 +88,9 @@ $totals_list = $data['totals'];
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="box box-default" style="border-radius: 5px; display: none" id="content">
+    <div class="" style="border-radius: 5px;" id="content">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Estado Contable Unificado - Reporte</h3>
             <div class="box-tools pull-right">
@@ -97,7 +106,7 @@ $totals_list = $data['totals'];
 
         <div class="box-body">
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
+            <div class="box-default" style="border: 1px solid #d2d6de;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtrar búsqueda:</h3>
                     <div class="box-tools pull-right">

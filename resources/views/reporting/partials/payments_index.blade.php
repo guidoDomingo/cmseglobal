@@ -104,7 +104,10 @@
                                 <br>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <button type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
+                                        <button id="loadingButton" class="btn btn-info btn-lg mb-2 me-4" style="display: none;">
+                                            <span class="spinner-border text-white me-2 align-self-center loader-sm "></span> Loading
+                                        </button>
+                                        <button id="saveButton" type="submit" class="btn btn-block btn-primary" name="search" value="search">BUSCAR</button>
                                     </div>
                                     <div class="col-md-4">
                                         <button type="submit" class="btn btn-block btn-success" name="download" value="download">EXPORTAR</button>
@@ -193,10 +196,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
+                            <div class="col-md-12">
+                        
                                     {!! $payments->appends(['group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'reservationtime' => $reservationtime ])->links('paginator')!!}
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -362,10 +365,22 @@
             });
             
         });
+
+        document.getElementById('saveButton').addEventListener('click', function() {
+            // Oculta el botón "Guardar"
+            this.style.display = 'none';
+
+            // Muestra el botón "Loading"
+            document.getElementById('loadingButton').style.display = 'inline-block';
+            document.getElementById('loadingButton').disabled = true;
+
+            // Aquí puedes añadir el código para enviar los datos o cualquier otra lógica que necesites
+        });
     </script>
 @endsection
 @section('aditional_css')
-
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
     
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
@@ -389,15 +404,9 @@
     
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
-    <style>
-        .pagination .page-item {
-            padding: 0 15px;
-            margin-left: 10px;
-        }
-        
-        .pagination li:hover {
-            border-radius: 10px;
-            background-color: #191E3A !important;
-        }
-    </style>
+                  <!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/plugins/css/light/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  --> 
+
 @endsection
