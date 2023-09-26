@@ -4,7 +4,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Nuevo Grupo <label></label></h4>
             </div>
             {!! Form::open(['route' => 'groups.store_venta' , 'method' => 'POST', 'role' => 'form','id' => 'nuevogroup-form']) !!}
@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary has-spinner" id="btnGuardarGrupo"><span class="spinner"><i class="fa fa-circle-o-notch fa-spin"></i></span> Guardar</button>
             </div>
             {!! Form::close() !!}

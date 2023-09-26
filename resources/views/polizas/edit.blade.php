@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Gestor de Pólizas
@@ -24,120 +24,71 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Modificar</h3>
                     </div>
-                    <div class="box-body">
-                        @include('partials._flashes')
-                        @include('partials._messages')
-                        {!! Form::model($poliza, ['route' => ['insurances.update', $poliza->id ] , 'method' => 'PUT', 'id' => 'editarPoliza-form']) !!}
-                            <div class="form-row">
-                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('insurance_code', 'Endoso') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-keyboard-o"></i>
-                                                </div>
-                                                {!! Form::text('insurance_code', 'EGLOBALT S.A.' , ['class' => 'form-control', 'placeholder' => 'Ingrese el código del endoso..','readonly'=>true ]) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('number', 'Número de Póliza') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-file"></i>
-                                                </div>
-                                                {!! Form::text('number', null , ['class' => 'form-control', 'readonly'=>true ]) !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                    <div class="container-fluid">
+                    @include('partials._flashes')
+                    @include('partials._messages')
+                    {!! Form::model($poliza, ['route' => ['insurances.update', $poliza->id ] , 'method' => 'PUT', 'id' => 'editarPoliza-form']) !!}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="insurance_code">Endoso</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-keyboard-o"></i></span>
+                                    {!! Form::text('insurance_code', 'EGLOBALT S.A.' , ['class' => 'form-control', 'placeholder' => 'Ingrese el código del endoso..', 'readonly' => true]) !!}
                                 </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('capital', 'Capital asegurado') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-money"></i>
-                                                </div>
-                                                {!! Form::text('capital', null , ['id' => 'capital_poliza','class' => 'form-control', 'readonly'=>true ]) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('capital_operativo', 'Limite de Linea Operativa') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-money"></i>
-                                                </div>
-                                                {!! Form::text('capital_operativo', null , ['id' => 'capital_operativo','class' => 'form-control', 'placeholder' => 'Linea operativa']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="number">Número de Póliza</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-file"></i></span>
+                                    {!! Form::text('number', null , ['class' => 'form-control', 'readonly' => true]) !!}
                                 </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="capital">Capital asegurado</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-money"></i></span>
+                                    {!! Form::text('capital', null , ['id' => 'capital_poliza', 'class' => 'form-control', 'readonly' => true]) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="capital_operativo">Limite de Linea Operativa</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-money"></i></span>
+                                    {!! Form::text('capital_operativo', null , ['id' => 'capital_operativo', 'class' => 'form-control', 'placeholder' => 'Linea operativa']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="status">Estado</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-check-square-o"></i></span>
+                                    {!! Form::select('status', ['1' => 'ACTIVO', '2' => 'INACTIVO', '3' => 'VENCIDO'], null, ['class' => 'form-select', 'id' => 'status_policy']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="insurance_policy_type_id">Tipo de Póliza</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-filter"></i></span>
+                                    {!! Form::select('insurance_policy_type_id', $insurance_types, null, ['id' => 'insurance_policy_type_id', 'class' => 'form-select', 'disabled' => 'disabled']) !!}
+                                    <input type="hidden" name="insurance_policy_type_id" id="insurance_policy_type_id" value="{{$poliza->insurance_policy_type_id}}">
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="observaciones">Observaciones</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fa fa-comments"></i></span>
+                                    <textarea id="observaciones" name="observaciones" rows="4" class="form-control">{{$poliza->observaciones}}</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="d-flex">
+                                    <button type="submit" class="btn btn-primary me-2">Actualizar</button>
+                                    <a class="btn btn-default" href="{{ route('insurances.index') }}" role="button">Cancelar</a>
+                                </div>
+                            </div>
+                        </div>
+                    {!! Form::close() !!}
+                </div>
 
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            {!! Form::label('status', 'Estado') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-check-square-o"></i>
-                                                </div>
-                                                {!! Form::select('status', ['1' => 'ACTIVO','2' => 'INACTIVO', '3' => 'VENCIDO'],null ,['class' => 'form-control select2','style' => 'width: 100%', 'id' => 'status_policy']) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                           {!! Form::label('insurance_policy_type_id', 'Tipo de Póliza') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-filter"></i>
-                                                </div>
-                                                {!! Form::select('insurance_policy_type_id', $insurance_types, null, ['id' => 'insurance_policy_type_id','class' => 'form-control select2', 'style' => 'width: 100%','disabled'=>'disabled' ]) !!}
-                                                <input type="hidden" name="insurance_policy_type_id" id="insurance_policy_type_id" value="{{$poliza->insurance_policy_type_id}}">
-                                            </div>
-                                       </div>
-                                   </div>
-                                </div>
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            {!! Form::label('observaciones', 'Observaciones') !!}
-                                            <div class="input-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-comments"></i>
-                                                </div>
-                                                {{-- {!! Form::text('observaciones', null , ['class' => 'form-control', 'placeholder' => 'Ingrese un observación' ]) !!} --}}
-                                                <textarea id="observaciones" name="observaciones" rows="4" cols="50" class="form-control">{{$poliza->observaciones}}</textarea>
-                                            </div>
-                                        </div>
-                                    </div>                
-                                </div>      
-                                
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <div class="form-group col-md-3">
-                                                <div class="form-group">
-                                                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                                                    <a class="btn btn-default" href="{{ route('insurances.index') }}" role="button">Cancelar</a>
-                                                </div> 
-                                            </div> 
-                                        </div> 
-                                    </div> 
-                                </div>
-                          
-                            </div>  
-
-                        {!! Form::close() !!}
-                    </div>
                 </div>
             </div>
         </div>
@@ -278,5 +229,17 @@
             font-weight: bold;
             position: absolute;
         }
+
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

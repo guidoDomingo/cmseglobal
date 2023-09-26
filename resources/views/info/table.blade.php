@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Tablas
@@ -454,7 +454,8 @@ $user_id = $data['inputs']['user_id'];
                                 </div>
                             </div>
                             <div class="box-body">
-                                <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1" style="font-size: 12px; font-weight: bold">
+                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                     <thead>
                                         <tr style="background-color: #285f6c; border: 1px solid #285f6c; color: white;">
                                             <th style="max-width: 150px">Información</th>
@@ -495,7 +496,7 @@ $user_id = $data['inputs']['user_id'];
             <!-- Modal content-->
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <div class="modal-title" style="font-size: 20px; text-align: center">
                         Opciones disponibles para exportar
                     </div>
@@ -536,12 +537,34 @@ $user_id = $data['inputs']['user_id'];
 
 
 @section('js')
+<!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
 <!-- datatables -->
 <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
 <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js"></script>
 
-<!-- select2 -->
+<!--select2 -->
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -585,7 +608,7 @@ $(document).ready(function() {
         if (table_id !== '') {
             $('#form_search').submit();
         } else {
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: 'Seleccionar la tabla',
                     type: 'warning',
@@ -650,16 +673,16 @@ $(document).ready(function() {
                         $('#div_forms').css('display', 'block');
 
                     } else {
-                        swal('El registro con ID: ' + primary_key_search_id + ' no existe.');
+                        Swal.fire('El registro con ID: ' + primary_key_search_id + ' no existe.');
                     }
 
                 });
 
             } else {
-                swal('Ingresar un ID para buscar en la tabla: ' + table_id);
+                Swal.fire('Ingresar un ID para buscar en la tabla: ' + table_id);
             }
         } else {
-            swal('La tabla: ' + table_id + ' no tiene PRIMARY KEY!');
+            Swal.fire('La tabla: ' + table_id + ' no tiene PRIMARY KEY!');
         }
     }
 
@@ -750,7 +773,7 @@ $(document).ready(function() {
                                     type = 'success';
                                 }
 
-                                swal({
+                                Swal.fire({
                                         title: 'Mensaje:',
                                         text: message,
                                         type: type,
@@ -769,19 +792,19 @@ $(document).ready(function() {
 
                             });
                         } else {
-                            swal('No hiciste ninguna modifición.');
+                            Swal.fire('No hiciste ninguna modifición.');
                         }
                     } else {
-                        swal(message);
+                        Swal.fire(message);
                     }   
                 } else {
-                    swal('Ingresar un ID para buscar en la tabla: ' + table_id);
+                    Swal.fire('Ingresar un ID para buscar en la tabla: ' + table_id);
                 }
             } else {
-                swal('La tabla: ' + table_id + ' no tiene PRIMARY KEY!');
+                Swal.fire('La tabla: ' + table_id + ' no tiene PRIMARY KEY!');
             }
         } else {
-            swal('Ingresar un comentario sobre el cambio.');
+            Swal.fire('Ingresar un comentario sobre el cambio.');
         }
     }
 
@@ -944,4 +967,29 @@ $(document).ready(function() {
 
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

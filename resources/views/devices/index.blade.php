@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Dispositivos
 @endsection
@@ -22,10 +22,10 @@
                 <h3 class="box-title">
                 </h3>
                 @if (Sentinel::hasAccess('devices.import'))
-                    <a href="{{ route('housing.device.import', [$housingId]) }}" class="btn-sm btn-primary active" role="button">Importar</a>
+                    <a href="{{ route('housing.device.import', [$housingId]) }}" class="btn btn-primary mb-2 me-4" role="button">Importar</a>
                 @endif
                 @if (Sentinel::hasAccess('devices.add|edit'))
-                    <a href="{{ route('housing.device.create', ['housing' => $housingId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                    <a href="{{ route('housing.device.create', ['housing' => $housingId]) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 @endif
                     <a href="{{ route('miniterminales.index') }}" class="btn-sm btn-default active" role="button">Volver</a>
                 <p>
@@ -81,15 +81,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class=" clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $devices->total() }} registros
                             en total</div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $devices->appends(Request::only(['name']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $devices->appends(Request::only(['name']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -103,4 +103,32 @@
 @endsection
 @section('page_scripts')
     @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+
+    </style>
 @endsection

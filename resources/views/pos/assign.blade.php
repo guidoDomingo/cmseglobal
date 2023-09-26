@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Punto de Venta {{ $pos->description }}
@@ -27,14 +27,14 @@
                         <div id="form-alert-container">
                             @if(Session::has('atm_form_message'))
                                 <div class="alert alert-success alert-dismissable">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>
                                     <h4><i class="icon fa fa-check"></i>Operación Exitosa</h4>
                                     {{ Session::get('atm_form_message') }}
                                 </div>
                             @endif
                             @if(Session::has('atm_form_error_message'))
                                 <div class="alert alert-error alert-dismissable">
-                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                                    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>
                                     <h4><i class="icon fa fa-check"></i>Ocurrió un error en la solicitud</h4>
                                     {{ Session::get('atm_form_error_message') }}
                                 </div>
@@ -54,4 +54,23 @@
     </section>
 @endsection
 @section('page_scripts')
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

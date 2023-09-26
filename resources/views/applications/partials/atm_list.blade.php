@@ -3,8 +3,9 @@
         <h3 class="box-title">Cajeros asignados</h3>
     </div>
     <div class="box-body">
-        <table class="table table-striped">
-            <tbody><thead>
+        <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
+            <thead>
             <tr>
                 <th>#</th>
                 <th>PDV</th>
@@ -42,3 +43,4 @@
 @section('page_scripts')
     @include('partials._delete_row_atm_assigned_js')
 @endsection
+

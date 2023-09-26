@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Caracteristicas
@@ -380,5 +380,20 @@
             font-weight: bold;
             position: absolute;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

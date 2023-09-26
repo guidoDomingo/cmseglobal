@@ -573,6 +573,7 @@ class AtmController extends Controller
      */
     public function edit($id)
     {
+        
         if (!$this->user->hasAccess('atms.add|edit')) {
             \Log::error(
                 'Unauthorized access attempt',
@@ -584,6 +585,8 @@ class AtmController extends Controller
 
         $atm = Atm::find($id);
         $pos = Pos::where('atm_id', $id)->first();
+
+        
 
         $grupo = \DB::table('business_groups')
             ->select('business_groups.*', 'branches.id as branch_id')
@@ -656,7 +659,9 @@ class AtmController extends Controller
             'voucherTypes' => $voucherTypes
         );
 
-        return view('atm.edit_form_step', $data);
+        // dd("llegamos aca",$data);
+
+        return view('atm.edit_form_step')->with($data);
     }
 
     /**
@@ -1083,7 +1088,11 @@ class AtmController extends Controller
             ->whereRaw($where)
             ->paginate(20);
 
-        return view('atm.params_list', compact('atmId', 'params'));
+        //$params = $params->toArray();
+        //dd($atmId, $params['data']);
+    
+        return view('atm.params_list')->with('atmId', $atmId)->with('params', $params);
+
     }
 
     /**

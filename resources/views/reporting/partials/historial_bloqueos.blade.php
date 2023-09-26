@@ -1,11 +1,11 @@
 <section class="content">
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModal" class="modal fade modal-xl" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -96,7 +96,7 @@
                     <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                     <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                     <!--para Cancelar sin hacer nada -->
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
 
@@ -106,7 +106,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class="box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -139,9 +139,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                     <!-- /.input group -->
@@ -175,7 +173,7 @@
     @if(isset($transactions))
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class=" box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Resultados</h3>
                         <div class="box-tools">
@@ -186,7 +184,8 @@
                     <div class="box-body  no-padding" style="overflow: scroll">
                         <div class="row">
                             <div class="col-sm-12">
-                                <table class="table table-striped" role="grid">
+                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                     <tbody>
                                     <thead>
                                     <tr>
@@ -226,16 +225,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class=" clearfix">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $transactions->total() }} registros en total</div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $transactions->appends(['reservationtime' => $reservationtime, 'atm_id' => $atm_id, 'group_id' => $group_id])->render() !!}
+                            <div class="col-md-12">
+                                <div class="">
+                                    {!! $transactions->appends(['reservationtime' => $reservationtime, 'atm_id' => $atm_id, 'group_id' => $group_id])->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -247,6 +246,28 @@
 </section>
 
 @section('js')
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
     <!-- InputMask -->
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -333,6 +354,14 @@
     </script>
 @endsection
 @section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style>
         /* The switch - the box around the slider */
@@ -401,6 +430,12 @@
         .resumen {
             margin-top: 7px;
             margin-bottom: -28px;
+        }
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
         }
 
     </style>

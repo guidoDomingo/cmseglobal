@@ -22,7 +22,7 @@
                 <h3 class="box-title">
                 </h3>
                 @if (Sentinel::hasAccess('content.add|edit'))
-                    <a href="{{ route('contents.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                    <a href="{{ route('contents.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 @endif
             </div>
             <div class="box-body">
@@ -133,7 +133,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de borrar el registro, está seguro?.",
             type: "warning",
@@ -160,9 +160,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -171,7 +171,7 @@
 
 @if (session('actualizar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: 'success',
             title: 'El registro ha sido actualizado existosamente.',
             showConfirmButton: false,
@@ -181,7 +181,7 @@
 @endif
 @if (session('guardar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
         type: 'success',
             title: 'El registro ha sido guardado existosamente.',
             showConfirmButton: false,
@@ -191,7 +191,7 @@
 @endif
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el contenido',
             showConfirmButton: true,

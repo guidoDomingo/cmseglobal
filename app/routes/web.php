@@ -168,7 +168,9 @@ Route::match(['get', 'post'], 'atm_index', [
     'uses' => 'Controllers\AtmController@index'
 ]);
 
+
 Route::post('atm/newhash', ['as' => 'atm.newhash', 'uses' => 'Controllers\AtmController@generateHash']);
+
 Route::get('atm/{id}/screens', ['as' => 'atm.flows', 'uses' => 'Controllers\AtmController@getApplicationInterface']);
 Route::get('atm/{id}/housing', ['as' => 'atm.housing', 'uses' => 'Controllers\AtmController@housing']);
 Route::post('atm/{id}/housing/store', ['as' => 'atm.housing.store', 'uses' => 'Controllers\AtmController@store_housing']);

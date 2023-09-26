@@ -164,7 +164,7 @@ class ExtractosServices
             $atm_id = $input['atm_id'];
 
             $owners = $owners->toArray();
-            
+
             if(in_array(21,  array_column($owners, 'owner_id')) || in_array(25,  array_column($owners, 'owner_id')) || in_array(false,  array_column($owners, 'grilla_tradicional'))){
                 $bloqueo_diario = true;
             }
@@ -3135,10 +3135,12 @@ class ExtractosServices
 
             $resultset = array(
                 'target' => 'Resumen Detallado Miniterminales',
-            );            
+            );
+            
+            
 
             if(!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal')){                
-
+         
                 $resumen_transacciones_groups = \DB::select("
                     select
                         bg.id as group_id,
@@ -3180,6 +3182,8 @@ class ExtractosServices
                 $resultset['total_saldo_groups'] = number_format(array_sum(array_column($resumen_transacciones_groups, 'saldo')));
 
             }
+
+            
             
             return $resultset;
 

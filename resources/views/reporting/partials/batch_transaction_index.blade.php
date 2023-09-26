@@ -390,7 +390,7 @@
                 let batchID = row.data('id')
                 $("#modalTitle").html('Reprocesar '+info);
                 $("#batchID").html(batchID);
-                $("#myModal").modal();
+                $("#myModal").modal("show");
 
             });
 

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Configuración de Alerta - {{ $notifications_params->prefix }}
@@ -120,7 +120,7 @@
         }
     });
 
-    $(document).on('select2:clear select2:unselect','#serviceSourceId',function(e){
+    $(document).on('select2:clearselect2:unselect','#serviceSourceId',function(e){
         $("#serviceId").trigger("select2:select");
         if (!e.params.originalEvent) {
             return
@@ -129,7 +129,7 @@
         e.params.originalEvent.stopPropagation();
     });
 
-    $(document).on('select2:clear select2:unselect','#serviceId',function(e){
+    $(document).on('select2:clearselect2:unselect','#serviceId',function(e){
         if (!e.params.originalEvent) {
             return
         }
@@ -192,5 +192,19 @@
             float: left;
             padding: 0 5px;
         }
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

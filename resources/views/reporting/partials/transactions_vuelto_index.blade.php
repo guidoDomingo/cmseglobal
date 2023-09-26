@@ -374,7 +374,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class=" clearfix">
                         <div class="row">
                             <div class="col-sm-4">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $transactions->total() }} registros en total</div>
@@ -391,9 +391,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $transactions->appends(['group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->render() !!}
+                            <div class="col-sm-12">
+                                <div class=" ">
+                                    {!! $transactions->appends(['group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -811,6 +811,8 @@
  <!-- DATA TABLE - FIN -->
 @endsection
 @section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
     <!--  BEGIN CUSTOM STYLE FILE  -->
     <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
@@ -863,5 +865,12 @@
             background-color: #060818 !important;
             border: 1px solid #444;
        }
+
+       .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
     </style>
 @endsection

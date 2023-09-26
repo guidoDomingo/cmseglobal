@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Sucursales
 @endsection
@@ -21,7 +21,7 @@ Sucursales
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-        <a href="{{ route('groups.branches.create',['groupId' => $groupId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+        <a href="{{ route('groups.branches.create',['groupId' => $groupId]) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">
           {!! Form::model(Request::only(['description']),['route' => ['groups.branches',$groupId], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -67,14 +67,14 @@ Sucursales
     </div>
   </div>
 </div>
-<div class="box-footer clearfix">
+<div class="clearfix">
  <div class="row">
    <div class="col-sm-5">
     <div class="dataTables_info" role="status" aria-live="polite">{{ $branches->total() }} registros en total</div>
   </div>
-  <div class="col-sm-7">
-    <div class="dataTables_paginate paging_simple_numbers">
-      {!! $branches->appends(Request::only(['description']))->render() !!}
+  <div class="col-md-12">
+    <div class="">
+      {!! $branches->appends(Request::only(['description']))->links('paginator') !!}
     </div>
   </div>
 </div>
@@ -93,7 +93,7 @@ Sucursales
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de eliminar la sucursal de este grupo, está seguro?.",
             type: "warning",
@@ -120,9 +120,9 @@ Sucursales
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -131,4 +131,31 @@ Sucursales
     {{-- @include('partials._delete_row_js') --}}
 @endsection
 @section('page_scripts')
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

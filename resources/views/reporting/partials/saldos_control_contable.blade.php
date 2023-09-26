@@ -79,16 +79,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="box-footer clearfix">
+                <div class=" clearfix">
                     <div class="row">
                         <div class="col-sm-5">
                             <div class="dataTables_info" role="status" aria-live="polite">{{ $saldos->total() }} registros en total</div>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-7">
-                            <div class="dataTables_paginate paging_simple_numbers">
-                                {!! $saldos->appends(['reservationtime' => $reservationtime])->render() !!}
+                        <div class="col-sm-12">
+                            <div class=" ">
+                                {!! $saldos->appends(['reservationtime' => $reservationtime])->links('paginator') !!}
                             </div>
                         </div>
                     </div>
@@ -157,4 +157,31 @@
         endDate: moment().endOf('month'),
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

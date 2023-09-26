@@ -2,7 +2,7 @@
   $(document).ready(function () {
   	$('.btn-delete-form').click(function(e){
   	  	e.preventDefault(e);
-  	  	swal({
+  	  	Swal.fire({
                 title: "Atención!",
                 text: "Está a punto de borrar el registro, está seguro?. Los datos de su usuario quedarán registrados.",
                 type: "warning",

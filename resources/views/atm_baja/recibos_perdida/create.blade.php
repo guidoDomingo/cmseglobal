@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Recibo de pérdida
@@ -246,5 +246,20 @@
         .container-info {
             margin-top: 20px;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

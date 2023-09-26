@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     ATMS
 @endsection
@@ -27,7 +27,7 @@
                 </div>
             </div>
 
-            <div id="div_load" style="text-align: center; margin-bottom: 10px; font-size: 20px;">
+            <div id="div_load" class="d-none" style="text-align: center; margin-bottom: 10px; font-size: 20px;">
                 <div>
                     <i class="fa fa-spin fa-refresh fa-2x" style="vertical-align: sub;"></i> &nbsp;
                     Cargando...
@@ -71,9 +71,9 @@
 
         </style>
 
-        <div id="content" style="display: none">
+        <div id="content" style="">
 
-            <div class="box box-default" style="margin-top: -15px">
+            <div class=" box-default" style="margin-top: -15px">
                 <div class="box-header with-border">
                     <h3 class="box-title">Búsqueda personalizada</h3>
                     <div class="box-tools pull-right">
@@ -197,7 +197,7 @@
                 </div>
             </div>
 
-            <div class="box">
+            <div class="">
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12" style="overflow-x: scroll;">
@@ -205,8 +205,8 @@
 
                             <br />
 
-                            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1"
-                                style="font-size: 13px">
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>Ver opciones</th>
@@ -371,12 +371,12 @@
     </section>
 
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModal" class="modal fade modal-xl" role="dialog">
         <div class="modal-dialog">
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - ATM <label class="idAtm"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -424,7 +424,7 @@
                 <div class="modal-footer">
                     <button disabled type="buttom" style="display: none;" id="process-reactivacion"
                         class="btn btn-primary pull-left">Reactivar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -432,14 +432,14 @@
     <!-- End Modal -->
 
     <!-- Modal -->
-    <div id="modal_view_options" class="modal fade" role="dialog">
+    <div id="modal_view_options" class="modal fade modal-xl" role="dialog">
 
-        <div class="modal-dialog modal-dialog-centered" role="document" style="background: white; border-radius: 5px">
+        <div class="modal-dialog modal-dialog-centered" role="document" style=" border-radius: 5px">
 
             <!-- Modal content-->
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <div class="modal-title" style="font-size: 20px; text-align: center">
                         Opciones disponibles para el cajero
                     </div>
@@ -479,67 +479,51 @@
     </div>
 
     <!-- Modal  -->
-    <div id="modal_atm_block_type_change" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="background: white; border-radius: 5px">
-            <!-- Modal content-->
+    <div id="modal_atm_block_type_change" class="modal fade" tabindex="-1" aria-labelledby="blockTypeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <div class="modal-title" style="font-size: 20px; text-align: center">
-                        Cambiar el Block-Type:
-                    </div>
+                    <h5 class="modal-title" id="blockTypeModalLabel">Cambiar el Block-Type:</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <!--<label for="block_type_id">Block Type:</label>-->
-                            <div class="form-group">
+                            <div class="form-group mb-3">
                                 <input type="text" class="form-control" id="block_type_id" name="block_type_id"
-                                    placeholder="Cambiar el Block-Type"></input>
+                                    placeholder="Cambiar el Block-Type">
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-md-12">
-                            <!--<label for="commentary">Agregar un comentario:</label>-->
-
                             <div class="input-group">
-                                <span class="input-group-addon">
-                                    <b>
-                                        <i class="fa fa-pencil"></i>
-                                    </b>
+                                <span class="input-group-text">
+                                    <i class="fa fa-pencil"></i>
                                 </span>
-
-                                <textarea rows="4" cols="30" class="form-control" id="commentary" name="commentary"
-                                    placeholder="Agregar un comentario" value=""></textarea>
+                                <textarea rows="4" class="form-control" id="commentary" name="commentary"
+                                    placeholder="Agregar un comentario"></textarea>
                             </div>
                         </div>
                     </div>
-
-                    <br/>
-
-                    <div class="row">
+                    <div class="row mb-3">
                         <div class="col-md-12" style="font-size: 12px">
                             <label style="color: #dd4b39">Obs. Los datos del atm se guardan en la tabla: </label> <b>audit.atms</b> <br/>
                             <label style="color: #dd4b39">Por cada actualización de <b>block_type</b> se guardará un registro en la tabla: </label> <b>public.historial_bloqueos</b>
                         </div>
                     </div>
-
-                    <br/>
-
-                    <div class="row">
-                        <div class="col-md-12" style="text-align: right">
+                    <div class="row mb-3">
+                        <div class="col-md-12 d-flex justify-content-end">
                             <button class="btn btn-info" title="Modificar el Block-Type"
                                 onclick="save_atm_block_type_change()"><i class="fa fa-save"></i>
                                 Guardar</button>
                         </div>
                     </div>
-
-                    <br/>
                 </div>
             </div>
         </div>
     </div>
+
     <!-- End Modal -->
 @endsection
 @section('page_scripts')
@@ -547,6 +531,33 @@
 @endsection
 
 @section('js')
+
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
     <!-- datatables -->
     <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
     <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -574,7 +585,7 @@
                 'block_type_id': block_type_id
             });
 
-            $("#modal_view_options").modal();
+            $("#modal_view_options").modal("show");
         }
 
         function open_modal_atm_block_type_change() {
@@ -586,7 +597,7 @@
 
             $('#block_type_id').selectize()[0].selectize.setValue(block_type_id, false);
 
-            $("#modal_atm_block_type_change").modal();
+            $("#modal_atm_block_type_change").modal("show");
         }
 
         function save_atm_block_type_change() {
@@ -604,7 +615,7 @@
 
                     $('.sweet-alert button.cancel').css('background', '#dd4b39');
 
-                    swal({
+                    Swal.fire({
                             title: 'Atención',
                             text: 'Está a punto de modificar el Block-Type, Continuar ?',
                             type: 'warning',
@@ -639,7 +650,7 @@
                                         title = 'El Block-Type del atm a sido modificado con éxito.';
                                     }
         
-                                    swal({
+                                    Swal.fire({
                                             title: title,
                                             //text: message,
                                             type: type,
@@ -664,10 +675,10 @@
                         }
                     );
                 } else {
-                    swal('Agregar un comentario!');
+                    Swal.fire('Agregar un comentario!');
                 }
             } else {
-                swal('El Block-Type no es diferente!');
+                Swal.fire('El Block-Type no es diferente!');
             }
         }
 
@@ -694,7 +705,7 @@
                     $("#modal_view_options").modal('hide');
                 }
 
-                swal({
+                Swal.fire({
                         title: 'Información:',
                         text: message,
                         type: type,
@@ -723,7 +734,7 @@
                 $('#keys_spinn').hide();
                 $('#process-reactivacion').hide();
                 $('#message_box').hide();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -740,7 +751,7 @@
             $('#message_box').hide();
             $('#txtatm_id').val(atm_id);
             $('#txtDescription').val('');
-            $("#myModal").modal();
+            $("#myModal").modal("show");
         });
 
         $('#txtDescription').on('keyup', function(e) {
@@ -887,6 +898,7 @@
 
         $('#search').on('click', function(e) {
             e.preventDefault();
+            $('#div_load').removeClass("d-none").css("display", "block");
             $('input[name="download"]:checked').val('');
             $('#atmSearch').submit(); // Hacemos submit al formulario.
         });
@@ -1042,6 +1054,18 @@
     </script>
 @endsection
 @section('aditional_css')
+   
+     <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style>
         /* The switch - the box around the slider */
@@ -1105,6 +1129,38 @@
 
         .slider.round:before {
             border-radius: 50%;
+        }
+
+        #content {
+            width: 100% !important;
+        }
+
+                body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+         body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
         }
 
     </style>

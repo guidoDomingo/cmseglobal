@@ -192,7 +192,7 @@
 </script>
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el contenido. Verifique los campos',
             showConfirmButton: true,

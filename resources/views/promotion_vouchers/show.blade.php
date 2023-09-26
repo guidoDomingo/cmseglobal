@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Vouchers
 @endsection
@@ -22,7 +22,7 @@
                 <h3 class="box-title">
                 </h3>
                 @if (Sentinel::hasAccess('promotions_vouchers.generate'))
-                    <a href="{{ route('promotions_vouchers.generate.create', $campaign_id) }}" class="btn-sm btn-primary active" role="button">Generar</a>
+                    <a href="{{ route('promotions_vouchers.generate.create', $campaign_id) }}" class="btn btn-primary mb-2 me-4" role="button">Generar</a>
                 @endif
 
                 @if (Sentinel::hasAccess('promotions_vouchers.import'))
@@ -99,7 +99,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $vouchers->appends(Request::only(['name']))->render() !!}
+                            {!! $vouchers->appends(Request::only(['name']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -148,7 +148,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de borrar el registro, está seguro?.",
             type: "warning",
@@ -175,9 +175,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -186,7 +186,7 @@
 
 @if (session('actualizar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: 'success',
             title: 'El registro ha sido actualizado existosamente.',
             showConfirmButton: false,
@@ -196,7 +196,7 @@
 @endif
 @if (session('guardar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
         type: 'success',
             title: 'El registro ha sido guardado existosamente.',
             showConfirmButton: false,
@@ -206,7 +206,7 @@
 @endif
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el contenido',
             showConfirmButton: true,
@@ -220,6 +220,19 @@
     <style>
        /* START - CONF SPINNER */
        table.dataTable thead {background-color:rgb(179, 179, 184)}
-       
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

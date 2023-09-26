@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Compromisos de pago
@@ -30,7 +30,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'compromisos.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoCompromiso-form']) !!}
                             @include('atm_baja.compromisos.partials.fields')
-                            <div class="form-row">
+                            <div class="form-row mt-5">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/compromiso') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
@@ -225,5 +225,20 @@
         .container-info {
             margin-top: 20px;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

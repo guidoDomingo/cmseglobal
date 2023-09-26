@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Intimaciones
@@ -22,9 +22,9 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title"> GRUPO: {{ $grupo->description }}</h3>
-                        <a class="btn-sm btn-default pull-right" href="{{ url('atm/new/'.$grupo->id.'/groups_atms') }}" role="button">Atrás</a>
+                        <a class="btn btn-danger mb-2 me-4" href="{{ url('atm/new/'.$grupo->id.'/groups_atms') }}" role="button">Atrás</a>
                         @if (Sentinel::hasAccess('atms.group.intimacion.add'))
-                            <a href="{{ route('intimaciones.create',['atm_list' => $atm_ids, 'group_id' => $grupo->id]) }}" class="btn-sm btn-primary pull-right active" role="button">Agregar</a>
+                            <a href="{{ route('intimaciones.create',['atm_list' => $atm_ids, 'group_id' => $grupo->id]) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                         @endif
 
                     </div>
@@ -113,7 +113,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de borrar el registro, está seguro?.",
             type: "warning",
@@ -140,9 +140,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -151,7 +151,7 @@
 
 @if (session('actualizar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: 'success',
             title: 'El registro ha sido actualizado existosamente.',
             showConfirmButton: false,
@@ -161,7 +161,7 @@
 @endif
 @if (session('guardar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
         type: 'success',
             title: 'El registro ha sido guardado existosamente.',
             showConfirmButton: false,
@@ -171,7 +171,7 @@
 @endif
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el Retiro del dispositivo.',
             showConfirmButton: true,
@@ -274,6 +274,21 @@
             }
         }
         /* END - CONF SPINNER */
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
 
     </style>
 @endsection

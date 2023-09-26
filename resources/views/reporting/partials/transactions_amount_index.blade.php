@@ -1,11 +1,12 @@
-<section class="content">
+@section('content')
+    <section class="content">
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModal" class="modal fade modal-xl" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -95,7 +96,7 @@
                     <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                     <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                     <!--para Cancelar sin hacer nada -->
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
 
@@ -105,7 +106,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class=" box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -151,9 +152,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                     <!-- /.input group -->
@@ -221,14 +220,10 @@
             </div>
         </div>
     @endif
+   
 </section>
-<link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
-<style>
-    #chartdiv {
-      width : 100%;
-      height    : 500px;
-    }
-</style>
+@endsection
+
 @section('js')
     <!-- InputMask -->
     <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
@@ -252,6 +247,7 @@
     <script src="/dashboard/plugins/amcharts/themes/light.js"></script>
     <script src="/dashboard/plugins/amcharts/lang/es.js"></script>
     <script>
+        
         @if(isset($transactions))
         var chart = AmCharts.makeChart("chartdiv", {
             "type": "serial",
@@ -428,7 +424,7 @@
             }
         });
 
-        $(document).on('select2:clear select2:unselect','#serviceId',function(e){
+        $(document).on('select2:clearselect2:unselect','#serviceId',function(e){
             $("#serviceId").trigger("select2:select");
             if (!e.params.originalEvent) {
                 return
@@ -437,7 +433,7 @@
             e.params.originalEvent.stopPropagation();
         });
 
-        $(document).on('select2:clear select2:unselect','#servicioRequestId',function(e){
+        $(document).on('select2:clearselect2:unselect','#servicioRequestId',function(e){
             if (!e.params.originalEvent) {
                 return
             }
@@ -474,6 +470,13 @@
     </script>
 @endsection
 @section('aditional_css')
+    <link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
+    <style>
+        #chartdiv {
+            width : 100%;
+            height    : 500px;
+        }
+    </style>
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .select2-selection--multiple{

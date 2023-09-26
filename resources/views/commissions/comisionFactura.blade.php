@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Comisiones de ventas Qr
@@ -42,7 +42,7 @@
             </div>
         </div>
 
-        <div class="box box-default" style="border-radius: 5px;">
+        <div class="box-default" style="border-radius: 5px;">
             <div class="box-header with-border">
                 <h3 class="box-title" style="font-size: 25px;">Reporte de comisiones ventas Qr
                 </h3>
@@ -50,25 +50,23 @@
                     <button class="btn " type="button" title="Buscar según los filtros en los registros."
                         style="margin-right: 5px; background-color: #285F6C; color: white" id="search" name="search" onclick="search('search')">
                         <span class="fa fa-search btn_excel"> Buscar</span> 
-                        <div  class="btn_spinn text-center d-flex align-items-end "> Buscando <i class="fa fa-circle-o-notch fa-spin" style="font-size:10px"></i></div>
                     </button>
 
                     <button class="btn" type="button" title="Convertir tabla en archivo excel." id="generate_x" style=" background-color: #285F6C; color: white"
                         name="generate_x" onclick="search_excel('generate_x')">
                         <span class="fa fa-file-excel-o btn_excel_exportar"> Exportar</span>  
-                        <div  class="btn_spinn_excel text-center d-flex align-items-end "> Exportando <i class="fa fa-circle-o-notch fa-spin" style="font-size:10px"></i></div>
                     </button>
                 </div>
             </div>
 
             <div class="box-body">
 
-                <div id="graph_spinn" class="text-center d-flex align-items-end " style="margin: 50px 10px"><i class="fa fa-circle-o-notch fa-spin spinners" style="font-size:24px"></i></div>
+                {{-- <div id="graph_spinn" class="text-center d-flex align-items-end " style="margin: 50px 10px"><i class="fa fa-circle-o-notch fa-spin spinners" style="font-size:24px"></i></div> --}}
                 
 
-                <div id="content" style="display: none">
+                <div id="content" class="con-pri" style="">
 
-                    <div class="box box-default" style="border: 1px solid #d2d6de;">
+                    <div class="box-default" style="border: 1px solid #d2d6de;">
                         <div class="box-header with-border">
                             <h3 class="box-title">Filtrar búsqueda:</h3>
                             <div class="box-tools pull-right">
@@ -119,9 +117,7 @@
                                     <div class="form-group">
                                         <label>Rango de Tiempo & Fecha: </label>
                                         <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                             <input name="reservationtime" type="text" id="reservationtime"
                                             class="form-control pull-right"
                                             placeholder=""
@@ -188,7 +184,7 @@
 
                     </div>
 
-                    <div class="box box-default collapsed-box" style="border: 1px solid #d2d6de;">
+                    <div class="box-default collapsed-box" style="border: 1px solid #d2d6de;">
                         <div class="box-header with-border">
                             <h3 class="box-title">Mostrar / Ocultar columnas</h3>
                             <div class="box-tools pull-right">
@@ -200,7 +196,8 @@
                         </div>
                     </div>
 
-                        <table class="table table-bordered table-striped" role="grid" id="datatable_1">
+                        <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Nombre grupo</th>
@@ -249,7 +246,7 @@
                                                         <input type="hidden" name="id_invoice" value="{{$item['invoice_id']}}">
                                                         <input type="hidden" name="button_name_pdf" value="generate_pdf">
 
-                                                        <div  class="btn_spinn text-center d-flex align-items-end "><i class="fa fa-circle-o-notch fa-spin spinners" style="font-size:24px"></i></div>
+                                                        <div  class="btn_spinn text-center d-flex align-items-end d-none "><i class="fa fa-circle-o-notch fa-spin" style="font-size:24px"></i></div>
 
                                                         <button  class="btn_spinn_detalle btn btn-secondary" data-toggle="tooltip" data-placement="right" title="Ver Factura">
                                                             <i class="fa fa-sitemap" aria-hidden="true"></i>
@@ -275,15 +272,58 @@
 
 @endsection
 
+@section('aditional_css')
+    
+     <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+    <style>
+        .con-pri {
+            width: 100% !important;
+        }
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+        }
+    </style>
+     <link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/grey.css">
+ <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}}">
+@endsection
+
 @section('page_scripts')
     @include('partials._selectize')
 @endsection
 
 @section('js')
-    <!-- datatables -->
-    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
-    <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.min.js"></script>
+
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
+   
 
     <!-- date-range-picker -->
     <link href="/bower_components/admin-lte/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet"
@@ -295,20 +335,13 @@
     <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
     <!-- iCheck -->
-    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/iCheck/square/grey.css">
+   
     <script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
 
-    <!-- Select2 -->
-    <link rel="stylesheet" href="/bower_components/admin-lte/plugins/select2/select2.min.css">
-
-    <!-- Select2 -->
+    <!--select2 -->
     <script src="/bower_components/admin-lte/plugins/select2/select2.full.min.js"></script>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{"https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"}}">
 
-
-  
     
     <!-- Iniciar objetos -->
     <script type="text/javascript">
@@ -360,9 +393,9 @@
             
         }
 
+
         $( document ).ready(function() {
-            $('.js-select-status').select2();
-            $('#mes_select').select2();
+    
             $('[data-toggle="tooltip"]').tooltip();
             $('#group_id').selectize()[0].selectize.setValue("{{ $group_input }}", false); 
 
@@ -372,28 +405,29 @@
             $(".btn_excel_exportar").show();
             $(".btn_spinn_excel").hide();
 
-        });
+            $(document).on('click', '.ver_detalles', function() {
+                console.log("entro en ver detalle");
 
-        $(document).ready(function() {
-            $(".btn_spinn").hide();
-            $('.ver_detalles').on('click',function() { 
-                $(this).find(".btn_spinn").show();
-                $(this).find(".btn_spinn_detalle").hide();
+                // Busca el elemento .btn_spinn que es descendiente directo del elemento clicado y muéstralo
+                $(this).find('.btn_spinn').removeClass("d-none").css("display", "block");
+                $(this).find('.btn_spinn_detalle').css("display", "none");
+
                 $('.desabilitar').addClass("disabledbutton");
-                
                 $('#form_search_factura').submit();
-                
             });
-        });
-        
-        $('#datatable_1').on( 'draw.dt', function () {
-                $(".btn_spinn").hide();
+
+
+             $('#datatable_1').on( 'draw.dt', function () {
                 $('.ver_detalles').on('click',function() { 
                     $(this).find(".btn_spinn").show();
                     $(this).find(".btn_spinn_detalle").hide();
                     $('.desabilitar').addClass("disabledbutton");
                 });
+            });
+
         });
+        
+       
 
         
         /*************************************GROUP*******************************************************/
@@ -463,9 +497,7 @@
             }
         });
 
-        $(document).ready(function() {
-            var table = $('#datatable_1').DataTable(data_table_config)
-        });
+      
         //$('#hide_show_columns').append('Ocultar columna/s de la tabla: <br/>');
 
         var hide_show_columns = [];
@@ -517,6 +549,7 @@
         $('#reservationtime').val();
         $(document).ready(function(){
             $('.daterangepicker .ranges .range_inputs .cancelBtn').on('click', function(e) {
+                console.log("entrooo")
                 var date = new Date();
                 var init = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                 var end = new Date(date.getFullYear(), date.getMonth(), date.getDate());

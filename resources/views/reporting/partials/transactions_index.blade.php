@@ -10,9 +10,9 @@
     <!-- Bootstrap 3.3.4 -->
     {{-- <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}"> --}}
     {{-- PARA AGREGAR SELECT  --}}
-        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        {{-- <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}"> --}}
     {{-- FIN DE SELECT  --}}
 
     <!-- DATA TABLE-->
@@ -915,9 +915,7 @@
                                     <div class="form-group">
                                         <label>Rango de Tiempo & Fecha:</label>
                                         <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                             <input name="reservationtime" type="text" id="reservationtime"
                                                 class="form-control pull-right"
                                                 value="{{ old('reservationtime', $reservationtime ?? '') }}" />
@@ -1463,7 +1461,7 @@
         $('#run_reprocesar').hide();
 
         $('#li_tab_1 > a').trigger('click');
-        $("#myModal").modal();
+        $("#myModal").modal("show");
 
     });
 
@@ -1719,7 +1717,7 @@
             $('#button_modal_close').prop('disabled', false);
 
         }).error(function(error) {
-            swal({
+            swal.fire({
                     title: 'Error',
                     text: 'Error al querer obtener las Solicitudes y Respuestas',
                     type: 'error',
@@ -2572,7 +2570,7 @@
     console.log(rsultadoDif);
 
 
-
+    
     $(document).on('change', '#serviceId', function() {
         var valor = this.value;
         var urlGetServices = "{{ route('reports.get_service_request') }}";
@@ -2607,7 +2605,7 @@
             text = text.replace('Operación Exitosa', '');
             text = text.trim();
 
-            swal({
+            swal.fire({
                     title: 'Atención',
                     text: text,
                     type: 'warning',
@@ -2683,16 +2681,7 @@
     });
 
 
-    $('.select2').on('select2:select', function(e) {
-
-        var id = e.currentTarget.id;
-
-        switch (id) {
-            case 'branch_id':
-                get_points_of_sale();
-                break;
-        }
-    });
+    
 
     var table = $('#datatable_1').DataTable({
         orderCellsTop: true,

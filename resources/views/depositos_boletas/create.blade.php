@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Nuevo deposito de boleta
@@ -76,7 +76,7 @@ Nuevo deposito de boleta
 <script src="/js/filepond/filepond.min.js"></script>
 <script src="/js/filepond/filepond.jquery.js"></script>
 
-<!-- select2 -->
+<!--select2 -->
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 
@@ -235,7 +235,7 @@ Nuevo deposito de boleta
 
 
             if (save) {
-                swal({
+                Swal.fire({
                         title: 'Atención',
                         text: 'Está a punto de guardar una boleta, ¿Continuar?',
                         type: 'info',
@@ -256,7 +256,7 @@ Nuevo deposito de boleta
                     }
                 );
             } else {
-                swal('Atención', message, 'warning');
+                Swal.fire('Atención', message, 'warning');
             }
 
         });
@@ -316,7 +316,7 @@ Nuevo deposito de boleta
                 } else {
                     $('#boleta_numero').val(null);
 
-                    swal('Atención', 'El número de boleta no debe ser 0', 'warning');
+                    Swal.fire('Atención', 'El número de boleta no debe ser 0', 'warning');
                 }
             }
         });
@@ -340,7 +340,7 @@ Nuevo deposito de boleta
                 } else {
                     $('#monto').val(null);
 
-                    swal('Atención', 'El monto debe ser mayor a 0', 'warning');
+                    Swal.fire('Atención', 'El monto debe ser mayor a 0', 'warning');
                 }
                 
             }
@@ -371,4 +371,21 @@ Nuevo deposito de boleta
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

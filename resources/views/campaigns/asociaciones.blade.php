@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Asociaciones
 @endsection
@@ -24,7 +24,7 @@
                 </h3>
                 <a class="btn-sm btn-default" href="{{ route('campaigns.index') }}" role="button">Atrás</a>
                 @if (Sentinel::hasAccess('asociar.add|edit'))
-                <a href='#' id="nuevaAsociacion" data-toggle="modal" data-target="#modalNuevaAsociacion" class="btn-sm btn-primary active" role="button"><small>Agregar <i class="fa fa-plus"></i></small></a>
+                <a href='#' id="nuevaAsociacion" data-toggle="modal" data-target="#modalNuevaAsociacion" class="btn btn-primary mb-2 me-4" role="button"><small>Agregar <i class="fa fa-plus"></i></small></a>
                 @endif
             </div>
             <div class="box-body">
@@ -131,7 +131,7 @@
             e.preventDefault();
             var row = $(this).parents('tr');
             var id = row.data('id');
-            swal({
+            Swal.fire({
                 title: "Atención!",
                 text: "Está a punto de borrar el registro, está seguro?.",
                 type: "warning",
@@ -158,9 +158,9 @@
                             type = "error";
                             title =  "No se pudo realizar la operación"
                         }
-                        swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                        Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     }).fail(function (){
-                        swal('No se pudo realizar la petición.');
+                        Swal.fire('No se pudo realizar la petición.');
                     });
                 }
             });
@@ -187,6 +187,21 @@
     <style>
        /* START - CONF SPINNER */
        table.dataTable thead {background-color:rgb(179, 179, 184)}
+
+       .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
        
     </style>
 @endsection

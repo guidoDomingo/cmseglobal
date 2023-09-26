@@ -5,7 +5,7 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transaccion Nro : <label class="idTransaccion"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -95,7 +95,7 @@
                     <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                     <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                     <!--para Cancelar sin hacer nada -->
-                    <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
 
@@ -124,9 +124,7 @@
                                     <div class="form-group">
                                         <label>Rango de Tiempo & Fecha:</label>
                                         <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                             <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                         </div>
                                     </div>
@@ -148,9 +146,7 @@
                                     <div class="form-group">
                                         <label>Rango de Tiempo & Fecha:</label>
                                         <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                             <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{$reservationtime or ''}}" />
                                         </div>
                                     </div>
@@ -240,16 +236,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class=" clearfix">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $transactions->total() }} registros en total</div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $transactions->appends(['group_id' => $group_id, 'reservationtime' => $reservationtime])->render() !!}
+                            <div class="col-sm-12">
+                                <div class=" ">
+                                    {!! $transactions->appends(['group_id' => $group_id, 'reservationtime' => $reservationtime])->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -307,7 +303,7 @@
             $('#process_devolucion').hide();
             $('#run_reprocesar').hide();
 
-            $("#myModal").modal();
+            $("#myModal").modal("show");
 
         });
 
@@ -324,7 +320,7 @@
                 $("#detalles").show();
                 $('#devoluciones').hide();
                 $('#reprocesos').hide();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
                 //botones
                 $('.devolucion').hide();
                 $('.reprocesar').hide();
@@ -366,7 +362,7 @@
                 $('#process_devolucion').hide();
                 $('#run_reprocesar').hide();
 
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -596,6 +592,9 @@
     </script>
 @endsection
 @section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         @media print {
@@ -618,6 +617,13 @@
                 left:0;
                 top:0;
             }
+        }
+
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
         }
     </style>
 @endsection

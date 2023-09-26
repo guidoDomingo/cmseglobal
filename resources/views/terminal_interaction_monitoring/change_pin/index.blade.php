@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Cambio de pin
@@ -126,7 +126,7 @@
                 parameters: parameters,
             };
 
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: '¿Está seguro de realizar esta acción?',
                     type: 'warning',
@@ -153,7 +153,7 @@
                                 type = 'success';
                             }
 
-                            swal({
+                            Swal.fire({
                                     title: message,
                                     text: text,
                                     type: type,
@@ -183,4 +183,23 @@
 
         $('#modal').modal('show');
     </script>
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

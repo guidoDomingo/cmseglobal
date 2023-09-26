@@ -1404,7 +1404,7 @@
                 $("#block_form").css("display", "none");
                 console.log('estas seleccionando la gestion por eglobalt');
 
-                swal({
+                Swal.fire({
                     title: 'Atención!!',
                     text: "Estas creando un cliente sin reglas de bloqueo y con gestión de recaudo de Eglobalt, esta seguro de querer realizar esta acción?",
                     type: 'warning',
@@ -2338,7 +2338,7 @@
                     $(document).on('click', '#bntConfirmarResumen', function() {
                         $('#modalResumen').modal('hide');
                         $(form).find('input[type="text"]').prop('readonly', false);
-                        swal({
+                        Swal.fire({
                             title: respuesta.titulo,
                             text: respuesta.mensaje,
                             html: respuesta.mensaje,
@@ -2482,7 +2482,7 @@
             e.preventDefault();
             var key_text_control = $(this).parent().find('.key');
             var id = $(this).parent().find(".key").attr("id");
-            swal({
+            Swal.fire({
                 title: "Atención!",
                 text: "Está seguro que desea generar una nueva clave para este ATM?.",
                 type: "warning",
@@ -2501,7 +2501,7 @@
                     $.post(url,data, function(result){
                         $("#"+id).val(result);
                     }).fail(function (){
-                        swal('No se pudo realizar la petición.');
+                        Swal.fire('No se pudo realizar la petición.');
                     });
 
                 }

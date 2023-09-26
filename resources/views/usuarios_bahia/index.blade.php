@@ -5,6 +5,9 @@
 
 @section('aditional_css')
 
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- DATA TABLE-->
     <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
     
@@ -17,6 +20,15 @@
     <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <!-- SWEET ALERTS - FIN -->
+
+    <style>
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 
 @endsection
 @section('content')
@@ -92,15 +104,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class=" clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $usuarios_bahia->total() }} registros en total
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $usuarios_bahia->appends(Request::only(['name']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $usuarios_bahia->appends(Request::only(['name']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -145,9 +157,9 @@
                             type = "error";
                             title =  "No se pudo realizar la operación"
                         }
-                        swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                        Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     }).fail(function (){
-                        swal('No se pudo realizar la petición.');
+                        Swal.fire('No se pudo realizar la petición.');
                     });
                 }
             

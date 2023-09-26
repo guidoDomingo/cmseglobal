@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Gestión de Usuarios - Reporte
@@ -28,7 +28,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
         </div>
     </div>
 
-    <div class="box box-default" style="border-radius: 5px;" id="div_load">
+    {{-- <div class="box-default" style="border-radius: 5px;" id="div_load">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Cargando...
             </h3>
@@ -42,9 +42,9 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <div class="box box-default" style="border-radius: 5px;" id="content" style="display: none">
+    <div class=" box-default" style="border-radius: 5px;" id="content" style="display: none">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Gestión de Usuarios - Reporte
             </h3>
@@ -64,9 +64,9 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
             </div>
         </div>
 
-        <div class="box-body">
+        <div id="content" class="box-body">
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;">
+            <div class="box-default" style="border: 1px solid #d2d6de;">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtrar búsqueda:</h3>
                     <div class="box-tools pull-right">
@@ -90,7 +90,8 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                 </div>
             </div>
 
-            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
+            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                 <thead>
                     <tr>
                         <th></th>
@@ -211,12 +212,12 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
     </div>
 
 
-    <div id="modal" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog modal-dialog-centered" role="document" style="background: white; border-radius: 5px; width: 1100px">
+    {{-- <div id="modal" class="modal fade modal-xl" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="background: white">
             <!-- Modal content-->
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <div class="modal-title" style="font-size: 20px;" id="modal_title"></div>
                 </div>
             </div>
@@ -225,7 +226,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
 
                 <div class="row">
                     <div class="col-md-5">
-                        <div class="box box-default" style="border: 1px solid #d2d6de;">
+                        <div class=" box-default" style="border: 1px solid #d2d6de;">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Información del usuario</h3>
                             </div>
@@ -332,7 +333,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                     </div>
 
                     <div class="col-md-7">
-                        <div class="box box-default" style="border: 1px solid #d2d6de;">
+                        <div class="box-default" style="border: 1px solid #d2d6de;">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Asignar o desasignar Terminales</h3>
                             </div>
@@ -347,7 +348,8 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
 
                                 <div class="row" id="assign_or_unassign_terminals_datatable">
                                     <div class="col-md-12">
-                                        <table class="table table-bordered table-hover dataTable" role="grid" id="modal_datatable">
+                                        <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                            style="width:100%">
                                             <thead>
                                                 <tr>
                                                     <th>ID</th>
@@ -371,22 +373,260 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
 
             <div class="modal-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-danger" id="modal_close" data-dismiss="modal" style="margin-right: 5px;"><i class="fa fa-times"></i> Cerrar</button>
+                    <button type="button" class="btn btn-danger" id="modal_close" data-bs-dismiss="modal" style="margin-right: 5px;"><i class="fa fa-times"></i> Cerrar</button>
                     <button type="button" class="btn btn-primary" id="modal_save" onclick="modal_save()"><i class="fa fa-save"></i> Guardar</button>
                 </div>
             </div>
         </div>
+    </div> --}}
+
+    <div id="modal" class="modal fade modal-xl" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 10px">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalLabel"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="row">
+                        <div class="col-md-5">
+                        <div class=" box-default" style="border: 1px solid #d2d6de;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Información del usuario</h3>
+                            </div>
+                            <div class="box-body" style="overflow-x: hidden; overflow-y: scroll; max-height: 300px">
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                        <label for="user_supervisor_id">Supervisor:</label>
+                                        <div class="form-group">
+                                            <select name="user_supervisor_id" id="user_supervisor_id" class="select2" style="width: 100%"></select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="description">Nombre y Apellido:</label>
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span>
+                                            <input type="text" class="form-control" name="description" id="description" placeholder="Ingresar nombre y apellido"></input>
+                                        </div> <br />
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <label for="doc_number">Número de documento:</label>
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><b>N</b></span>
+                                            <input type="text" class="form-control" name="doc_number" id="doc_number" placeholder="Ingresar número de documento"></input>
+                                        </div> <br />
+                                    </div>
+
+                                    <div class="col-md-12">
+
+                                        <label for="username">Nombre de Usuario:</label>
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <input type="text" class="form-control" name="username" id="username" placeholder="Ingresar nombre del usuario"></input>
+                                        </div> <br />
+                                    </div>
+
+                                    <!--<div class="col-md-12">
+                                        <label for="password">Contraseña:</label>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Ingresar contraseña del usuario"></input>
+                                        </div>
+                                    </div>-->
+
+                                    <div class="col-md-12" id="email_or_phone_number_div" style="display: none">
+                                        <label for="email">Enviar link a:</label>
+                                        <div class="form-group">
+                                            <!--<input type='checkbox' onclick="email_or_phone_number('email')" style='cursor: pointer' checked id="checkbox_email"> &nbsp; Correo electrónico <br />
+                                            <input type='checkbox' onclick="email_or_phone_number('phone_number')" style='cursor: pointer' id="checkbox_phone_number"> &nbsp; Número de Teléfono-->
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type='checkbox' onclick="email_or_phone_number('email')" style='cursor: pointer' checked id="checkbox_email"> Correo electrónico
+                                                </label>
+                                            </div>
+
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input type='checkbox' onclick="email_or_phone_number('phone_number')" style='cursor: pointer' id="checkbox_phone_number"> Número de Teléfono
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-md-12" id="email_div">
+                                        <label for="email">Correo electrónico:</label>
+
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
+                                        </div> <br/>
+                                    </div>-->
+
+                                    <div class="col-md-12" id="email_div">
+                                        <label for="email">Correo electrónico:</label>
+                                        <div class="input-group input-group-lg" style="width: 100%;">
+                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
+                                            <span class="input-group-btn" id="span_send_email">
+                                                <button type="button" class="btn btn-info btn-flat" title="Enviar link a correo ingresado." onclick="send('email')" id="button_send_email"><i class="fa fa-send"></i></button>
+                                            </span>
+                                        </div>
+                                        <br />
+                                    </div>
+
+                                    <div class="col-md-12" id="phone_number_div">
+                                        <label for="phone_number">Número de Teléfono:</label>
+                                        <div class="input-group input-group-lg" style="width: 100%;">
+                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                            <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Ingresar número de teléfono"></input>
+                                            <span class="input-group-btn" id="span_send_phone_number">
+                                                <button type="button" class="btn btn-info btn-flat" title="Enviar link al número de teléfono ingresado." onclick="send('phone_number')" id="button_send_phone_number"><i class="fa fa-send"></i></button>
+                                            </span>
+                                        </div>
+                                        <br />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-7">
+                        <div class="box-default" style="border: 1px solid #d2d6de;">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Asignar o desasignar Terminales</h3>
+                            </div>
+                            <div class="box-body">
+
+                                <div style="text-align: center; margin-bottom: 10px; font-size: 20px; display: none" id="assign_or_unassign_terminals_load">
+                                    <div>
+                                        <i class="fa fa-spin fa-refresh fa-2x" style="vertical-align: sub;"></i> &nbsp;
+                                        Cargando...
+                                    </div>
+                                </div>
+
+                                <div class="row" id="assign_or_unassign_terminals_datatable">
+                                    <div class="col-md-12">
+                                        <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                            style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Terminal</th>
+                                                    <th>Asignar / Desasignar</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"><i class="fa fa-times"></i> Cerrar</button>
+                        <button type="button" class="btn btn-primary" onclick="modal_save()"><i class="fa fa-save"></i> Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </section>
 
 
 @endsection
 
-@section('page_scripts')
-@include('partials._selectize')
+@section('aditional_css')
+     <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+    
+<!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+
+    <style>
+        #content {
+            width: 100% !important;
+        }
+    </style>
 @endsection
 
+
+@include('partials._selectize')
+
+
 @section('js')
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
+       <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+<!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
 <!-- datatables -->
 <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
 <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -400,7 +640,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
 <!-- bootstrap datepicker -->
 <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-<!-- select2 -->
+<!--select2 -->
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -480,7 +720,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                 $('#button_send_' + context).html('<i class="fa fa-send"></i>');
                 $('#button_send_' + context).prop('disabled', false);
 
-                swal({
+                Swal.fire({
                         title: 'Atención',
                         text: text,
                         type: type,
@@ -507,7 +747,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
             $('#button_send_' + context).html('<i class="fa fa-send"></i>');
             $('#button_send_' + context).prop('disabled', false);
 
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: message,
                     type: 'warning',
@@ -653,7 +893,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                     $('#modal_save').prop('disabled', false);
                                     $('#modal_close').css('display', 'block');
 
-                                    swal({
+                                    Swal.fire({
                                             title: 'Atención',
                                             text: text,
                                             type: type,
@@ -697,9 +937,9 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
             $('#modal_save').prop('disabled', false);
             $('#modal_close').css('display', 'block');
 
-            //swal('Atención', message, 'warning');
+            //Swal.fire('Atención', message, 'warning');
 
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: message,
                     type: 'warning',
@@ -755,7 +995,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
 
         $('#modal_datatable tbody').html('');
 
-        $('#modal').modal();
+        $('#modal').modal("show");
 
         //--------------------------------------------------------------------------------------------------
 
@@ -897,7 +1137,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                 
 
             }).error(function(error) {
-                swal({
+                Swal.fire({
                         title: 'Error al querer datos.',
                         text: 'La sesión a expirado.',
                         type: 'error',
@@ -954,7 +1194,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
         $('#modal_datatable tbody').html('');
 
 
-        var url = '/get_atms_per_user/';
+        var url = 'get_atms_per_user/';
 
         var json = {
             _token: token,
@@ -1005,7 +1245,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
             $('#assign_or_unassign_terminals_datatable').css('display', 'block');
 
         }).error(function(error) {
-            swal({
+            Swal.fire({
                     title: 'Error al querer datos.',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -1315,3 +1555,4 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
         /* margin-left: -1px; */
     }
 </style>
+

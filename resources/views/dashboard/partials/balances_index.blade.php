@@ -3,8 +3,8 @@
         <h3 class="box-title">Terminales con Saldos al límite</h3>
         <div class="row">
             <div class="col-md-12">
-                <a href="#" class="btn-sm btn-primary active" role="button" id="mostrarTodos">Mostrar Todos</a>
-                <a href="#" class="btn-sm btn-primary active" role="button" id="ocultarTodos">Ocultar Todos</a>
+                <a href="#" class="btn btn-primary mb-2 me-4" role="button" id="mostrarTodos">Mostrar Todos</a>
+                <a href="#" class="btn btn-primary mb-2 me-4" role="button" id="ocultarTodos">Ocultar Todos</a>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo Servicio Por Marca
@@ -104,4 +104,21 @@
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="/css/filepond/filepond.css" rel="stylesheet">
     <link href="/css/filepond/filepond-plugin-image-preview.css" rel="stylesheet">
+
+     <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

@@ -105,6 +105,8 @@ class AtmsPerUsersManagementServices
 
             $button_name = '';
 
+           
+
             if (isset($request['button_name'])) {
                 $button_name = $request['button_name'];
             }
@@ -153,7 +155,7 @@ class AtmsPerUsersManagementServices
                  * Filtros para la búsqueda
                  */
 
-             
+                 
 
                 if (isset($request['user_id'])) {
                     if ($request['user_id'] !== '' and $request['user_id'] !== 'Todos') {
@@ -185,8 +187,7 @@ class AtmsPerUsersManagementServices
                     )
                     ->orderBy('atms_per_user_count', 'DESC');
 
-               
-
+            
                 //\Log::info('QUERY:' . $records->toSql());
 
                 $records = $records->get();
@@ -399,6 +400,7 @@ class AtmsPerUsersManagementServices
                 'atm_id' => isset($request['atm_id']) ? $request['atm_id'] : 'Todos',
             ]
         ];
+
 
         return view('atms_per_users_management.index', compact('data'));
     }

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Configuración de Promociones
 @endsection
@@ -41,9 +41,7 @@ Configuración de Promociones
                 <div class="form-group">
                     <label>Fecha de última actualización</label>
                     <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
+                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                         <input name="last_update" type="text" id="last_update" class="form-control pull-right" />
                     </div>
                     <!-- /.input group -->
@@ -61,6 +59,10 @@ Configuración de Promociones
 
 @endsection
 @section('page_scripts')
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
     <script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/bower_components/admin-lte/plugins/autoNumeric/autoNumeric.js"></script>
     <script src="/bower_components/admin-lte/plugins/iCheck/icheck.min.js"></script>
@@ -113,7 +115,7 @@ Configuración de Promociones
                     'data': $(form).serialize(),
                 });
 
-                swal({   title: 'Atención',   text: 'Se ha enviado exitosamente la solicitud de actualización de las promociones. Recibira una notificación en su email, con caso de error o de éxito',   type: 'success',   confirmButtonText: "Aceptar" });
+                Swal.fire({   title: 'Atención',   text: 'Se ha enviado exitosamente la solicitud de actualización de las promociones. Recibira una notificación en su email, con caso de error o de éxito',   type: 'success',   confirmButtonText: "Aceptar" });
             }
         });
 
@@ -131,8 +133,31 @@ Configuración de Promociones
 
 @endsection
 @section('aditional_css')
+     <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
     <link href="/bower_components/admin-lte/plugins/iCheck/all.css" rel="stylesheet" type="text/css" />
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+     <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
+
 @endsection
 <iframe id="descarga" style="display:none;">
 </iframe>

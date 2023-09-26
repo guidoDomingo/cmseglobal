@@ -1,6 +1,6 @@
 <div class="form-row">
     <div class="form-group col-md-6 borderd-campaing">
-        <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; NOTA DE RESCISIÓN &nbsp;</h4></div>
+        <div class=""><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; NOTA DE RESCISIÓN &nbsp;</h4></div>
         <div class="container-campaing">
 
             <div class="form-row">
@@ -8,9 +8,8 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('numero', 'Número interno:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-pencil-square-o"></i>
-                        </div>
+                        
+                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-pencil-square-o"></i></span>
                         {!! Form::text('numero', $numero , ['class' => 'form-control', 'placeholder' => 'Ingrese el numero interno de la nota de rescisión','readonly'=>'readonly' ]) !!}
                     </div>
                 </div>
@@ -18,7 +17,7 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('nombre_comercial', 'Nombre comercial:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-keyboard-o"></i>
                         </div>
                         {!! Form::text('nombre_comercial', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre comercial.' ]) !!}
@@ -28,7 +27,7 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('direccion', 'Dirección:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-keyboard-o"></i>
                         </div>
                         {!! Form::text('direccion', null , ['class' => 'form-control', 'placeholder' => 'Ingrese la dirección del comercial.' ]) !!}
@@ -38,7 +37,7 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('fecha', 'Fecha:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
                         </div>
                         {{-- {!! Form::text('fecha', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!} --}}

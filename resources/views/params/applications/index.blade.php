@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Configuración de Aplicación
 @endsection
@@ -22,7 +22,7 @@ Configuración de Aplicación
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-        <a href="{{ route('applications.params.create', $appId) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+        <a href="{{ route('applications.params.create', $appId) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">
           {!! Form::model(Request::only(['name']),['route' => ['applications.params.index', $appId], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -68,15 +68,15 @@ Configuración de Aplicación
     </div>
   </div>
 </div>
-<div class="box-footer clearfix">
+<div class=" clearfix">
  <div class="row">
    <div class="col-sm-5">
     <div class="dataTables_info" role="status" aria-live="polite">{{ $appconfigs->total() }}
       registros en total</div>
   </div>
-  <div class="col-sm-7">
-    <div class="dataTables_paginate paging_simple_numbers">
-      {!! $appconfigs->appends(Request::only(['name']))->render() !!}
+  <div class="col-sm-12">
+    <div class=" ">
+      {!! $appconfigs->appends(Request::only(['name']))->links('paginator') !!}
     </div>
   </div>
 </div>
@@ -92,4 +92,32 @@ Configuración de Aplicación
 @endsection
 @section('page_scripts')
 @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+      
+    .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

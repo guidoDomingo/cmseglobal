@@ -41,9 +41,7 @@
         <div class="form-group">
             {!! Form::label('more_info', 'Horario de atención') !!}
             <div class="input-group">
-                <div class="input-group-addon">
-                    <i class="fa fa-clock-o"></i>
-                </div>  
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>  
                 {!! Form::text('more_info', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el horario de atención' ]) !!}
             </div> 
         </div>

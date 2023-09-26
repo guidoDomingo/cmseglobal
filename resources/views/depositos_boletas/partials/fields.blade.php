@@ -25,9 +25,7 @@
             {!! Form::label('fecha', 'Fecha de la boleta del depósito', ['id' => 'label2', 'name' => 'label2']) !!}
             <small> (El rango válido es de 10 días antes a la actual o la fecha actual) </small>
             <div class="input-group">
-                <div class="input-group-addon">
-                    <i class="fa fa-clock-o"></i>
-                </div>
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                 {!! Form::text('fecha', null, ['id' => 'last_update', 'class' => 'form-control', 'placeholder' => 'Ingrese la fecha', 'required' => 'true']) !!}
             </div>
         </div>

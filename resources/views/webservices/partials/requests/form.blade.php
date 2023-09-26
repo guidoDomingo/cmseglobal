@@ -5,7 +5,7 @@
     <div class="box-body">
     	<div id="form-alert-container">
     	<div id="form-alert" class="" style="display:none">
-		    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		    <button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>
 		    <h4><i class="icon fa fa-check"></i></h4>
 		    <p></p>
 		    <ul></ul>

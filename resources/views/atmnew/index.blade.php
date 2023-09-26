@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     ABM miniterminales
 @endsection
@@ -26,7 +26,7 @@
 
     <br />
 
-    <div id="div_load" style="text-align: center; margin-bottom: 10px; font-size: 20px;">
+    <div class="d-none" id="div_load" style="text-align: center; margin-bottom: 10px; font-size: 20px;">
         <div>
             <i class="fa fa-spin fa-refresh fa-2x" style="vertical-align: sub;"></i> &nbsp;
             Cargando...
@@ -35,12 +35,12 @@
         </div>
     </div>
 
-    <div id="modal" class="modal fade" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
+    <div id="modal" class="modal fade modal-xl" role="dialog" tabindex="-1" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-dialog-centered" role="document" style="background: white; border-radius: 5px">
             <!-- Modal content-->
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <div class="modal-title" style="font-size: 20px;">
                         Acciones: &nbsp; <small> <b> </b> </small>
                     </div>
@@ -70,87 +70,67 @@
         </div>
     </div>
 
-    <section class="content" id="content" style="display: none">
+    <section class="content" id="content" style="">
         @include('partials._flashes')
 
-        <div class="box box-default" style="margin-top: -15px">
-            <div class="box-header with-border">
-                <h3 class="box-title">Búsqueda personalizada</h3>
-                <div class="box-tools pull-right">
-
-                </div>
+        <div class="p-3 rounded" style="margin-top: -15px; background-color: #181D39">
+            <div class="d-flex justify-content-between align-items-center">
+                <h3>Búsqueda personalizada</h3>
+                <div></div> <!-- Placeholder for any box tools you might want to add -->
             </div>
-            <div class="box-body">
+            <div class="mt-3">
                 @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_comercial') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
-                    <div class="col-md-2">
-                        <a href="{{ route('atmnew.form_step_new') }}" class="btn btn-block btn-primary btn-sm"
-                            role="button">
+                    <div class="mb-3">
+                        <a href="{{ route('atmnew.form_step_new') }}" class="btn btn-primary btn-sm" role="button">
                             <span class="fa fa-plus"></span> Agregar
                         </a>
                     </div>
                 @endif
 
-                {!! Form::model(Request::only(['name']), ['route' => 'atmnew.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search', 'id' => 'atmSearch']) !!}
+                {!! Form::model(Request::only(['name']), ['route' => 'atmnew.index', 'method' => 'GET', 'role' => 'search', 'id' => 'atmSearch']) !!}
 
-                <div class="col-md-2">
-                    <button type="button" class="btn btn-block btn-success btn-sm" name="export" value="false" id='export'>
+                <div class="mb-3">
+                    <button type="button" class="btn btn-success btn-sm" name="export" value="false" id='export'>
                         <span class="fa fa-file-excel-o"></span> Exportar
                     </button>
                 </div>
 
-                <div class="col-md-2">
-                    {!! Form::select('owner_id', $owners, $owner_id, ['id' => 'ownerId', 'class' => 'select2', 'style' => 'width:100%']) !!}</p>
+                <div class="mb-3">
+                    {!! Form::select('owner_id', $owners, $owner_id, ['id' => 'ownerId', 'class' => 'form-selectselect2', 'style' => 'width:100%']) !!}
                 </div>
 
-                <div class="col-md-2">
-                    {!! Form::select('group_id', $groups, $group_id, ['id' => 'groupId', 'class' => 'select2', 'style' => 'width:100%']) !!}
+                <div class="mb-3">
+                    {!! Form::select('group_id', $groups, $group_id, ['id' => 'groupId', 'class' => 'form-selectselect2', 'style' => 'width:100%']) !!}
                 </div>
 
-                <div class="col-md-2" style="display: none">
+                <div class="mb-3" style="display: none">
                     <div class="form-group">
-                        <select class="form-control select2" id="record_limit" name="record_limit">
-                            <option value="TODOS">Todos</option>
-                            <option value="1">1 Registro</option>
-                            <option value="2">2 Registros</option>
-                            <option value="5">5 Registros</option>
-                            <option value="10">10 Registros</option>
-                            <option value="20">20 Registros</option>
-                            <option value="30">30 Registros</option>
-                            <option value="50">50 Registros</option>
-                            <option value="70">70 Registros</option>
-                            <option value="100">100 Registros</option>
-                            <option value="150">150 Registros</option>
-                            <option value="200">200 Registros</option>
-                            <option value="250">250 Registros</option>
-                            <option value="300">300 Registros</option>
-                            <option value="500">500 Registros</option>
-                            <option value="700">700 Registros</option>
-                            <option value="1000">1000 Registros</option>
-                            <option value="1500">1500 Registros</option>
-                            <option value="2000">2000 Registros</option>
-                            <option value="5000">5000 Registros</option>
+                        <select class="form-select" id="record_limit" name="record_limit">
+                            <!-- Options go here -->
                         </select>
                     </div>
                 </div>
 
-                <div class="col-md-4">
-                    {!! Form::text('name', null, ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Nombre', 'autocomplete' => 'off']) !!}
+                <div class="mb-3">
+                    {!! Form::text('name', null, ['class' => 'form-control form-control-sm', 'placeholder' => 'Nombre', 'autocomplete' => 'off']) !!}
                 </div>
 
                 <div style="display: none">
                     {!! Form::radio('download', 'false', ['id' => 'download']) !!}
                 </div>
+
                 {!! Form::close() !!}
             </div>
         </div>
 
-        <div class="box">
+
+        <div class="">
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-12">
                         @if (\Sentinel::getUser()->hasAccess('superuser'))
-                            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1"
-                                style="font-size: 13px">
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -448,7 +428,8 @@
                                 </tbody>
                             </table>
                         @else
-                            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th>N°</th>
@@ -717,12 +698,12 @@
 
     </section>
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div id="myModal" class="modal fade modal-xl" role="dialog">
         <div class="modal-dialog">
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - ATM <label class="idAtm"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -770,7 +751,7 @@
                 <div class="modal-footer">
                     <button disabled type="buttom" style="display: none;" id="process-reactivacion"
                         class="btn btn-primary pull-left">Reactivar</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -787,6 +768,28 @@
 @endsection
 
 @section('js')
+    <!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
     <!-- datatables -->
     <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
     <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -805,7 +808,7 @@
                 $('#keys_spinn').hide();
                 $('#process-reactivacion').hide();
                 $('#message_box').hide();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
         });
 
@@ -822,7 +825,7 @@
             $('#message_box').hide();
             $('#txtatm_id').val(atm_id);
             $('#txtDescription').val('');
-            $("#myModal").modal();
+            $("#myModal").modal("show");
         });
 
         $('#txtDescription').on('keyup', function(e) {
@@ -998,6 +1001,12 @@
     </script>
 @endsection
 @section('aditional_css')
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style>
         /* The switch - the box around the slider */
@@ -1061,6 +1070,20 @@
 
         .slider.round:before {
             border-radius: 50%;
+        }
+
+        body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
         }
 
     </style>

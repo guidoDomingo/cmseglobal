@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Grilla de Servicios
@@ -23,7 +23,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Filtrar por marca</h3>
                         <div class="box-tools">
-                            <div class="input-group" style="width:350px;">
+                            <div class="input-group" style="width:400px;">
                                 {!! Form::model(Request::only(['name']),['route' => 'marca.grilla_servicios', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
                                 <input type="hidden" name="atm_id" value="{{ $atm_id }}">
                                 {!! Form::text('name' ,null , ['class' => 'form-control input-sm pull-right', 'placeholder' => 'Filtrar por Marca', 'autocomplete' => 'off' ]) !!}
@@ -86,11 +86,11 @@
                         {{-- <div class="transfer"></div> --}}
                         @foreach($data as $marca)
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="box box-default">
-                                    <div class="box-header with-border" >
-                                        <div data-widget="collapse">
-                                            <i class="fa fa-minus" data-toggle="tooltip" title="Minimizar"></i>
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-minus" data-bs-toggle="tooltip" title="Minimizar"></i>
                                             @if(strstr($marca['imagen'], 'http'))
                                                 <img class="imagen_marcas_servicios" src="{{ $marca['imagen'] }}">
                                             @else
@@ -100,29 +100,26 @@
                                                     <img class="imagen_marcas_servicios" src="{{ url('/resources'.$marca['imagen']) }}">
                                                 @endif
                                             @endif
-                                            <h3 class="box-title"><strong> {{ $marca['name'] }} #{{ $marca['id'] }}</strong></h3>
+                                            <h3 class="card-title ms-2"><strong>{{ $marca['name'] }} #{{ $marca['id'] }}</strong></h3>
                                         </div>
-
                                         @if(\Sentinel::getUser()->hasAccess('marca.quitar_marca_grilla'))
                                             @if(!empty($atm_id))
-                                                <a href=" {{ route('marca.quitar_marca_atm', ['marca_id' => $marca['id'], 'atm_id' => $atm_id]) }} "><i class="fa fa-trash"></i> Quitar marca</a>
+                                                <a href="{{ route('marca.quitar_marca_atm', ['marca_id' => $marca['id'], 'atm_id' => $atm_id]) }}" class="text-danger"><i class="fas fa-trash"></i> Quitar marca</a>
                                             @endif
                                         @endif
-                                        <!-- <div class="box-tools">
-                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Minimizar"><i class="fa fa-minus"></i></button>
-                                        </div> -->
                                     </div>
-                                    <div class="box-body">
+                                    <div class="card-body">
                                         <select multiple="multiple" name="servicios[{{ $marca['id'] }}][]" class="demo2" id="{{ $marca['id'] }}">
                                             @foreach($marca['servicios'] as $servicio)
                                                 <option value="{{ $servicio['id'] }}" @if($servicio['selected']) selected @endif>#{{ $servicio['service_id'] }} {{ $servicio['name'] }} </option>
                                             @endforeach
                                         </select>
-                                        <small><i class="fa fa-info"></i> Puede seleccionar más de un servicio manteniendo pulsado <strong>Ctrl</strong></small>
+                                        <small class="d-block mt-2"><i class="fas fa-info"></i> Puede seleccionar más de un servicio manteniendo pulsado <strong>Ctrl</strong></small>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         @endforeach
                         @if(!empty($atm_id))
                             <input type="hidden" name="atm_id" value="{{ $atm_id }}">
@@ -133,15 +130,15 @@
                         {!! Form::close() !!}
                         @endif
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class="clearfix">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $marcas->total() }} registros en total
                                 </div>
                             </div>
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $marcas->appends(Request::only(['name','atm_id']))->render() !!}
+                            <div class="col-md-12">
+                                <div class="">
+                                    {!! $marcas->appends(Request::only(['name','atm_id']))->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -149,12 +146,12 @@
                 </div>
             </div>
         </div>
-        <div id="marca-adicional" class="modal fade" role="dialog">
+        <div id="marca-adicional" class="modal fade modal-xl" role="dialog">
             <div class="modal-dialog modal-lg">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Marcas Disponibles<label class="idTransaccion"></label></h4>
                     </div>
                     <div class="modal-body">
@@ -200,7 +197,7 @@
                         <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                         <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                         <!--para Cancelar sin hacer nada -->
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
 
@@ -219,9 +216,10 @@
 <script type="text/javascript">
     $(function(){
         var reload_data = false;
-        $('.demo2').bootstrapDualListbox({
-            nonSelectedListLabel: '<i class="fa fa-circle text-danger"></i> Servicios Deshabilitados',
-            selectedListLabel: '<i class="fa fa-circle text-success"></i> Servicios Habilitados',
+        $(document).ready(function() {
+            $('.demo2').bootstrapDualListbox({
+            nonSelectedListLabel: '<i class="fas fa-circle text-danger"></i> Servicios Deshabilitados',
+            selectedListLabel: '<i class="fas fa-circle text-success"></i> Servicios Habilitados',
             preserveSelectionOnMove: 'all',
             filterPlaceHolder: 'Filtre por servicio',
             moveSelectedLabel: 'Mover seleccionado',
@@ -229,12 +227,14 @@
             removeSelectedLabel: 'Quitar seleccionado',
             removeAllLabel: 'Quitar todo',
             infoText: 'Mostrando {0}',
-            infoTextFiltered: '<span class="label label-warning">Filtrado</span> {0} de {1}',
+            infoTextFiltered: '<span class="badge bg-warning">Filtrado</span> {0} de {1}',
             moveOnSelect: false,
             infoTextEmpty: 'Lista vacía',
             helperSelectNamePostfix: '[valores]',
             // nonSelectedFilter: 'ion ([7-9]|[1][0-2])',
             filterTextClear: 'Mostrar todo'
+        });
+
         });
 
         $('.select2').select2();
@@ -310,6 +310,15 @@
 </script>
 @endsection
 @section('aditional_css')
+
+    <!-- Bootstrap 3.3.4 -->
+    <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+
+      <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/icon_font/css/icon_font.css">
     <link rel="stylesheet" href="/css/dual_listbox/jquery.transfer.css">
@@ -393,6 +402,30 @@
             /*border-radius: 8px;*/
         }
 
+        
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
     </style>
+
+    
 
 @endsection

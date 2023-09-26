@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Cobranzas
 @endsection
@@ -20,9 +20,9 @@
             <div class="box-header">
                 <h3 class="box-title">
                 </h3>
-                {{-- <a href="{{ route('arts.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a> --}}
+                {{-- <a href="{{ route('arts.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a> --}}
                 <a class="btn-sm btn-default" href="#" role="button">Atrás</a>
-                <a href="{{ route('cobranzas.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                <a href="{{ route('cobranzas.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 <div class="box-tools">
                     <div class="input-group" style="width:150px;">
                         {{-- {!! Form::model(Request::only(['name']),['route' => 'arts.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
-                            {{-- {!! $arts->appends(Request::only(['name']))->render() !!} --}}
+                            {{-- {!! $arts->appends(Request::only(['name']))->links('paginator') !!} --}}
                         </div>
                     </div>
                 </div>
@@ -56,13 +56,32 @@
     {!! Form::close() !!}
 
 @endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
+@endsection
 @section('js')
 <script type="text/javascript">
     $('.btn-delete').click(function(e){
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de borrar el registro, está seguro?.",
             type: "warning",
@@ -89,9 +108,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo Descuento por Comision
@@ -22,7 +22,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Detalles - Cliente : <label class="group_description"></label></h4>
                         </div>
                         <div class="modal-body">
@@ -86,7 +86,7 @@
                             <button type="buttom" style="display: none" id="process_reversion_ken"
                                 class="btn btn-primary pull-left">Generar Reversion</button>
                             <!--para Cancelar sin hacer nada -->
-                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
         
@@ -198,7 +198,7 @@
                     $("#mensaje_deuda").html('El monto sobrepasa la deuda a debitar');
                     $("#detalles").hide();
                 }
-                $("#myModal").modal();
+                $("#myModal").modal("show");
                 //botones
                 $('.devolucion').hide();
                 $('.reprocesar').hide();
@@ -338,6 +338,20 @@
         .has-spinner.btn-large.active .spinner {
             width: 19px;
         }
+         .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection
 @include('alquiler.partials.modal_group')

@@ -1,13 +1,13 @@
 <div class="form-group">
 @if(isset($wsproviders))
   {!! Form::label('service_provider_id', 'Proveedor') !!}
-  {!! Form::select('service_provider_id',$wsproviders ,null , ['class' => 'form-control object-type','placeholder' => 'Seleccione un Proveedor...']) !!}
+  {!! Form::select('service_provider_id',$wsproviders ,null , ['class' => 'form-control object-typeselect2','placeholder' => 'Seleccione un Proveedor...']) !!}
 @endif
 </div>
 <div class="form-group">
 	@if(isset($app_categories))
 		{!! Form::label('app_categories', 'Categoría') !!}
-		{!! Form::select('app_categories_id',$app_categories ,null , ['class' => 'form-control object-type','placeholder' => 'Seleccione una Categoría ...']) !!}
+		{!! Form::select('app_categories_id',$app_categories ,null , ['class' => 'form-control object-type select','placeholder' => 'Seleccione una Categoría ...']) !!}
 	@endif
 </div>
 <div class="form-group">

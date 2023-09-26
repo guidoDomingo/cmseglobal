@@ -371,8 +371,9 @@ class MarcasController extends Controller
                 $parcial_data['name'] = $servicio->servicio.' ('.$servicio->source.')';
                 $parcial_data['id'] = $servicio->service_id.'|'.$servicio->service_source_id;
                 $parcial_data['service_id'] = $servicio->service_id;
+                //dd($servicio->service_id, $servicios_no_asociados->toArray());
                 if(!empty($atm_id)){
-                    if(!in_array($servicio->service_id, $servicios_no_asociados)){
+                    if(!in_array($servicio->service_id, $servicios_no_asociados->toArray())){
                         $parcial_data['selected'] = (empty($servicio->deleted_at)) ? true:false;
                     }else{
                         $parcial_data['selected'] = false;

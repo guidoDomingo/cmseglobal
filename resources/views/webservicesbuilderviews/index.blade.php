@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Vistas - Flujo de pantallas de servicio
 @endsection
@@ -25,7 +25,7 @@
                     <div class="box-header">
                         <h3 class="box-title">
                         </h3>
-                        <a href="{{ route('wsproducts.wsbuilder.views.create',[$wsproduct_id, $wsscreen_id]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                        <a href="{{ route('wsproducts.wsbuilder.views.create',[$wsproduct_id, $wsscreen_id]) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
 
                     </div>
 
@@ -65,4 +65,23 @@
 @endsection
 @section('page_scripts')
     @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

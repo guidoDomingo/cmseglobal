@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Deposito de Boletas
 @endsection
@@ -20,7 +20,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Detalles - Boleta ID : <label class="idTransaccion"></label></h4>
                     </div>
                     <div class="modal-body">
@@ -98,7 +98,7 @@
                         <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                         <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                         <!--para Cancelar sin hacer nada -->
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
 
@@ -109,7 +109,7 @@
             <div class="box-header">
                 <h3 class="box-title">
                 </h3>
-                <a href="{{ route('depositos_boletas.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                <a href="{{ route('depositos_boletas.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 <div class="box-tools">
                     <div class="input-group" style="width:150px;">
                         {!! Form::model(Request::only(['name']),['route' => 'depositos_boletas.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -213,15 +213,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class="clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $depositoboletas->total() }}
                         registros en total</div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $depositoboletas->appends(Request::only(['id']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $depositoboletas->appends(Request::only(['id']))->links('paginator')  !!}
                         </div>
                     </div>
                 </div>
@@ -240,7 +240,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de migrar el registro, está seguro?.",
             type: "warning",
@@ -265,11 +265,11 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -279,7 +279,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             //text: "Está a punto de eliminar el registro, está seguro?.",
             text: "<p style='text-orientation: center; color: black'>Motivo del Rechazo</p><br><textarea id='text' style='color: black'></textarea>",
@@ -310,9 +310,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });*/
                 var description=document.getElementById('text').value;
                 var url = '/reports/deposito_boletas/delete';
@@ -326,13 +326,13 @@
                     }else{
                         type = "error";
                         title =  "No se pudo realizar la operación"
-                        swal(result.message);
+                        Swal.fire(result.message);
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -354,7 +354,7 @@
             $('#recibo_detail').hide();
             $('#devoluciones').hide();
             $('#reprocesos').hide();
-            $("#myModal").modal();
+            $("#myModal").modal("show");
             //botones
             $('.devolucion').hide();
             $('.reprocesar').hide();
@@ -364,4 +364,31 @@
     });
 </script>
     {{-- @include('partials._delete_row_js') --}}
+@endsection
+
+@section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+         .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

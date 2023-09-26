@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Chat
@@ -170,7 +170,7 @@ $content_text_tables = $data['inputs']['content_text_tables'];
                 console.log('ERROR:', error);
             });
         } else {
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: 'Escribe algo para enviar.',
                     type: 'warning',
@@ -292,4 +292,23 @@ $content_text_tables = $data['inputs']['content_text_tables'];
 
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

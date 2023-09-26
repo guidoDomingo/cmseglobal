@@ -1,6 +1,6 @@
 
 <div class="form-group col-md-6 borderd-info">
-    <div class="title"><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
+    <div class=""><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
     <div class="container-info">
         <div class="form-row">
 
@@ -9,7 +9,7 @@
             <div class="form-group col-md-12">
                 {!! Form::label('ruc', 'RUC/CI:') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-pencil-square-o"></i>
                     </div>
                     {!! Form::text('ruc', $grupo->ruc , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -18,7 +18,7 @@
             <div class="form-group col-md-12">
                 {!! Form::label('group', 'Cliente:') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-pencil-square-o"></i>
                     </div>
                     {!! Form::text('group', $grupo->description , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -27,7 +27,7 @@
             <div class="form-group col-md-12">
                 {!! Form::label('direccion', 'Dirección:') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-pencil-square-o"></i>
                     </div>
                     {!! Form::text('direccion', $grupo->direccion , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -36,7 +36,7 @@
             <div class="form-group col-md-12">
                 {!! Form::label('telefono', 'Teléfono:') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-pencil-square-o"></i>
                     </div>
                     {!! Form::text('telefono', $grupo->telefono , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -47,7 +47,8 @@
                 
                 <div class="panel panel-default">
                     <div class="panel-heading"><b>ATMs asociados</b></div>
-                    <table id="listadoAtms" class="table table-hover table-bordered table-condensed">
+                    <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                         <thead>
                             <tr>
                               <th scope="col">#</th>

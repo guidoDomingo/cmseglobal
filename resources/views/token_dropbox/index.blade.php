@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Gestor de dropbox
 @endsection
@@ -18,7 +18,7 @@ Gestor de dropbox
     <div class="box box-primary">
         @include('partials._flashes')
         <div class="box-header">            
-            {{-- <a href="{{ route('token_dropbox.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a> --}}
+            {{-- <a href="{{ route('token_dropbox.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a> --}}
         </div>
         <div class="box-body">
             <div class="row">
@@ -99,4 +99,23 @@ Gestor de dropbox
         });
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

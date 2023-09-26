@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>Eglobalt S.A </title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('src/assets/img/favicon.ico') }}"/>
@@ -28,6 +30,19 @@
     <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css" />
     <!-- END THEME GLOBAL STYLES -->  
 
+    {{-- PARA AGREGAR SELECT  --}}
+        {{-- <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}"> --}}
+    {{-- FIN DE SELECT  --}}
+
+     <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+
+
     {{-- TEMA ANTIGUA --}}
 
     <!-- Font Awesome -->
@@ -39,8 +54,9 @@
     <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/dist/css/skins/skin-black.min.css') }}"> 
 
     {{-- @include('partials._css') --}}
-
+   
     @yield('aditional_css')
+    @yield('page_styles')
 
     {{-- CUSTOM --}}
     <link href="{{ asset('src/assets/css/dark/custom.css') }}" rel="stylesheet" type="text/css" />
@@ -63,21 +79,29 @@
         }
 
         body.dark #sidebar ul.menu-categories ul.submenu {
-            max-width: 240px;
-            width: 100%;
-            width: 230px;
+            max-width: 300px;
+            width: 260px;
 
         }
 
         body.dark #sidebar ul.menu-categories ul.submenu > li.sub-submenu ul.sub-submenu {
-            max-width: 240px;
+            max-width: 300px;
+            width: 260px;
             padding: 10px 0;
             margin-left: 0px !important;
+            background-color: #191E3A;
         }
 
         .buscador-cms{
             font-size: 15px;
         }
+
+        body{
+            text-decoration: none;
+        }
+
+
+        
 
     </style>
 
@@ -358,7 +382,7 @@
 
                             @if (\Sentinel::getUser()->inRole('superuser'))
 
-                            <li class="active">
+                            <li class="">
                                 <a href="{{ route('analitica') }}"> Analitica </a>
                             </li>
                             <li>
@@ -463,7 +487,7 @@
                             <li class="sub-submenu dropend">
                                 <a href="#ecommerce" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Gestión de Miniterminal <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
                                 <ul class="dropdown-menu list-unstyled sub-submenu" id="ecommerce" data-bs-parent="#apps"> 
-                                     @if (\Sentinel::getUser()->hasAccess('ventas') || \Sentinel::getUser()->hasAccess('pago_clientes') || \Sentinel::getUser()->hasAccess('descuento_comision'))
+                                    @if (\Sentinel::getUser()->hasAccess('ventas') || \Sentinel::getUser()->hasAccess('pago_clientes') || \Sentinel::getUser()->hasAccess('descuento_comision'))
                                         <li @if (Request::is('ventas*, pago_clientes*, recibos_comisiones*')) class="active" @endif>
                                             @if (\Sentinel::getUser()->hasAccess('ventas'))
                                                 <a href="{{ route('venta.index') }}">
@@ -525,8 +549,7 @@
                                     @if (\Sentinel::getUser()->hasAccess('housing'))
                                         <li @if (Request::is('housing*')) class="active" @endif>
                                             <a href="{{ route('brands.index') }}">
-                                                <i class="fa fa-eject" aria-hidden="true"></i><span>Marcas -
-                                                    Modelos</span>
+                                                <i class="fa fa-eject" aria-hidden="true"></i><span>Marcas - Modelos</span>
                                             </a>
                                             <a href="{{ route('miniterminales.index') }}">
                                                 <i class="fa fa-building"></i><span>Housing</span>
@@ -552,155 +575,426 @@
                         <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>USER INTERFACE</span></div>
                     </li>
 
-                    <li class="menu">
-                        <a href="#components" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                                <span>Reportes</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        
-                        <ul class="dropdown-menu submenu list-unstyled" id="components" data-bs-parent="#accordionExample">
-                            <li class="sub-submenu dropend">
-                                <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Transacciones<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
-                                <ul class="dropdown-menu list-unstyled sub-submenu" id="invoice"> 
-                                    <li>
-                                        <a href="{{ route('reports.transactions') }}">Historico Transacciones</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('reports.one_day_transactions') }}">Transacciones del Día</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('reports.batch_transactions') }}">Transacciones Batch</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('reports.payments') }}">Pagos</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('terminals_payments') }}">Pagos por terminal</a>
-                                    </li>
-                                    <li>
-                                        <a href="{{ route('reports.transactions_vuelto') }}">Tickets de devolucion</a>
-                                    </li>
-                                    @if (\Sentinel::getUser()->hasAccess('reporting.vueltos'))
-                                        <li>
-                                            <a href="{{ route('reports.vuelto_entregado') }}">Vueltos entregados</a>
-                                        </li>
-                                        <li class="sub-submenu dropend">
-                                        <a href="#invoice" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Miniterminales<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
-                                            <ul class="dropdown-menu list-unstyled sub-submenu" id="invoice"> 
-                                                @if (\Sentinel::getUser()->hasAccess('reporting.estado_contable'))
-                                                    <li>
-                                                        <a href="{{ route('reporting.estado_contable') }}">Estado Contable</a>
-                                                    </li>
-                                                @endif
-                                                @if (\Sentinel::getUser()->hasAccess('accounting_statement_report'))
+                    @if (\Sentinel::getUser()->hasAccess('reporting'))
+                        <li class="menu">
+                            <a href="#components" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-box"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                                    <span>Reportes</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </div>
+                            </a>
+                            
+                            <ul class="dropdown-menu submenu list-unstyled" id="components" data-bs-parent="#accordionExample">
+                                <li class="sub-submenu dropend">
+                                    <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Transacciones<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                    <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1">
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.transacciones')) 
+                                            <li>
+                                                <a href="{{ route('reports.transactions') }}">Historico Transacciones</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ route('reports.one_day_transactions') }}">Transacciones del Día</a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.transacciones_batch'))
+                                            <li>
+                                                <a href="{{ route('reports.batch_transactions') }}">Transacciones Batch</a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.payments'))
+                                            <li>
+                                                <a href="{{ route('reports.payments') }}">Pagos</a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->inRole('superuser'))
+                                            <li>
+                                                <a href="{{ route('terminals_payments') }}">Pagos por terminal</a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.vueltos'))
+                                            <li>
+                                                <a href="{{ route('reports.transactions_vuelto') }}">Tickets de devolucion</a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.vueltos'))
+                                            <li>
+                                                <a href="{{ route('reports.vuelto_entregado') }}">Vueltos entregados</a>
+                                            </li>
+                                        @endif
+                                    
+                                    </ul>
+                                    
+                                </li>
 
-                                                    <li @if (Request::is('accounting_statement*')) class="active" @endif>
-                                                        <a href="{{ route('accounting_statement') }}">
-                                                            <span style="">Estado Contable Unificado</span>
-                                                        </a>
-                                                    </li>
-                                                    
-                                                @endif
-                                            </ul>
+                                @if (\Sentinel::getUser()->hasAccess('reporting.vueltos'))
+                                            
+                                    <li id="lista_one" class="sub-submenu dropend">
+                                        <a href="#lista2"  data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Miniterminales<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista2"> 
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.estado_contable'))
+                                                <li>
+                                                    <a href="{{ route('reporting.estado_contable') }}">Estado Contable</a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('accounting_statement_report'))
 
+                                                <li @if (Request::is('accounting_statement*')) @endif>
+                                                    <a href="{{ route('accounting_statement') }}">
+                                                        <span style="">Estado Contable Unificado</span>
+                                                    </a>
+                                                </li>
+                                                
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.miniterminales'))
+                                                <li @if (Request::is('reporting/resumen_miniterminales*')) @endif>
+                                                    <a href="{{ route('reporting.resumen_miniterminales') }}">
+                                                        <span style="">Estado Contable por Clientes</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.miniterminales'))
+                                                <li @if (Request::is('reporting/resumen_detallado_miniterminal*')) @endif>
+                                                    <a href="{{ route('reporting.resumen_detallado_miniterminal') }}">
+                                                        <span style="">Estado Contable Detallado</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.comisiones'))
+                                                <li @if (Request::is('reporting/comisiones*')) @endif>
+                                                    <a href="{{ route('reporting.comisiones') }}">
+                                                        <span style="">Comisiones Miniterminales</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.sales'))
+                                                <li @if (Request::is('reporting/sales*'))  @endif>
+                                                    <a href="{{ route('reporting.sales') }}">
+                                                        <span style="">Ventas Miniterminales</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.cobranzas'))
+                                                <li @if (Request::is('reporting/cobranzas*'))  @endif>
+                                                    <a href="{{ route('reporting.cobranzas') }}">
+                                                        <span style="">Cobranzas Miniterminales</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.conciliaciones'))
+                                                <li @if (Request::is('reporting/conciliations'))  @endif>
+                                                    <a href="{{ route('reporting.conciliaciones') }}">
+                                                        <span style="">Conciliaciones Miniterminales</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('reporting.conciliaciones'))
+                                                <li @if (Request::is('reporting/estados_miniterminales')) @endif>
+                                                    <a href="{{ route('reporting.bloqueados') }}">
+                                                        <span style="">Estados Miniterminales</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                                @if (\Sentinel::getUser()->hasAccess('reporting.conciliaciones'))
+                                                <li @if (Request::is('reporting/historial_bloqueos')) @endif>
+                                                    <a href="{{ route('reporting.historial_bloqueos') }}">
+                                                        <span style="">Historial de Bloqueos</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                    </li>
+                                
+                                @endif
+
+                                @if (\Sentinel::getUser()->hasAccess('reporting.negocios'))
+                                    <li class="sub-submenu dropend">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Análisis<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                            <li @if (Request::is('reports/resumen_transacciones*')) @endif>
+                                                <a href="{{ route('reports.resumen_transacciones') }}">
+                                                    <span>Resumen Por ATM</span>
+                                                </a>
+                                            </li>
+                                            <li @if (Request::is('reports/estado_atm*'))  @endif>
+                                                <a href="{{ route('reports.estado_atm') }}">
+                                                    <span>Disponibilidad Por ATM</span>
+                                                </a>
+                                            </li>
+                                            <li @if (Request::is('reports/atm_status_history*'))  @endif>
+                                                <a href="{{ route('reports.atm_status_history') }}">Historial de Estados ATM</span></a>
+                                            </li>
+                                            <li @if (Request::is('reports/transactions_amount*'))  @endif>
+                                                <a href="{{ route('reports.transactions_amount') }}">
+                                                    <span>Transacciones por Mes</span>
+                                                </a>
+                                            </li>
+                                            <li @if (Request::is('reports/transactions_atm*'))  @endif>
+                                                <a href="{{ route('reports.transactions_atm') }}">
+                                                    <span>Transacciones por ATM</span>
+                                                </a>
+                                            </li>
+                                            <li @if (Request::is('reports/denominaciones_amount*'))  @endif>
+                                                <a href="{{ route('reports.denominaciones_amount') }}">
+                                                    <span>Denominaciones Utilizadas</span>
+                                                </a>
+                                            </li>
+                                            <li @if (Request::is('reports/efectividad*'))  @endif>
+                                                <a href="{{ route('reports.efectividad') }}">
+                                                    <span>Efectividad</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                                
+                                    </li>
+                                @endif
+
+                                @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('accounting.admin'))
+                                    @if (\Sentinel::getUser()->hasAccess('commissions_qr_invoices'))
+                                        
+                                        <li @if (Request::is('comisionFactura')) @endif>
+                                            <a href="{{ route('comisionFactura') }}">
+                                                <span>Comisiones Qr Venta</span>
+                                            </a>
                                         </li>
+                                        
                                     @endif
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="./component-notifications.html"> Notifications </a>
-                            </li>
-                            <li>
-                                <a href="./component-media-object.html"> Media Object </a>
-                            </li>
-                            <li>
-                                <a href="./component-list-group.html"> List Group </a>
-                            </li>
-                            <li>
-                                <a href="./component-pricing-table.html"> Pricing Tables </a>
-                            </li>
-                            <li>
-                                <a href="./component-lightbox.html"> Lightbox </a>
-                            </li>
-                            <li>
-                                <a href="./component-drag-drop.html"> Drag and Drop </a>
-                            </li>
-                            <li>
-                                <a href="./component-fonticons.html"> Font Icons </a>
-                            </li>
-                            <li>
-                                <a href="./component-flags.html"> Flag Icons </a>
-                            </li>
-                        </ul>
-                    </li>
+                                @endif
+                                
+                                <li class="sub-submenu dropend">
+                                    <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed">Operaciones Técnicas<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                    <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.arqueos'))
+                                        <li @if (Request::is('reports/arqueos*'))  @endif>
+                                            <a href="{{ route('reports.arqueos') }}">
+                                                <span>Arqueos</span>
+                                            </a>
+                                        </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.cargas'))
+                                            <li @if (Request::is('reports/cargas*'))  @endif>
+                                                <a href="{{ route('reports.cargas') }}">
+                                                    <span>Cargas</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('reporting.dispositivos'))
+                                            <li @if (Request::is('reports/dispositivos*'))  @endif>
+                                                <a href="{{ route('reports.dispositivos') }}">
+                                                    <span>Dispositivos</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                        @if(\Sentinel::getUser()->hasAccess('depositos_arqueos'))
+                                        <li @if(Request::is('depositos_arqueos*')) @endif>
+                                            <a href="{{ route('depositos_arqueos.index') }}">
+                                                <span>Dépositos de Arqueos</span>
+                                            </a>
+                                        </li>
+                                        @endif
+                                    </ul>
+                                            
+                                </li>
+                                
+                                @if (\Sentinel::getUser()->hasAccess('reporting.transacciones'))
+                                    <!--cambiar el acceso -->
+                                    <li @if (Request::is('reports/installations/*'))  @endif>
+                                        <a href="{{ route('reports.installations') }}">
+                                            <span>Instalaciones APP-Billetaje</span>
+                                        </a>
+                                    </li>
+                                @endif
 
+                                @if (\Sentinel::getUser()->hasAccess('reporting.contracts_atms'))
+                                    <li @if (Request::is('reports/contracts/*'))  @endif>
+                                        <a href="{{ route('reports.contracts') }}">
+                                            <span>Contratos Miniterminales</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                
+                            </ul>
+                        </li>
+                    @endif
                     <li class="menu">
                         <a href="#elements" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
                             <div class="">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-zap"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                                <span>Elements</span>
+                                <span>Usuarios y Terminales</span>
                             </div>
                             <div>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
                             </div>
                         </a>
                         <ul class="dropdown-menu submenu list-unstyled" id="elements" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./element-alerts.html"> Alerts </a>
+                            @if (\Sentinel::getUser()->hasAccess('atms_per_users_management'))
+                                <li class="{{ Request::is('atms_per_users_management*') ? 'active' : '' }}">
+                                    <a href="{{ route('atms_per_users_management') }}"><i
+                                        class="fa fa-user"></i><span>Gestión de Usuarios</span></a>
+                                </li>
+                            @endif
+                            @if (\Sentinel::getUser()->hasAccess('atms_per_users'))
+                                <li class="{{ Request::is('atms_per_users') ? 'active' : '' }}">
+                                    <a href="{{ route('atms_per_users') }}"><i
+                                    class="fa fa-cubes"></i><span>Terminales por Usuario</span></a>
+                                </li>
+                            @endif
+
+                            <li class="sub-submenu dropend ">
+                                <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                    class="fa fa-cubes"></i>Atms<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                   @if (\Sentinel::getUser()->hasAccess('atms'))
+                                        <li @if (Request::is('atm', 'atm/*') && !Request::is('atm/gooddeals')) class="active" @endif>
+                                            <a href="{{ route('atm_index') }}"><i class="fa fa-server"></i> <span>ATMs</span></a>
+                                        </li>
+                                    @endif
+
+                                    @if (\Sentinel::getUser()->hasAccess('atms_parts'))
+                                        <li @if (Request::is('atms_parts', 'atms_parts/*')) class="active" @endif>
+                                            <a href="{{ route('atms_parts') }}"><i class="fa fa-server"></i> <span>Partes de ATMs</span></a>
+                                        </li>
+                                    @endif
+                                </ul>
+                                
                             </li>
-                            <li>
-                                <a href="./element-avatar.html"> Avatar </a>
-                            </li>
-                            <li>
-                                <a href="./element-badges.html"> Badges </a>
-                            </li>
-                            <li>
-                                <a href="./element-breadcrumbs.html"> Breadcrumbs </a>
-                            </li>                            
-                            <li>
-                                <a href="./element-buttons.html"> Buttons </a>
-                            </li>
-                            <li>
-                                <a href="./element-buttons-group.html"> Button Groups </a>
-                            </li>
-                            <li>
-                                <a href="./element-color-library.html"> Color Library </a>
-                            </li>
-                            <li>
-                                <a href="./element-dropdown.html"> Dropdown </a>
-                            </li>
-                            <li>
-                                <a href="./element-infobox.html"> Infobox </a>
-                            </li>
-                            <li>
-                                <a href="./element-loader.html"> Loader </a>
-                            </li>
-                            <li>
-                                <a href="./element-pagination.html"> Pagination </a>
-                            </li>
-                            <li>
-                                <a href="./element-popovers.html"> Popovers </a>
-                            </li>
-                            <li>
-                                <a href="./element-progressbar.html"> Progress Bar </a>
-                            </li>
-                            <li>
-                                <a href="./element-search.html"> Search </a>
-                            </li>
-                            <li>
-                                <a href="./element-tooltips.html"> Tooltips </a>
-                            </li>
-                            <li>
-                                <a href="./element-treeview.html"> Treeview </a>
-                            </li>
-                            <li>
-                                <a href="./element-typography.html"> Typography </a>
-                            </li>
+
+                            @if (\Sentinel::getUser()->hasAccess('atms_v2'))
+                                <li class="sub-submenu dropend ">
+                                    <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                        class="fa fa-cubes"></i>Gestor de terminales<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                    <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                        <li @if(Request::is('atmnew','atmnew/*','atm/new/*')) class="active" @endif>
+                                            <a href="{{ route('atmnew.index') }}">
+                                                <i class="fa fa-server"></i> 
+                                                <span>ABM miniterminales</span>
+                                            </a>
+                                        </li>
+                                        @if (\Sentinel::getUser()->hasAccess('insurances_form'))
+                                            <li @if(Request::is('insurances*')) class="active" @endif>
+                                                <a href="{{ route('insurances.index') }}">
+                                                    <i class="fa fa-file-powerpoint-o"></i> 
+                                                    <span>Gestor de Pólizas</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                    
+                                </li>
+                            
+
+                                @if ( \Sentinel::getUser()->hasAnyAccess(['gestor_contratos','gestor_contratos.reports','reporting.contracts_atms']))
+
+                                    <li class="sub-submenu dropend ">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                            class="fa fa-cubes"></i>Gestión | Legales<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                            @if (\Sentinel::getUser()->hasAccess('gestor_contratos'))
+                                            <li @if(Request::is('contracts*')) class="active" @endif>
+                                                <a href="{{ route('contracts.index') }}">
+                                                    <i class="fa fa-file-text-o"></i> 
+                                                    <span>Contratos</span>
+                                                </a>
+                                            </li>
+                                            @endif
+
+                                            @if (\Sentinel::getUser()->hasAccess('gestor_contratos.reports'))
+                                            <li @if(Request::is('reporte/contrato*')) class="active" @endif>
+                                                <a href="{{ route('reports.contratos') }}">
+                                                    <i class="fa fa-file-text-o"></i> 
+                                                    <span>Reporte | Contratos</span>
+                                                </a>
+                                            </li>
+                                            @endif
+                                        </ul>
+                                        
+                                    </li>
+
+                                @endif
+
+                                @if ( \Sentinel::getUser()->hasAnyAccess(['reports_dms','caracteristicas_clientes','categorias*','canales*','altas.bancos']))
+
+                                    <li class="sub-submenu dropend ">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                            class="fa fa-cubes"></i>Clientes<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                                @if (\Sentinel::getUser()->hasAccess('reports_dms'))
+                                                    <li @if(Request::is('reports/dms','reports/dms/*')) class="active" @endif>
+                                                        <a href="{{ route('reports.dms') }}">
+                                                            <i class="fa fa-file-excel-o" aria-hidden="true"></i> 
+                                                            <span>Reporte de Clientes</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (\Sentinel::getUser()->hasAccess('caracteristicas_clientes'))
+                                                    <li @if(Request::is('caracteristicas*','caracteristicas/clientes','caracteristicas/clientes/*')) class="active" @endif>
+                                                        <a href="{{ route('caracteristicas.clientes') }}">
+                                                            <i class="fa fa-cog"></i> 
+                                                            <span>Caracteristicas Clientes</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (\Sentinel::getUser()->hasAccess('canales'))
+                                                    <li @if(Request::is('canales*')) class="active" @endif>
+                                                        <a href="{{ route('canales.index') }}">
+                                                            <i class="fa fa-bullhorn"></i> 
+                                                            <span>Canales de venta</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if (\Sentinel::getUser()->hasAccess('categorias'))
+                                                    <li @if(Request::is('categorias*','categorias/*')) class="active" @endif>
+                                                        <a href="{{ route('categorias.index') }}">
+                                                            <i class="fa fa-bars"></i> 
+                                                            <span>Categorias</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if (\Sentinel::getUser()->hasAccess('bancos'))
+                                                    <li @if(Request::is('bancos*','bancos/*')) class="active" @endif>
+                                                        <a href="{{ route('bancos.index') }}">
+                                                            <i class="fa fa-university"></i> 
+                                                            <span>Bancos</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                        </ul>
+                                        
+                                    </li>
+
+                                @endif
+
+
+                                @if (\Sentinel::getUser()->hasAccess('bajas'))
+                                    <li @if(Request::is('atm/new/baja','retiro_dispositivos*','notarescision*','pagares*','notaretiro*')) class="active" @endif>
+                                        <a href="{{ route('atms.baja') }}">
+                                            <i class="fa fa-power-off"></i> 
+                                            <span>Baja de miniterminales</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            @endif
+
+                            @if (\Sentinel::getUser()->hasAccess('owner'))
+                                <li @if (Request::is('owner', 'owner/*')) class="active" @endif>
+                                    <a href="{{ route('owner.index') }}"><i class="fa fa-sitemap"></i> <span>Redes /
+                                            Sucursales</span></a>
+                                </li>
+                            @endif
+
+                            @if (\Sentinel::getUser()->hasAccess('minis_cashout_devolucion_vuelto'))
+                                <li @if (Request::is('minis.cashout.devolucion.vuelto/*')) class="active" @endif>
+                                    <a href="{{ route('reports.mini_retiro') }}">
+                                        <i class="fa fa-money"></i><span>Retiro de Dinero</span>
+                                    </a>
+                                </li>
+                            @endif
+                           
                         </ul>
                     </li>
 
@@ -708,116 +1002,187 @@
                         <div class="heading"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-minus"><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>TABLES AND FORMS</span></div>
                     </li>
 
-                    <li class="menu">
-                        <a href="#tables" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                                <span>Tables</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu submenu list-unstyled" id="tables" data-bs-parent="#accordionExample">
+                    @if (\Sentinel::getUser()->hasAccess('pos') || \Sentinel::getUser()->hasAccess('vouchers') || \Sentinel::getUser()->hasAccess('providers') || \Sentinel::getUser()->hasAccess('products') || \Sentinel::getUser()->hasAccess('outcomes') || \Sentinel::getUser()->hasAccess('reversiones_bancard'))
+                    
+                        <li class="menu">
+                            <a href="#tables" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-layers"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                    <span>Contabilidad</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu submenu list-unstyled" id="tables" data-bs-parent="#accordionExample">
 
-                            <li>
-                                <a href="./table-basic.html"> Tables </a>
-                            </li>
+                                @if (\Sentinel::getUser()->hasAccess('pos'))
+                                <li @if (Request::is('pos*', 'pointsofsale*')) class="active" @endif>
+                                    <a href="{{ route('pos.index') }}">
+                                        <i class="fa fa-desktop"></i><span>Puntos de Venta</span>
+                                    </a>
+                                </li>
+                                @endif
+                                @if (\Sentinel::getUser()->hasAccess('vouchers'))
+                                    <li @if (Request::is('vouchers*')) class="active" @endif>
+                                        <a href="{{ route('vouchers.index') }}">
+                                            <i class="fa fa-list-alt"></i><span>Tipos de Comprobante</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (\Sentinel::getUser()->hasAccess('providers'))
+                                    <li @if (Request::is('providers*')) class="active" @endif>
+                                        <a href="{{ route('providers.index') }}">
+                                            <i class="fa fa-truck"></i><span>Proveedores</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (\Sentinel::getUser()->hasAccess('products'))
+                                    <li @if (Request::is('products*')) class="active" @endif>
+                                        <a href="{{ route('products.index') }}">
+                                            <i class="fa fa-shopping-cart"></i><span>Productos</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (\Sentinel::getUser()->hasAccess('outcomes'))
+                                    <li @if (Request::is('outcome*')) class="active" @endif>
+                                        <a href="{{ route('outcome.index') }}">
+                                            <i class="fa fa-shopping-cart"></i><span>Entidades Externas</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if(\Sentinel::getUser()->hasAccess('reversiones_bancard'))
+                                    <li @if(Request::is('reversiones*')) class="active" @endif>
+                                        <a href="{{ route('reversiones.index') }}">
+                                            <i class="fa fa-undo"></i><span>Reversiones Bancard</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                
+                            </ul>
+                        </li>
 
-                            <li class="sub-submenu dropend">
-                                <a href="#datatable" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"> Datatable <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
-                                <ul class="dropdown-menu list-unstyled sub-submenu" id="datatable" data-bs-parent="#tables"> 
-                                    <li>
-                                        <a href="./table-datatable-basic.html"> Basic </a>
-                                    </li>
-                                    <li>
-                                        <a href="./table-datatable-striped-table.html"> Striped </a>
-                                    </li>
-                                    <li>
-                                        <a href="./table-datatable-custom.html"> Custom </a>
-                                    </li>
-                                    <li>
-                                        <a href="./table-datatable-miscellaneous.html"> Miscellaneous </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            
-                        </ul>
-                    </li>
+                    @endif
 
-                    <li class="menu">
-                        <a href="#forms" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
-                            <div class="">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
-                                <span>Forms</span>
-                            </div>
-                            <div>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                            </div>
-                        </a>
-                        <ul class="dropdown-menu submenu list-unstyled" id="forms" data-bs-parent="#accordionExample">
-                            <li>
-                                <a href="./form-bootstrap-basic.html"> Basic </a>
-                            </li>
-                            <li>
-                                <a href="./form-input-group-basic.html"> Input Group </a>
-                            </li>
-                            <li>
-                                <a href="./form-layouts.html"> Layouts </a>
-                            </li>
-                            <li>
-                                <a href="./form-validation.html"> Validation </a>
-                            </li>
-                            <li>
-                                <a href="./form-input-mask.html"> Input Mask </a>
-                            </li>
-                            <li>
-                                <a href="./form-tom-select.html"> Tom Select </a>
-                            </li>
-                            <li>
-                                <a href="./form-tagify.html"> Tagify </a>
-                            </li>
-                            <li>
-                                <a href="./form-bootstrap-touchspin.html"> TouchSpin </a>
-                            </li>
-                            <li>
-                                <a href="./form-maxlength.html"> Maxlength </a>
-                            </li>                          
-                            <li>
-                                <a href="./form-checkbox.html"> Checkbox </a>
-                            </li>
-                            <li>
-                                <a href="./form-radio.html"> Radio </a>
-                            </li>
-                            <li>
-                                <a href="./form-switches.html"> Switches </a>
-                            </li>
-                            <li>
-                                <a href="./form-wizard.html"> Wizards </a>
-                            </li>
-                            <li>
-                                <a href="./form-fileupload.html"> File Upload </a>
-                            </li>
-                            <li>
-                                <a href="./form-quill.html"> Quill Editor </a>
-                            </li>
-                            <li>
-                                <a href="./form-markdown.html"> Markdown Editor </a>
-                            </li>
-                            <li>
-                                <a href="./form-date-time-picker.html"> Date Time Picker </a>
-                            </li>
-                            <li>
-                                <a href="./form-slider.html"> Slider </a>
-                            </li>
-                            <li>
-                                <a href="./form-clipboard.html"> Clipboard </a>
-                            </li>
-                            <li>
-                                <a href="./form-autoComplete.html"> Auto Complete </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if (\Sentinel::getUser()->hasAccess('applications'))
+                        <li class="menu">
+                            <a href="#forms" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
+                                <div class="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clipboard"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect></svg>
+                                    <span>Aplicaciones</span>
+                                </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                                </div>
+                            </a>
+                            <ul class="dropdown-menu submenu list-unstyled" id="forms" data-bs-parent="#accordionExample">
+                                <li @if (Request::is('applications', 'applications/*', 'screens', 'screens/*')) class="active" @endif><a
+                                    href="{{ route('applications.index') }}"><i class="fa fa-cube"></i>
+                                    <span>Gestor de Aplicaciones</span></a>
+                                </li>
+                                <li @if (Request::is('app_updates', 'app_updates/*')) class="active" @endif><a
+                                        href="{{ route('app_updates.index') }}"><i class="fa fa-cube"></i>
+                                        <span>Gestor de actualizaciones</span></a>
+                                </li>
+                                <li @if (Request::is('token_dropbox', 'token_dropbox/*')) class="active" @endif><a
+                                    href="{{url('token_dropbox/-1/edit')}}"><i class="fa fa-qrcode"></i>
+                                    <span>Gestor de Token/Dropbox</span></a>
+                                </li>
+
+                                @if (\Sentinel::getUser()->hasAnyAccess(['webservices', 'webservices.providers', 'webservices.providers.add|edit', 'webservices.providers.delete', 'atms.update_gooddeal', 'marcas', 'servicio_marca', 'marca.grilla', 'marca.consolidar', 'marca.order']))
+                                    <li class="sub-submenu dropend ">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                            class="fa fa-cubes"></i>Servicios Web<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                            
+                                             @if (\Sentinel::getUser()->hasAccess('webservices.providers'))
+                                                <li @if (Request::is('wsproviders*')) class="active" @endif>
+                                                    <a href="{{ route('wsproviders.index') }}"><i class="fa fa-cube"></i>
+                                                        <span>Proveedores</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('webservices.products'))
+                                                <li @if (Request::is('wsproducts*')) class="active" @endif>
+                                                    <a href="{{ route('wsproducts.index') }}"><i class="fa fa-cube"></i>
+                                                        <span>Productos/Operaciones</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('webservices'))
+                                                <li @if (Request::is('webservices*')) class="active" @endif>
+                                                    <a href="{{ route('webservices.index') }}"><i class="fa fa-cube"></i> <span>Web
+                                                            Services</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('atms.update_gooddeal'))
+                                                <li @if (Request::is('atm/gooddeals')) class="active" @endif>
+                                                    <a href="{{ route('gooddeals.update') }}"><i class="fa fa-cube"></i> <span>Act.
+                                                            Promociones</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('marca'))
+                                                <li @if (Request::is('marca*') && !Request::is('marca/consolidar', 'marca/order', 'marca/grilla_servicios')) class="active" @endif>
+                                                    <a href="{{ route('marca.index') }}"><i class="fa fa-cube"></i>
+                                                        <span>Marcas</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('servicio_marca'))
+                                                <li @if (Request::is('servicios_marca*')) class="active" @endif>
+                                                    <a href="{{ route('servicios_marca.index') }}"><i class="fa fa-cube"></i>
+                                                        <span>Servicios Por Marca</span></a>
+                                                </li>
+                                            @endif
+                                            @if (\Sentinel::getUser()->hasAccess('marca.grilla'))
+                                                <li @if (Request::is('marca/grilla_servicios')) class="active" @endif>
+                                                    <a href="{{ route('marca.grilla_servicios') }}"><i class="fa fa-cube"></i>
+                                                        <span>Grilla de Servicios</span></a>
+                                                </li>
+                                            @endif
+                                            {{--@if (\Sentinel::getUser()->hasAccess('marca.consolidar'))
+                                                <li @if (Request::is('marca/consolidar')) class="active" @endif>
+                                                    <a href="{{ route('marca.consolidar') }}"><i class="fa fa-cube"></i> <span>Consolidar
+                                                            Marcas</span></a>
+                                                </li>
+                                            @endif--}}
+                                            @if (\Sentinel::getUser()->hasAccess('marca.order'))
+                                                <li @if (Request::is('marca/order')) class="active" @endif>
+                                                    <a href="{{ route('marca.order') }}"><i class="fa fa-cube"></i> <span>Ordenar
+                                                            Marcas</span></a>
+                                                </li>
+                                            @endif
+                                            
+                                        </ul>
+                                        
+                                    </li>
+                                @endif
+
+                                <li class="sub-submenu dropend ">
+                                    <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                        class="fa fa-cubes"></i>Reglas<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                    <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                        @if (\Sentinel::getUser()->hasAccess('params_rules'))
+                                            <li @if (Request::is('params_rules*')) class="active" @endif">
+                                                <a href="{{ route('params_rules.index') }}"><i
+                                                        class="fa fa-edit"></i></i><span>Parámetros</span></a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('services_rules'))
+                                            <li @if (Request::is('services_rules*')) class="active" @endif>
+                                                <a href="{{ route('services_rules.index') }}"><i
+                                                        class="fa fa-object-group"></i></i><span>Reglas de Servicios</span></a>
+                                            </li>
+                                        @endif
+                                        @if (\Sentinel::getUser()->hasAccess('references_rules'))
+                                            <li @if (Request::is('references*')) class="active" @endif>
+                                                <a href="{{ route('references.index') }}"><i
+                                                        class="fa fa-phone"></i></i><span>Referencias</span></a>
+                                            </li>
+                                        @endif
+                                    </ul>
+                                    
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
 
                     <li class="menu">
                         <a href="#pages" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle">
@@ -1053,6 +1418,8 @@
     </div>
     <!-- END MAIN CONTAINER -->
 
+   
+
 
     <!-- BEGIN GLOBAL MANDATORY SCRIPTS -->
     <script src="{{ asset('src/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -1062,14 +1429,49 @@
     <script src="{{ asset('layouts/horizontal-dark-menu/app.js') }}"></script>
     <!-- END GLOBAL MANDATORY SCRIPTS -->
 
+    
     <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script>
 
     <!-- END PAGE LEVEL SCRIPTS -->
 
+     {{-- AGREGAR SELECT  --}}
+    {{-- <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        $( document ).ready(function() {
+            document.addEventListener('DOMContentLoaded', function() {
+                var selects = document.querySelectorAll('.select2');
+                
+                selects.forEach(function(selectElement) {
+                    new TomSelect(selectElement, {
+                        create: true,
+                        sortField: {
+                            field: "text",
+                            direction: "asc"
+                        }
+                    });
+                });
+            });
+        });
+
+    </script> --}}
+    {{-- FIN SELECT  --}}
+
+    
+
+    {{-- GENERALES  --}}
+
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
+
+    {{-- FIN DE GENERALES --}}
+    
     {{-- @include('partials._js')  --}}
 
     <!-- jQuery 2.1.4 -->
-    {{-- <script src="{{ public_path('js/jquery.js') }}"></script> --}}
+    <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ "/bower_components/admin-lte/plugins/jQuery/jQuery-2.1.4.min.js" }}"></script>
     {{-- <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script> --}}
     <script src="/js/jquery-ui.js"></script>
@@ -1102,6 +1504,11 @@
             $('#back-to-top').tooltip('show');
         });
         var token="{{csrf_token()}}";
+
+
+
+
+
     </script>
     <!--<script src="/notifications/notifications.js"></script>-->
 
@@ -1115,136 +1522,10 @@
 
     <div id="user-permisos" data-permisos="{{ json_encode($user_permisos->permissions) }}"></div>
 
+    @yield('page_scripts')
     @yield('js')
 
-    
-
-    <script>
-        // script.js
-       // Obtén el elemento HTML con los datos de permisos
-        const userPermisosElement = document.getElementById('user-permisos');
-
-        // Accede a los datos de permisos almacenados en el atributo data-permisos
-        const userPermisos = JSON.parse(userPermisosElement.getAttribute('data-permisos'));
-        const userPermisosArray = Object.keys(userPermisos);
-
-        const searchInput = document.getElementById('searchInput');
-        const menuList = document.getElementById('menuList');
-        const menuItems = [
-            {
-                name: 'Dashboard',
-                link: '{{ route('home') }}',
-                requiredPermission: ['departamentoss','monitoreo']
-            },
-            {
-                name: 'Analitica',
-                link: '{{ route('analitica') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Usuarios',
-                link: '{{ route('users.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Roles',
-                link: '{{ route('roles.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Roles Reporte',
-                link: '{{ route('roles_report') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Permisos',
-                link: '{{ route('permissions.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Usuarios Bahia',
-                link: '{{ route('usuarios_bahia.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Departamentos',
-                link: '{{ route('departamentos.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Ciudades',
-                link: '{{ route('ciudades.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Barrios',
-                link: '{{ route('barrios.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Configurar Alertas',
-                link: '{{ route('notifications_params.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Parametros de Comisiones',
-                link: '{{ route('parametros_comisiones.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            {
-                name: 'Grupos',
-                link: '{{ route('groups.index') }}',
-                requiredPermission: ['monitoreo']
-            },
-            // Agrega más elementos del menú aquí
-        ];
-
-        // Filtrar el array de objetos en base a los permisos del usuario
-        const filteredMenuItems = menuItems.filter(item => {
-            return item.requiredPermission.some(permission => userPermisosArray.includes(permission));
-        });
-
-        searchInput.addEventListener('input', () => {
-
-            clearList(menuList);
-
-            const searchTerm = searchInput.value.toLowerCase();
-            const search = searchInput.value.trim();
-            console.log(search);
-            // Filtrar los elementos del menú
-            const filteredItems = filteredMenuItems.filter(item => item.name.toLowerCase().includes(searchTerm));
-
-            // Limpiar la lista de resultados antes de cada búsqueda
-
-
-            if (search == "" || filteredItems.length === 0) {
-                menuList.style.display = "none";
-                clearList(menuList);
-                return
-            }
-            // Crear elementos de lista y enlaces para los elementos filtrad
-
-            menuList.style.display = "block";
-
-            filteredItems.forEach(filteredItem => {
-                const a = document.createElement('a');
-                a.href = filteredItem.link;
-                a.textContent = filteredItem.name;
-                a.classList.add('list-group-item', 'list-group-item-action','buscador-cms');
-                menuList.appendChild(a);
-            });
-
-        });
-
-
-        // Función para borrar todos los elementos de la lista
-        function clearList(myDiv) {
-            while (myDiv.firstChild) {
-                myDiv.removeChild(myDiv.firstChild);
-            }
-        }
-
-    </script>
+    @include('menuItems')
 
     <livewire:scripts />
 

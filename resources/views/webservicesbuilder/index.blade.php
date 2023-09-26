@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Vistas - Flujo de pantallas de servicio
 @endsection
@@ -70,4 +70,23 @@
 @endsection
 @section('page_scripts')
     @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

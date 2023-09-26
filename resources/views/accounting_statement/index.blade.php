@@ -5,9 +5,41 @@ Estado Contable Unificado - Reporte
 @endsection
 
 @section("aditional_css")
+
+    
+    <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+
+    <!-- Bootstrap 3.3.4 -->
+    
+    {{-- <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}"> --}}
+
+<!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
     <style>
         #content{
             width: 100% !important;
+        }
+
+        body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
         }
     </style>
 @endsection
@@ -73,8 +105,8 @@ $totals_list = $data['totals'];
         }
     </style>
 
-{{-- 
-    <div class="box-default" style="border-radius: 5px; margin-bottom: 2000px; color: #285f6c;" id="div_load">
+
+    <div class="box-default d-none" style="border-radius: 5px; margin-bottom: 2000px; color: #285f6c;" id="div_load_1">
         <div class="box-header with-border">
             <h3 class="box-title" style="font-size: 25px;">Cargando...
             </h3>
@@ -88,7 +120,13 @@ $totals_list = $data['totals'];
                 </div>
             </div>
         </div>
-    </div> --}}
+    </div>
+
+    <!-- BEGIN LOADER -->
+    {{-- <div id="load_screen"> <div class="loader"> <div class="loader-content">
+        <div class="spinner-grow align-self-center"></div>
+    </div></div></div> --}}
+    <!--  END LOADER -->
 
     <div class="" style="border-radius: 5px;" id="content">
         <div class="box-header with-border">
@@ -120,24 +158,29 @@ $totals_list = $data['totals'];
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="amount">Buscar por Fecha y Hora</label>
+                                    <div class="mb-3">
+                                        <label for="amount" class="form-label">Buscar por Fecha y Hora</label>
                                         <div class="input-group" style="border: 1px solid #285f6c;">
 
-                                            <div class="input-group-addon" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
+                                            <span class="input-group-text" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
                                                 <i class="fa fa-calendar fa-2x"></i>
-                                            </div>
+                                            </span>
 
-                                            <input type="text" class="form-control" id="timestamp" name="timestamp" placeholder="Seleccionar fecha." style="display:block; height: 50px; border: 0 !important; font-size: 15px; font-weight: bold; text-align: center; margin-bottom: 5px;"></input>
-
-                                            <br />
-                                            <div style="padding: 5px; text-align: center; margin-top: 5px">
-                                                Resumen al dia de hoy &nbsp; <input type="checkbox" id="summary_to_date" name="summary_to_date"></input> &nbsp;
-                                                Resumen al cierre &nbsp; <input type="checkbox" id="summary_closing" name="summary_closing"></input>
-                                            </div>
+                                            <input type="text" class="form-control" id="timestamp" name="timestamp" placeholder="Seleccionar fecha." style="display:block; height: 50px; border: 0 !important; font-size: 15px; font-weight: bold; text-align: center;"></input>
 
                                         </div>
+                                        <div class="mt-3 text-center">
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="summary_to_date" name="summary_to_date">
+                                                <label class="form-check-label" for="summary_to_date">Resumen al día de hoy</label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="checkbox" id="summary_closing" name="summary_closing">
+                                                <label class="form-check-label" for="summary_closing">Resumen al cierre</label>
+                                            </div>
+                                        </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -190,7 +233,7 @@ $totals_list = $data['totals'];
             </div>
 
             @if(count($records) > 0)
-            <div class="box box-default" style="border: 1px solid #d2d6de;" id="div_summary_of_totals">
+            <div class="box-default" style="border: 1px solid #d2d6de;" id="div_summary_of_totals">
                 <div class="box-header with-border">
                     <h3 class="box-title">Resumen:</h3>
                 </div>
@@ -232,7 +275,7 @@ $totals_list = $data['totals'];
                         ?>
 
                         <div class="col-md-4" style="display: {{ $key_display }}">
-                            <div class="box box-default" style="border: 1px solid #d2d6de; text-align: center;">
+                            <div class="box-default" style="border: 1px solid #d2d6de; text-align: center;">
                                 <div class="box-body">
                                     <span class="info-box-text">{{ $key }}</span>
 
@@ -259,7 +302,7 @@ $totals_list = $data['totals'];
             <div class="row">
                 <div class="col-md-12">
 
-                    <div class="box box-default" style="border: 1px solid #d2d6de;" id="div_summary_of_totals">
+                    <div class="box-default" style="border: 1px solid #d2d6de;" id="div_summary_of_totals">
                         <div class="box-header with-border" style="text-align: center">
                             <h3 class="box-title">Mostrar - Ocultar columnas del detalle / Filtrar filas del detalle</h3>
                         </div>
@@ -267,7 +310,8 @@ $totals_list = $data['totals'];
 
                             <div class="row">
                                 <div class="col-md-8">
-                                    <table class="table table-bordered dataTable" role="grid">
+                                    <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                         <thead style="background-color: #285f6c; border: 1px solid #285f6c; color: white;">
                                             <tr>
                                                 <th style="width: 100px;">Mostrar Columnas</th>
@@ -358,7 +402,8 @@ $totals_list = $data['totals'];
 
                                 <div class="col-md-4">
 
-                                    <table class="table table-bordered dataTable" role="grid">
+                                    <table id="zero-config-1" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                         <thead style="background-color: #285f6c; border: 1px solid #285f6c; color: white; text-align: right;">
                                             <tr>
                                                 <th>Total por Deudas</th>
@@ -398,7 +443,8 @@ $totals_list = $data['totals'];
                                         </tbody>
                                     </table>
 
-                                    <table class="table table-bordered dataTable" role="grid">
+                                    <table id="zero-config-2" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                         <thead style="background-color: #285f6c; border: 1px solid #285f6c; color: white; text-align: right;">
                                             <tr>
                                                 <th>Total por Estados</th>
@@ -462,12 +508,16 @@ $totals_list = $data['totals'];
 
             @if(count($records) > 0)
 
-            <div class="box box-default" style="border: 1px solid #d2d6de;" id="div_datatable_1">
-                <div class="box-body" style="overflow-x: scroll;">
-                    <table class="table table-bordered table-hover table-responsive" role="grid" id="datatable_1">
-                        <thead style="background-color: #285f6c; border: 1px solid #285f6c; color: white;" id="datatable_1_thead"></thead>
-                        <tbody id="datatable_1_tbody"></tbody>
-                    </table>
+            <div class="box-body  no-padding">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <table id="zero-config-3" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
+
+            
+                            <thead style="background-color: #285f6c; border: 1px solid #285f6c; color: white;" id="datatable_1_thead"></thead>
+                            <tbody id="datatable_1_tbody"></tbody>
+                        </table>
                 </div>
             </div>
 
@@ -477,7 +527,7 @@ $totals_list = $data['totals'];
     </div>
 
     <!-- Modal  -->
-    <div id="modal_atm_block_type_change" class="modal fade in" role="dialog" data-backdrop="static" data-keyboard="false" href="#" style="display: block; padding-right: 17px; display: none" aria-hidden="false">
+    <div id="modal_atm_block_type_change" class="modal fade in modal-xl" role="dialog" data-backdrop="static" data-keyboard="false" href="#" style="display: block; padding-right: 17px; display: none" aria-hidden="false">
         <div class="modal-dialog" role="document" style="background: white; border-radius: 5px; width: 500px;">
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
@@ -528,7 +578,7 @@ $totals_list = $data['totals'];
                                     <i class="fa fa-save"></i> Guardar
                                 </button>
 
-                                <button class="btn btn-danger" title="Cerrar ventana" data-dismiss="modal"><i class="fa fa-times"></i>
+                                <button class="btn btn-danger" title="Cerrar ventana" data-bs-dismiss="modal"><i class="fa fa-times"></i>
                                     Cerrar</button>
                             </div>
                         </div>
@@ -541,11 +591,73 @@ $totals_list = $data['totals'];
 </section>
 @endsection
 
-@section('page_scripts')
+
 @include('partials._selectize')
-@endsection
+
 
 @section('js')
+
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
+
+<!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+
+         $('#zero-config-1').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+         $('#zero-config-2').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+        
+    </script>
+
+ <!-- DATA TABLE - FIN -->
+
+
 <!-- datatables -->
 <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
 <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -559,7 +671,7 @@ $totals_list = $data['totals'];
 <!-- bootstrap datepicker -->
 <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-<!-- select2 -->
+<!--select2 -->
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -626,13 +738,8 @@ $totals_list = $data['totals'];
         if (button_name == 'search') {
 
             $('#label_load').html('Cargando...');
-            $('#content').css('display', 'none');
-
-            $('#div_load').css({
-                'display': 'block',
-                'margin-bottom': '2000px',
-                'color': 'black'
-            });
+            console.log("entra en el search");
+            $('#div_load_1').removeClass("d-none").css("display", "block");
         }
 
         $('#form_search').append(input);
@@ -652,7 +759,7 @@ $totals_list = $data['totals'];
 
             $('.sweet-alert button.cancel').css('background', '#dd4b39');
 
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: 'El block-type de cada terminal de este grupo será modificado, Continuar?',
                     type: 'warning',
@@ -709,7 +816,7 @@ $totals_list = $data['totals'];
 
                             }
 
-                            swal({
+                            Swal.fire({
                                     title: message,
                                     text: text,
                                     type: type,
@@ -735,7 +842,7 @@ $totals_list = $data['totals'];
                 }
             );
         } else {
-            swal('Agregar un comentario!');
+            Swal.fire('Agregar un comentario!');
         }
 
     }
@@ -784,7 +891,7 @@ $totals_list = $data['totals'];
         } else {
             status = (status == '') ? 'Total' : status;
 
-            swal({
+            Swal.fire({
                     title: status + ': \n 0 TRANSACCIONES',
                     text: '0 Gs. en total \n Representa el 0% \n \n Obs: Los filtros de búsquedas \n delimitan los resultados.',
                     type: 'info',
@@ -1248,7 +1355,28 @@ $totals_list = $data['totals'];
                     .append($('<td style="display: none" class="datatable_totales">').append(totales_html))
                 );
 
+               
+
+
             }
+
+                
+                $('#zero-config-3').DataTable({
+                    "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+                    "<'table-responsive'tr>" +
+                    "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+                    "oLanguage": {
+                        "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                        "sInfo": "Showing page _PAGE_ of _PAGES_",
+                        "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                        "sSearchPlaceholder": "Search...",
+                    "sLengthMenu": "Results :  _MENU_",
+                    },
+                    "stripeClasses": [],
+                    "lengthMenu": [7, 10, 20, 50],
+                    "pageLength": 10
+                });
+      
 
             //-----------------------------------------------------------------------------------------------
 
@@ -2053,7 +2181,7 @@ $totals_list = $data['totals'];
 
                 $('#block_type_id').selectize()[0].selectize.setValue(null, false);
                 $('#commentary').val(null);
-                $("#modal_atm_block_type_change").modal();
+                $("#modal_atm_block_type_change").modal("show");
 
             });
 
@@ -2546,5 +2674,7 @@ $totals_list = $data['totals'];
         });*/
 
     });
+
+    
 </script>
 @endsection

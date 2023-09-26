@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Modelos
 @endsection
@@ -21,7 +21,7 @@ Modelos
     <div class="box-header">
       <h3 class="box-title">
       </h3>
-      <a href="{{ route('model.brand.create',['model' => $brandId]) }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+      <a href="{{ route('model.brand.create',['model' => $brandId]) }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
       <a href="{{ route('brands.index') }}" class="btn-sm btn-default active" role="button">Volver</a><p>
       <div class="box-tools">
         <div class="input-group" style="width:150px;">
@@ -71,14 +71,14 @@ Modelos
     </div>
   </div>
 </div>
-<div class="box-footer clearfix">
+<div class="clearfix">
  <div class="row">
    <div class="col-sm-5">
     <div class="dataTables_info" role="status" aria-live="polite">{{ $modelos->total() }} registros en total</div>
   </div>
-  <div class="col-sm-7">
-    <div class="dataTables_paginate paging_simple_numbers">
-      {!! $modelos->appends(Request::only(['name']))->render() !!}
+  <div class="col-sm-12">
+    <div class="">
+      {!! $modelos->appends(Request::only(['name']))->links('paginator') !!}
     </div>
   </div>
 </div>
@@ -94,4 +94,31 @@ Modelos
 @endsection
 @section('page_scripts')
 @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

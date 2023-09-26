@@ -1,14 +1,14 @@
-<div class="form-row">
+<div class="row d-flex">
     <div class="form-group col-md-6 borderd-campaing">
-        <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; RETIRO DE DISPOSITIVO &nbsp;</h4></div>
+        <div class=""><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; RETIRO DE DISPOSITIVO &nbsp;</h4></div>
         <div class="container-campaing">
 
-            <div class="form-row">
+            <div class="row">
             
                 <div class="form-group col-md-6">
                     {!! Form::label('numero', 'Número interno:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
                         {!! Form::text('numero', $numero , ['class' => 'form-control', 'placeholder' => 'Ingrese el numero interno.' , 'readonly' => 'readonly']) !!}
@@ -18,7 +18,7 @@
                 <div class="form-group col-md-6">
                     {!! Form::label('fecha', 'Fecha:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-calendar"></i>
                         </div>
                         {!! Form::text('fecha', null , ['class' => 'form-control', 'data-inputmask-alias' =>'date', 'data-inputmask-inputformat'=> 'dd/mm/yyyy', 'im-insert' => 'false','placeholder'=> 'dd/mm/yyyy', 'id' =>'fecha' ]) !!}
@@ -29,7 +29,7 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('encargado', 'Encargado del retiro:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
                         {!! Form::text('encargado', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el encargado.' ]) !!}
@@ -39,7 +39,7 @@
                 <div class="form-group col-md-12">
                     {!! Form::label('firma', 'Quien firmo:') !!}
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-pencil-square-o"></i>
                         </div>
                         {!! Form::text('firma', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el firma.' ]) !!}
@@ -71,7 +71,7 @@
                     <div class="form-group">
                         {!! Form::label('comentario', 'Comentario:') !!}
                         <div class="input-group">
-                            <div class="input-group-addon">
+                            <div class="input-group-text">
                                 <i class="fa fa-comments"></i>
                             </div>
                             <textarea rows="10" cols="30" class="form-control" id="comentario" name="comentario" placeholder="Agregar un comentario" value=""></textarea>
@@ -86,9 +86,11 @@
                 {{-- {!! Form::hidden('atm_id', $atm_id) !!} --}}
             </div>
     </div>
+    
     @include('atm_baja.info')
+   
 
-</div>      
+</div>    
 
 <div class="clearfix"></div>
 @include('partials._date_picker')

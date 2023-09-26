@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Mapas - Ubicación de ATMs - Reporte
@@ -206,7 +206,7 @@
     <link rel="stylesheet" href="/css/ol-ext/ol-ext.css" />
     <script type="text/javascript" src="/js/ol-ext/ol-ext.js"></script>
 
-    <!-- select2 -->
+    <!--select2 -->
     <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -324,7 +324,7 @@
             $('#promotions_branch_id').trigger('change');
 
             //var newOption = new Option(data.text, data.id, false, false);
-            //$('#mySelect2').append(newOption).trigger('change');
+            //$('#myselect2').append(newOption).trigger('change');
             //$('#promotions_branch_id').selectize();
             //$("#promotions_branch_id")[0].selectize.clear();
             //$('#promotions_branch_id').selectize(selective_config)[0].selectize.clear();
@@ -845,7 +845,7 @@
                     // code block
             }
 
-            console.log('COMBO SELECCIONADO EN select2:', id);
+            console.log('COMBO SELECCIONADO ENselect2:', id);
 
             //console.log('Selecting: ' , e.params.args.data);
             //console.log('e: ' , e.currentTarget.id);
@@ -975,4 +975,23 @@
         });
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

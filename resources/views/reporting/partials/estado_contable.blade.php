@@ -300,16 +300,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class=" clearfix">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $transactions->total() }} registros en total</div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $transactions->appends(['reservationtime' => $reservationtime, 'atm_id' => $atm_id])->render() !!}
+                            <div class="col-sm-12">
+                                <div class=" ">
+                                    {!! $transactions->appends(['reservationtime' => $reservationtime, 'atm_id' => $atm_id])->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -326,7 +326,7 @@
             <!-- Modal content-->
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <div class="modal-title" style="font-size: 20px;">
                         Ayuda e información &nbsp; <small> <b> </b> </small>
                     </div>
@@ -449,7 +449,7 @@
                     <div style="float:right">
                         <div class="btn-group mr-2" role="group">
                             <button class="btn btn-danger pull-right" title="Cerrar ayuda e información."
-                                style="margin-right: 10px" data-dismiss="modal">
+                                style="margin-right: 10px" data-bs-dismiss="modal">
                                 <span class="fa fa-remove" aria-hidden="true"></span>
                                 &nbsp; Cerrar ayuda
                             </button>
@@ -612,6 +612,8 @@
     
 @endsection
 @section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
              <!--  BEGIN CUSTOM STYLE FILE  -->
     <link href="{{ asset('src/plugins/css/light/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('src/plugins/css/dark/loaders/custom-loader.css') }}" rel="stylesheet" type="text/css" />
@@ -710,6 +712,13 @@
             background-color: #060818 !important;
             border: 1px solid #444;
        }
+
+       .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
 
     </style>
 @endsection

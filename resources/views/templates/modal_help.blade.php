@@ -34,7 +34,7 @@
         <!-- Modal content-->
         <div class="modal-content" style="border-radius: 10px">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <div class="modal-title" style="font-size: 20px;">
                     Ayuda e información &nbsp; <small> <b> </b> </small>
                 </div>
@@ -302,7 +302,7 @@
                 <div style="float:right">
                     <div class="btn-group mr-2" role="group">
                         <button class="btn btn-danger pull-right" title="Cerrar ayuda e información."
-                            style="margin-right: 10px" data-dismiss="modal">
+                            style="margin-right: 10px" data-bs-dismiss="modal">
                             <span class="fa fa-remove" aria-hidden="true"></span>
                             &nbsp; Cerrar ayuda
                         </button>

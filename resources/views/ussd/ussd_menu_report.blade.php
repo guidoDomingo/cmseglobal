@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     USSD - Menú - Reporte
@@ -202,7 +202,7 @@
     <!-- bootstrap datepicker -->
     <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-    <!-- select2 -->
+    <!--select2 -->
     <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 
     <!-- Iniciar objetos -->
@@ -210,3 +210,23 @@
 
     </script>
 @endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
+@endsection
+

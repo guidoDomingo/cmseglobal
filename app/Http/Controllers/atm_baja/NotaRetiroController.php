@@ -47,6 +47,7 @@ class NotaRetiroController extends Controller
         ->get();
 
         $atm_ids = array();
+        $id = null;
         foreach($atms as $item){
             $id = $item->atm_id;
             array_push($atm_ids, $id);
@@ -60,7 +61,8 @@ class NotaRetiroController extends Controller
         ->get();
         //dd($retiros);
 
-        return view('atm_baja.notas_retiros.index', compact('atmId','atm','grupo','retiros','atm_ids'));
+        return view('atm_baja.notas_retiros.index', compact('id','atms','grupo','retiros','atm_ids'));
+       
     }
 
     public function create(Request $request)

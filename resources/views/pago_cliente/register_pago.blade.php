@@ -20,7 +20,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Detalles - Cliente : <label class="group_description"></label></h4>
                         </div>
                         <div class="modal-body">
@@ -67,7 +67,7 @@
                             <button type="buttom" style="display: none" id="process_reversion_ken"
                                 class="btn btn-primary pull-left">Generar Reversion</button>
                             <!--para Cancelar sin hacer nada -->
-                            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
         
@@ -136,15 +136,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class=" clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $pagos->total() }}
                         registros en total</div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $pagos->appends(Request::only(['id']))->render() !!}
+                    <div class="col-md-12">
+                        <div class=" ">
+                            {!! $pagos->appends(Request::only(['id']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -156,7 +156,7 @@
 @endsection
 @section('js')
 
-<!-- select2 -->
+<!--select2 -->
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -167,7 +167,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de ingresar el pago, está seguro?.",
             type: "warning",
@@ -192,11 +192,11 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -206,7 +206,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de eliminar el registro, está seguro?.",
             html: true,
@@ -231,13 +231,13 @@
                     }else{
                         type = "error";
                         title =  "No se pudo realizar la operación"
-                        swal(result.message);
+                        Swal.fire(result.message);
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -275,7 +275,7 @@
             });
                
             ///
-            $("#myModal").modal();
+            $("#myModal").modal("show");
             //botones
             $('.devolucion').hide();
             $('.reprocesar').hide();
@@ -290,4 +290,31 @@
 
 </script>
     {{-- @include('partials._delete_row_js') --}}
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

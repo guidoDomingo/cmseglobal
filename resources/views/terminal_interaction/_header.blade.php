@@ -19,7 +19,7 @@
     <script type="text/javascript">
         /*$(document).ready(function() {
             $("#logout").click(function() {
-                swal({
+                Swal.fire({
                         title: 'Atención',
                         text: '¿Salir y cerrar sesión?.',
                         type: 'warning',

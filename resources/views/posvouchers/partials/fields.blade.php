@@ -27,7 +27,7 @@
 <div class="form-group">
 {!! Form::label('valid_from', 'Válido desde:') !!}
 <div class="input-group">
-<div class="input-group-addon">
+<div class="input-group-text">
 <i class="fa fa-calendar"></i>
 </div>
 {!! Form::text('valid_from', null , ['class' => 'form-control datepicker', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}
@@ -35,7 +35,7 @@
 </div>
 {!! Form::label('valid_until', 'Válido hasta:') !!}
 <div class="input-group">
-<div class="input-group-addon">
+<div class="input-group-text">
 <i class="fa fa-calendar"></i>
 </div>
 {!! Form::text('valid_until', null , ['class' => 'form-control  datepicker', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}

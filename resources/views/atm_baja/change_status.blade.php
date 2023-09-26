@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Cambio de estado 
@@ -84,7 +84,7 @@
                                                     <div class="form-group col-md-6">
                                                         {!! Form::label('ruc', 'RUC/CI:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('ruc', $grupo->ruc , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -93,7 +93,7 @@
                                                     <div class="form-group col-md-6">
                                                         {!! Form::label('group', 'Cliente:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('group', $grupo->description , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -102,7 +102,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('direccion', 'Dirección:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('direccion', $grupo->direccion , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -111,7 +111,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('telefono', 'Teléfono:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('telefono', $grupo->telefono , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -240,7 +240,7 @@
 
 @if (session('actualizar') == 'ok')
     <script>
-        swal({
+        Swal.fire({
                 type: 'success',
                 title: 'El registro ha sido actualizado existosamente.',
                 showConfirmButton: false,
@@ -251,7 +251,7 @@
 
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar inactivar el ATM.',
             showConfirmButton: false,
@@ -435,5 +435,20 @@
         .container-info {
             margin-top: 20px;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

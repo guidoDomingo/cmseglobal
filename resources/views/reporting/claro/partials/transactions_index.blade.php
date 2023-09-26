@@ -179,13 +179,13 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="dataTables_paginate paging_simple_numbers">
+                            <div class=" ">
 
                                 {!! $transactions->appends(
                                 ['group_id' => $group_id, 'owner_id' => $owner_id, 'type' => $type_set,
                                 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id,
                                 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id
-                                ])->render() !!}
+                                ])->links('paginator') !!}
 
                             </div>
                         </div>
@@ -213,7 +213,8 @@
                 <div class="box-body" style="overflow: scroll">
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                                 <thead>
                                     <tr>
                                         <th style="max-width:50px;">ID</th>
@@ -337,6 +338,28 @@
 </section>
 
 @section('js')
+<!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
 <!-- InputMask -->
 <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.js"></script>
 <script src="/bower_components/admin-lte/plugins/input-mask/jquery.inputmask.date.extensions.js"></script>
@@ -431,7 +454,7 @@
         $('#run_reprocesar').hide();
 
         $('#li_tab_1 > a').trigger('click');
-        $("#myModal").modal();
+        $("#myModal").modal("show");
 
     });
                                                            
@@ -554,6 +577,15 @@
 </script>
 @endsection
 @section('aditional_css')
+<!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+<link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 <style type="text/css">
     @media print {
@@ -577,6 +609,14 @@
             padding: 0;
             left: 0;
             top: 0;
+        }
+    }
+
+     .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
         }
 </style>
 @endsection

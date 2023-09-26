@@ -407,7 +407,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 {{-- <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $transactions->appends(['type' => $type_set, 'group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->render() !!}
+                                    {!! $transactions->appends(['type' => $type_set, 'group_id' => $group_id, 'owner_id' => $owner_id, 'branch_id' => $branch_id, 'pos_id' => $pos_id, 'status_id' => $status_set, 'service_id' => $service_id, 'reservationtime' => $reservationtime, 'service_request_id' => $service_request_id])->links('paginator') !!}
                                 </div> --}}
 
                                 {{ $transactions->appends([

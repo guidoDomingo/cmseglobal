@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Tipos de Egresos
 @endsection
@@ -21,7 +21,7 @@
             <div class="box-header">
                 <h3 class="box-title">
                 </h3>
-                <a href="{{ route('outcome.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                <a href="{{ route('outcome.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 <div class="box-tools">
                     <div class="input-group" style="width:150px;">
 
@@ -65,16 +65,16 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class=" clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         {{--<div class="dataTables_info" role="status" aria-live="polite">{{ $outcomes->total() }}--}}
                             {{--registros en total--}}
                         {{--</div>--}}
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $outcomes->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $outcomes->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -90,4 +90,32 @@
 @endsection
 @section('page_scripts')
     @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+
+    </style>
 @endsection

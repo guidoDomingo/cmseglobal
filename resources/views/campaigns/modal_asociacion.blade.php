@@ -4,7 +4,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                 <h3 class="modal-title"><i class="fa fa-map" aria-hidden="true"></i>&nbsp; Alcance de la campaña </h3>
             </div>
             <div class="box box-primary">
@@ -228,7 +228,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary has-spinner" id="btnAsociar">Asociar</button>
                 </div>
                 {!! Form::close() !!}
@@ -249,7 +249,7 @@
 
 @section('page_scripts')
     {{-- <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script> --}}
-         <!-- select2 -->
+         <!--select2 -->
          <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
          <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
      

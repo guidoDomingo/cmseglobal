@@ -96,7 +96,7 @@ if (isset($data['error_detail'])) {
 <!-- Iniciar objetos -->
 <script type="text/javascript">
     @if($mode == 'alert')
-    swal({
+    Swal.fire({
             title: "{{ $title }}",
             text: "{{ $explanation }}",
             type: "{{ $type }}",

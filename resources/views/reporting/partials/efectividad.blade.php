@@ -1,11 +1,11 @@
 <section class="content">
     <!--  Modal Status detalle -->
-    <div id="modalStatus" class="modal fade" role="dialog" style="overflow: scroll">
+    <div id="modalStatus" class="modal fade modal-xl" role="dialog" style="overflow: scroll">
         <div class="modal-dialog modal-lg">
             <!-- Modal content-->
             <div class="modal-content" >
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Estados de las transacciones: {{ $services_data[$service_id] }}<label class="labelRed"></label></h4>
                 </div>
                 <div class="modal-body" style="overflow:scroll;width:100%;overflow:auto">
@@ -44,7 +44,7 @@
                         <h3 class="modal-title">Total<h3 class="modal-title" id="modal-footer"></h3><label class="labelRed"></label></h3>
                     </tr>
 
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
@@ -54,7 +54,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-12">
-            <div class="box box-default">
+            <div class=" box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -86,9 +86,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                 </div>
@@ -138,69 +136,7 @@
         </div>
     @endif
 </section>
-<link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
-<style>
-    #chartdiv {
-      width : 100%;
-      height    : 500px;
-    }
-   
-   /* #legenddiv {
-        width: 100px;
-        height: 200px;
-        border: 1px solid rgb(206, 46, 46);
-        margin: 1em 0;
-        float: center;
 
-        } */
-
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        }
-
-        #chartdiv {
-        width: 100%;
-        height: 500px;
-        font-size: 11px;
-        border: 1px solid #eee;
-        float: left;
-        }
-
-        #legend {
-        width: 200px;
-        height: 450px;
-        border: 1px solid #eee;
-        margin-left: 10px;
-        float: left;
-        }
-
-        #legend .legend-item {
-        margin: 10px;
-        font-size: 15px;
-        font-weight: bold;
-        cursor: pointer;
-        }
-
-        #legend .legend-item .legend-value {
-        font-size: 12px;
-        font-weight: normal;
-        margin-left: 22px;
-        }
-
-        #legend .legend-item .legend-marker {
-        display: inline-block;
-        width: 12px;
-        height: 12px;
-        border: 1px solid #ccc;
-        margin-right: 10px;
-        }
-
-        #legend .legend-item.disabled .legend-marker {
-        opacity: 0.5;
-        background: #ddd;
-        }
-        
-</style>
 @section('js')
     <!-- InputMask -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -354,7 +290,7 @@
                 }
             });
 
-            $(document).on('select2:clear select2:unselect','#serviceId',function(e){
+            $(document).on('select2:clearselect2:unselect','#serviceId',function(e){
                 $("#serviceId").trigger("select2:select");
                 if (!e.params.originalEvent) {
                     return
@@ -363,7 +299,7 @@
                 e.params.originalEvent.stopPropagation();
             });
 
-            $(document).on('select2:clear select2:unselect','#servicioRequestId',function(e){
+            $(document).on('select2:clearselect2:unselect','#servicioRequestId',function(e){
                 if (!e.params.originalEvent) {
                     return
                 }
@@ -415,7 +351,7 @@
             //         //$("#status_description").hide();
             //         //$("#payment_details").hide();
             //         //$("#detalles").show();
-            //         $("#statusInfoDetails").modal();
+            //         $("#statusInfoDetails").modal("show");
             //     });
             // });
 
@@ -427,7 +363,7 @@
                 $("#status_description").html(status_description);
                 $("#status_description").show();
                 $("#detalles").hide();
-                $("#myModal").modal();
+                $("#myModal").modal("show");
             });
 
 
@@ -644,6 +580,73 @@
     </script>    
 @endsection
 @section('aditional_css')
+    <link type="text/css" href="/dashboard/plugins/amcharts/plugins/export/export.css" rel="stylesheet">
+    <style>
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+        }
+        #chartdiv {
+        width : 100%;
+        height    : 500px;
+        }
+    
+    /* #legenddiv {
+            width: 100px;
+            height: 200px;
+            border: 1px solid rgb(206, 46, 46);
+            margin: 1em 0;
+            float: center;
+
+            } */
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            }
+
+            #chartdiv {
+            width: 100%;
+            height: 500px;
+            font-size: 11px;
+            border: 1px solid #eee;
+            float: left;
+            }
+
+            #legend {
+            width: 200px;
+            height: 450px;
+            border: 1px solid #eee;
+            margin-left: 10px;
+            float: left;
+            }
+
+            #legend .legend-item {
+            margin: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            }
+
+            #legend .legend-item .legend-value {
+            font-size: 12px;
+            font-weight: normal;
+            margin-left: 22px;
+            }
+
+            #legend .legend-item .legend-marker {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            }
+
+            #legend .legend-item.disabled .legend-marker {
+            opacity: 0.5;
+            background: #ddd;
+            }
+            
+    </style>
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
         .select2-selection--multiple{

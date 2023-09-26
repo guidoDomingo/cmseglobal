@@ -76,15 +76,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class="clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $alquileres->total() }} registros en total
                         </div>
                     </div>
-                    <div class="col-sm-7">
+                    <div class="col-md-12">
                         <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $alquileres->appends(Request::only(['id']))->render() !!}
+                            {!! $alquileres->appends(Request::only(['id']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -100,12 +100,16 @@
 @endsection
 
 @section('js')
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
     <script type="text/javascript">
         $("#export").click(function() {
             if ($('#json').val() !== null && $('#json').val() !== '') {
                 $('#form_export').submit();
             } else {
-                swal({
+                Swal.fire({
                     title: 'Atención',
                     text: 'La lista no tiene registros para exportar.',
                     type: 'warning',
@@ -118,4 +122,36 @@
             }
         });
     </script>
+@endsection
+
+@section('aditional_css')
+     <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

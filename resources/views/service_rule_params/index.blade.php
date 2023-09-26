@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Cashout
@@ -247,7 +247,7 @@
                 var status = data.status;
                 var message = data.message;
 
-                swal({
+                Swal.fire({
                         title: 'Atención',
                         text: message,
                         type: status,
@@ -272,4 +272,23 @@
 
         $("#amount_1").focus();
     </script>
+@endsection
+
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

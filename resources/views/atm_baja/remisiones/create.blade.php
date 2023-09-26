@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Remisión de Pagaré
@@ -30,9 +30,9 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'remisiones.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoRemision-form']) !!}
                             @include('atm_baja.remisiones.partials.fields')
-                            <div class="form-row">
-                                <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/remision') }}" role="button">Cancelar</a>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
+                             <div class="col-md-12">
+                                    <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/remision') }}" role="button">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         {!! Form::close() !!}
                     </div>
@@ -270,5 +270,20 @@
         .container-info {
             margin-top: 20px;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Agregar Housing
@@ -18,7 +18,7 @@ Agregar Housing
 <section class="content">
 <div class="row">
 	<div class="col-md-12">
-		<div class="box box-primary">
+		<div class="box-primary">
 		<div class="box-header with-border">
 	      <h3 class="box-title">Nuevo Housing para el ATM</h3>
 	    </div>
@@ -26,7 +26,7 @@ Agregar Housing
 			@include('partials._messages')
 			{!! Form::open(['route' => ['atm.housing.store', $atm_id, $housing_id] , 'method' => 'POST', 'role' => 'form']) !!}
 			@include('atm.partials.fields_housing')
-			<button type="submit" class="btn btn-primary">Guardar</button>
+			<button type="submit" class="mt-3 btn btn-primary">Guardar</button>
 			{!! Form::close() !!}
 	    </div>
 		</div>

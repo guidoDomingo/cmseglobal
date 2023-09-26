@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo ATM v2
@@ -16,6 +16,7 @@
         </ol>
     </section>
     <section class="content">
+         
         {{-- step headers --}}
         <div class="row">
             <div class="col-md-12">
@@ -58,128 +59,129 @@
        
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary setup-content" id="step-1">
+                <div class="box-primary setup-content" id="step-1">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
                     <div class="box-header with-border" style="text-align: center">
                         <h3 class="box-title">ÁREA COMERCIAL</h3>
                     </div>
-                    <div class="box-body">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_1" data-toggle="tab">ATM</a></li>
-                                <li><a href="#tab_2" data-toggle="tab">PUNTOS DE VENTAS</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_comercial') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
-                                    <div class="tab-pane active" id="tab_1">
-                                        <div class="box-body">
-                                            @if (session('info'))
-                                                <div class="alert alert-success">
-                                                    {{ session('info') }}
-                                                </div>
-                                            @endif
-                                            @include('partials._messages')
-                                            {!! Form::open(['route' => 'atmnew.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoAtm-form']) !!}
-                                                @include('atmnew.partials.step_fields_1')
-                                                {!! Form::hidden('abm','v2') !!}
-                                            <a class="btn btn-default cancelar" href="{{ route('atmnew.index') }}" role="button">Cancelar</a>
-                                            <button type="submit" class="btn btn-primary btnNext">Siguiente</button>
-                                            {!! Form::close() !!}
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane" id="tab_2">
-                                        <div class="box-body">
-                                            @include('partials._messages')
-                                            {!! Form::open(['route' => 'pos.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoPos-form']) !!}
-                                                @include('pos.partials.step_fields_2')
-                                                {!! Form::hidden('abm','v2') !!}
-                                        </div>
-                                        <div class="box-footer">
-                                            <a class="btn btn-default atras btnPrevious" href="#step-1" role="button">Atras</a>
-                                            <button type="submit" class="btn btn-primary btnNext" id="btnGuardarPos">Guardar</button>
-                                        </div>
-                                        {!! Form::close() !!}
-                                    </div>
-                                @else
-                                    <div class="box-header with-border" style="text-align: center">
-                                        <h2>Acceso no autorizado</h2>
-                                    </div>
-                                    <div class="box-footer">
-                                        <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
+                    <div class="p-3">
+                    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" id="tab1-tab" data-bs-toggle="tab" href="#tab_1" role="tab" aria-controls="tab_1" aria-selected="true">ATM</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="tab2-tab" data-bs-toggle="tab" href="#tab_2" role="tab" aria-controls="tab_2" aria-selected="false">PUNTOS DE VENTAS</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="myTabsContent">
+                        @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_comercial') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
+                            <div class="tab-pane fade show active" id="tab_1" role="tabpanel" aria-labelledby="tab1-tab">
+                                @if (session('info'))
+                                    <div class="alert alert-success">
+                                        {{ session('info') }}
                                     </div>
                                 @endif
+                                @include('partials._messages')
+                                {!! Form::open(['route' => 'atmnew.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoAtm-form']) !!}
+                                    @include('atmnew.partials.step_fields_1')
+                                    {!! Form::hidden('abm','v2') !!}
+                                <a class="btn btn-default" href="{{ route('atmnew.index') }}" role="button">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Siguiente</button>
+                                {!! Form::close() !!}
                             </div>
+                            <div class="tab-pane fade" id="tab_2" role="tabpanel" aria-labelledby="tab2-tab">
+                                @include('partials._messages')
+                                {!! Form::open(['route' => 'pos.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoPos-form']) !!}
+                                    @include('pos.partials.step_fields_2')
+                                    {!! Form::hidden('abm','v2') !!}
+                                <div class="mt-3">
+                                    <a class="btn btn-default" href="#step-1" role="button">Atras</a>
+                                    <button type="submit" class="btn btn-primary" id="btnGuardarPos">Guardar</button>
+                                </div>
+                                {!! Form::close() !!}
+                            </div>
+                        @else
+                            <div class="text-center">
+                                <h2>Acceso no autorizado</h2>
+                            </div>
+                            <div class="mt-3">
+                                <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
+                            </div>
+                        @endif
+                    </div>
+                </div>
+
+                </div>
+                <div class="setup-content " id="step-2" style="background-color: #191E3A">
+                    <div class="position-relative">
+                        <i class="fa fa-refresh fa-spin position-absolute top-50 start-50 translate-middle"></i>
+                    </div>
+                    <div class="d-flex justify-content-center border-bottom py-2">
+                        <h3>ÁREA LEGALES</h3>
+                    </div>
+                    <div class="p-3">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="contratos-tab" data-bs-toggle="tab" href="#tab_3" role="tab">CONTRATOS</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" id="polizas-tab" data-bs-toggle="tab" href="#tab_4" role="tab">PÓLIZAS</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_legales') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
+                                <div class="tab-pane fade show active" id="tab_3" role="tabpanel">
+                                    <div class="p-3">
+                                        @include('partials._messages')
+                                        {!! Form::open(['route' => 'contracts.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoContrato-form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
+                                            @include('contratos.partials.fields')
+                                            {!! Form::hidden('abm','v2') !!}
+                                    </div>
+                                    <div class="d-flex justify-content-between p-3 border-top">
+                                        <a class="btn btn-default atras" href="#step-1" role="button">Atras</a>
+                                        <button type="submit" class="btn btn-primary btnNext">Siguiente</button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                                <div class="tab-pane fade" id="tab_4" role="tabpanel">
+                                    <div class="p-3">
+                                        @include('partials._messages')
+                                        {!! Form::open(['route' => 'insurances.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaPoliza-form']) !!}
+                                            @include('polizas.partials.fields')
+                                            {!! Form::hidden('abm','v2') !!}
+                                    </div>
+                                    <div class="d-flex justify-content-between p-3 border-top">
+                                        <a class="btn btn-default atras" href="#tab_3" role="button">Atras</a>
+                                        <button type="submit" class="btn btn-primary btnNext" id="btnGuardarPoliza">Guardar</button>
+                                        {{-- <button class="btn btn-warning" id="btnOmitirPoliza">Omitir</button> --}}
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            @else
+                                <div class="d-flex justify-content-center border-bottom py-2">
+                                    <h2>Acceso no autorizado</h2>
+                                </div>
+                                <div class="d-flex justify-content-center p-3 border-top">
+                                    <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div class="box box-primary setup-content" id="step-2">
+  
+                <div class="setup-content" id="step-3" style="background-color: #191E3A">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
-                    <div class="box-header with-border" style="text-align: center">
-                        <h3 class="box-title">ÁREA LEGALES</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_3" data-toggle="tab">CONTRATOS</a></li>
-                                <li><a href="#tab_4" data-toggle="tab">PÓLIZAS</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_legales') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
-                                    <div class="tab-pane active" id="tab_3">
-                                        <div class="box-body">
-                                            @include('partials._messages')
-                                            {!! Form::open(['route' => 'contracts.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoContrato-form', 'files' => true, 'enctype' => 'multipart/form-data']) !!}
-                                                @include('contratos.partials.fields')
-                                                {!! Form::hidden('abm','v2') !!}
-                                        </div>
-                                        <div class="box-footer">
-                                            <a class="btn btn-default atras" href="#step-1" role="button">Atras</a>
-                                            <button type="submit" class="btn btn-primary btnNext">Siguiente</button>
-                                        </div>
-                                        {!! Form::close() !!}
-                                    </div>
-                                    <div class="tab-pane" id="tab_4">
-                                        <div class="box-body">
-                                            @include('partials._messages')
-                                            {!! Form::open(['route' => 'insurances.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaPoliza-form']) !!}
-                                                @include('polizas.partials.fields')
-                                                {!! Form::hidden('abm','v2') !!}
-
-                                        </div>
-                                        <div class="box-footer">
-                                            <a class="btn btn-default atras" href="#tab_3" role="button">Atras</a>
-                                            <button type="submit" class="btn btn-primary btnNext" id="btnGuardarPoliza">Guardar</button>
-                                            {{-- <button class="btn btn-warning" id="btnOmitirPoliza">Omitir</button> --}}
-                                        </div>
-                                        {!! Form::close() !!}
-                                    </div>
-                                @else
-                                    <div class="box-header with-border" style="text-align: center">
-                                        <h2>Acceso no autorizado</h2>
-                                    </div>
-                                    <div class="box-footer">
-                                        <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>   
-                <div class="box box-primary setup-content" id="step-3">
-                    <div class="overlay">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
-                    <div class="box-header with-border" style="text-align: center">
+                    <div class="box-header with-border text-center">
                         <h3 class="box-title">ÁREA DE SISTEMAS - ANTELL</h3>
                     </div>
-                    <div class="box-body">
-                        <div class="nav-tabs-custom">
+                    <div class="box-body " >
+                        <div class="nav-tabs-custom" style="background-color: #191E3A">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_5" data-toggle="tab">CREDENCIALES ONDANET</a></li>
+                                <li class="active"><a href="#tab_5" data-bs-toggle="tab">CREDENCIALES ONDANET</a></li>
                             </ul>
                             <div class="tab-content">
                                 @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_antell') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
@@ -196,93 +198,7 @@
                                         {!! Form::close() !!}
                                     </div>
                                 @else
-                                    <div class="box-header with-border" style="text-align: center">
-                                        <h2>Acceso no autorizado</h2>
-                                    </div>
-                                    <div class="box-footer">
-                                        <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
-                                    </div>
-                                @endif                             
-                            </div>
-                        </div>
-                    </div>
-                </div>        
-                <div class="box box-primary setup-content" id="step-4">
-                    <div class="overlay">
-                        <i class="fa fa-refresh fa-spin"></i>
-                    </div>
-                    <div class="box-header with-border" style="text-align: center">
-                        <h3 class="box-title">ÁREA DE FRAUDE - ANTELL</h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="nav-tabs-custom">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_6" data-toggle="tab">CREDENCIALES MOMO</a></li>
-                            </ul>
-                            <div class="tab-content">
-                                @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_fraude') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
-                                    <div class="tab-pane active" id="tab_6">
-                                        <div class="box-body">
-
-                                            @include('partials._messages')
-                                            {{-- {!! Form::open(['route' => 'contracts.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!} --}}
-                                         {!! Form::open(['route' => ['atmnew.credentials.store', 123], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
-
-                                        
-                                                <div class="form-group">
-                                                    @if(isset($webservices))
-                                                        <div class="col-md-12">
-                                                            <div class="form-group">
-                                                                {!! Form::label('service_id', 'Proveedor') !!}
-                                                                <div class="input-group">
-                                                                    <div class="input-group-addon">
-                                                                        <i class="fa fa-sitemap"></i>
-                                                                    </div>
-                                                                    {!! Form::select('service_id',$webservices ,6 , ['class' => 'form-control object-type','placeholder' => 'Seleccione un Proveedor...','disabled' => 'disabled']) !!}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    @endif
-                                                </div>
-                                                <div id="user_form">
-                                                
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            {!! Form::label('user', 'Usuario') !!}
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon">
-                                                                    <i class="fa fa-user"></i>
-                                                                </div>
-                                                                {!! Form::text('user', null , ['class' => 'form-control', 'placeholder' => 'Usuario' ]) !!}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-6">
-                                                        <div class="form-group">
-                                                            {!! Form::label('password', 'Contraseña') !!}
-                                                            <div class="input-group">
-                                                                <div class="input-group-addon">
-                                                                    <i class="fa fa-key"></i>
-                                                                </div>
-                                                                {!! Form::text('password', null , ['class' => 'form-control', 'placeholder' => 'Contraseña' ]) !!}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            {!! Form::hidden('abm','v2') !!} 
-
-                                        </div>
-                                        <div class="box-footer">
-                                            <a class="btn btn-default atras" href="#step-1" role="button">Atras</a>
-                                            <button type="submit" class="btn btn-primary btnNext" id="btnGuardarCredencial">Siguiente</button>
-                                        </div>
-                                        {!! Form::close() !!}
-                                    </div>
-                                @else
-                                    <div class="box-header with-border" style="text-align: center">
+                                    <div class="box-header with-border text-center">
                                         <h2>Acceso no autorizado</h2>
                                     </div>
                                     <div class="box-footer">
@@ -293,7 +209,78 @@
                         </div>
                     </div>
                 </div>
-                <div class="box box-primary setup-content" id="step-5">
+        
+                <div class="box box-primary setup-content" id="step-4">
+                    <div class="overlay">
+                        <i class="fa fa-refresh fa-spin"></i>
+                    </div>
+                    <div class="box-header with-border" style="text-align: center">
+                        <h3 class="box-title">ÁREA DE FRAUDE - ANTELL</h3>
+                    </div>
+                    <div class="box-body">
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="tab6-tab" data-bs-toggle="tab" href="#tab_6">CREDENCIALES MOMO</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_fraude') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
+                                <div class="tab-pane fade show active" id="tab_6">
+                                    <div class="box-body">
+
+                                        @include('partials._messages')
+                                        {!! Form::open(['route' => ['atmnew.credentials.store', 123], 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
+
+                                        <div class="form-group mb-3">
+                                            @if(isset($webservices))
+                                                {!! Form::label('service_id', 'Proveedor', ['class' => 'form-label']) !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-sitemap"></i></span>
+                                                    {!! Form::select('service_id', $webservices, 6, ['class' => 'form-control', 'placeholder' => 'Seleccione un Proveedor...', 'disabled']) !!}
+                                                </div>
+                                            @endif
+                                        </div>
+
+                                        <div id="user_form" class="row">
+                                            <div class="col-md-6 mb-3">
+                                                {!! Form::label('user', 'Usuario', ['class' => 'form-label']) !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-user"></i></span>
+                                                    {!! Form::text('user', null, ['class' => 'form-control', 'placeholder' => 'Usuario']) !!}
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6 mb-3">
+                                                {!! Form::label('password', 'Contraseña', ['class' => 'form-label']) !!}
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="fa fa-key"></i></span>
+                                                    {!! Form::text('password', null, ['class' => 'form-control', 'placeholder' => 'Contraseña']) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {!! Form::hidden('abm', 'v2') !!}
+                                    </div>
+                                    <div class="box-footer d-flex justify-content-between">
+                                        <a class="btn btn-default" href="#step-1" role="button">Atras</a>
+                                        <button type="submit" class="btn btn-primary" id="btnGuardarCredencial">Siguiente</button>
+                                    </div>
+                                    {!! Form::close() !!}
+                                </div>
+                            @else
+                                <div class="box-header with-border text-center">
+                                    <h2>Acceso no autorizado</h2>
+                                </div>
+                                <div class="box-footer d-flex justify-content-center">
+                                    <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                </div>
+                <div class="box-primary setup-content" id="step-5">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
@@ -334,12 +321,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="box box-primary setup-content" id="step-6">
-                    <div class="overlay">
-                        <i class="fa fa-refresh fa-spin"></i>
+                <div class="box-primary setup-content" id="step-6">
+                    <div class="position-relative">
+                        <div class="spinner-border text-primary d-none" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                    <div class="box-header with-border" style="text-align: center">
-                        <h3 class="box-title">ÁREA DE LOGÍSTICAS <span id='labelRed'></span></h3>
+                    <div class="box-header with-border text-center">
+                        <h3>ÁREA DE LOGÍSTICAS <span id='labelRed'></span></h3>
                     </div>
                     @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_logisticas') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
                         <div class="box-body">
@@ -348,21 +337,22 @@
                             {!! Form::hidden('abm','v2') !!}
                             @include('network_conection.partials.fields')
                         </div>
-                        <div class="box-footer">
-                            <a class="btn btn-default atras" role="button">Atras</a>
+                        <div class="box-footer d-flex justify-content-between">
+                            <a class="btn btn-default" role="button">Atras</a>
                             <button type="submit" class="btn btn-primary" id="btnGuardarLogistica">Siguiente</button>
                         </div>
                         {!! Form::close() !!}
                     @else
-                        <div class="box-header with-border" style="text-align: center">
+                        <div class="box-header with-border text-center">
                             <h2>Acceso no autorizado</h2>
                         </div>
-                        <div class="box-footer">
+                        <div class="box-footer d-flex justify-content-center">
                             <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
                         </div>
                     @endif
                 </div>
-                <div class="box box-primary setup-content" id="step-7">
+
+                <div class="box-primary setup-content" id="step-7">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
@@ -394,18 +384,82 @@
                         </div>
                     @endif
                 </div>
+                
                 @include('atmnew.partials.generate_hash')
             </div>
         </div>
+
+       
     </section>
+
+    
+    
+
 @endsection
 
 @section('js')
-@include('atmnew.partials.js._js_scripts')
+
+        {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+                 new TomSelect(".selecttom",{
+                  create: true,
+                   sortField: {
+                   field: "text",
+                    direction: "asc"
+                }
+                });
+         });
+
+        
+
+
+    </script>
+ {{-- FIN SELECT  --}}
+
+    <!--  BEGIN CUSTOM SCRIPT FILE  -->
+
+    <script src="{{ asset('src/plugins/src/filepond/filepond.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginFileValidateType.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageExifOrientation.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageCrop.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageResize.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/FilePondPluginImageTransform.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/filepond/filepondPluginFileValidateSize.min.js') }}"></script>
+
+    <!-- BEGIN PAGE LEVEL SCRIPTS -->
+ 
+    @include('atmnew.partials.js._js_scripts')
+
+ 
+       
 @endsection
 
 
 @section('aditional_css')
+   
+<!--  BEGIN CUSTOM STYLE FILE  -->
+    <link href="{{ asset('src/assets/css/light/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/light/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/light/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link href="{{ asset('src/assets/css/dark/components/carousel.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('src/assets/css/dark/components/modal.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/components/tabs.css') }}" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/filepond.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/filepond/FilePondPluginImagePreview.min.css') }}">
+    <link href="{{ asset('src/plugins/css/light/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/filepond/custom-filepond.css') }}" rel="stylesheet" type="text/css" />
+    <!--  END CUSTOM STYLE FILE  -->
+     {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    {{-- FIN DE SELECT  --}}
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="/bower_components/admin-lte/plugins/pnotify/pnotify.custom.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
@@ -625,8 +679,43 @@
             .slider.round:before {
                 border-radius: 50%;
             }
+
+            .modal {
+                z-index: 1052 !important;
+            }
+
+             .dark .box-body  {
+           background-color: #191E3A;
+            }
+
+            .dark .box-header {
+                background-color: #191E3A;
+            }
+
+            .dark .box-footer {
+                background-color: #191E3A;
+
+            }
+            .dark .tab-content {
+                background-color: #191E3A !important;
+            }
+
+            body.dark .box-body {
+            overflow: unset !important; 
+            }
+
+            body.dark .table thead tr th {
+                max-width: 120px !important; /* Aumentar el ancho máximo */
+                white-space: normal; /* Evitar el ajuste de línea */
+            }
+
+            body.dark .table tbody tr td {
+                max-width: 120px !important; /* Aumentar el ancho máximo */
+                white-space: normal; /* Evitar el ajuste de línea */
+            }
         </style>
 @endsection
+
 @include('atmnew.partials.modal_owner')
 @include('atmnew.partials.modal_vouchers_type')
 @include('atmnew.partials.modal_branch')
@@ -644,5 +733,6 @@
 @include('atmnew.partials.modal_asociar_zona_ciudad')
 @include('atmnew.partials.modal_user')
 @include('atmnew.partials.modal_caracteristicas')
+
 
 

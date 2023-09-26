@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Gestor de Updates de aplicación
 @endsection
@@ -18,7 +18,7 @@ Gestor de Updates de aplicación
     <div class="box">
         @include('partials._flashes')
         <div class="box-header">            
-            <a href="{{ route('app_updates.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+            <a href="{{ route('app_updates.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
         </div>
         <div class="box-body  no-padding">
             <div class="row">
@@ -54,15 +54,15 @@ Gestor de Updates de aplicación
                 </div>    
             </div>            
         </div> 
-        <div class="box-footer clearfix">
+        <div class="clearfix">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="dataTables_info" role="status" aria-live="polite">{{ $updates->total() }} registros en total
                     </div>
                 </div>
-                <div class="col-xs-12">
-                    <div class="dataTables_paginate paging_simple_numbers">
-                        {!! $updates->appends(Request::only(['name']))->render() !!}
+                <div class="col-md-12">
+                    <div class="">
+                        {!! $updates->appends(Request::only(['name']))->links('paginator') !!}
                     </div>
                 </div>
             </div>
@@ -76,4 +76,31 @@ Gestor de Updates de aplicación
 @section('page_scripts')
     <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
     @include('partials._delete_row_js')
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

@@ -1,12 +1,12 @@
 <section class="content">
     <!-- Modal -->
-    <div id="modalDetalleNotificaciones" class="modal fade" role="dialog">
+    <div id="modalDetalleNotificaciones" class="modal fade modal-xl" role="dialog">
         <div class="modal-dialog modal-lg">
 
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Detalles - Transacciones : <label class="labelRed"></label></h4>
                 </div>
                 <div class="modal-body">
@@ -45,7 +45,7 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
 
@@ -55,7 +55,7 @@
     <div id="printSection" class="printSection" style="visibility:hidden;"></div>
     <div class="row">
         <div class="col-md-4">
-            <div class="box box-default">
+            <div class=" box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Filtros de búsqueda</h3>
 
@@ -80,9 +80,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-clock-o"></i>
-                                        </div>
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{old('reservationtime', $reservationtime ?? '')}}" />
                                     </div>
                                     <!-- /.input group -->
@@ -109,7 +107,7 @@
                 @if(isset($atms))
                     @foreach($atms as $sucursal_id => $sucursal)
                         <div class="col-md-12">
-                            <div class="box box-default">
+                            <div class="box-default">
                                 <div class="box-header with-border">
                                     <h3 class="box-title"><strong>Sucursal #{{ $sucursal_id }} {{ $sucursal['nombre'] }}</strong></h3>
                                 </div>
@@ -369,6 +367,11 @@
                 left:0;
                 top:0;
             }
+        }
+
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
         }
     </style>
 @endsection

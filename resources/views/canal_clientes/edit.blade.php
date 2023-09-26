@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Canal {{ $canal->descripcion }}
@@ -59,6 +59,10 @@
 @include('partials._selectize')
 
 @section('js')
+<!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
 <!-- add before </body> -->
 <script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
@@ -89,7 +93,7 @@
 </script>
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el contenido. Verifique los campos',
             showConfirmButton: true,
@@ -99,7 +103,7 @@
 @endif
 @if (session('error_categoria') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Debe seleccionar una categoría.',
             showConfirmButton: true,
@@ -110,6 +114,11 @@
 @endsection
 
 @section('aditional_css')
+      <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
     
@@ -146,5 +155,20 @@
             font-weight: bold;
             position: absolute;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

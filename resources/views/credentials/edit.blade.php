@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Editar Credenciales para ATM
@@ -19,7 +19,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary">
+                <div class="box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Modificar Credenciales {{$credentials->name}}</h3>
                     </div>
@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::model($credentials, ['route' => ['atm.credentials.update', 'atm' => $atm->id, 'credential' => $credentials->id ] , 'method' => 'PUT']) !!}
                         @include('credentials.partials.fields')
-                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="submit" class="btn btn-primary mt-3">Guardar</button>
                         {!! Form::close() !!}
                     </div>
                 </div>

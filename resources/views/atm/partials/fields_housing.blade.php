@@ -17,5 +17,5 @@
     @endif
 
     
-    <a class="btn btn-default" href="{{ route('atm.index') }}" role="button">Cancelar</a>
+    <a class=" mt-3 btn btn-default" href="{{ route('atm.index') }}" role="button">Cancelar</a>
     

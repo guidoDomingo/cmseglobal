@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     BAJA | Generar Factura
@@ -16,14 +16,14 @@
         </ol>
     </section>
     <section class="content">
-        <div id="myModal" class="modal fade" role="dialog">
+        <div id="myModal" class="modal fade modal-xl" role="dialog">
             <div class="modal-dialog">
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title factura_titulo" style="display: none;">Seleccione una Factura para agregar</h4>
                         <h4 class="modal-title saldo_titulo" style="display: none;">Sucursales del grupo : <label class="grupo"></label></h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                     </div>
                     <div class="text-center" id="cargando" style="margin: 50px 10px"> {{-- clase para bloquear el div y mostrar el loading --}}
                         <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
@@ -54,17 +54,17 @@
                     <div class="modal-footer">
                         <!--para Cancelar sin hacer nada -->
                         <button type="button" class="btn btn-primary pull-left" id="show_form">Aceptar</button>
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="modal_detail" class="modal fade" role="dialog">
+        <div id="modal_detail" class="modal fade modal-xl" role="dialog">
             <div class="modal-dialog modal-lg" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h4 class="modal-title"><b>Detalles Finales de las Facturas</b></h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
@@ -185,7 +185,7 @@
                         {!! Form::hidden('cadena', null, ['id' => 'cadena']) !!}
                         <button type="submit" class="btn btn-primary pull-left">Guardar Factura/s</button>
                     {!! Form::close() !!}
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                 </div>
               </div>
@@ -220,14 +220,14 @@
                                     <div class="col-xs-12">
                                         <div class="form-row">
                                             <div class="form-group col-md-12 borderd-info">
-                                                <div class="title"><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
+                                                <div class=""><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
                                                 <div class="container-info">
                                                 
                                         
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('ruc', 'RUC/CI:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('ruc', $grupo->ruc , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -236,7 +236,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('group', 'Cliente:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('group', $grupo->description , ['class' => 'form-control', 'disabled' =>'disabled', 'id' => 'descripcion_grupo' ]) !!}
@@ -245,7 +245,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('direccion', 'Dirección:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('direccion', $grupo->direccion , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -254,7 +254,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('telefono', 'Teléfono:') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <i class="fa fa-pencil-square-o"></i>
                                                             </div>
                                                             {!! Form::text('telefono', $grupo->telefono , ['class' => 'form-control', 'disabled' =>'disabled' ]) !!}
@@ -270,7 +270,7 @@
                                                     <div class="form-group col-md-12">
                                                         {!! Form::label('importe', 'SALDO PENDIENTE DEL CLIENTE (Gs.)') !!}
                                                         <div class="input-group">
-                                                            <div class="input-group-addon">
+                                                            <div class="input-group-text">
                                                                 <buttom class="btn-default btn-xs" title="Mostrar atms">
                                                                     <i class="pay-info fa fa-info-circle" style="cursor:pointer"></i>
                                                                 </buttom>
@@ -333,12 +333,12 @@
                                                                 {!! Form::label('debit_number', 'Monto a debitar') !!}
                                                                 <div class="input-group">
                                                                     @if($penalty_type->percent_amount == 'pe')
-                                                                        <div class="input-group-addon">
+                                                                        <div class="input-group-text">
                                                                             <b>%</b>
                                                                         </div>
                                                                         {!! Form::number('debit_number_'.$penalty_type->id,  $penalty_type->amount_to_affected , ['class' => 'form-control', 'readonly' => true, 'id' => 'debit_number_'.$penalty_type->id  ]) !!}
                                                                     @else
-                                                                        <div class="input-group-addon">
+                                                                        <div class="input-group-text">
                                                                             <i class="fa fa-money"></i>
                                                                         </div>
                                                                         @if(in_array($penalty_type->id, $debit_fijo))
@@ -372,7 +372,7 @@
                                                                 <div class="form-group col-md-6">
                                                                     {!! Form::label('debit_number', 'Monto de Interes Punitorio') !!}
                                                                     <div class="input-group">
-                                                                        <div class="input-group-addon">
+                                                                        <div class="input-group-text">
                                                                             @if($penalty_type->percent_amount == 'pe')
                                                                                 <b>%</b>
                                                                             @else
@@ -614,7 +614,7 @@
             $('#cargando').hide();
             $("#modal-contenido").html(data['payment_info']);
             $("#detalles").show();
-            $("#myModal").modal();
+            $("#myModal").modal("show");
             $('.mensaje').hide();
         });
     });
@@ -694,7 +694,7 @@
         $('.factura_titulo').hide();
         $('.saldo_titulo').hide();
         $('#detalles').hide();
-        $("#modal_detail").modal();
+        $("#modal_detail").modal("show");
         $('#name_atm').text('Nombre: ' + $("#atm_id option:selected").text());
 
         var data = '';
@@ -1001,7 +1001,7 @@
 </script>
 @if (session('actualizar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: 'success',
             title: 'El registro ha sido actualizado existosamente.',
             showConfirmButton: false,
@@ -1011,7 +1011,7 @@
 @endif
 @if (session('guardar') == 'ok')
 <script>
-    swal({
+    Swal.fire({
         type: 'success',
             title: 'Factura de penalización, generada exitosamente.',
             showConfirmButton: false,
@@ -1021,7 +1021,7 @@
 @endif
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar generar la multa.',
             showConfirmButton: false,
@@ -1031,7 +1031,7 @@
 @endif
 @if (session('error_ondanet') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al migrar la factura a ondanet.',
             showConfirmButton: false,
@@ -1242,5 +1242,20 @@
             border-radius: 35px;
             font-size: 24px;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

@@ -208,7 +208,7 @@ $login_status_checked = $pos_boxes['status'] ? 'checked' : '';
     <script type="text/javascript">
 
         function confirm_message_action(url, json) {
-            swal({
+            Swal.fire({
                     title: 'Atención',
                     text: '¿Está seguro de realizar esta acción?',
                     type: 'warning',
@@ -235,7 +235,7 @@ $login_status_checked = $pos_boxes['status'] ? 'checked' : '';
                                 type = 'success';
                             }
 
-                            swal({
+                            Swal.fire({
                                     title: message,
                                     text: text,
                                     type: type,

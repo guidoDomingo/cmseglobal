@@ -1,7 +1,7 @@
 <div class="form-group">
     @if(isset($webservices))
         {!! Form::label('service_id', 'Proveedor') !!}
-        {!! Form::select('service_id',$webservices ,null , ['class' => 'form-control object-type','placeholder' => 'Seleccione un Proveedor...']) !!}
+        {!! Form::select('service_id',$webservices ,null , ['class' => 'form-control object-typeselect2','placeholder' => 'Seleccione un Proveedor...']) !!}
     @endif
 </div>
 <div id="user_form">
@@ -36,11 +36,24 @@
 </div>
 
 
-<a class="btn btn-default" href="{{ URL::previous() }}" role="button">Cancelar</a>
+<a class="btn btn-default mt-3" href="{{ URL::previous() }}" role="button">Cancelar</a>
 @section('page_scripts')
     @include('credentials.partials.js._js_scripts')
 @endsection
 @section('js')
+    {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        new TomSelect(".select2",{
+            create: true,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    </script>
+ {{-- FIN SELECT  --}}
 <script>
     var service_id = $("#service_id").val();
     $("#practipagoForm").hide();
@@ -89,4 +102,14 @@
 
     });
 </script>
+@endsection
+
+@section("aditional_css")
+
+    {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+{{-- FIN DE SELECT  --}}
+
 @endsection

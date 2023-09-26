@@ -12,3 +12,24 @@ body.dark .table tbody tr td a {
 .dataTables_paginate a {
     background-color: #060819 !important;
 }
+
+
+/* .dropdown-menu {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    margin-top: 0; 
+} */
+
+.menu:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+}
+
+.daterangepicker {
+    background-color: #060818 !important;
+    border: 1px solid #444;
+}
+
+
+

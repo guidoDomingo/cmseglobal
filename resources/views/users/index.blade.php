@@ -5,6 +5,8 @@
 
 
 @section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
      <!-- Bootstrap 3.3.4 -->
         <link rel="stylesheet" href="{{ URL::asset('/bower_components/admin-lte/bootstrap/css/bootstrap.min.css') }}">
      <!-- DATA TABLE-->
@@ -19,6 +21,15 @@
         <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
     <!-- SWEET ALERTS - FIN -->
+
+    <style>
+         .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 
 @endsection
 
@@ -119,9 +130,9 @@
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $users->total() }} registros en total</div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $users->appends(Request::only(['name']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $users->appends(Request::only(['name']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>

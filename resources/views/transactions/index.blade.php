@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Transacciones - Reporte
@@ -136,7 +136,8 @@ $service_id = $data['inputs']['service_id'];
                 </div>
             </div>
 
-            <table class="table table-bordered table-hover dataTable" role="grid" id="datatable_1">
+            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
                 <thead>
                     <tr>
                         <th>Opciones</th>
@@ -226,7 +227,7 @@ $service_id = $data['inputs']['service_id'];
         <div class="modal-dialog" role="document" style="background: white; border-radius: 5px; width: 80%;">
             <div class="modal-content" style="border-radius: 10px">
                 <div class="modal-header">
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<button type="button" class="close" data-bs-dismiss="modal">&times;</button>-->
                     <div class="modal-title" style="font-size: 20px; text-align: center" id="modal_view_options_title">
                         Realizar devolución
                     </div>
@@ -369,7 +370,7 @@ $service_id = $data['inputs']['service_id'];
         <div class="modal-dialog modal-dialog-centered" role="document" style="background: white; border-radius: 5px; width: 99%;">
             <div class="modal-content" style="border-radius: 10px;">
                 <div class="modal-header">
-                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                    <!--<button type="button" class="close" data-bs-dismiss="modal">&times;</button>-->
                     <div class="modal-title" style="font-size: 20px; text-align: center">
                         Historial de devoluciones para esta transacción
                     </div>
@@ -446,6 +447,28 @@ $service_id = $data['inputs']['service_id'];
 @endsection
 
 @section('js')
+<!-- DATA TABLE-->
+
+    <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+    <script>
+        $('#zero-config').DataTable({
+            "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+            "<'table-responsive'tr>" +
+            "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+            "oLanguage": {
+                "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+                "sInfo": "Showing page _PAGE_ of _PAGES_",
+                "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+                "sSearchPlaceholder": "Search...",
+               "sLengthMenu": "Results :  _MENU_",
+            },
+            "stripeClasses": [],
+            "lengthMenu": [7, 10, 20, 50],
+            "pageLength": 10
+        });
+    </script>
+
+ <!-- DATA TABLE - FIN -->
 <!-- datatables -->
 <link rel="stylesheet" href="/bower_components/admin-lte/plugins/datatables/dataTables.bootstrap.css">
 <script src="/bower_components/admin-lte/plugins/datatables/jquery.dataTables.min.js"></script>
@@ -459,7 +482,7 @@ $service_id = $data['inputs']['service_id'];
 <!-- bootstrap datepicker -->
 <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
 
-<!-- select2 -->
+<!--select2 -->
 <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
 
@@ -496,7 +519,7 @@ $service_id = $data['inputs']['service_id'];
 
         $('#modal_load_message').html('Espere mientras se genera el ticket...');
 
-        $("#modal_load").modal();
+        $("#modal_load").modal("show");
 
         //var transaction_id = 10478846;
 
@@ -520,13 +543,13 @@ $service_id = $data['inputs']['service_id'];
                 var div_container = data;
 
                 $('#modal_body_ticket').html(div_container);
-                $("#modal_ticket").modal();
+                $("#modal_ticket").modal("show");
             } else {
                 message = 'Ticket no encontrado';
             }
 
             if (message !== '') {
-                swal({
+                Swal.fire({
                         title: 'Error con Ticket',
                         text: message,
                         type: 'error',
@@ -556,7 +579,7 @@ $service_id = $data['inputs']['service_id'];
     function modal_ticket_close() {
         $("#modal_ticket").modal('hide');
         setInterval("document.location.href = 'cms_transactions_index'", 1000);
-        $("#modal_load").modal();
+        $("#modal_load").modal("show");
     }
 
     function modal_history() {
@@ -589,7 +612,7 @@ $service_id = $data['inputs']['service_id'];
 
             if (history_list.length > 0) {
 
-                $("#modal_history").modal();
+                $("#modal_history").modal("show");
 
                 var datatable_id = '#datatable_history';
                 var th_keys = Object.keys(history_list[0]);
@@ -647,11 +670,11 @@ $service_id = $data['inputs']['service_id'];
 
                 $(datatable_id).DataTable(data_table_config);
             } else {
-                swal('Atención', 'No hay registros de devoluciones\n para esta transacción.', 'warning');
+                Swal.fire('Atención', 'No hay registros de devoluciones\n para esta transacción.', 'warning');
                 $("#modal_history").modal('hide');
             }
         }).error(function(error) {
-            swal({
+            Swal.fire({
                     title: 'Error al querer obtener los datos.',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -730,9 +753,9 @@ $service_id = $data['inputs']['service_id'];
             //transaction_id_aux = $.number(global_parameters_transaction.transaction_id, 0, ',', '.');
 
             $('#modal_view_options_title').html('Opciones:');
-            $("#modal_view_options").modal();
+            $("#modal_view_options").modal("show");
         } else {
-            swal('Atención', 'Este usuario no tiene permiso para realizar devoluciones.', 'info');
+            Swal.fire('Atención', 'Este usuario no tiene permiso para realizar devoluciones.', 'info');
         }
     }
 
@@ -974,7 +997,7 @@ $service_id = $data['inputs']['service_id'];
 
                         if (fields_type == 'fields_devolution' || fields_type == 'fields_ajustement') {
                             if (value_aux > max) {
-                                swal('Atención', 'El monto máximo para ' + description + ' es: ' + max, 'warning');
+                                Swal.fire('Atención', 'El monto máximo para ' + description + ' es: ' + max, 'warning');
                                 $(this).val(null);
                             }
                         } else {
@@ -983,14 +1006,14 @@ $service_id = $data['inputs']['service_id'];
 
                             if (not_allowed.indexOf(service_source_id) <= -1) {
                                 /*if (value_aux > max) {
-                                    swal('Atención', 'El monto máximo para ' + description + ' es: ' + max, 'warning');
+                                    Swal.fire('Atención', 'El monto máximo para ' + description + ' es: ' + max, 'warning');
                                     $(this).val(null);
                                 }*/
                             } else {
                                 value_aux = value.length;
 
                                 if (value_aux > max) {
-                                    swal('Atención', 'La cantidad de caracteres máxima para ' + description + ' es: ' + max, 'warning');
+                                    Swal.fire('Atención', 'La cantidad de caracteres máxima para ' + description + ' es: ' + max, 'warning');
                                     $(this).val(null)
                                 }
 
@@ -1006,7 +1029,7 @@ $service_id = $data['inputs']['service_id'];
                         value_aux = value.length;
 
                         if (value_aux > max) {
-                            swal('Atención', 'La cantidad de caracteres máxima para ' + description + ' es: ' + max, 'warning');
+                            Swal.fire('Atención', 'La cantidad de caracteres máxima para ' + description + ' es: ' + max, 'warning');
                             $(this).val(null)
                         }
                     }
@@ -1022,7 +1045,7 @@ $service_id = $data['inputs']['service_id'];
      */
     function select_service_row(parameters) {
 
-        $("#modal_load").modal();
+        $("#modal_load").modal("show");
 
         $('#modal_view_form_help_and_inputs').css('display', 'block');
         $('#modal_view_form_grid').css('display', 'none');
@@ -1245,7 +1268,7 @@ $service_id = $data['inputs']['service_id'];
 
                 } else {
 
-                    swal({
+                    Swal.fire({
                             title: 'Atención',
                             text: 'El servicio no tiene campos disponibles para completar',
                             type: 'warning',
@@ -1391,13 +1414,13 @@ $service_id = $data['inputs']['service_id'];
 
                 $("#modal_load").modal('hide');
 
-                $("#modal_view_form").modal();
+                $("#modal_view_form").modal("show");
 
             } else {
 
                 $("#modal_load").modal('hide');
 
-                swal({
+                Swal.fire({
                         title: title,
                         text: message,
                         type: type,
@@ -1426,7 +1449,7 @@ $service_id = $data['inputs']['service_id'];
             $('#button_iterate_level').prop('disabled', false);
             $('#button_cancel').css('display', 'block');
 
-            swal({
+            Swal.fire({
                     title: 'Error al querer obtener datos del formulario',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -1455,7 +1478,7 @@ $service_id = $data['inputs']['service_id'];
      * Confirmación de nivel 2
      */
     function select_service_row_option() {
-        swal({
+        Swal.fire({
                 title: 'Atención',
                 text: 'Opción seleccionada ¿Confirmar transacción?',
                 type: 'info',
@@ -1475,7 +1498,7 @@ $service_id = $data['inputs']['service_id'];
                     cms_confirm(2);
 
                 } else {
-                    swal('Atención', 'Transacción cancelada', 'error');
+                    Swal.fire('Atención', 'Transacción cancelada', 'error');
                 }
             }
         );
@@ -1826,7 +1849,7 @@ $service_id = $data['inputs']['service_id'];
                                     if (value_aux <= max) {
                                         $('#input_devolution_amount').val(value_aux);
                                     } else {
-                                        swal('Atención', 'El monto a pagar debe ser menor o igual al de la deuda.\n\nDeuda total: ' + max, 'warning');
+                                        Swal.fire('Atención', 'El monto a pagar debe ser menor o igual al de la deuda.\n\nDeuda total: ' + max, 'warning');
                                         $('#input_devolution_amount').val(null);
                                     }
 
@@ -1907,7 +1930,7 @@ $service_id = $data['inputs']['service_id'];
                             $('#button_iterate_level').prop('disabled', false);
                             $('#button_cancel').css('display', 'block');
 
-                            swal({
+                            Swal.fire({
                                     title: 'Atención',
                                     text: 'La consulta no retornó ningún dato.',
                                     type: 'warning',
@@ -1936,7 +1959,7 @@ $service_id = $data['inputs']['service_id'];
                         $('#button_iterate_level').prop('disabled', false);
                         $('#button_cancel').css('display', 'block');
 
-                        swal({
+                        Swal.fire({
                                 title: 'Atención',
                                 text: 'El servicio no retornó ninguna opción.',
                                 type: 'warning',
@@ -1967,7 +1990,7 @@ $service_id = $data['inputs']['service_id'];
                     $('#button_iterate_level').prop('disabled', false);
                     $('#button_cancel').css('display', 'block');
 
-                    swal({
+                    Swal.fire({
                             title: title,
                             text: message,
                             type: type,
@@ -1989,7 +2012,7 @@ $service_id = $data['inputs']['service_id'];
                 $('#button_iterate_level').prop('disabled', false);
                 $('#button_cancel').css('display', 'block');
 
-                swal({
+                Swal.fire({
                         title: 'Error en la consulta',
                         text: 'No se pudo obtener los datos.',
                         type: 'error',
@@ -2011,7 +2034,7 @@ $service_id = $data['inputs']['service_id'];
 
 
         }).error(function(error) {
-            swal({
+            Swal.fire({
                     title: 'Error al querer obtener más datos del servicio',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -2058,7 +2081,7 @@ $service_id = $data['inputs']['service_id'];
         //console.log('cms_confirm');
 
 
-        $("#modal_load").modal();
+        $("#modal_load").modal("show");
 
         if (context == 1) {
             $('#button_iterate_level').html('<i class="fa fa-spin fa-refresh"></i> &nbsp; Cargando...');
@@ -2163,7 +2186,7 @@ $service_id = $data['inputs']['service_id'];
 
             $("#modal_load").modal('hide');
 
-            swal({
+            Swal.fire({
                     title: title,
                     text: text,
                     type: type,
@@ -2194,7 +2217,7 @@ $service_id = $data['inputs']['service_id'];
 
             $("#modal_load").modal('hide');
 
-            swal({
+            Swal.fire({
                     title: 'Error al confirmar',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -2265,7 +2288,7 @@ $service_id = $data['inputs']['service_id'];
             }
 
         } else {
-            swal({
+            Swal.fire({
                     title: 'Atención.',
                     text: 'Los campos a validar no existen.',
                     type: 'warning',
@@ -2374,7 +2397,7 @@ $service_id = $data['inputs']['service_id'];
                 description_field = description_field_1;
             }
 
-            swal({
+            Swal.fire({
                     title: 'Atención.',
                     text: 'Debe completar el campo: ' + description_field,
                     type: 'warning',
@@ -2635,10 +2658,10 @@ $service_id = $data['inputs']['service_id'];
                 }
             });
 
-            $("#modal_view_item").modal();
+            $("#modal_view_item").modal("show");
 
         }).error(function(error) {
-            swal({
+            Swal.fire({
                     title: 'Error al querer obtener servicios.',
                     text: 'La sesión a expirado.',
                     type: 'error',
@@ -2915,7 +2938,7 @@ $service_id = $data['inputs']['service_id'];
     //var span = document.createElement("div");
     //span.innerHTML = "<input type='button' value='cerrar'>";
 
-    /*swal({
+    /*Swal.fire({
         title: "asdfasdfasdfasdf",
         content: span,
         confirmButtonText: "V redu",
@@ -2993,6 +3016,12 @@ $service_id = $data['inputs']['service_id'];
 @endsection
 
 @section('aditional_css')
+<!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
 <style type="text/css">
     .modal {
         background: rgba(0, 0, 0, 0.7);
@@ -3017,4 +3046,29 @@ $service_id = $data['inputs']['service_id'];
 
     .select_index {}
 </style>
+@endsection
+
+@section('aditional_css')
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

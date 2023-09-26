@@ -34,4 +34,4 @@
 <div id="properties_container">
     @include('screen_obj.partials.properties')
 </div>
-<a class="btn btn-default" href="{{ route('screens.screens_objects.index', [ 'screen_id' => $screen_id]) }}" role="button">Cancelar</a>
+<a class="btn btn-default" href="{{ route('screens.screens_objects.index', [ 'screen' => $screen_id]) }}" role="button">Cancelar</a>

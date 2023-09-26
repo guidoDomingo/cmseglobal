@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo depósito de Arqueo
@@ -19,7 +19,7 @@
         <div class="row">
             <div class="col-md-12">
                 @include('partials._flashes')
-                <div class="box box-primary">
+                <div class=" box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">Nuevo Depósito de Arqueos</h3>
                     </div>
@@ -39,8 +39,9 @@
                 <div class="box-body  no-padding">
                     <div class="row">
                         <div class="col-xs-12" style="overflow-x: auto">
-                            <table class="table table-striped">
-                                <tbody>
+                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                style="width:100%">
+                                
                                 <thead>
                                 <tr>
                                     <th>#</th>
@@ -86,12 +87,12 @@
         </div>
         
         <!-- Modal -->
-        <div id="EditMontoModal" class="modal fade" role="dialog">
+        <div id="EditMontoModal" class="modal fade modal-xl" role="dialog">
                 <div class="modal-dialog">
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Transaccion Nro : <label class="idTransaccion"></label></h4>
                         </div>
                         <div class="modal-body">
@@ -113,8 +114,8 @@
                             </div>  
                         </div>
                         <div class="modal-footer">
-                            <button id='edit_amount' type="button" class="btn btn-success" data-dismiss="modal">Guardar</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            <button id='edit_amount' type="button" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Cerrar</button>
                         </div>
                     </div>
         
@@ -123,4 +124,26 @@
 
     </section>    
 @endsection
+
+@section('aditional_css')
+    <!-- DATA TABLE-->
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/table/datatable/datatables.css') }}">
+    
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/table/datatable/dt-global_style.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/table/datatable/dt-global_style.css') }}">
+    <!-- DATA TABLE - FIN -->
+
+    <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .daterangepicker {
+            background-color: #060818 !important;
+            border: 1px solid #444;
+       }
+
+    </style>
+
+@endsection
+
+
 @include('depositos_arqueos.partials.form_js')

@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo deposito de boleta
@@ -61,13 +61,28 @@
     </section>
 @endsection
 
-@section('css')
+@section('aditional_css')
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
 
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection
 
 
 @section('js')
-    <!-- select2 -->
+    <!--select2 -->
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <script src="/bower_components/admin-lte/plugins/select2/select2.min.js"></script>
 

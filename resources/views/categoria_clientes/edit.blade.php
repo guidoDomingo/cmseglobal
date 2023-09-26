@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Categoria {{ $categoria->descripcion }}
@@ -89,7 +89,7 @@
 </script>
 @if (session('error') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Ocurrió un error al intentar registrar el contenido. Verifique los campos',
             showConfirmButton: true,
@@ -99,7 +99,7 @@
 @endif
 @if (session('error_categoria') == 'ok')
 <script>
-    swal({
+    Swal.fire({
             type: "error",
             title: 'Debe seleccionar una categoría.',
             showConfirmButton: true,
@@ -146,5 +146,20 @@
             font-weight: bold;
             position: absolute;
         }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

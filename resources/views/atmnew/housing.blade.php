@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Agregar Housing
@@ -26,7 +26,7 @@ Agregar Housing
 			@include('partials._messages')
 			{!! Form::open(['route' => ['atm.housing.store', $atm_id, $housing_id] , 'method' => 'POST', 'role' => 'form']) !!}
 			@include('atm.partials.fields_housing')
-			<button type="submit" class="btn btn-primary">Guardar</button>
+			<button type="submit" class="mt-3 btn btn-primary">Guardar</button>
 			{!! Form::close() !!}
 	    </div>
 		</div>
@@ -181,5 +181,17 @@ Agregar Housing
         .has-spinner.btn-large.active .spinner {
             width: 19px;
         }
+
+         .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
     </style>
 @endsection

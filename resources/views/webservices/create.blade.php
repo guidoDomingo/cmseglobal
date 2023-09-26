@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
 Nuevo Web Service
@@ -35,4 +35,55 @@ Nuevo Web Service
 	</div>
 </div>
 </section>
+@endsection
+
+@section('js')
+	 {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+                 new TomSelect(".select2",{
+                  create: true,
+                   sortField: {
+                   field: "text",
+                    direction: "asc"
+                }
+                });
+
+                 new TomSelect(".select",{
+                  create: true,
+                   sortField: {
+                   field: "text",
+                    direction: "asc"
+                }
+                });
+         });
+
+    </script>
+ {{-- FIN SELECT  --}}
+@endsection
+
+@section('aditional_css')
+	{{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+{{-- FIN DE SELECT  --}}
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+    </style>
 @endsection

@@ -84,7 +84,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="dataTables_paginate paging_simple_numbers">
-                            {{-- {!! $tickets->appends(Request::only(['name']))->render() !!} --}}
+                            {{-- {!! $tickets->appends(Request::only(['name']))->links('paginator') !!} --}}
                         </div>
                     </div>
                 </div>

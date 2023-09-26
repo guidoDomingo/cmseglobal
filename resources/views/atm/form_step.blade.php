@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo ATM
@@ -46,7 +46,7 @@
         {{--  --}}
         <div class="row">
             <div class="col-md-12">
-                <div class="box box-primary setup-content" id="step-1">
+                <div class="box-primary setup-content" id="step-1">
                     <div class="overlay"> {{-- clase para bloquear el div y mostrar el loading --}}
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
@@ -99,7 +99,7 @@
                     </div>
                     {!! Form::close() !!}
                 </div>
-                <div class="box box-primary setup-content" id="step-4">
+                <div class="box-primary setup-content" id="step-4">
                     <div class="overlay"> {{-- clase para bloquear el div y mostrar el loading --}}
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
@@ -130,6 +130,23 @@
 @endsection
 
 @section('js')
+    <!-- SWEET ALERT  -->
+    <script src="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.min.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/sweetalerts2/custom-sweetalert.js') }}"></script>
+    <!-- SWEET ALERT - FIN -->
+      {{-- AGREGAR SELECT  --}}
+    <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
+    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
+    <script>
+        new TomSelect(".select3",{
+            create: true,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    </script>
+ {{-- FIN SELECT  --}}
     <script src="/bower_components/admin-lte/plugins/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="/bower_components/admin-lte/plugins/datepicker/bootstrap-datepicker.js"></script>
     <script src="/bower_components/admin-lte/plugins/datepicker/locales/bootstrap-datepicker.es.js" charset="UTF-8"></script>
@@ -822,7 +839,7 @@
                         $(document).on('click','#bntConfirmarResumen',function(){
                             $('#modalResumen').modal('hide');
                             $(form).find('input[type="text"]').prop('readonly',false);
-                            swal({
+                            Swal.fire({
                                 title: respuesta.titulo,
                                 text: respuesta.mensaje,
                                 html: respuesta.mensaje,
@@ -1004,6 +1021,18 @@
     </script>
 @endsection
 @section('aditional_css')
+
+      <!-- SWEET ALERTS -->
+    <link rel="stylesheet" href="{{ asset('src/plugins/src/sweetalerts2/sweetalerts2.css') }}">
+    <link href="{{ asset('src/plugins/css/light/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/plugins/css/dark/sweetalerts2/custom-sweetalert.css') }}" rel="stylesheet" type="text/css" />
+    <!-- SWEET ALERTS - FIN -->
+
+    {{-- PARA AGREGAR SELECT  --}}
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/src/tomSelect/tom-select.default.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/light/tomSelect/custom-tomSelect.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('src/plugins/css/dark/tomSelect/custom-tomSelect.css') }}">
+    {{-- FIN DE SELECT  --}}
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="/bower_components/admin-lte/plugins/pnotify/pnotify.custom.min.css" rel="stylesheet" type="text/css" />
     <style type="text/css">
@@ -1093,6 +1122,20 @@
             width: 19px;
         }
 
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+        }
+
+
+       
     </style>
 @endsection
 @include('atm.partials.modal_owner')

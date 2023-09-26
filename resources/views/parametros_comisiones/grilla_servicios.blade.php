@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Grilla de Servicios
@@ -133,15 +133,15 @@
                         {!! Form::close() !!}
                         @endif
                     </div>
-                    <div class="box-footer clearfix">
+                    <div class="clearfix">
                         <div class="row">
                             <div class="col-sm-5">
                                 <div class="dataTables_info" role="status" aria-live="polite">{{ $marcas->total() }} registros en total
                                 </div>
                             </div>
-                            <div class="col-sm-7">
-                                <div class="dataTables_paginate paging_simple_numbers">
-                                    {!! $marcas->appends(Request::only(['name','atm_id']))->render() !!}
+                            <div class="col-sm-12">
+                                <div class=" ">
+                                    {!! $marcas->appends(Request::only(['name','atm_id']))->links('paginator') !!}
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                 <!-- Modal content-->
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <button type="button" class="close" data-bs-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Marcas Disponibles<label class="idTransaccion"></label></h4>
                     </div>
                     <div class="modal-body">
@@ -200,7 +200,7 @@
                         <button type="buttom" style="display: none" id="process_devolucion" class="btn btn-primary pull-left">Enviar a devolución</button>
                         <button type="button" style="display: none" id="run_reprocesar"class="btn btn-primary pull-left">Enviar a Reprocesar</button>
                         <!--para Cancelar sin hacer nada -->
-                        <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-default pull-right" data-bs-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
 
@@ -310,6 +310,9 @@
 </script>
 @endsection
 @section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="/icon_font/css/icon_font.css">
     <link rel="stylesheet" href="/css/dual_listbox/jquery.transfer.css">
@@ -391,6 +394,28 @@
             padding:  5px;
             border-bottom: 1px solid #cccccc;
             /*border-radius: 8px;*/
+        }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
         }
 
     </style>

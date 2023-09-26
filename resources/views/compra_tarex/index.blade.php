@@ -48,9 +48,7 @@
                                     <div class="form-group">
                                         <label>Rango de Tiempo & Fecha:</label>
                                         <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-clock-o"></i>
-                                            </div>
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
                                             <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{$reservationtime or ''}}" />
                                         </div>
                                         <!-- /.input group -->
@@ -145,15 +143,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class="clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $compras->total() }} registros en total
                         </div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $compras->appends(Request::only(['id']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $compras->appends(Request::only(['id']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -194,7 +192,7 @@
             if ($('#json').val() !== null && $('#json').val() !== '') {
                 $('#form_export').submit();
             } else {
-                swal({
+                Swal.fire({
                     title: 'Atención',
                     text: 'La lista no tiene registros para exportar.',
                     type: 'warning',
@@ -247,6 +245,9 @@
     </script>
 @endsection
 @section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
@@ -370,6 +371,27 @@
 
         .has-spinner.btn-large.active .spinner {
             width: 19px;
+        }
+
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+         .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
         }
     </style>
 @endsection

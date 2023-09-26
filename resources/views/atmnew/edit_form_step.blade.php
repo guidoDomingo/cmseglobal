@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 
 @section('title')
     Nuevo ATM
@@ -250,28 +250,30 @@
                         </div>
                     </div>
                 </div>
-                <div class="box box-primary setup-content" id="step-4">
+                <div class="card  setup-content" id="step-4">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
                     </div>
-                    <div class="box-header with-border" style="text-align: center">
-                        <h3 class="box-title">ÁREA DE FRAUDE - ANTELL</h3>
+                    <div class="card-header" style="text-align: center">
+                        <h3 class="card-title">ÁREA DE FRAUDE - ANTELL</h3>
                     </div>
-                    <div class="box-body">
+                    <div class="card-body">
                         <div class="nav-tabs-custom">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a href="#tab_6" data-toggle="tab">CREDENCIALES MOMO</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#tab_6" data-bs-toggle="tab">CREDENCIALES MOMO</a>
+                                </li>
                             </ul>
                             <div class="tab-content">
                                 @if (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('atms_v2.area_fraude') || \Sentinel::getUser()->inRole('atms_v2.area_eglobalt'))
                                     <div class="tab-pane active" id="tab_6">
-                                        <div class="box-body">
+                                        <div class="card-body">
                                             @include('partials._messages')
                                             @if(empty($credencial))
                                                 {!! Form::open(['route' => 'atmnew.credentials.store', 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
                                                 {!! Form::hidden('atm_id',$atm->id) !!}
                                                 {!! Form::hidden('abm','v2') !!}
-                                            {{ dd($contrato) }}
+                                                {{ dd($contrato) }}
                                             @else
                                                 {!! Form::model($credencial,['route' => ['atmnew.credentials.update', $credencial->id,123] , 'method' => 'PUT', 'role' => 'form', 'id' => 'nuevaCredencial-form']) !!}
                                                 {!! Form::hidden('id',$contrato->id ?? '') !!}
@@ -283,18 +285,18 @@
                                         </div>
                                     </div>
                                 @else
-                                    <div class="box-header with-border" style="text-align: center">
+                                    <div class="card-header" style="text-align: center">
                                         <h2>Acceso no autorizado</h2>
                                     </div>
-                                    <div class="box-footer">
+                                    <div class="card-footer">
                                         <a class="btn btn-primary" href="{{route('atmnew.index')}}" role="button">Salir</a>
                                     </div>
                                 @endif
-
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="box box-primary setup-content" id="step-5">
                     <div class="overlay">
                         <i class="fa fa-refresh fa-spin"></i>
@@ -585,6 +587,40 @@
             font-weight: bold;
             position: absolute;
         }
+
+         .modal {
+                z-index: 1052 !important;
+            }
+
+             .dark .box-body  {
+           background-color: #191E3A;
+            }
+
+            .dark .box-header {
+                background-color: #191E3A;
+            }
+
+            .dark .box-footer {
+                background-color: #191E3A;
+
+            }
+            .dark .tab-content {
+                background-color: #191E3A !important;
+            }
+
+            body.dark .box-body {
+            overflow: unset !important; 
+            }
+
+            body.dark .table thead tr th {
+                max-width: 120px !important; /* Aumentar el ancho máximo */
+                white-space: normal; /* Evitar el ajuste de línea */
+            }
+
+            body.dark .table tbody tr td {
+                max-width: 120px !important; /* Aumentar el ancho máximo */
+                white-space: normal; /* Evitar el ajuste de línea */
+            }
 
     </style>
 @endsection

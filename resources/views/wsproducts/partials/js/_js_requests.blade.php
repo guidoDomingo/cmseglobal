@@ -17,7 +17,7 @@
       function displayAlert(type, title ,message ,errors){
         if($('#form-alert').length == 0){
           var alert_box = '<div id="form-alert" class="" style="display:none">'+
-              '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>'+
+              '<button type="button" class="close" data-bs-dismiss="alert" aria-hidden="true">×</button>'+
               '<h4><i class="icon fa fa-check"></i></h4>'+
               '<p></p><ul></ul></div>';
           $('#form-alert-container').append(alert_box);
@@ -42,7 +42,7 @@
           e.preventDefault();
           var row = $(this).parents('tr');
           var id = row.data('id');
-          swal({
+          Swal.fire({
               title: "Atención!",
               text: "Está a punto de borrar el registro, está seguro?.",
               type: "warning",
@@ -69,9 +69,9 @@
                   type = "error";
                   title =  "No se pudo realizar la operación"
                 }
-                swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
               }).fail(function (){
-                swal('No se pudo realizar la petición.');
+                Swal.fire('No se pudo realizar la petición.');
               });
             }
            });

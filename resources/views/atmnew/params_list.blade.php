@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
 Configuración de Parametros
 @endsection
@@ -21,7 +21,7 @@ Configuración de Parametros
     <div class="box-header">
         <h3 class="box-title">
         </h3>
-            <a href="#" class="btn-sm btn-primary active" role="button" id="agregar">Agregar</a>
+            <a href="#" class="btn btn-primary mb-2 me-4" role="button" id="agregar">Agregar</a>
         <div class="box-tools">
             <div class="input-group" style="width:150px;">
             {!! Form::model(Request::only(['name']),['route' => ['atm.params', $atmId], 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -54,16 +54,16 @@ Configuración de Parametros
             </div>
         </div>
     </div>
-    <div class="box-footer clearfix">
+    <div class="clearfix">
         <div class="row">
             <div class="col-sm-5">
                 <div class="dataTables_info" role="status" aria-live="polite">{{ $params->total() }}
                     registros en total
                 </div>
             </div>
-            <div class="col-sm-7">
-                <div class="dataTables_paginate paging_simple_numbers">
-                    {!! $params->appends(Request::only(['name']))->render() !!}
+            <div class="col-sm-12">
+                <div class="">
+                    {!! $params->appends(Request::only(['name']))->links('paginator') !!}
                 </div>
             </div>
         </div>
@@ -137,4 +137,21 @@ Configuración de Parametros
         });
     });
 </script>
+@endsection
+
+@section('aditional_css')
+    <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
+
 @endsection

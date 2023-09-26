@@ -29,4 +29,4 @@
         <p>{{ date('d/m/y H:i', strtotime($marca->updated_at)) }}</p>
     </div>
 @endif
-<a class="btn btn-default" href="{{ route('marca.index') }}" role="button">Cancelar</a>
+<a class="btn btn-default mt-3" href="{{ route('marca.index') }}" role="button">Cancelar</a>

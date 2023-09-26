@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Deposito de Cuotas
 @endsection
@@ -20,7 +20,7 @@
             <div class="box-header">
                 <h3 class="box-title">
                 </h3>
-                <a href="{{ route('depositos_cuotas.create') }}" class="btn-sm btn-primary active" role="button">Agregar</a>
+                <a href="{{ route('depositos_cuotas.create') }}" class="btn btn-primary mb-2 me-4" role="button">Agregar</a>
                 <div class="box-tools">
                     <div class="input-group" style="width:150px;">
                         {!! Form::model(Request::only(['name']),['route' => 'depositos_cuotas.index', 'method' => 'GET', 'class' => 'form-horizontal', 'role' => 'search']) !!}
@@ -113,15 +113,15 @@
                     </div>
                 </div>
             </div>
-            <div class="box-footer clearfix">
+            <div class=" clearfix">
                 <div class="row">
                     <div class="col-sm-5">
                         <div class="dataTables_info" role="status" aria-live="polite">{{ $depositocuotas->total() }}
                         registros en total</div>
                     </div>
-                    <div class="col-sm-7">
-                        <div class="dataTables_paginate paging_simple_numbers">
-                            {!! $depositocuotas->appends(Request::only(['id']))->render() !!}
+                    <div class="col-sm-12">
+                        <div class=" ">
+                            {!! $depositocuotas->appends(Request::only(['id']))->links('paginator') !!}
                         </div>
                     </div>
                 </div>
@@ -140,7 +140,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             text: "Está a punto de migrar el registro, está seguro?.",
             type: "warning",
@@ -165,11 +165,11 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
@@ -179,7 +179,7 @@
         e.preventDefault();
         var row = $(this).parents('tr');
         var id = row.data('id');
-        swal({
+        Swal.fire({
             title: "Atención!",
             //text: "Está a punto de eliminar el registro, está seguro?.",
             text: "<p style='text-orientation: center; color: black'>Motivo del Rechazo</p><br><textarea id='text' style='color: black'></textarea>",
@@ -210,9 +210,9 @@
                         type = "error";
                         title =  "No se pudo realizar la operación"
                     }
-                    swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });*/
                 var description=document.getElementById('text').value;
                 var url = '/reports/depositos_cuotas/delete';
@@ -226,17 +226,45 @@
                     }else{
                         type = "error";
                         title =  "No se pudo realizar la operación"
-                        swal(result.message);
+                        Swal.fire(result.message);
                     }
-                    //swal({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
+                    //Swal.fire({   title: title,   text: result.message,   type: type,   confirmButtonText: "Aceptar" });
                     location.reload();
                     
                 }).fail(function (){
-                    swal('No se pudo realizar la petición.');
+                    Swal.fire('No se pudo realizar la petición.');
                 });
             }
         });
     });
 </script>
     {{-- @include('partials._delete_row_js') --}}
+@endsection
+
+
+@section('aditional_css')
+     <link href="{{ asset('src/assets/css/light/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('src/assets/css/dark/elements/custom-pagination.css') }}" rel="stylesheet" type="text/css" />
+    <style>
+        .dark .box  {
+           background-color: #191E3A;
+        }
+        .dark .box-body  {
+           background-color: #191E3A;
+        }
+
+        .dark .box-header {
+            background-color: #191E3A;
+        }
+
+        .dark .box-footer {
+            background-color: #191E3A;
+		}
+        .paginator li>a {
+            border: 1px solid white;
+        }
+        .paginator li>a {
+            background-color: #060818;
+        }
+    </style>
 @endsection

@@ -5,7 +5,7 @@
             e.preventDefault();
             var key_text_control = $(this).parent().find('.key');
             var id = $(this).parent().find(".key").attr("id");
-            swal({
+            Swal.fire({
                         title: "Atención!",
                         text: "Está seguro que desea generar una nueva clave para este ATM?.",
                         type: "warning",
@@ -24,7 +24,7 @@
                             $.post(url,data, function(result){
                                 $("#"+id).val(result);
                             }).fail(function (){
-                                swal('No se pudo realizar la petición.');
+                                Swal.fire('No se pudo realizar la petición.');
                             });
 
                         }
