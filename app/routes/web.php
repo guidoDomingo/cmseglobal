@@ -530,6 +530,8 @@ Route::post('/reports/deposito_boletas/migrate', ['as'   => 'depositos_boletas.m
 Route::post('/reports/deposito_boletas/delete', ['as'   => 'depositos_boletas.delete', 'uses' => 'Controllers\DepositoBoletaController@delete']);
 //Deposito Boleta Conciliaciones
 
+// Route::resource('boletas_conciliations', 'DepositoBoletaController@conciliationsDetails');
+
 Route::get('boletas/conciliations', ['as' => 'boletas.conciliations', 'uses' => 'Controllers\DepositoBoletaController@conciliationsDetails']);
 
 
@@ -566,6 +568,8 @@ Route::get('/reports/info/get_cuotas_groups/{group_id}', 'Controllers\ReportingC
 Route::get('reporting/boletas_depositos/search', ['as' => 'reporting.boletas_depositos.search', 'uses' => 'Controllers\ReportingController@boletasDepositosSearch']);*/
 Route::get('reporting/boletas_depositos', ['as' => 'reporting.boletas_depositos', 'uses' => 'Controllers\ExtractosController@boletasDepositosReports']);
 Route::get('reporting/boletas_depositos/search', ['as' => 'reporting.boletas_depositos.search', 'uses' => 'Controllers\ExtractosController@boletasDepositosSearch']);
+Route::get('reporting/boletas_enviadas', ['as' => 'reporting.boletas_enviadas', 'uses' => 'Controllers\ExtractosController@boletasEnviadasReports']);
+Route::get('reporting/boletas_enviadas/search', ['as' => 'reporting.boletas_enviadas.search', 'uses' => 'Controllers\ExtractosController@boletasEnviadasSearch']);
 Route::get('/reports/info/details_boleta/{id}', 'Controllers\ReportingController@getBoletasDetails');
 Route::get('/reports/info/details_recibos/{id}', 'Controllers\ExtractosController@getBoletasDetails');
 Route::get('/reports/info/details_imagen/{id}', 'Controllers\ExtractosController@getImagenDetails');

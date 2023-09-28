@@ -1,3 +1,4 @@
+
 @extends('app')
 
 @section('title')
@@ -37,7 +38,7 @@ $service_id = $data['inputs']['service_id'];
         <div class="col-md-4"></div>
 
         <div class="col-md-4">
-            <div class="box box-default" style="border-radius: 5px; margin-top: 50px" id="div_load">
+            <div class="box box-default d-none" style="border-radius: 5px; margin-top: 50px" id="div_load">
                 <!--<div class="box-header with-border">
                     <h3 class="box-title" style="font-size: 25px;">Cargando...
                     </h3>
@@ -2736,8 +2737,18 @@ $service_id = $data['inputs']['service_id'];
         });
 
         if (button_name == 'search') {
-            $('#content').css('display', 'none');
-            $('#div_load').css('display', 'block');
+            // Obtener el elemento
+            var loader = document.getElementById('div_load');
+
+            // Quitar la clase 'd-none'
+            loader.classList.remove('d-none');
+
+            // Cambiar el estilo de display a 'inline-block'
+            loader.style.display = 'inline-block';
+
+            // Deshabilitar el elemento (si es un elemento de entrada/formulario)
+            loader.disabled = true;
+
         }
 
         $('#form_search').append(input);
@@ -3012,6 +3023,7 @@ $service_id = $data['inputs']['service_id'];
             }
         });
     };
+
 </script>
 @endsection
 

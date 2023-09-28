@@ -457,9 +457,69 @@
         "name": "Referencias",
         "link": "{{ route('references.index') }}",
         "requiredPermission": ["references_rules"]
+    },
+        //deposito boletas
+    {
+        "name": "Deposito de Boletas",
+        "link": "{{ route('depositos_boletas.index') }}",
+        "requiredPermission": ["depositos_boletas"]
+    },
+    {
+        "name": "Pago de Cuotas",
+        "link": "{{ route('depositos_cuotas.index') }}",
+        "requiredPermission": ["superuser","accounting.admin","mantenimiento.operativo"]
+    },
+    {
+        "name": "Reporte de Cuotas",
+        "link": "{{ route('reporting.depositos_cuotas') }}",
+        "requiredPermission": ["superuser","accounting.admin","mantenimiento.operativo"]
+    },
+    {
+        "name": "Pago de Alquiler",
+        "link": "{{ route('depositos_alquileres.index') }}",
+        "requiredPermission": ["superuser","accounting.admin","mantenimiento.operativo"]
+    },
+    {
+        "name": "Conciliaciones de Boletas",
+        "link": "{{ route('boletas.conciliations') }}",
+        "requiredPermission": ["mini_terminal", "supervisor_miniterminal"]
+    },
+    {
+        "name": "Reporte de Depositos",
+        "link": "{{ route('reporting.boletas_depositos') }}",
+        "requiredPermission": ["depositos_boletas"]
+    },
+    {
+        "name": "Reporte de Boletas Enviadas",
+        "link": "{{ route('reporting.boletas_enviadas') }}",
+        "requiredPermission": ["depositos_boletas"]
+    },
+    {
+        "name": "Reporte de Cuotas",
+        "link": "{{ route('reporting.depositos_cuotas') }}",
+        "requiredPermission": ["superuser","accounting.admin","mantenimiento.operativo"]
+    },
+    {
+        "name": "Reporte de Alquiler",
+        "link": "{{ route('reporting.depositos_alquileres') }}",
+        "requiredPermission": ["superuser","accounting.admin","mantenimiento.operativo"]
+    },
+
+    {
+        "name": "Realizar devolución",
+        "link": "{{ route('cms_transactions_index') }}",
+        "requiredPermission": ["cms_transactions_report"]
+    },
+    {
+        "name": "Devoluciones realizadas",
+        "link": "{{ route('cms_transactions_index_devolutions') }}",
+        "requiredPermission": ["cms_transactions_report_devolution"]
+    },
+    {
+        "name": "Servicios con más demanda",
+        "link": "{{ route('cms_services_with_more_returns_index') }}",
+        "requiredPermission": ["cms_services_with_more_returns"]
     }
-
-
 
     // Agrega más elementos del menú aquí
 ];
@@ -472,7 +532,7 @@
         // Accede a los datos de permisos almacenados en el atributo data-permisos
         const userPermisos = JSON.parse(userPermisosElement.getAttribute('data-permisos'));
         const userPermisosArray = Object.keys(userPermisos);
-
+      
         const searchInput = document.getElementById('searchInput');
         const menuList = document.getElementById('menuList');
        
@@ -482,6 +542,55 @@
         const filteredMenuItems = menuItems.filter(item => {
             return item.requiredPermission.some(permission => userPermisosArray.includes(permission));
         });
+
+        /*EVENTO DEL TECLADO*/
+
+            let selectedIndex = -1; // Inicialmente, ningún elemento está seleccionado
+
+            searchInput.addEventListener('keydown', (event) => {
+                const items = menuList.querySelectorAll('a');
+                console.log("items",items);
+                // Navegar con las teclas de flecha
+                if (event.key === 'ArrowDown') {
+                    console.log("arriba");
+                    if (selectedIndex < items.length - 1) {
+                        selectedIndex++;
+                    }
+                    highlightItem(items);
+                } else if (event.key === 'ArrowUp') {
+                     console.log("abajo");
+                    if (selectedIndex > 0) {
+                        selectedIndex--;
+                    }
+                    highlightItem(items);
+                } else if (event.key === 'Enter' && selectedIndex >= 0) {
+                    // Navegar al enlace del elemento seleccionado cuando se presiona "Enter"
+                    window.location.href = items[selectedIndex].href;
+                }
+            });
+
+            function highlightItem(items) {
+                // Quitar el resaltado de todos los elementos
+                items.forEach(item => item.classList.remove('highlighted'));
+                
+                // Resaltar el elemento seleccionado
+                if (selectedIndex >= 0) {
+                    items[selectedIndex].classList.add('highlighted');
+                }
+            }
+
+            //function clearList(list) {
+                //while (list.firstChild) {
+                  //  list.removeChild(list.firstChild);
+               // }
+                // Resetear el índice seleccionado cada vez que la lista se limpia
+               // selectedIndex = -1;
+            //}
+
+
+
+
+        /*FIN DEL EVENTO DEL TECLADO*/
 
         searchInput.addEventListener('input', () => {
 
@@ -521,6 +630,9 @@
             while (myDiv.firstChild) {
                 myDiv.removeChild(myDiv.firstChild);
             }
+
+             // Resetear el índice seleccionado cada vez que la lista se limpia
+                selectedIndex = -1;
         }
 
 

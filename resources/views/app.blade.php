@@ -100,7 +100,9 @@
             text-decoration: none;
         }
 
-
+        .highlighted {
+            background-color: #d1d1d1;  /* O cualquier otro color que desees */
+        }
         
 
     </style>
@@ -1180,6 +1182,137 @@
                                     </ul>
                                     
                                 </li>
+
+                                @if (\Sentinel::getUser()->hasAccess('depositos_boletas', 'depositos_boletas.conciliations', 'depositos_cuotas'))
+                                    <li class="sub-submenu dropend ">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                            class="fa fa-cubes"></i>Gestor de Boletas<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                            <li @if (Request::is('depositos_boletas', 'depositos_boletas/*', 'screens', 'screens/*')) class="active" @endif><a
+                                                    href="{{ route('depositos_boletas.index') }}"><i class="fa fa-ticket"></i>
+                                                    <span>Deposito de Boletas</span></a>
+                                            </li>
+                                             <?php
+                                                $housing = \DB::table('atms')
+                                                    ->select('atms.housing_id')
+                                                    ->join('points_of_sale', 'atms.id', '=', 'points_of_sale.atm_id')
+                                                    ->join('branches', 'branches.id', '=', 'points_of_sale.branch_id')
+                                                    ->join('venta_housing', 'atms.housing_id', '=', 'venta_housing.housing_id')
+                                                    ->join('venta', 'venta.id', '=', 'venta_housing.venta_id')
+                                                    ->where('branches.user_id', \Sentinel::getUser()->id)
+                                                    ->where('venta.tipo_venta', 'cr')
+                                                    ->first();
+                                            ?>
+
+                                            @if (!empty($housing) || (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('accounting.admin') || \Sentinel::getUser()->inRole('mantenimiento.operativo')))
+                                                <li @if (Request::is('depositos_cuotas', 'depositos_cuotas/*', 'screens', 'screens/*')) class="active" @endif><a
+                                                        href="{{ route('depositos_cuotas.index') }}"><i class="fa fa-tasks"></i>
+                                                        <span>Pago de Cuotas</span></a>
+                                                </li>
+
+                                                @if (\Sentinel::getUser()->inRole('mini_terminal'))
+                                                    <li @if (Request::is('reporting.depositos_cuotas', 'reporting.depositos_cuotas/*', 'screens', 'screens/*')) class="active" @endif>
+                                                        <a href="{{ route('reporting.depositos_cuotas') }}">
+                                                            <i class="fa fa-tags"></i><span>Reporte de Cuotas</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            @endif
+
+                                            <?php
+                                                $housing_alquiler = \DB::table('atms')
+                                                    ->select('atms.housing_id')
+                                                    ->join('points_of_sale', 'atms.id', '=', 'points_of_sale.atm_id')
+                                                    ->join('branches', 'branches.id', '=', 'points_of_sale.branch_id')
+                                                    ->join('alquiler_housing', 'atms.housing_id', '=', 'alquiler_housing.housing_id')
+                                                    ->join('alquiler', 'alquiler.id', '=', 'alquiler_housing.alquiler_id')
+                                                    ->where('branches.user_id', \Sentinel::getUser()->id)
+                                                    ->first();
+                                            ?>
+                                            @if (!empty($housing_alquiler) || (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('accounting.admin') || \Sentinel::getUser()->inRole('mantenimiento.operativo')))
+                                                <li @if (Request::is('depositos_alquileres', 'depositos_alquileres/*', 'screens', 'screens/*')) class="active" @endif><a
+                                                        href="{{ route('depositos_alquileres.index') }}"><i class="fa fa-tasks"></i>
+                                                        <span>Pago de Alquiler</span></a>
+                                                </li>
+                                            @endif
+                                            @if (!\Sentinel::getUser()->inRole('mini_terminal') && !\Sentinel::getUser()->inRole('supervisor_miniterminal'))
+                                                <li @if (Request::is('boletas_conciliations*')) class="active" @endif><a
+                                                        href="{{ route('boletas.conciliations') }}"><i class="fa fa-ticket"></i>
+                                                        <span>Conciliaciones de Boletas</span></a>
+                                                </li>
+                                            @endif
+
+                                            <li @if (Request::is('reporting/boletas_depositos*')) class="active" @endif>
+                                                <a href="{{ route('reporting.boletas_depositos') }}">
+                                                    <i class="fa fa-tags"></i><span>Reporte de Depositos</span>
+                                                </a>
+                                            </li>
+
+                                            <li @if (Request::is('reporting/boletas_enviadas*')) class="active" @endif>
+                                                <a href="{{ route('reporting.boletas_enviadas') }}">
+                                                    <i class="fa fa-tags"></i><span>Reporte de Boletas Enviadas</span>
+                                                </a>
+                                            </li>
+
+                                            @if (empty($housing) || (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('accounting.admin') || \Sentinel::getUser()->inRole('mantenimiento.operativo')))
+                                                <li @if (Request::is('depositos_cuotas', 'depositos_cuotas/*', 'screens', 'screens/*')) class="active" @endif>
+                                                    <a href="{{ route('reporting.depositos_cuotas') }}">
+                                                        <i class="fa fa-tags"></i><span>Reporte de Cuotas</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+
+                                            @if (!empty($housing_alquiler) || (\Sentinel::getUser()->inRole('superuser') || \Sentinel::getUser()->inRole('accounting.admin') || \Sentinel::getUser()->inRole('mantenimiento.operativo')))
+                                                <li @if (Request::is('depositos_cuotas', 'depositos_cuotas/*', 'screens', 'screens/*')) class="active" @endif>
+                                                    <a href="{{ route('reporting.depositos_alquileres') }}">
+                                                        <i class="fa fa-tags"></i><span>Reporte de Alquiler</span>
+                                                    </a>
+                                                </li>
+                                            @endif
+                                        </ul>
+                                        
+                                    </li>
+                                @endif
+
+                                @if (\Sentinel::getUser()->hasAccess('cms_transactions_devolutions'))
+                                    <li class="sub-submenu dropend ">
+                                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false" class="dropdown-toggle collapsed"><i
+                                            class="fa fa-cubes"></i>Devoluciones<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg> </a>
+                                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1"> 
+                                            @if (!\Sentinel::getUser()->inRole('cms_transactions_report'))
+
+                                                <li @if (Request::is('cms_transactions_index*')) class="active" @endif>
+                                                    <a href="{{ route('cms_transactions_index') }}">
+                                                        <i class="fa fa-clone"></i><span>Realizar devolución</span>
+                                                    </a>
+                                                </li>
+
+                                            @endif
+
+                                            @if (!\Sentinel::getUser()->inRole('cms_transactions_report_devolution'))
+
+                                                <li @if (Request::is('cms_transactions_index_devolutions*')) class="active" @endif>
+                                                    <a href="{{ route('cms_transactions_index_devolutions') }}">
+                                                        <i class="fa fa-list"></i><span>Devoluciones realizadas</span>
+                                                    </a>
+                                                </li>
+
+                                            @endif
+
+                                            @if (!\Sentinel::getUser()->inRole('cms_services_with_more_returns'))
+
+                                                <li @if (Request::is('cms_services_with_more_returns_index*')) class="active" @endif>
+                                                    <a href="{{ route('cms_services_with_more_returns_index') }}">
+                                                        <i class="fa fa-list"></i><span>Servicios con más demanda</span>
+                                                    </a>
+                                                </li>
+
+                                            @endif
+                                        </ul>
+                                        
+                                    </li>
+                                @endif
+                                
                             </ul>
                         </li>
                     @endif

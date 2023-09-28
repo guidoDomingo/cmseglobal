@@ -44,7 +44,7 @@ $transactions_amount_total = 0;
         <div class="col-md-4"></div>
 
         <div class="col-md-4">
-            <div class="box box-default" style="border-radius: 5px; margin-top: 50px" id="div_load">
+            <div class="box box-default d-none" style="border-radius: 5px; margin-top: 50px" id="div_load">
                 <div class="box-body">
                     <div style="text-align: center; font-size: 20px;">
                         <div>

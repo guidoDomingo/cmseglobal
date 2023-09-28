@@ -4116,7 +4116,7 @@ class ExtractosServices
                 ->orderBy('boletas_depositos.id', 'desc')
             ->get();
        
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
          
             $resultset = array(
                 'target' => 'Depositos Miniterminales',
@@ -4355,7 +4355,7 @@ class ExtractosServices
                 ->orderBy('boletas_depositos.id', 'desc')
             ->get();
             
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Miniterminales',
@@ -4760,7 +4760,7 @@ class ExtractosServices
                 $data_select[$atm->atm_id] = $atm->name.' | '.$atm->ruc . ' | ' .$atm->description;
             }
 
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Depositos Cuotas Miniterminales',
@@ -4887,7 +4887,7 @@ class ExtractosServices
                 ->get();
             }
 
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Cuotas Miniterminales',
@@ -5158,7 +5158,7 @@ class ExtractosServices
                 $data_select[$atm->atm_id] = $atm->name.' | '.$atm->ruc . ' | ' .$atm->description;
             }
             
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target' => 'Depositos Alquileres Miniterminales',
@@ -5287,7 +5287,7 @@ class ExtractosServices
                 ->get();
             }
             //dd($boletas);
-            $results = $this->arrayPaginator($boletas, $request);
+            $results = $this->arrayPaginator($boletas->toArray(), $request);
 
             $resultset = array(
                 'target'        => 'Depositos Alquileres Miniterminales',
@@ -5635,6 +5635,131 @@ class ExtractosServices
         $response['saldo_cuota'] = $saldo_cuota_sum;
         
         return $response;
+    }
+
+    public function boletasEnviadasReports($request){
+        try{
+
+            $desde=Carbon::today();
+            $hasta=Carbon::tomorrow()->modify('-1 seconds');
+
+            $query="
+                select 
+                    bo.id as id_deposito,
+                    a.name as cliente, 
+                    bo.monto as monto, 
+                    bo.boleta_numero::varchar as nro_boleta,
+                    bo.fecha as fecha_boleta,
+                    mt_tipo_recibo.tipo_recibo as tipo_boleta, 
+                    bo.created_at as fecha_carga, 
+                    bo.updated_at as fecha_confirmacion,
+                    u.description as confirmed_by,
+                    c.numero_banco cuenta_bancaria, 
+                    b.descripcion as banco,
+                    bo.estado as confirmado,
+                    case 
+                        when mtd.destination_operation_id='0' then 'pendiente'
+                        when mtd.destination_operation_id='1' then 'error'
+                        else 'exitoso'
+                        end as estado_envio_ondanet,
+                    mt.recibo_nro recibo_nro,
+                    m.destination_operation_id  migracion_recibos,
+                    m.response
+                from mt_deposits mtd
+                left join mt_recibos_cobranzas mtr on mtd.recibo_id=mtr.recibo_id
+                left join mt_recibos mt on mt.id=mtr.recibo_id
+                left join mt_movements m on mt.mt_movements_id=m.id
+                left join mt_tipo_recibo on mt.tipo_recibo_id = mt_tipo_recibo.id
+                left join boletas_depositos bo on bo.id=mtr.boleta_deposito_id
+                left join cuentas_bancarias c on bo.cuenta_bancaria_id=c.id
+                left join bancos b on c.banco_id=b.id
+                left join atms a on bo.atm_id=a.id
+                left join users u on bo.updated_by = u.id
+                where bo.estado is true and mtd.created_at between '$desde' and '$hasta'
+                UNION
+                select 
+                    mtr.id as id_deposito,
+                    a.name as cliente,
+                    mtr.monto as  monto, 
+                    mtr.boleta_numero::varchar as nro_boleta, 
+                    mtr.fecha as fecha_boleta,
+                    mt_tipo_recibo.tipo_recibo as tipo_boleta, 
+                    mtr.created_at as fecha_carga, 
+                    mtr.updated_at as fecha_confirmacion,
+                    u.description as confirmed_by,
+                    c.numero_banco cuenta_bancaria, 
+                    b.descripcion as banco,
+                    mtr.estado as confirmado,
+                    case when mtd.destination_operation_id='0' then 'pendiente'
+                        when mtd.destination_operation_id='1' then 'error'
+                        else 'exitoso'
+                            end as estado_envio_ondanet,
+                    mt.recibo_nro recibo_nro,
+                    m.destination_operation_id migracion_recibos,
+                    m.response
+                from mt_deposits mtd
+                left join mt_recibos_pagos_miniterminales mtr on mtd.recibo_id=mtr.recibo_id
+                left join mt_recibos mt on mt.id=mtr.recibo_id
+                left join mt_movements m on mt.mt_movements_id=m.id
+                left join mt_tipo_recibo on mt.tipo_recibo_id = mt_tipo_recibo.id
+                left join cuentas_bancarias c on mtr.cuenta_bancaria_id=c.id
+                left join bancos b on c.banco_id=b.id
+                left join atms a on mtr.atm_id=a.id
+                left join users u on mtr.updated_by = u.id
+                where mtr.estado is true and mtd.created_at between '$desde' and '$hasta'
+                order by id_deposito desc;
+            ";
+
+            $boletas = \DB::select($query);
+
+            foreach($boletas as $boleta){
+                if($boleta->migracion_recibos < 1000){
+                    $boleta->response = (isset($boleta->response)) ? json_decode($boleta->response,  true) : null;
+                    if(!is_null($boleta->response)){
+                        $status=(isset($boleta->response['status'])) ? $boleta->response['status']: null;
+                        $boleta->migracion_recibos = (!is_null($status)) ? $status : 'Pendiente';
+                    }else{
+                        $boleta->migracion_recibos= 'Pendiente';
+                    }
+                }
+            }
+            //dd($boletas);
+            $resultset = array(
+                'target' => 'Envio de Boletas',
+                'transactions' => $boletas,
+                'reservationtime'=> (isset($input['reservationtime'])?$input['reservationtime']:0)
+            );
+                 
+            $groups = \DB::table('business_groups')
+                ->select(['business_groups.description', 'business_groups.ruc', 'business_groups.id'])
+                ->whereNotNull('ruc')
+                ->whereNull('deleted_at')
+            ->get();
+
+            $data_select = [];
+
+            foreach ($groups as $key => $group) {
+                $data_select[$group->id] = $group->description.' | '.$group->ruc;
+            }
+            
+            $resultset['data_select'] = $data_select;
+
+            $status = array('0'=>'Todos','exitoso'=>'Exitosos','pendiente'=>'Pendiente','error'=>'Error');
+
+            /*$resultset['usersNames']    = $usersNames;
+            $resultset['branches']      = $branches;*/
+            $resultset['groups']        = $data_select;
+            $resultset['group_id']      = 0;
+            $resultset['status']        = $status;
+            $resultset['status_id']    = 0;
+            //$resultset['user_id']       = '';
+            
+            return $resultset;
+
+        }catch (\Exception $e){
+            \Log::error("Error en la consulta de reportes" . $e);
+            return false;
+        }
     }
     
 }

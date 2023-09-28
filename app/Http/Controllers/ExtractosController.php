@@ -2183,4 +2183,20 @@ class ExtractosController extends Controller
         
 
     }
+
+
+     /**Envio de Boletas de Depositos*/
+     public function boletasEnviadasReports(Request $request)
+     {
+         if (!$this->user->hasAnyAccess('reporting_boletas_enviadas')) {
+             \Log::error('Unauthorized access attempt',
+                 ['user' => $this->user->username, 'route' => \Request::route()->getActionName()]);
+             Session::flash('error_message', 'No tiene los permisos para realizar esta operacion');
+             return redirect('/');
+         }
+ 
+         $report = new ExtractosServices('');
+         $result = $report->boletasEnviadasReports($request);
+         return view('reporting.index', compact('target','status','status_set'))->with($result);
+     }
 }
