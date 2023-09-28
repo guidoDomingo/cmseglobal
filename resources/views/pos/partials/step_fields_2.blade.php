@@ -7,7 +7,7 @@
         <span class="input-group-text">
             <i class="fa fa-sitemap"></i>
         </span> 
-        {!! Form::select('branch_id', $branches, $selected_branch, ['class' => 'form-control select3', 'placeholder' => 'Seleccione una Sucursal...']) !!}
+        {!! Form::select('branch_id', $branches, $selected_branch, ['class' => ' select2', 'placeholder' => 'Seleccione una Sucursal...', 'style' => 'width: 50%' ]) !!}
     </div>
 </div>
 

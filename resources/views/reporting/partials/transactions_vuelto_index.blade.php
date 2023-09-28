@@ -220,7 +220,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
+                                        <div class="input-group-text">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{$reservationtime or ''}}" />
@@ -277,7 +277,7 @@
                                 <div class="form-group">
                                     <label>Rango de Tiempo & Fecha:</label>
                                     <div class="input-group">
-                                        <div class="input-group-addon">
+                                        <div class="input-group-text">
                                             <i class="fa fa-clock-o"></i>
                                         </div>
                                         <input name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" value="{{$reservationtime or ''}}" />

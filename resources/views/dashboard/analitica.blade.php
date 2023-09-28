@@ -442,7 +442,7 @@
                             </div>
                             <div class="col-md-6" style="margin:10px;">
                                 <div class="input-group">
-                                    {{-- <div class="input-group-addon">
+                                    {{-- <div class="input-group-text">
                                         <i class="fa fa-clock-o"></i>
                                     </div> --}}
                                     {{-- <input readonly="readonly" name="reservationtime" type="text" id="reservationtime" class="form-control pull-right" /> --}}

@@ -4,7 +4,7 @@
             {!! Form::label('redes', 'Redes') !!} @if (\Sentinel::getUser()->inRole('superuser')) <a class="ms-5" href='#' id="nuevaRed" data-bs-toggle="modal" data-bs-target="#modalNuevaRed"><small>Agregar <i class="fa fa-plus"></i></small></a> @endif
             <div class="input-group">
                 <span class="input-group-text"><i class="fa fa-sitemap"></i></span>
-                {!! Form::select('owner_id', $owners, null, ['id' => 'owner_id','class' => 'form-control selecttom','placeholder' => 'Seleccione una Red..']) !!}
+                {!! Form::select('owner_id', $owners, null, ['id' => 'owner_id','class' => 'select2','placeholder' => 'Seleccione una Red..', 'style' => 'width:50%']) !!}
             </div>
         </div>
     </div>

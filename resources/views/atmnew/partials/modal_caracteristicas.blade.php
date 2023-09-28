@@ -20,7 +20,7 @@
                                         <div class="form-group">
                                             {!! Form::label('banco_id', 'Banco') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-institution"></i>
                                                 </div>  
                                                 {!! Form::select('banco_id',$bancos ,$banco_id , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
@@ -32,7 +32,7 @@
                                         <div class="form-group">
                                             {!! Form::label('tipo_cuenta', 'Tipo de cuenta') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-institution"></i>
                                                 </div>  
                                                 {!! Form::select('tipo_cuenta',$tipo_cuentas, $tipo_cuentas_id , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%' ]) !!}
@@ -47,7 +47,7 @@
                                         <div class="form-group">
                                             {!! Form::label('nro_cuenta', 'Nro de cuenta') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('nro_cuenta', null , ['class' => 'form-control', 'placeholder' => 'Nro de cuenta' ]) !!}
@@ -59,7 +59,7 @@
                                         <div class="form-group">
                                             {!! Form::label('canal_id', 'Canal de venta') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-bullhorn"></i>
                                                 </div>  
                                                 {!! Form::select('canal_id',$canales ,$canal_id , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
@@ -73,7 +73,7 @@
                                         <div class="form-group">
                                             {!! Form::label('categoria_id', 'Categoria del comercio') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::select('categoria_id',$categorias ,$categoria_id , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             {!! Form::label('accesibilidad', 'Accesibilidad') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('accesibilidad', null , ['class' => 'form-control', 'placeholder' => 'Accesibilidad' ]) !!}
@@ -99,7 +99,7 @@
                                         <div class="form-group">
                                             {!! Form::label('referencia', 'Referencia') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('referencia', null , ['class' => 'form-control', 'placeholder' => 'Referencia del lugar' ]) !!}
@@ -111,7 +111,7 @@
                                         <div class="form-group">
                                             {!! Form::label('visibilidad', 'Visibilidad') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('visibilidad', null , ['class' => 'form-control', 'placeholder' => 'Visibilidad' ]) !!}
@@ -125,7 +125,7 @@
                                         <div class="form-group">
                                             {!! Form::label('trafico', 'Trafico') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('trafico', null , ['class' => 'form-control', 'placeholder' => 'Trafico' ]) !!}
@@ -137,7 +137,7 @@
                                         <div class="form-group">
                                             {!! Form::label('dueño', 'Dueño') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('dueño', null , ['class' => 'form-control', 'placeholder' => 'Dueño' ]) !!}
@@ -151,7 +151,7 @@
                                         <div class="form-group">
                                             {!! Form::label('atendido_por', 'Atendido por') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('atendido_por', null , ['class' => 'form-control', 'placeholder' => 'encargado' ]) !!}
@@ -163,7 +163,7 @@
                                         <div class="form-group">
                                             {!! Form::label('estado_pop', 'Estado en el que se encuentra el POP') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-list-ul"></i>
                                                 </div>  
                                                 {!! Form::text('estado_pop', null , ['class' => 'form-control', 'placeholder' => 'Estado del POP' ]) !!}
@@ -179,7 +179,7 @@
                                         <div class="form-group">
                                             {!! Form::label('correo', 'Correo') !!}
                                             <div class="input-group">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-text">
                                                     <i class="fa fa-envelope-o"></i>
                                                 </div>  
                                                 {!! Form::text('correo',  null , ['class' => 'form-control',  'type'=>'email','placeholder' => 'ejemplo@mail.com' ]) !!}

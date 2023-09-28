@@ -39,7 +39,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('numero', 'Número interno') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('numero', null , ['class' => 'form-control', 'readonly' => 'readonly' ]) !!}
@@ -49,7 +49,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('fecha', 'Fecha:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha', null , ['class' => 'form-control', 'data-inputmask-alias' =>'date', 'data-inputmask-inputformat'=> 'dd/mm/yyyy', 'im-insert' => 'false','placeholder'=> 'dd/mm/yyyy', 'id' =>'fecha' ]) !!}
@@ -59,7 +59,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('concepto', 'Concepto:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('concepto', null , ['class' => 'form-control', 'readonly' => 'readonly'  ]) !!}
@@ -69,7 +69,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('monto', 'Monto') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('monto', null , ['class' => 'form-control', 'placeholder' => 'Gs.' ]) !!}
@@ -80,7 +80,7 @@
                                                 <div class="form-group">
                                                     {!! Form::label('comentario', 'Comentario:') !!}
                                                     <div class="input-group">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-text">
                                                             <i class="fa fa-comments"></i>
                                                         </div>
                                                         <textarea rows="6" cols="30" class="form-control" id="comentario" name="comentario" placeholder="Agregar un comentario">{!!$presupuesto->comentario!!}</textarea>

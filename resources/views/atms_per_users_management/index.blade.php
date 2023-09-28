@@ -244,7 +244,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="description">Nombre y Apellido:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-pencil-square-o"></i></span>
                                             <input type="text" class="form-control" name="description" id="description" placeholder="Ingresar nombre y apellido"></input>
                                         </div> <br />
                                     </div>
@@ -253,7 +253,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="doc_number">Número de documento:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><b>N</b></span>
+                                            <span class="input-group-text"><b>N</b></span>
                                             <input type="text" class="form-control" name="doc_number" id="doc_number" placeholder="Ingresar número de documento"></input>
                                         </div> <br />
                                     </div>
@@ -263,7 +263,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="username">Nombre de Usuario:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             <input type="text" class="form-control" name="username" id="username" placeholder="Ingresar nombre del usuario"></input>
                                         </div> <br />
                                     </div>
@@ -299,7 +299,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="email">Correo electrónico:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
                                         </div> <br/>
                                     </div>-->
@@ -307,7 +307,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                     <div class="col-md-12" id="email_div">
                                         <label for="email">Correo electrónico:</label>
                                         <div class="input-group input-group-lg" style="width: 100%;">
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
                                             <span class="input-group-btn" id="span_send_email">
                                                 <button type="button" class="btn btn-info btn-flat" title="Enviar link a correo ingresado." onclick="send('email')" id="button_send_email"><i class="fa fa-send"></i></button>
@@ -319,7 +319,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                     <div class="col-md-12" id="phone_number_div">
                                         <label for="phone_number">Número de Teléfono:</label>
                                         <div class="input-group input-group-lg" style="width: 100%;">
-                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                             <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Ingresar número de teléfono"></input>
                                             <span class="input-group-btn" id="span_send_phone_number">
                                                 <button type="button" class="btn btn-info btn-flat" title="Enviar link al número de teléfono ingresado." onclick="send('phone_number')" id="button_send_phone_number"><i class="fa fa-send"></i></button>
@@ -409,7 +409,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="description">Nombre y Apellido:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-pencil-square-o"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-pencil-square-o"></i></span>
                                             <input type="text" class="form-control" name="description" id="description" placeholder="Ingresar nombre y apellido"></input>
                                         </div> <br />
                                     </div>
@@ -418,7 +418,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="doc_number">Número de documento:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><b>N</b></span>
+                                            <span class="input-group-text"><b>N</b></span>
                                             <input type="text" class="form-control" name="doc_number" id="doc_number" placeholder="Ingresar número de documento"></input>
                                         </div> <br />
                                     </div>
@@ -428,7 +428,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="username">Nombre de Usuario:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
                                             <input type="text" class="form-control" name="username" id="username" placeholder="Ingresar nombre del usuario"></input>
                                         </div> <br />
                                     </div>
@@ -464,7 +464,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                         <label for="email">Correo electrónico:</label>
 
                                         <div class="input-group">
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
                                         </div> <br/>
                                     </div>-->
@@ -472,7 +472,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                     <div class="col-md-12" id="email_div">
                                         <label for="email">Correo electrónico:</label>
                                         <div class="input-group input-group-lg" style="width: 100%;">
-                                            <span class="input-group-addon"><i class="fa fa-envelope"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                             <input type="email" class="form-control" name="email" id="email" placeholder="Ingresar correo electrónico"></input>
                                             <span class="input-group-btn" id="span_send_email">
                                                 <button type="button" class="btn btn-info btn-flat" title="Enviar link a correo ingresado." onclick="send('email')" id="button_send_email"><i class="fa fa-send"></i></button>
@@ -484,7 +484,7 @@ $user_supervisor_id = $data['inputs']['user_supervisor_id'];
                                     <div class="col-md-12" id="phone_number_div">
                                         <label for="phone_number">Número de Teléfono:</label>
                                         <div class="input-group input-group-lg" style="width: 100%;">
-                                            <span class="input-group-addon"><i class="fa fa-phone"></i></span>
+                                            <span class="input-group-text"><i class="fa fa-phone"></i></span>
                                             <input type="text" class="form-control" name="phone_number" id="phone_number" placeholder="Ingresar número de teléfono"></input>
                                             <span class="input-group-btn" id="span_send_phone_number">
                                                 <button type="button" class="btn btn-info btn-flat" title="Enviar link al número de teléfono ingresado." onclick="send('phone_number')" id="button_send_phone_number"><i class="fa fa-send"></i></button>

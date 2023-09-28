@@ -5,7 +5,7 @@
             <div class="form-group">
             {!! Form::label('internet_service_contract_id', 'Contrato de servicio de internet') !!} <a style="margin-left: 8em" href='#' id="nuevoInternetServiceContract" data-toggle="modal" data-target="#modalNuevoInternetServiceContract"><small>Agregar <i class="fa fa-plus"></i></small></a>
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-filter"></i>
                     </div>
                     {!! Form::select('internet_service_contract_id', $internet_service_contracts, null, ['id' => 'internet_service_contract_id','class' => 'form-control select2', 'style' => 'width: 100%','placeholder'=>'Seleccione un tipo de contrato...']) !!}
@@ -17,7 +17,7 @@
             <div class="form-group">
             {!! Form::label('network_technology_id', 'Tecnología de Red') !!} <a style="margin-left: 8em" href='#' id="nuevoNetworkTechnology" data-toggle="modal" data-target="#modalNuevoNetworkTechnology"><small>Agregar <i class="fa fa-plus"></i></small></a>
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-filter"></i>
                     </div>
                     {!! Form::select('network_technology_id', $network_technologies, null, ['id' => 'network_technology_id','class' => 'form-control select2', 'style' => 'width: 100%','placeholder'=>'Seleccione una tecnologia de red...']) !!}
@@ -32,7 +32,7 @@
             <div class="form-group">
                 {!! Form::label('bandwidth', 'Ancho de banda') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-keyboard-o"></i>
                     </div>
                     {!! Form::text('bandwidth', null , ['class' => 'form-control', 'placeholder' => 'Ingrese un ancho de banda' ]) !!}
@@ -44,7 +44,7 @@
             <div class="form-group">
                 {!! Form::label('installation_date', 'Fecha de instalación') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-clock-o"></i>
                     </div>
                     {!! Form::text('installation_date', null, ['id' => 'installation_date', 'class' => 'form-control reservationtime', 'placeholder' => 'Ingrese la fecha de instalación',]) !!}
@@ -58,7 +58,7 @@
             <div class="form-group">
                 {!! Form::label('description', 'Descripción') !!}
                 <div class="input-group">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-comments"></i>
                     </div>
                     {!! Form::text('description', null , ['class' => 'form-control', 'placeholder' => 'Ingrese una descripción' , 'id' => 'description_network']) !!}
@@ -72,7 +72,7 @@
     <div class="form-group">
         {!! Form::label('housings', 'Housing', ['class' => 'col-xs-2']) !!} 
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-filter"></i>
             </div>
             {!! Form::select('housing_id',$housings, null, ['class' => 'form-control select2']); !!}
@@ -83,7 +83,7 @@
     <div class="form-group" style="display: none">
         {!! Form::label('housings', 'Housing', ['class' => 'col-xs-2']) !!} 
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-filter"></i>
             </div>
             {!! Form::select('housing_id',$housings, null, ['class' => 'form-control select2']); !!}

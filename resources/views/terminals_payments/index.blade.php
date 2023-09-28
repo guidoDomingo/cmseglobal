@@ -129,7 +129,7 @@ $receipt_ids = '[]';
                         <div class="col-md-4">
                             <label for="created_at">Buscar por Fecha:</label>
                             <div class="input-group">
-                                <div class="input-group-addon">
+                                <div class="input-group-text">
                                     <i class="fa fa-clock-o"></i>
                                 </div>
                                 <input name="created_at" type="text" id="created_at" class="form-control pull-right" onkeydown="return false">
@@ -155,7 +155,7 @@ $receipt_ids = '[]';
                         <div class="col-md-4">
                             <label for="transaction_id">Buscar por Transacción ID:</label>
                             <div class="input-group">
-                                <div class="input-group-addon">
+                                <div class="input-group-text">
                                     <b>ID</b>
                                 </div>
                                 <input type="number" name="transaction_id" id="transaction_id" class="form-control pull-right" placeholder="Transacción ID">
@@ -165,7 +165,7 @@ $receipt_ids = '[]';
                         <div class="col-md-4">
                             <label for="receipt_id">Recibo ID:</label>
                             <div class="input-group">
-                                <div class="input-group-addon">
+                                <div class="input-group-text">
                                     <b>ID</b>
                                 </div>
                                 <input type="number" name="receipt_id" id="receipt_id" class="form-control pull-right" placeholder="Recibo ID">
@@ -175,7 +175,7 @@ $receipt_ids = '[]';
                         <div class="col-md-4">
                             <label for="amount">Buscar por Monto:</label>
                             <div class="input-group">
-                                <div class="input-group-addon">
+                                <div class="input-group-text">
                                     <i class="fa fa-money"></i>
                                 </div>
                                 <input type="number" name="amount" id="amount" class="form-control pull-right" placeholder="Monto de transacción">

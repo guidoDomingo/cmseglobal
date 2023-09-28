@@ -10,18 +10,18 @@
 				<span class="input-group-text">
 					<i class="fa fa-file-text"></i>
 				</span>
-				{!! Form::select('pos_voucher_type_id', [] ,null , ['class' => 'form-control select2 object-type','placeholder' => 'Seleccione un Tipo...']) !!}
+				{!! Form::select('pos_voucher_type_id', [] ,null , ['class' => 'select2 ','placeholder' => 'Seleccione un Tipo...']) !!}
 			@else
 				<span class="input-group-text">
 					<i class="fa fa-file-text"></i>
 				</span>
-				{!! Form::select('pos_voucher_type_id', [$posVoucher->voucherType->id => $posVoucher->voucherType->getDescription().' - '.$posVoucher->voucher_code], $posVoucher->voucherType->id, ['class' => 'form-control select2 object-type','placeholder' => 'Seleccione un Tipo...']) !!}
+				{!! Form::select('pos_voucher_type_id', [$posVoucher->voucherType->id => $posVoucher->voucherType->getDescription().' - '.$posVoucher->voucher_code], $posVoucher->voucherType->id, ['class' => ' select2 ','placeholder' => 'Seleccione un Tipo...']) !!}
 			@endif
 		@else
 			<span class="input-group-text">
 				<i class="fa fa-file-text"></i>
 			</span>
-			{!! Form::select('pos_voucher_type_id', [] ,null , ['class' => 'form-control select2 object-type','placeholder' => 'Seleccione un Tipo...']) !!}
+			{!! Form::select('pos_voucher_type_id', [] ,null , ['class' => ' select2 ','placeholder' => 'Seleccione un Tipo...']) !!}
 		@endif
 	</div>
 </div>

@@ -129,7 +129,7 @@ $service_id = $data['inputs']['service_id'];
                                     <div class="form-group">
                                         <label for="timestamp">Buscar por Fecha y Hora:</label>
                                         <div class="input-group" style="border: 1px solid #285f6c;">
-                                            <div class="input-group-addon" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
+                                            <div class="input-group-text" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
                                                 <i class="fa fa-calendar fa-2x"></i>
                                             </div>
                                             <input type="text" class="form-control" id="timestamp" name="timestamp" placeholder="Seleccionar fecha." style="display:block; height: 50px; border: 0 !important; font-size: 15px; font-weight: bold"></input>
@@ -145,7 +145,7 @@ $service_id = $data['inputs']['service_id'];
                                     <div class="form-group">
                                         <label for="amount">Buscar por monto de Transacción</label>
                                         <div class="input-group" style="border: 1px solid #285f6c;">
-                                            <div class="input-group-addon" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
+                                            <div class="input-group-text" style="background-color: #285f6c; border: 1px solid #285f6c; color:white;">
                                                 <i class="fa fa-money fa-2x"></i>
                                             </div>
                                             <input type="number" class="form-control" id="amount" name="amount" placeholder="Monto de transacción" style="display:block; height: 50px; border: 0 !important; font-size: 15px; font-weight: bold; border-bottom: 1px solid gray !important; margin-bottom: 5px;"></input>

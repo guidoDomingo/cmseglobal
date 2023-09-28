@@ -6,7 +6,7 @@
 <div class="form-group">
     {!! Form::label('group_id', 'Grupo') !!}  <a style="margin-left: 8em" href='#' id="nuevoGrupo" data-toggle="modal" data-target="#modalNuevoGrupo"><small>Agregar <i class="fa fa-plus"></i></small></a>
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-sitemap"></i>
             </div>
             @if(isset($grupo))

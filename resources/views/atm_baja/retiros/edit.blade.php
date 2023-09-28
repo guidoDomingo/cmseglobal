@@ -38,7 +38,7 @@ BAJA | Editar Retiro de dispositivo
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('numero', 'Número interno:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('numero', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el numero interno.' ,'readonly' => 'readonly']) !!}
@@ -48,7 +48,7 @@ BAJA | Editar Retiro de dispositivo
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('fecha', 'Fecha:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}
@@ -58,7 +58,7 @@ BAJA | Editar Retiro de dispositivo
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('encargado', 'Quien retiro:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('encargado', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el encargado.' ]) !!}
@@ -68,7 +68,7 @@ BAJA | Editar Retiro de dispositivo
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('firma', 'Quien firmo:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('firma', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el firma.' ]) !!}
@@ -116,7 +116,7 @@ BAJA | Editar Retiro de dispositivo
                                                 <div class="form-group">
                                                     {!! Form::label('comentario', 'Comentario:') !!}
                                                     <div class="input-group">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-text">
                                                             <i class="fa fa-comments"></i>
                                                         </div>
                                                         <textarea rows="10" cols="30" class="form-control" id="comentario" name="comentario" placeholder="Agregar un comentario">{!!$retiro->comentario!!}</textarea>

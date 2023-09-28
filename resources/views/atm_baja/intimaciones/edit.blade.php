@@ -39,7 +39,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('numero', 'Número interno') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('numero', null , ['class' => 'form-control', 'readonly' => 'readonly' ]) !!}
@@ -49,7 +49,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('fecha_envio', 'Fecha de envío:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha_envio', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}
@@ -58,7 +58,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('fecha_recepcion', 'Fecha de recepción:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha_recepcion', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}
@@ -69,7 +69,7 @@
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('fecha_vencimiento', 'Fecha de vencimiento:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha_vencimiento', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}

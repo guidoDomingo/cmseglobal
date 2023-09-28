@@ -33,12 +33,12 @@
                 </span>
                 @if(isset($grupo))
                     @if(empty($grupo))
-                        {!! Form::select('group_id', $groups , null , ['id' => 'group_id', 'class' => 'select2 object-type','placeholder' => 'Seleccione un Grupo...']) !!}
+                        {!! Form::select('group_id', $groups , null , ['id' => 'group_id', 'class' => 'select2 object-type','placeholder' => 'Seleccione un Grupo...','style' => 'width: 50%']) !!}
                     @else
-                        {!! Form::select('group_id', [$grupo->id => $grupo->description], $grupo->id, ['class' => 'select2 object-type','placeholder' => 'Seleccione un Grupo...','style' => 'width: 100%']) !!}
+                        {!! Form::select('group_id', [$grupo->id => $grupo->description], $grupo->id, ['class' => 'select2 object-type','placeholder' => 'Seleccione un Grupo...','style' => 'width: 50%']) !!}
                     @endif
                 @else
-                    {!! Form::select('group_id', $groups , null , ['id' => 'group_id', 'class' => 'select2 object-type','placeholder' => 'Seleccione un grupo...','style' => 'width: 100%']) !!}
+                    {!! Form::select('group_id', $groups , null , ['id' => 'group_id', 'class' => 'select2 object-type','placeholder' => 'Seleccione un grupo...','style' => 'width: 50%']) !!}
                 @endif
             </div>
         </div>

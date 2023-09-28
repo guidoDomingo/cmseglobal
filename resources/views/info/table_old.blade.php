@@ -265,7 +265,7 @@
 
                                                 @if ($key_type !== 'FOREIGN KEY')
                                                     <div class="input-group" id="input_group_{{ $column_name }}">
-                                                        <span class="input-group-addon"
+                                                        <span class="input-group-text"
                                                             id="input_group_addon_{{ $column_name }}"
                                                             style="color: {{ $color }}">
                                                             <b>
@@ -510,7 +510,7 @@
 
                                         @if ($key_type !== 'FOREIGN KEY')
                                             <div class="input-group">
-                                                <span class="input-group-addon">
+                                                <span class="input-group-text">
                                                     <b id="icon_text_{{ $column_name }}">
                                                         <i class="{{ $icon }}"></i>{{ $text }}
                                                     </b>

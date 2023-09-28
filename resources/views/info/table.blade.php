@@ -257,7 +257,7 @@ $user_id = $data['inputs']['user_id'];
                                             @endforeach
 
                                             <div class="input-group">
-                                                <span class="input-group-addon">
+                                                <span class="input-group-text">
                                                     <b>
                                                         <i class="fa fa-pencil"></i>
                                                     </b>

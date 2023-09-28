@@ -57,7 +57,7 @@
                 <label>Horario de atención - Desde:</label>
                 <div class="input-group">
                     <input type="text" class="form-control timepicker" name="start_time"> 
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-clock-o"></i>
                     </div>
                 </div>
@@ -70,7 +70,7 @@
                 <label>Horario de atención - Hasta:</label>
                 <div class="input-group">
                     <input type="text" class="form-control timepicker" name="end_time">
-                    <div class="input-group-addon">
+                    <div class="input-group-text">
                         <i class="fa fa-clock-o"></i>
                     </div>
                 </div>

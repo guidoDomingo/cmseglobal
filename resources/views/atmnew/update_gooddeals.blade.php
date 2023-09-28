@@ -41,7 +41,7 @@ Configuración de Promociones
                 <div class="form-group">
                     <label>Fecha de última actualización</label>
                     <div class="input-group">
-                        <div class="input-group-addon">
+                        <div class="input-group-text">
                             <i class="fa fa-clock-o"></i>
                         </div>
                         <input name="last_update" type="text" id="last_update" class="form-control pull-right" />

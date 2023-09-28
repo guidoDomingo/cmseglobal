@@ -57,7 +57,7 @@
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('numero', 'Número de compromiso:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-pencil-square-o"></i>
                                                     </div>
                                                     {!! Form::text('numero', null , ['class' => 'form-control',  'readonly' => 'readonly'  ]) !!}
@@ -67,7 +67,7 @@
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('cantidad_pago', 'Cantidad de pagos:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-keyboard-o"></i>
                                                     </div>
                                                     {!! Form::text('cantidad_pago', null , ['class' => 'form-control', 'placeholder' => 'Ingrese la cantidad de pagos' ]) !!}
@@ -77,7 +77,7 @@
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('monto', 'Monto:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-money"></i>
                                                     </div>
                                                     {!! Form::text('monto', null , ['id' => 'monto','class' => 'form-control', 'placeholder' => 'Gs.' ]) !!}
@@ -87,7 +87,7 @@
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('fecha', 'Fecha:') !!}
                                                 <div class="input-group">
-                                                    <div class="input-group-addon">
+                                                    <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
                                                     {!! Form::text('fecha', null , ['class' => 'form-control', 'data-inputmask' => "'alias': 'dd/mm/yyyy'", 'data-mask' => 'dd/mm/yyyy' ]) !!}
@@ -98,7 +98,7 @@
                                                 <div class="form-group">
                                                     {!! Form::label('comentario', 'Comentario:') !!}
                                                     <div class="input-group">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-text">
                                                             <i class="fa fa-comments"></i>
                                                         </div>
                                                         {!! Form::textarea('comentario', null , ['class' => 'form-control', 'placeholder' => 'Ingrese un comentario'  ]) !!}

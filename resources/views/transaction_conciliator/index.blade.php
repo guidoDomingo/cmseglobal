@@ -53,7 +53,7 @@
                             <div class="form-group">
                                 {!! Form::Label('timestamp', 'Rango de fecha a Conciliar:', [ 'style' => 'float:left' ]) !!}
                                 <div class="input-group" style="display: inline-table">
-                                    <div class="input-group-addon">
+                                    <div class="input-group-text">
                                         <i class="fa fa-clock-o"></i>
                                     </div>
 

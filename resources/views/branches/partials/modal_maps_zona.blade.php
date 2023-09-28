@@ -3,10 +3,10 @@
         <div class="form-group">
         {!! Form::label('departamento_id', 'Departamento',['class' => 'col-xs-8']) !!} <a href='#' id="nuevoDepartamento" data-toggle="modal" data-target="#modalNuevoDepartamento"><small>Agregar <i class="fa fa-plus"></i></small></a>
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-map-marker"></i>
             </div>  
-            {!! Form::select('departamento_id', $departamentos, null , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
+            {!! Form::select('departamento_id', $departamentos, null , ['class' => ' select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:80%']) !!}
         </div>
         </div>
     </div>
@@ -14,10 +14,10 @@
         <div class="form-group">
         {!! Form::label('ciudad_id', 'Ciudad', ['class' => 'col-xs-8']) !!} <a href='#' id="nuevaCiudad" data-toggle="modal" data-target="#modalNuevaCiudad"><small>Agregar <i class="fa fa-plus"></i></small></a>
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-map-marker"></i>
             </div>  
-            {!! Form::select('ciudad_id', $ciudades, null , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
+            {!! Form::select('ciudad_id', $ciudades, null , ['class' => ' select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:80%']) !!}
         </div>
         </div>
     </div>
@@ -27,10 +27,10 @@
         <div class="form-group">
         {!! Form::label('barrio_id', 'Barrio',[ 'class' => 'col-xs-8']) !!} <a href='#' id="nuevoBarrio" ><small>Agregar <i class="fa fa-plus"></i></small></a>
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-map-marker"></i>
             </div>         
-            {!! Form::select('barrio_id', $barrios, null , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
+            {!! Form::select('barrio_id', $barrios, null , ['class' => ' select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:80%']) !!}
         </div>       
     </div>
     </div>
@@ -48,22 +48,22 @@
             {!! Form::label('zona_id', 'Zona',['class' => 'col-xs-8']) !!} <a  href='#' id="asociarZonaCiudad" data-toggle="modal"><small>Agregar <i class="fa fa-plus"></i></small></a>
 
             <div class="input-group">
-                <div class="input-group-addon">
+                <div class="input-group-text">
                     <i class="fa fa-map-marker"></i>
                 </div>             
-                {!! Form::select('zona_id',$zonas  ,null, ['class' => 'form-control select2','style' => 'width: 100%','placeholder' => 'Seleccione una Zona...']) !!}
+                {!! Form::select('zona_id',$zonas  ,null, ['class' => ' select2','style' => 'width: 80%','placeholder' => 'Seleccione una Zona...']) !!}
             </div>       
         </div>
     </div>
 </div>
 <label>Ubicación. <small><i class="fto-help-circled mar_r4 fs_lg"></i> Hace clic sobre el mapa para definir la ubicacion exacta.</small></label>
-<div id="map" style="width:100%;height:270px"></div>
+<div id="map" style="width:80%;height:270px"></div>
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
         {!! Form::label('latitud', 'Latitud') !!}
          <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-map"></i>
             </div>         
             {!! Form::text('latitud', null , ['class' => 'form-control', 'placeholder' => 'Latitud' ]) !!}
@@ -74,7 +74,7 @@
         <div class="form-group">
         {!! Form::label('longitud', 'Longitud') !!}
         <div class="input-group">
-            <div class="input-group-addon">
+            <div class="input-group-text">
                 <i class="fa fa-map"></i>
             </div>  
             {!! Form::text('longitud', null , ['class' => 'form-control', 'placeholder' => 'Longitud' ]) !!}
@@ -100,14 +100,14 @@
     var eglobaltIcon = "{{ asset('map-icon-36x36.png') }}";
     function initMap() {
         var mapProp= {
-            center:new google.maps.LatLng(-25.284437539757388,-57.58209245312503),
+            center:new google.maps.LatLng(-25.284437539757388,-57.58209245312803),
             zoom:14,
         };
         var map = new google.maps.Map(document.getElementById("map"),mapProp);
         var infoWindow = new google.maps.InfoWindow;
 
         var marker = new google.maps.Marker({
-            position: google.maps.LatLng(-25.284437539757388,-57.58209245312503), 
+            position: google.maps.LatLng(-25.284437539757388,-57.58209245312803), 
             map: map,
             draggable: true,
             icon: eglobaltIcon

@@ -902,7 +902,7 @@ $service_id = $data['inputs']['service_id'];
                     //inputs += '<label for="' + id + '" id="label_' + id + '">' + label + '</label>';
                     inputs += '<div class="form-group">';
                     inputs += '<div class="input-group">';
-                    inputs += '<div class="input-group-addon" style="' + input_group_addon_style + '">';
+                    inputs += '<div class="input-group-text" style="' + input_group_addon_style + '">';
                     inputs += '<i class="' + fa_class + '" style = "' + fa_style + '"></i>';
                     inputs += '</div>';
                     inputs += input;

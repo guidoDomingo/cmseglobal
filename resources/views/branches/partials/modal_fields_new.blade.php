@@ -1,7 +1,7 @@
 <div class="form-group">
 {!! Form::label('description', 'Nombre') !!}
     <div class="input-group">
-        <div class="input-group-addon">
+        <div class="input-group-text">
             <i class="fa fa-pencil"></i>
         </div>  
 		{!! Form::text('description', null , ['class' => 'form-control', 'placeholder' => 'nombre de sucursal' , 'id' => 'description_sucursal_new']) !!}
@@ -10,7 +10,7 @@
 <div class="form-group">
 {!! Form::label('branch_code', 'Código Sucursal (Facturación)') !!}
     <div class="input-group">
-        <div class="input-group-addon">
+        <div class="input-group-text">
             <i class="fa fa-key"></i>
         </div>  
 		{!! Form::text('branch_code', '001' , ['class' => 'form-control', 'placeholder' => 'Código de Sucursal' ]) !!}
@@ -19,7 +19,7 @@
 <div class="form-group">
 {!! Form::label('address', 'Dirección') !!}
     <div class="input-group">
-        <div class="input-group-addon">
+        <div class="input-group-text">
             <i class="fa fa-map-marker"></i>
         </div>  
 		{!! Form::text('address', null , ['class' => 'form-control', 'placeholder' => 'dirección' ]) !!}
@@ -28,7 +28,7 @@
 <div class="form-group">
 {!! Form::label('phone', 'Teléfono') !!}
     <div class="input-group">
-        <div class="input-group-addon">
+        <div class="input-group-text">
             <i class="fa fa-phone-square"></i>
         </div>  
 		{!! Form::text('phone', null , ['class' => 'form-control', 'placeholder' => 'teléfono' ]) !!}
@@ -50,10 +50,10 @@
         <div class="form-group">
             {!! Form::label('executive_id', 'Ejecutivo responsable') !!}
             <div class="input-group">
-                <div class="input-group-addon">
+                <div class="input-group-text">
                     <i class="fa fa-user"></i>
                 </div>  
-                {!! Form::select('executive_id',$users ,null , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
+                {!! Form::select('executive_id',$users ,null , ['class' => ' select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:80%']) !!}
             </div> 
         </div>
     </div>
@@ -64,10 +64,10 @@
         <div class="form-group">
             {!! Form::label('caracteristicas_id', 'Caracteristicas del comercial') !!} <a style="margin-left: 2em" href='#' id="nuevaCaracteristica" data-toggle="modal" data-target="#modalCaracteristicas"><small>Agregar <i class="fa fa-plus"></i></small></a>
             <div class="input-group">
-                <div class="input-group-addon">
+                <div class="input-group-text">
                     <i class="fa fa-map-marker"></i>
                 </div>  
-                {!! Form::select('caracteristicas_id', $caracteristicas ,null,['class' => 'form-control select2', 'placeholder' => 'Agregue una caracteristica' , 'style' => 'width:100%']) !!}
+                {!! Form::select('caracteristicas_id', $caracteristicas ,null,['class' => ' select2', 'placeholder' => 'Agregue una caracteristica' , 'style' => 'width:80%']) !!}
             </div>
         </div>
     </div>
@@ -75,11 +75,11 @@
         <div class="form-group">
             {!! Form::label('related_id', 'Encargado del ATM') !!} 
             <div class="input-group">
-                <div class="input-group-addon">
+                <div class="input-group-text">
                     <i class="fa fa-map-marker"></i>
                 </div>  
-                {{-- {!! Form::select('related_id', $responsables ,null,['class' => 'form-control select2', 'style' => 'width:100%']) !!} --}}
-                {!! Form::select('related_id',$responsables ,null , ['class' => 'form-control select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:100%']) !!}
+                {{-- {!! Form::select('related_id', $responsables ,null,['class' => 'form-control select2', 'style' => 'width:80%']) !!} --}}
+                {!! Form::select('related_id',$responsables ,null , ['class' => ' select2', 'placeholder' => 'Seleccione una opción' , 'style' => 'width:80%']) !!}
 
             </div>
         </div>
