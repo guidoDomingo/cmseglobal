@@ -1,5 +1,5 @@
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         <div class="form-group">
             {!! Form::label('descripcion', 'Nombre') !!}  <small style="color: red"><strong>(*)</strong></small>
@@ -9,7 +9,7 @@
    
 </div>  
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         <div class="form-group">
           

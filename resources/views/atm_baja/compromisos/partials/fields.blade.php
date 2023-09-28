@@ -1,8 +1,8 @@
-<div class="form-row d-flex mb-5">
+<div class="row d-flex mb-5">
     <div class="form-group col-md-6 borderd-campaing">
         <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; COMPROMISO DE PAGO &nbsp;</h4></div>
         <div class="container-campaing">
-            <div class="form-row">
+            <div class="row">
 
                 <div class="form-group col-md-12">
                     {!! Form::label('estado', 'Estado:') !!}

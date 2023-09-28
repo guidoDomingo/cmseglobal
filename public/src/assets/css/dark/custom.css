@@ -76,4 +76,12 @@ body.dark .select2-search--dropdown {
     background-color: #1B2E4B !important;
 }
 
+/* para dar de bajas atms */
+.borderd-campaing {
+    height: auto !important;
+}
+.borderd-info {
+    height: auto !important;
+}
+
 

@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'tags.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoTag-form']) !!}
                         @include('tags.partials.fields')
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('tags.index',['ticket_id' => $ticket_id,'campaign_id' => $campaign_id ]) }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>

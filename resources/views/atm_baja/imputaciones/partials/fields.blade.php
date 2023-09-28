@@ -3,7 +3,7 @@
         <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; IMPUTACIÓN DE DEUDA &nbsp;</h4></div>
         <div class="container-campaing">
 
-            <div class="form-row">
+            <div class="row">
                 
                 <div class="form-group col-md-12">
                     {!! Form::label('estado', 'Estado:') !!}

@@ -1,6 +1,6 @@
 
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-4">
         {!! Form::label('name', 'Nombre') !!}
         {!! Form::text('name', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el nombre del voucher' ]) !!}

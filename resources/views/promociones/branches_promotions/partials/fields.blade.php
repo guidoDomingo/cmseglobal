@@ -1,4 +1,4 @@
-<div class="form-row">
+<div class="row">
 
     <div class="form-group col-md-3">
         <div class="form-group">
@@ -25,7 +25,7 @@
         </div>
     </div>
 </div>  
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-3">
         <div class="form-group">
             {!! Form::label('phone', 'Teléfono:') !!}
@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <div class="form-row">
+    <div class="row">
     <div class="form-group col-md-3">
         <div class="form-group">
             {!! Form::label('custom_image', 'Archivo multimedia') !!} 
@@ -106,7 +106,7 @@
 </div>  
     
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         <div class="form-group">
           

@@ -30,7 +30,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'presupuestos.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoPresupuesto-form']) !!}
                             @include('atm_baja.presupuestos.partials.fields')
-                            <div class="form-row mt-5">
+                            <div class="row mt-5">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/presupuesto') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

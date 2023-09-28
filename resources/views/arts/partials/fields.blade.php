@@ -1,5 +1,5 @@
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         {!! Form::label('title', 'Titulo') !!}
         {!! Form::text('title', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el titulo del arte' ]) !!}
@@ -19,7 +19,7 @@
 
 <div class="clearfix"></div>
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-6">
         {!! Form::label('duracionReprodu', 'Duración de reproducción (Seg.)') !!}
         {!! Form::text('duracionReprodu', null , ['class' => 'form-control', 'placeholder' => 'Ingrese la duración de la reproducción' ]) !!}
@@ -33,7 +33,7 @@
 <div class="clearfix"></div>
 {!! Form::hidden('campaigns_id', $campaign_id) !!}
 
-{{-- <div class="form-row">
+{{-- <div class="row">
     <div class="form-group col-md-6">
         <div class="form-group">
             {!! Form::label('campaigns_id', 'Campañas/Promociones') !!} 

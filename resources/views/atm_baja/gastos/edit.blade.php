@@ -28,7 +28,7 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($gasto, ['route' => ['gastos_administrativo.update', $gasto->id ] , 'method' => 'PUT', 'id' => 'editarGasto-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-6 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; GASTO ADMINISTRATIVO &nbsp;</h4></div>
                                     <div class="container-campaing">
@@ -102,7 +102,7 @@
                             </div>      
 
                             <div class="clearfix"></div>
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$grupo->id.'/'.$grupo->id.'/gasto_administrativo') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

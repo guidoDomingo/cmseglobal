@@ -29,11 +29,11 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($compromiso, ['route' => ['compromisos.update', $compromiso->id ] , 'method' => 'PUT', 'id' => 'editarCompromiso-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-6 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; COMPROMISO DE PAGO &nbsp;</h4></div>
                                     <div class="container-campaing">
-                                        <div class="form-row">
+                                        <div class="row">
                             
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('estado', 'Estado:') !!}
@@ -112,7 +112,7 @@
                                 @include('atm_baja.info')
                             </div>
                             <div class="clearfix"></div>
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$grupo->id.'/'.$grupo->id.'/compromiso') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

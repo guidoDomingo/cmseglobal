@@ -3,7 +3,7 @@
         <div class=""><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; GASTO ADMINISTRATIVO &nbsp;</h4></div>
         <div class="container-campaing">
 
-            <div class="form-row">
+            <div class="row">
                 
                 <div class="form-group col-md-6">
                     {!! Form::label('numero', 'Numeración interna:') !!}

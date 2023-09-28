@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::model($art, ['route' => ['promotions_vouchers.update', $art->id ] , 'method' => 'PUT', 'id' => 'editarVoucher-form']) !!}
                         {{-- @include('promotion_vouchers.partials.fields') --}}
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('promotions_vouchers.index') }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>

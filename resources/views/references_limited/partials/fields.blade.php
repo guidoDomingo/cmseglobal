@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div class="form-row">        
+<div class="row">        
     <div class="form-group col-md-4">
         <div class="form-group">
             {!! Form::label('reference', 'Referencia') !!}

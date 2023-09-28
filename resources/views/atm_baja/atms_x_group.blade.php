@@ -42,7 +42,7 @@
             </div>
         </div> --}}
         <div class="callout callout-info mb-5" style="height: 400px;">
-            <div class="form-row">   
+            <div class="row">   
                 
                 <div class="form-group col-md-9">                
                     <h4 style="text-align: center"><i class="fa fa-info"></i> CLIENTE:</h4>

@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::model($art, ['route' => ['arts.update', $art->id ] , 'method' => 'PUT', 'id' => 'editarArte-form']) !!}
                         @include('arts.partials.fields')
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('arts.index',['campaign_id' => $campaign_id]) }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>

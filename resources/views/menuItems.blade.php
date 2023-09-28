@@ -201,6 +201,266 @@
         link: "{{   route('reporting.historial_bloqueos')  }}",
         requiredPermission: ['reporting.conciliaciones']
     },
+
+    {
+        name: 'Resumen Por ATM',
+        link: "{{ route('reports.resumen_transacciones') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Disponibilidad Por ATM',
+        link: "{{ route('reports.estado_atm') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Historial de Estados ATM',
+        link: "{{ route('reports.atm_status_history') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Transacciones por Mes',
+        link: "{{ route('reports.transactions_amount') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Transacciones por ATM',
+        link: "{{ route('reports.transactions_atm') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Denominaciones Utilizadas',
+        link: "{{ route('reports.denominaciones_amount') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+    {
+        name: 'Efectividad',
+        link: "{{ route('reports.efectividad') }}",
+        requiredPermission: ['reporting.vueltos']
+    },
+
+    {
+        name: 'Comisiones Qr Venta',
+        link: "{{ route('comisionFactura') }}",
+        requiredPermission: ['commissions_qr_invoices']
+    },
+
+    {
+        name: 'Arqueos',
+        link: "{{ route('reports.arqueos') }}",
+        requiredPermission: ['reporting.arqueos']
+    },
+    {
+        name: 'Cargas',
+        link: "{{ route('reports.cargas') }}",
+        requiredPermission: ['reporting.cargas']
+    },
+    {
+        name: 'Dispositivos',
+        link: "{{ route('reports.dispositivos') }}",
+        requiredPermission: ['reporting.dispositivos']
+    },
+    {
+        name: 'Dépositos de Arqueos',
+        link: "{{ route('depositos_arqueos.index') }}",
+        requiredPermission: ['depositos_arqueos']
+    },
+
+    {
+        name: 'Instalaciones APP-Billetaje',
+        link: "{{ route('reports.installations') }}",
+        requiredPermission: ['reporting.transacciones']
+    },
+    {
+        name: 'Contratos Miniterminales',
+        link: "{{ route('reports.contracts') }}",
+        requiredPermission: ['reporting.contracts_atms']
+    },
+
+    {
+        name: 'Gestión de Usuarios',
+        link: "{{ route('atms_per_users_management') }}",
+        requiredPermission: ['atms_per_users_management']
+    },
+    {
+        name: 'Terminales por Usuario',
+        link: "{{ route('atms_per_users') }}",
+        requiredPermission: ['atms_per_users']
+    },
+
+    {
+        name: 'ATMs',
+        link: "{{ route('atm_index') }}",
+        requiredPermission: ['atms']
+    },
+    {
+        name: 'Partes de ATMs',
+        link: "{{ route('atms_parts') }}",
+        requiredPermission: ['atms_parts']
+    },
+
+    {
+        "name": "ABM miniterminales",
+        "link": "{{ route('atmnew.index') }}",
+        "requiredPermission": ["atms_v2"]
+    },
+    {
+        "name": "Gestor de Pólizas",
+        "link": "{{ route('insurances.index') }}",
+        "requiredPermission": ["insurances_form"]
+    },
+    {
+        "name": "Contratos",
+        "link": "{{ route('contracts.index') }}",
+        "requiredPermission": ["gestor_contratos"]
+    },
+    {
+        "name": "Reporte | Contratos",
+        "link": "{{ route('reports.contratos') }}",
+        "requiredPermission": ["gestor_contratos.reports"]
+    },
+    {
+        "name": "Reporte de Clientes",
+        "link": "{{ route('reports.dms') }}",
+        "requiredPermission": ["reports_dms"]
+    },
+    {
+        "name": "Caracteristicas Clientes",
+        "link": "{{ route('caracteristicas.clientes') }}",
+        "requiredPermission": ["caracteristicas_clientes"]
+    },
+    {
+        "name": "Canales de venta",
+        "link": "{{ route('canales.index') }}",
+        "requiredPermission": ["canales"]
+    },
+    {
+        "name": "Categorias",
+        "link": "{{ route('categorias.index') }}",
+        "requiredPermission": ["categorias"]
+    },
+    {
+        "name": "Bancos",
+        "link": "{{ route('bancos.index') }}",
+        "requiredPermission": ["bancos"]
+    },
+    {
+        "name": "Baja de miniterminales",
+        "link": "{{ route('atms.baja') }}",
+        "requiredPermission": ["bajas"]
+    },
+    {
+        "name": "Redes / Sucursales",
+        "link": "{{ route('owner.index') }}",
+        "requiredPermission": ["owner"]
+    },
+    {
+        "name": "Retiro de Dinero",
+        "link": "{{ route('reports.mini_retiro') }}",
+        "requiredPermission": ["minis_cashout_devolucion_vuelto"]
+    },
+    {
+        "name": "Puntos de Venta",
+        "link": "{{ route('pos.index') }}",
+        "requiredPermission": ["pos"]
+    },
+    {
+        "name": "Tipos de Comprobante",
+        "link": "{{ route('vouchers.index') }}",
+        "requiredPermission": ["vouchers"]
+    },
+    {
+        "name": "Proveedores",
+        "link": "{{ route('providers.index') }}",
+        "requiredPermission": ["providers"]
+    },
+    {
+        "name": "Productos",
+        "link": "{{ route('products.index') }}",
+        "requiredPermission": ["products"]
+    },
+    {
+        "name": "Entidades Externas",
+        "link": "{{ route('outcome.index') }}",
+        "requiredPermission": ["outcomes"]
+    },
+    {
+        "name": "Reversiones Bancard",
+        "link": "{{ route('reversiones.index') }}",
+        "requiredPermission": ["reversiones_bancard"]
+    },
+    {
+        "name": "Gestor de Aplicaciones",
+        "link": "{{ route('applications.index') }}",
+        "requiredPermission": ["applications"]
+    },
+    {
+        "name": "Gestor de actualizaciones",
+        "link": "{{ route('app_updates.index') }}",
+        "requiredPermission": ["applications"]
+    },
+    {
+        "name": "Gestor de Token/Dropbox",
+        "link": "{{ url('token_dropbox/-1/edit') }}",
+        "requiredPermission": ["applications"]
+    },
+    {
+        "name": "Proveedores",
+        "link": "{{ route('wsproviders.index') }}",
+        "requiredPermission": ["webservices.providers"]
+    },
+    {
+        "name": "Productos/Operaciones",
+        "link": "{{ route('wsproducts.index') }}",
+        "requiredPermission": ["webservices.products"]
+    },
+    {
+        "name": "Web Services",
+        "link": "{{ route('webservices.index') }}",
+        "requiredPermission": ["webservices"]
+    },
+    {
+        "name": "Act. Promociones",
+        "link": "{{ route('gooddeals.update') }}",
+        "requiredPermission": ["atms.update_gooddeal"]
+    }, 
+    {
+        "name": "Marcas",
+        "link": "{{ route('marca.index') }}",
+        "requiredPermission": ["marca"]
+    },
+    {
+        "name": "Servicios Por Marca",
+        "link": "{{ route('servicios_marca.index') }}",
+        "requiredPermission": ["servicio_marca"]
+    },
+    {
+        "name": "Grilla de Servicios",
+        "link": "{{ route('marca.grilla_servicios') }}",
+        "requiredPermission": ["marca.grilla"]
+    },
+    {
+        "name": "Ordenar Marcas",
+        "link": "{{ route('marca.order') }}",
+        "requiredPermission": ["marca.order"]
+    },
+    {
+        "name": "Parámetros",
+        "link": "{{ route('params_rules.index') }}",
+        "requiredPermission": ["params_rules"]
+    },
+    {
+        "name": "Reglas de Servicios",
+        "link": "{{ route('services_rules.index') }}",
+        "requiredPermission": ["services_rules"]
+    },
+    {
+        "name": "Referencias",
+        "link": "{{ route('references.index') }}",
+        "requiredPermission": ["references_rules"]
+    }
+
+
+
     // Agrega más elementos del menú aquí
 ];
 

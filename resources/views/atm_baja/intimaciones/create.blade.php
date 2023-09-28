@@ -30,7 +30,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'intimaciones.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoIntimacion-form']) !!}
                             @include('atm_baja.intimaciones.partials.fields')
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/intimacion') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

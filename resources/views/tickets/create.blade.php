@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'tickets.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoTicket-form']) !!}
                         @include('tickets.partials.fields')
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('tickets.index',['campaign_id' => $campaign_id]) }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>

@@ -3,7 +3,7 @@
         <div class=""><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; REMISIÓN DE PAGARÉ &nbsp;</h4></div>
         <div class="container-campaing">
 
-            <div class="form-row">
+            <div class="row">
                 
                 <div class="form-group col-md-6">
                     {!! Form::label('numero', 'Numeración interna:') !!}
@@ -94,7 +94,7 @@
     <div class="form-group col-md-6 borderd-info">
             <div class=""><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
             <div class="container-info">
-                <div class="form-row">
+                <div class="row">
 
                 
 

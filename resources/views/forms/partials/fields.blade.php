@@ -1,5 +1,5 @@
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         {!! Form::label('label', 'Label') !!}
         {!! Form::text('label', null , ['class' => 'form-control', 'placeholder' => 'Ingrese un label para el formulario' ]) !!}
@@ -12,7 +12,7 @@
 
 <div class="clearfix"></div>
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-6">
         {!! Form::label('valorminimo', 'Valor mínimo') !!}
         {!! Form::text('valorminimo', null , ['class' => 'form-control', 'placeholder' => 'Ingrese el valor mínimo' ]) !!}
@@ -26,7 +26,7 @@
 <div class="clearfix"></div>
 {!! Form::hidden('campaigns_id', $campaign_id) !!}
 
-{{-- <div class="form-row">
+{{-- <div class="row">
     <div class="form-group col-md-6">
         <div class="form-group">
             {!! Form::label('campaigns_id', 'Campañas/Promociones') !!} 

@@ -274,7 +274,7 @@
 
                             </div>
 
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default" href="{{ route('caracteristicas.show',['id' => $grupo->id]) }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

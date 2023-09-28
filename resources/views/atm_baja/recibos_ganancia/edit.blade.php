@@ -28,12 +28,12 @@ BAJA | Modificar Recibo de ganancia
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($recibo, ['route' => ['recibos_ganancia.update', $recibo->id ] , 'method' => 'PUT', 'id' => 'editarRecibo-form','enctype'=>'multipart/form-data']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-6 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; RECIBO DE GANANCIA &nbsp;</h4></div>
                                     <div class="container-campaing">
                             
-                                        <div class="form-row">
+                                        <div class="row">
                                             <div class="form-group col-md-6">
                                                 {!! Form::label('numero', 'Número interno') !!}
                                                 <div class="input-group">
@@ -120,7 +120,7 @@ BAJA | Modificar Recibo de ganancia
                             </div>      
 
                             <div class="clearfix"></div>                            
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$grupo->id.'/'.$grupo->id.'/recibo_ganancia') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

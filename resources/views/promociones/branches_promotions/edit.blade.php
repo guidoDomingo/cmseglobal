@@ -27,7 +27,7 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($branchPromotion, ['route' => ['branches_providers.update', $branchPromotion->id ] , 'method' => 'PUT', 'id' => 'editarBranches-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
 
                                 <div class="form-group col-md-3">
                                     <div class="form-group">
@@ -54,7 +54,7 @@
                                     </div>
                                 </div>
                             </div>  
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-3">
                                     <div class="form-group">
                                         {!! Form::label('phone', 'Teléfono:') !!}
@@ -112,7 +112,7 @@
                                         {!! Form::text('location', null , ['class' => 'form-control', 'placeholder' => 'Ingrese la url de google maps' ]) !!}
                                     </div>
                                 </div>
-                                <div class="form-row">
+                                <div class="row">
                                     <div class="form-group col-md-3">
                                         <div class="form-group">
                                             {!! Form::label('custom_image', 'Imágen personalizada (QR)') !!} 
@@ -136,7 +136,7 @@
                                           
 
                           
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12">
                                     <div class="form-group">
                                         <div class="form-group col-md-3" style="margin-top: 25px;">

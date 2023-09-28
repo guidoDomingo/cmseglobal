@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'gastos_administrativo.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoGasto-form']) !!}
                             @include('atm_baja.gastos.partials.fields')
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/remision') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

@@ -218,7 +218,7 @@
                             <div class="box-body no-padding">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <div class="form-row">
+                                        <div class="row">
                                             <div class="form-group col-md-12 borderd-info">
                                                 <div class=""><h4>&nbsp;<i class="fa fa-info-circle"></i>&nbsp;INFO &nbsp;</h4></div>
                                                 <div class="container-info">
@@ -307,14 +307,14 @@
                                                 </div> 
                                             </div> 
                                         </div>
-                                        <div class="form-row">
+                                        <div class="row">
                                             @foreach ($penalty_types as $penalty_type )
                                                 {!! Form::hidden('titulo_multa_'.$penalty_type->id, strtoupper($penalty_type->description), ['id' => 'titulo_multa_'.$penalty_type->id]) !!}
                                                 <div class="form-group col-md-6 borderd-campaing height-ajust" id={{'form_penalizacion_'.$penalty_type->id}} style='display: none;'>
                                                     <div class="title"><h4>&nbsp;<i class="fa fa-history"></i>&nbsp; {{ strtoupper($penalty_type->description) }} &nbsp;</h4></div>
                                                     <div class="container-campaing">
                                             
-                                                        <div class="form-row">
+                                                        <div class="row">
                                                         
                                                             <div class="form-group col-md-6">
                                                                 {!! Form::label('saldo_mora', 'SALDO MORA') !!}
@@ -411,19 +411,19 @@
                                             @endforeach
                                             {!! Form::hidden('group_id', $grupo->id, ['id' => 'group_id']) !!}
                                         </div>
-                                        <div class="form-row">
+                                        <div class="row">
                                             <div class="form-group col-md-6"  style="text-align: center; margin-top: 50px;">
                                             <a class="btn btn-success btn-xl btn-circle btn-agg" title="Generar Factura" role="button" style="text-align: center">
                                                 <span class="fa fa-plus"></span> &nbsp; Añadir Factura
                                             </a>
                                             </div>
                                         </div>
-                                        <div class="form-row" style='display: none;'>
+                                        <div class="row" style='display: none;'>
                                             <div class="form-group col-md-6 borderd-campaing">
                                                 <div class="title"><h4>&nbsp;<i class="fa fa-history"></i>&nbsp; MULTA POR PENALIZACIÓN &nbsp;</h4></div>
                                                 <div class="container-campaing">
                                         
-                                                    <div class="form-row">
+                                                    <div class="row">
                                                      
                                                         <div class="form-group col-md-6">
                                                             {!! Form::label('pdv', 'PDV') !!}
@@ -453,11 +453,11 @@
                                             
                                                         {{--<button type="submit" class="btn btn-primary pull-right" id="btn_generar">GENERAR</button>--}}
 
-                                                        <div class="form-row">
+                                                        <div class="row">
                                                             <div class="form-group col-md-12 factura-generada" style="margin-top: 10%">
                                                                 <div class="title"><h4>&nbsp;<i class="fa fa-check-square-o"></i>&nbsp; FACTURA GENERADA EGLOBALT | ONDANET&nbsp;</h4></div>
                                                                 <div class="container-multa">
-                                                                    <div class="form-row">
+                                                                    <div class="row">
                                                                        
                                                                         <table class="table table-hover table-bordered table-condensed">
                                                                             <thead>
@@ -502,11 +502,11 @@
                                 <a class="btn btn-default pull-right" href="{{ url('atm/new/'.$grupo->id.'/groups_atms')}}" role="button">Atrás</a>
                             </div>
 
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12 factura-generada">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-check-square-o"></i>&nbsp; FACTURA GENERADA EGLOBALT | ONDANET&nbsp;</h4></div>
                                     <div class="container-multa">
-                                        <div class="form-row">
+                                        <div class="row">
                                            
                                             <table class="table table-hover table-bordered table-condensed">
                                                 <thead>

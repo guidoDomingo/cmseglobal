@@ -30,12 +30,12 @@
                                 <div class="row">
                                     <div class="col-xs-12">
 
-                                        <div class="form-row">
+                                        <div class="row">
                                             <div class="form-group col-md-6 borderd-campaing">
                                                 <div class="title"><h4>&nbsp;<i class="fa fa-history"></i>&nbsp; CAMBIO DE ESTADO &nbsp;</h4></div>
                                                 <div class="container-campaing">
                                         
-                                                    <div class="form-row">
+                                                    <div class="row">
                                                         <div class="form-group">
                                                             {!! Form::label('status', 'Estado:') !!}
                                                             {!! Form::select('status', ['0' => 'ACTIVO',
@@ -53,7 +53,7 @@
                                                     <hr>
                                                     <br>
                                                     <div id="seleccionar_atms" style="display: none">
-                                                        <div class="form-row">
+                                                        <div class="row">
                                                             <div class="form-group">
                                                                 {!! Form::label('atm_id', 'ATM/s disponible/s del cliente:', ['style' => 'font-weight:bold; color: red; ']) !!} 
                                                                 {{-- {!! Form::text('atms', !empty($atmsIds) ? $atmsIds : null, ['class' => 'form-control input-lg', 'id' => 'selectListAtms', 'placeholder' => 'Seleccione un ATM']) !!} --}}

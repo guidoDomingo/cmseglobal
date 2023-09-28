@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => ['promotions_vouchers.store',$campaignId] , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoVoucher-form']) !!}
                         @include('promotion_vouchers.partials.fields')
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('promotions_vouchers.show', $campaignId) }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>

@@ -29,7 +29,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'imputaciones.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaImputacion-form']) !!}
                             @include('atm_baja.imputaciones.partials.fields')
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/imputacion') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

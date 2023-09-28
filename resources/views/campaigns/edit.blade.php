@@ -29,7 +29,7 @@
                         @include('partials._messages')
                         {!! Form::model($campaign, ['route' => ['campaigns.update', $campaign->id ] , 'method' => 'PUT', 'id' => 'editarCampaña-form']) !!}
                             {{-- @include('campaigns.partials.fields') --}}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-cogs"></i> Configuración de la campaña &nbsp;</h4></div>
                                     <div class="container-campaing">
@@ -87,7 +87,7 @@
                                 </div>
                             </div>
                             <div class="clearfix"></div>
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12 borderd-content-2">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-tags"></i> Contenidos a promocionar &nbsp;</h4></div>
                                     <div class="col-md-12">

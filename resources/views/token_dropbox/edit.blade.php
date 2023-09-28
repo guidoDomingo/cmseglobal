@@ -28,7 +28,7 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($dropbox[0], ['route' => ['token_dropbox.update', $dropbox[0]->id ] , 'method' => 'PUT', 'id' => 'editaToken-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-2">
                                     <div class="form-group">
                                         {!! Form::label('id', 'ID') !!}
@@ -50,7 +50,7 @@
                                 </div>
                             </div>  
                         
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12">
                                     <div class="form-group">
                                         <div class="form-group col-md-3" style="margin-top: 25px;">

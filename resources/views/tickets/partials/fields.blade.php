@@ -1,4 +1,4 @@
-{{-- <div class="form-row">
+{{-- <div class="row">
     <div class="form-group col-md-12">
         <div class="form-group">
             {!! Form::label('campaigns_id', 'Campañas/Promociones') !!} 
@@ -9,7 +9,7 @@
 
 <div class="clearfix"></div> --}}
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12">
         {!! Form::label('header', 'Header') !!}
         {!! Form::text('header', null , ['class' => 'form-control', 'placeholder' => 'Ingrese un header' ]) !!}

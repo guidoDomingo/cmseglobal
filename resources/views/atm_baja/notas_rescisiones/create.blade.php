@@ -30,7 +30,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'notarescision.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevaRescision-form']) !!}
                             @include('atm_baja.notas_rescisiones.partials.fields')
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/rescision') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

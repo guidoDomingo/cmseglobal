@@ -28,7 +28,7 @@
                         {{-- @include('partials._flashes') --}}
                         @include('partials._messages')
                         {!! Form::model($canal, ['route' => ['canales.update', $canal->id ] , 'method' => 'PUT', 'id' => 'editarCanla-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-5">
                                     <div class="form-group">
                                         {!! Form::label('descripcion', 'Nombre') !!}<small style="color: red"><strong>(*)</strong></small>
@@ -36,7 +36,7 @@
                                     </div>
                                 </div>
                             </div>  
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12">
                                     <div class="form-group">
                                         <div class="form-group col-md-3" style="margin-top: 25px;">

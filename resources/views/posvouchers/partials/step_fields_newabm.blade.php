@@ -78,7 +78,7 @@
     <div class="col-md-6">
 		<div class="form-group">
 
-			<div class="form-row">
+			<div class="row">
 				<div class="form-group col-md-12 borderd-campaing">
 					<div class=""  style="margin-left: 130PX;"><h4>&nbsp; Detalles - Sistemas antell &nbsp;</h4></div>
 					<div class="form-group col-md-12"  style="margin-top: 20PX;">

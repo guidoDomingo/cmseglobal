@@ -28,7 +28,7 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($imputacion, ['route' => ['imputaciones.update', $imputacion->id ] , 'method' => 'PUT', 'id' => 'editarImputacion-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-6 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; IMPUTACIÓN DE DEUDA &nbsp;</h4></div>
                                     <div class="container-campaing">
@@ -121,7 +121,7 @@
                             </div>      
 
                             <div class="clearfix"></div>
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$grupo->id.'/'.$grupo->id.'/imputacion') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

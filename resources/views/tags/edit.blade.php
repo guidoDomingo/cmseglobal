@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::model($tag, ['route' => ['tags.update', $tag->id ] , 'method' => 'PUT', 'id' => 'editarTag']) !!}
                             {{-- @include('tags.partials.fields') --}}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-12">
                                     {!! Form::label('description', 'Descripción') !!}
                                     {!! Form::text('description', null , ['class' => 'form-control', 'placeholder' => 'Ingrese una descripción' ]) !!}

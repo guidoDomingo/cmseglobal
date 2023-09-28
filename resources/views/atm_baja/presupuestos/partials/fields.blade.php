@@ -1,9 +1,9 @@
-<div class="form-row d-flex">
+<div class="row d-flex">
     <div class="form-group col-md-6 borderd-campaing">
         <div class=""><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; PRESUPUESTO DE REPARACIÓN &nbsp;</h4></div>
         <div class="container-campaing">
 
-            <div class="form-row">
+            <div class="row">
 
                 <div class="form-group col-md-12">
                     {!! Form::label('numero', 'Número interno:') !!}

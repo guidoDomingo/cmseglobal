@@ -29,12 +29,12 @@
                         @include('partials._flashes')
                         @include('partials._messages')
                         {!! Form::model($nota, ['route' => ['notarescision.update', $nota->id ] , 'method' => 'PUT', 'id' => 'editarNota-form']) !!}
-                            <div class="form-row">
+                            <div class="row">
                                 <div class="form-group col-md-6 borderd-campaing">
                                     <div class="title"><h4>&nbsp;<i class="fa fa-file-text-o"></i>&nbsp; NOTA DE RESCISIÓN &nbsp;</h4></div>
                                     <div class="container-campaing">
                             
-                                        <div class="form-row">
+                                        <div class="row">
                                                   
                                             <div class="form-group col-md-12">
                                                 {!! Form::label('numero', 'Número interno:') !!}
@@ -87,7 +87,7 @@
                             <div class="clearfix"></div>
                             
                             
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$grupo->id.'/'.$grupo->id.'/rescision') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

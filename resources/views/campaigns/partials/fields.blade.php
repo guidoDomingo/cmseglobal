@@ -1,4 +1,4 @@
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12 borderd-campaing">
         <div class="title"><h4>&nbsp;<i class="fa fa-cogs"></i> Configuración de la campaña &nbsp;</h4></div>
         <div class="container-campaing">
@@ -60,14 +60,14 @@
 
 <div class="clearfix"></div>
 {{-- 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12 borderd-campaing">
         <div class="title"><h4>&nbsp;<i class="fa fa-bullhorn"></i> Alcance de la campaña &nbsp;</h4></div>
         <div class="form-group col-md-12">
             <div class="form-group">
     
                 <div class="campaing">
-                    <div class="form-row">
+                    <div class="row">
                         <hr>
                         <div class="form-group col-md-4">
                             <div class="form-group">
@@ -121,7 +121,7 @@
 
 <div class="clearfix"></div> --}}
 
-<div class="form-row">
+<div class="row">
     <div class="form-group col-md-12 borderd-content">
         <div class="title"><h4>&nbsp;<i class="fa fa-tags"></i> Contenidos a promocionar &nbsp;</h4></div>
         <div class="col-md-12">

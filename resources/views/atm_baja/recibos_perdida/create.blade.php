@@ -29,7 +29,7 @@
                         @include('partials._messages')
                         {!! Form::open(['route' => 'recibos_perdida.store' , 'method' => 'POST', 'role' => 'form', 'id' => 'nuevoRecibo-form', 'enctype'=>'multipart/form-data']) !!}
                             @include('atm_baja.recibos_perdida.partials.fields')
-                            <div class="form-row">
+                            <div class="row">
                                 <a class="btn btn-default"  href="{{ url('atm/new/'.$group_id.'/'.$group_id.'/recibo_perdida') }}" role="button">Cancelar</a>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>

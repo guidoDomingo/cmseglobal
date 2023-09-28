@@ -28,7 +28,7 @@
                         @include('partials._messages')
                         {!! Form::model($form, ['route' => ['forms.update', $form->id ] , 'method' => 'PUT', 'id' => 'editarForm-form']) !!}
                         @include('forms.partials.fields')
-                        <div class="form-row">
+                        <div class="row">
                             <a class="btn btn-default" href="{{ route('forms.index',['campaign_id' => $campaign_id]) }}" role="button">Cancelar</a>
                             <button type="submit" class="btn btn-primary">Guardar</button>
                         </div>
