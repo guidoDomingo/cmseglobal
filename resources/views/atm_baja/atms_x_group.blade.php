@@ -546,5 +546,13 @@
             background-color: #191E3A;
 		}
 
+        .dark .btn-bitbucket  {
+            height: auto !important;
+        }
+
+        #generar_factura {
+            height: auto !important;
+        }
+
     </style>
 @endsection

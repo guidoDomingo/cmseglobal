@@ -9,6 +9,10 @@ body.dark .table tbody tr td a {
     margin-bottom: 5px;
 }
 
+body.dark .table thead {
+    background-color: #060819 !important;
+}
+
 .dataTables_paginate a {
     background-color: #060819 !important;
 }
