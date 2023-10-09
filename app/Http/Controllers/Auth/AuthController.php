@@ -54,12 +54,14 @@ class AuthController extends Controller
             'password'  => $request->get('password')
         ];
 
+        $oldUsername = $request->input('username');
+
         $user = \Sentinel::findByCredentials($credentials);
         if ($user && $user->banned) {
             $ex = new \Exception('Usuario Bloqueado');
             $error = "Este usuario ha sido bloqueado, favor comunicarse con el encargado de sistemas";
             \Log::warning($ex->getMessage(), [\Request::get('username')]);
-            return redirect('login')->withInput()->withErrors($error);
+            return redirect('login')->withInput(['username' => $oldUsername])->withErrors($error);
         };
 
         try {
@@ -82,7 +84,9 @@ class AuthController extends Controller
 
         \Log::warning($ex->getMessage(), [\Request::get('username')]);
 
-        return redirect('login')->withInput()->withErrors($error);
+
+        return view('auth.login_plantilla')->with('username',$oldUsername)->withErrors(['error' => $error]);
+
     }
 
     /**

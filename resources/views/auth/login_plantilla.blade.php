@@ -56,6 +56,17 @@
                 <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-8 col-12 d-flex flex-column align-self-center ms-lg-auto me-lg-0 mx-auto">
                     <div class="card">
                         <div class="card-body">
+
+                             @if (count($errors) > 0)
+                                <div class="alert alert-danger">
+                                    <strong>Problemas</strong> al iniciar sesión
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                             @endif
     
                             <div class="row">
 
@@ -66,10 +77,11 @@
                                     <p>Ingrese sus datos</p>
                                     
                                 </div>
+                                
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label class="form-label">Usuario</label>
-                                         <input class="form-control" placeholder="Nombre de Usuario" autofocus="autofocus" name="username" type="text" value="{{ Request::old('username') }}">
+                                         <input class="form-control" placeholder="Nombre de Usuario" autofocus="autofocus" name="username" type="text" value="{{ $username ?? '' }}">
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -159,3 +171,4 @@
 
 </body>
 </html>
+

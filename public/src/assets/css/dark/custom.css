@@ -88,4 +88,8 @@ body.dark #content {
     width: 100%;
 }
 
+body.dark .dropdown-notificaciones {
+    width: 300px !important;
+}
+
 
