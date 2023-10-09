@@ -78,8 +78,8 @@
                                         <input class="form-control" placeholder="Ingrese su contraseña" name="password" value="" type="password">
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="mb-3">
+                                {{-- <div class="col-12">
+                                    <div class="mb-3"></div>
                                         <div class="form-check form-check-primary form-check-inline">
                                             <input class="form-check-input me-3" type="checkbox" id="form-check-default">
                                             <label class="form-check-label" for="form-check-default">
@@ -87,7 +87,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 
                                 <div class="col-12">
                                     <div class="mb-4">
