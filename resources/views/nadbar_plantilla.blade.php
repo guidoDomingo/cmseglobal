@@ -65,10 +65,13 @@
                     </a>
 
                     <div class="dropdown-menu position-absolute dropdown-notificaciones" aria-labelledby="notificationDropdown">
+                                     
+
                         <div class="drodpown-title message">
-                            <h6 class="d-flex justify-content-between"><span class="align-self-center">Messages</span> <span class="badge badge-primary">9 Unread</span></h6>
+                            <h6 class="d-flex justify-content-between"><span class="align-self-center">Notificaciones</span> <span class="badge badge-primary"><a href="/reports/notifications">Ver todos</a></span></h6>
                         </div>
-                        <div class="notification-scroll">
+
+                        {{-- <div class="notification-scroll">
                             <div class="dropdown-item">
                                 <div class="media server-log">
                                     <img src="../src/assets/img/profile-16.jpeg" class="img-fluid me-2" alt="avatar">
@@ -169,7 +172,7 @@
                                 </div>
                             </div>
                             
-                        </div>
+                        </div> --}}
                     </div>
                     
                 </li>
