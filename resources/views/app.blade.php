@@ -84,6 +84,20 @@
 
         }
 
+        body:not(.dark) #sidebar ul.menu-categories ul.submenu {
+            max-width: 300px;
+            width: 260px;
+
+        }
+
+        body:not(.dark) #sidebar ul.menu-categories ul.submenu > li.sub-submenu ul.sub-submenu {
+            max-width: 300px;
+            width: 260px;
+            padding: 10px 0;
+            margin-left: 0px !important;
+            background-color: ;
+        }
+
         body.dark #sidebar ul.menu-categories ul.submenu > li.sub-submenu ul.sub-submenu {
             max-width: 300px;
             width: 260px;
@@ -220,31 +234,6 @@
     <script src="{{ asset('src/assets/js/scrollspyNav.js') }}"></script>
 
     <!-- END PAGE LEVEL SCRIPTS -->
-
-     {{-- AGREGAR SELECT  --}}
-    {{-- <script src="{{ asset('src/plugins/src/tomSelect/tom-select.base.js') }}"></script>
-    <script src="{{ asset('src/plugins/src/tomSelect/custom-tom-select.js') }}"></script>
-    <script>
-        $( document ).ready(function() {
-            document.addEventListener('DOMContentLoaded', function() {
-                var selects = document.querySelectorAll('.select2');
-                
-                selects.forEach(function(selectElement) {
-                    new TomSelect(selectElement, {
-                        create: true,
-                        sortField: {
-                            field: "text",
-                            direction: "asc"
-                        }
-                    });
-                });
-            });
-        });
-
-    </script> --}}
-    {{-- FIN SELECT  --}}
-
-    
 
     {{-- GENERALES  --}}
 

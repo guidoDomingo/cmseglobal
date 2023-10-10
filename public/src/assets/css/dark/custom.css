@@ -88,8 +88,15 @@ body.dark #content {
     width: 100%;
 }
 
-body.dark .dropdown-notificaciones {
+.dropdown-notificaciones {
     width: 300px !important;
 }
+
+body:not(.dark) #content {
+    background-color: rgba(148, 145, 145, 0.349);
+}
+
+
+
 
 
