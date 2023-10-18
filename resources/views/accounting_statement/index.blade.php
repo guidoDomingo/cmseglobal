@@ -41,6 +41,10 @@ Estado Contable Unificado - Reporte
             max-width: 120px !important; /* Aumentar el ancho máximo */
             white-space: normal; /* Evitar el ajuste de línea */
         }
+
+        .caja-reporte {
+            background-color: #285F6C !important;
+        }
     </style>
 @endsection
 
@@ -276,7 +280,7 @@ $totals_list = $data['totals'];
 
                         <div class="col-md-4" style="display: {{ $key_display }}">
                             <div class="box-default" style="border: 1px solid #d2d6de; text-align: center;">
-                                <div class="box-body">
+                                <div class="caja-reporte">
                                     <span class="info-box-text">{{ $key }}</span>
 
                                     @if($key == 'ESTADO')
@@ -284,7 +288,7 @@ $totals_list = $data['totals'];
                                         <div class="label label-{{ $value_color }}" style="font-size: 15px; display: block; margin-top: 12px">{{ $value }}</div>
                                     </span>
                                     @else
-                                    <span class="info-box-number" style="font-size: 25px; color: {{ $value_color }}">{{ $value }}</span>
+                                    <span class="info-box-number" style="font-size: 25px; color: white">{{ $value }}</span>
                                     @endif
                                 </div>
                             </div>
@@ -1338,9 +1342,9 @@ $totals_list = $data['totals'];
                     $('<tr id="row_' + group_id + '" group_id="' + group_id + '" style="border-bottom: 1px solid gray">')
                     .append($('<td>').append(botones_html))
                     .append($('<td>').append(group_description))
-                    .append($('<td style="color: ' + saldo_color + '; font-weight: bold; background: #f4f4f4;">').append(saldo))
-                    .append($('<td style="background: #f4f4f4;" id="col_status_' + group_id + '">').append(estado_html))
-                    .append($('<td style="color: ' + regla_color + '; font-weight: bold; background: #f4f4f4;" title="' + regla_title + '">').append(regla))
+                    .append($('<td style="color: ' + saldo_color + '; font-weight: bold; background: #1B2E4B;">').append(saldo))
+                    .append($('<td style="background: #1B2E4B;" id="col_status_' + group_id + '">').append(estado_html))
+                    .append($('<td style="color: ' + regla_color + '; font-weight: bold; background: #1B2E4B;" title="' + regla_title + '">').append(regla))
                     .append($('<td style="display: none">').append(atms_con_regla))
                     .append($('<td style="display: none">').append(atms_sin_regla))
                     .append($('<td style="display: none">').append(atms_con_regla_descripcion))

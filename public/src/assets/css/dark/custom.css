@@ -96,6 +96,61 @@ body:not(.dark) #content {
     background-color: rgba(148, 145, 145, 0.349);
 }
 
+input[type="submit"] {
+    margin-top: 21px; /* Ajusta el valor del margen según tus necesidades */
+}
+
+
+/*pagination*/
+
+    /* Estilos para la paginación */
+#parts_paginate {
+    text-align: center; /* Centra los elementos de paginación */
+  }
+  
+  .pagination {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .pagination li {
+    list-style: none;
+    display: inline;
+    margin: 0 5px; /* Espacio entre los elementos */
+  }
+  
+  .pagination li a {
+    text-decoration: none;
+    padding: 5px 10px; /* Espacio alrededor del enlace */
+    border: 1px solid #ED6402; /* Borde alrededor del enlace */
+    background-color: #191E3A; /* Fondo de color naranja */
+    color: #fff; /* Texto en blanco */
+    border-radius: 5px; /* Bordes redondeados */
+  }
+  
+  .pagination li.active a {
+    background-color: #ED6402; /* Color de fondo naranja para el elemento activo */
+    color: #fff; /* Texto en blanco para el elemento activo */
+  }
+  
+  .pagination li.page-item.previous.disabled a,
+  .pagination li.page-item.next.disabled a {
+    pointer-events: none; /* Deshabilita los enlaces de "Anterior" y "Siguiente" cuando están desactivados */
+    opacity: 0.5; /* Reduce la opacidad de los enlaces deshabilitados */
+  }
+
+  .pagination-custom_outline {
+    margin-top: 31px;
+  }
+
+  /* .box-body {
+    background-color: red !important;
+  } */
+  
+
+/*fin pagination*/
+
 
 
 

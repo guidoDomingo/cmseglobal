@@ -104,13 +104,13 @@
                                 <div class="col-12">
                                     <div class="mb-4">
                                         <input name="_token" value="{{ csrf_token() }}" type="hidden">
-                                        <button type="submit" class="btn btn-secondary w-100">SIGN IN</button>
+                                        <button type="submit" class="btn btn-secondary w-100">Ingresar</button>
                                     </div>
                                 </div>
 
                             </form>
                                 
-                                <div class="col-12 mb-4">
+                                {{-- <div class="col-12 mb-4">
                                     <div class="">
                                         <div class="seperator">
                                             <hr>
@@ -150,7 +150,7 @@
                                     <div class="text-center">
                                         <p class="mb-0">Dont't have an account ? <a href="javascript:void(0);" class="text-warning">Sign Up</a></p>
                                     </div>
-                                </div>
+                                </div> --}}
                                 
                             </div>
                             

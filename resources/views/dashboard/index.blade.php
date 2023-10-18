@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('app')
 @section('title')
     Dashboard - Reportes por Cajero
 @endsection

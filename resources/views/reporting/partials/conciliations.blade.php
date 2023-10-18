@@ -10,7 +10,7 @@
                 <div class="box-body  no-padding">
                     <div class="row">
                         <div class="col-md-12">
-                            <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                            <table id="zero-config1" class="table table-striped dt-table-hover display responsive nowrap"
                                 style="width:100%">
                                 <thead>
                                 <tr>
@@ -68,7 +68,7 @@
                     <div class="box-body no-padding" style="overflow: scroll">
                         <div class="row">
                             <div class="col-md-12">
-                                <table id="zero-config" class="table table-striped dt-table-hover display responsive nowrap"
+                                <table id="zero-config2" class="table table-striped dt-table-hover display responsive nowrap"
                                 style="width:100%">
                                     <thead>
                                     <tr>
@@ -208,8 +208,10 @@
     <!-- DATA TABLE-->
 
     <script src="{{ asset('src/plugins/src/table/datatable/datatables.js') }}"></script>
+
     <script>
-        $('#zero-config').DataTable({
+
+        $('#zero-config1').DataTable({
             "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
             "<'table-responsive'tr>" +
             "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
@@ -224,6 +226,7 @@
             "lengthMenu": [7, 10, 20, 50],
             "pageLength": 10
         });
+
     </script>
 
  <!-- DATA TABLE - FIN -->
