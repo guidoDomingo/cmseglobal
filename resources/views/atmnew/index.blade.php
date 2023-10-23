@@ -170,162 +170,158 @@
                                         <td>{{ $atm->owner_name }}</td>
                                         <td style="text-align: center">
                                             @if ($atm->atm_status == -1)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="20" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 20%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">15%</span>
                                                     </div>
-                                                </div>
+                                                
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso1"
-                                                    data-toggle="modal" data-target="#modalProgreso1v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso1v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -2)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="40" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 40%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">30%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso2"
-                                                    data-toggle="modal" data-target="#modalProgreso2v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso2v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -3)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                           
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="60" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 45%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">45%</span>
                                                     </div>
-                                                </div>
+                                           
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso3"
-                                                    data-toggle="modal" data-target="#modalProgreso3v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso3v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -4)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                               
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 60%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">60%</span>
                                                     </div>
-                                                </div>
+                                             
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso4"
-                                                    data-toggle="modal" data-target="#modalProgreso4v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso4v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             {{-- ABM miniterminales v2 --}}
                                             @if ($atm->atm_status == -5)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 15%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">15%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso5"
-                                                    data-toggle="modal" data-target="#modalProgreso5v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso5v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -6)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 25%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">25%</span>
                                                     </div>
-                                                </div>
+                                                
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso6"
-                                                    data-toggle="modal" data-target="#modalProgreso6v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso6v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -7)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
-                                                        role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 35%">
-                                                        <span class="">35%</span>
-                                                    </div>
-                                                </div>
+                                           
+                                                <div class="progress-bar bg-info mb-3" role="progressbar" style="width: 80%" aria-valuenow="100" aria-valuemin="50" aria-valuemax="100">35%</div>
+                                             
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso7"
-                                                    data-toggle="modal" data-target="#modalProgreso7v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso7v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -8)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 40%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">40%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso8"
-                                                    data-toggle="modal" data-target="#modalProgreso8v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso8v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -14)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                               
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                        aria-valuemax="100" style="width: 55%">
+                                                        aria-valuemax="100" style="width: 80%">
                                                         <span class="">55%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso9"
-                                                    data-toggle="modal" data-target="#modalProgreso9v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso9v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
 
                                             @if ($atm->atm_status == -9)
-                                            <div class="progress">
-                                                <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                           
+                                                <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                     role="progressbar" aria-valuenow="80" aria-valuemin="0"
-                                                    aria-valuemax="100" style="width: 65%">
+                                                    aria-valuemax="100" style="width: 80%">
                                                     <span class="">65%</span>
                                                 </div>
-                                            </div>
+                                           
                                             <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso10"
-                                                data-toggle="modal" data-target="#modalProgreso10v2"><i
+                                                data-bs-toggle="modal" data-bs-target="#modalProgreso10v2"><i
                                                     class="fa fa-eye"></i></a>
                                             @endif
 
                                             @if ($atm->atm_status == -10)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 75%">
                                                         <span class="">75%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso11"
-                                                    data-toggle="modal" data-target="#modalProgreso11v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso11v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -11)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                
+                                                    <div class="progress-bar bg-primary progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 85%">
                                                         <span class="">85%</span>
                                                     </div>
-                                                </div>
+                                                
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso12"
-                                                    data-toggle="modal" data-target="#modalProgreso12v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso12v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -12)
-                                                <div class="progress">
-                                                    <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                
+                                                    <div class="progress-bar progress-bar-success progress-bar-striped mb-3"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 100%">
                                                         <span class="">100%</span>
                                                     </div>
-                                                </div>
+                                               
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso13"
-                                                    data-toggle="modal" data-target="#modalProgreso13v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso13v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                         </td>
@@ -338,7 +334,7 @@
                                                 @else
                                                     <td><span><i class="fa fa-circle text-red"></i> Suspendido <i
                                                                 class="pay-info fa fa-info-circle" style="cursor:pointer"
-                                                                data-toggle="tooltip" title="Detalle"></i></span></td>
+                                                                data-bs-toggle="tooltip" title="Detalle"></i></span></td>
                                                 @endif
                                             @else
                                                 @if ($atm->atm_status == 80)
@@ -389,32 +385,23 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     @if (Sentinel::hasAccess('atms_v2.add|edit'))
-                                                        <a class="btn btn-success" title="Editar"
-                                                            href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i
-                                                                class="fa fa-pencil"></i></a>
+                                                        <a class="btn btn-outline-success" title="Editar" href="{{ route('atmnew.edit', ['atmnew' => $atm->id]) }}"><i class="fa fa-pencil"></i></a>
                                                     @endif
                                                     @if (Sentinel::hasAccess('atms_v2.delete'))
-                                                        <a class="btn btn-danger" title="Eliminar"
-                                                            href="{{ route('atmnew.delete', ['id' => $atm->id]) }}"><i
-                                                                class="fa fa-remove"></i></a>
+                                                        <a class="btn btn-outline-danger" title="Eliminar" href="{{ route('atmnew.delete', ['id' => $atm->id]) }}"><i class="fa fa-remove"></i></a>
                                                     @endif
                                                     @if (Sentinel::hasAccess('atms_v2.params'))
-                                                        <a class="btn btn-primary" title="Parametros"
-                                                            href="{{ route('atmnew.params', ['id' => $atm->id]) }}"><i
-                                                                class="fa fa-gear"></i></a>
+                                                        <a class="btn btn-outline-primary" title="Parametros" href="{{ route('atmnew.params', ['id' => $atm->id]) }}"><i class="fa fa-gear"></i></a>
                                                     @endif
                                                     @if (Sentinel::hasAccess('atms_v2.parts'))
-                                                        <a class="btn btn-warning" title="Partes"
-                                                            href="{{ route('atmnew.parts', ['id' => $atm->id]) }}"><i
-                                                                class="fa fa-wrench"></i></a>
+                                                        <a class="btn btn-outline-warning" title="Partes" href="{{ route('atmnew.parts', ['id' => $atm->id]) }}"><i class="fa fa-wrench"></i></a>
                                                     @endif
                                                     @if (Sentinel::hasAccess('atms_v2.housing.add|edit'))
-                                                        <a class="btn btn-default" title="Editar Housing"
-                                                            href="{{ route('atmnew.housing', ['id' => $atm->id]) }}"><i
-                                                                class="fa fa-list"></i></a>
+                                                        <a class="btn btn-outline-secondary" title="Editar Housing" href="{{ route('atmnew.housing', ['id' => $atm->id]) }}"><i class="fa fa-list"></i></a>
                                                     @endif
                                                 </div>
                                             </td>
+
                                         @else
                                             <td>
                                                 @if (Sentinel::hasAccess('atms_v2.reactivar.add|edit'))
@@ -456,149 +443,149 @@
                                         <td style="text-align: center">
                                             @if ($atm->atm_status == -1)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="20" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 20%">
                                                         <span class="">15%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso1"
-                                                    data-toggle="modal" data-target="#modalProgreso1v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso1v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -2)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="40" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 40%">
                                                         <span class="">30%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso2"
-                                                    data-toggle="modal" data-target="#modalProgreso2v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso2v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -3)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="60" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 45%">
                                                         <span class="">45%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso3"
-                                                    data-toggle="modal" data-target="#modalProgreso3v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso3v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -4)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 60%">
                                                         <span class="">60%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso4"
-                                                    data-toggle="modal" data-target="#modalProgreso4v1"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso4v1"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             {{-- ABM miniterminales v2 --}}
                                             @if ($atm->atm_status == -5)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 15%">
                                                         <span class="">15%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso5"
-                                                    data-toggle="modal" data-target="#modalProgreso5v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso5v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -6)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 25%">
                                                         <span class="">25%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso6"
-                                                    data-toggle="modal" data-target="#modalProgreso6v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso6v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -7)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 35%">
                                                         <span class="">35%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso7"
-                                                    data-toggle="modal" data-target="#modalProgreso7v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso7v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -8)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 40%">
                                                         <span class="">40%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso8"
-                                                    data-toggle="modal" data-target="#modalProgreso8v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso8v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
 
                                             @if ($atm->atm_status == -14)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 55%">
                                                         <span class="">55%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso9"
-                                                    data-toggle="modal" data-target="#modalProgreso9v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso9v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
 
                                             @if ($atm->atm_status == -9)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 65%">
                                                         <span class="">65%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso10"
-                                                    data-toggle="modal" data-target="#modalProgreso10v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso10v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -10)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 75%">
                                                         <span class="">75%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso11"
-                                                    data-toggle="modal" data-target="#modalProgreso11v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso11v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -11)
                                                 <div class="progress">
-                                                    <div class="progress-bar progress-bar-primary progress-bar-striped"
+                                                    <div class="progress-bar bg-primary progress-bar-striped"
                                                         role="progressbar" aria-valuenow="80" aria-valuemin="0"
                                                         aria-valuemax="100" style="width: 85%">
                                                         <span class="">85%</span>
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso12"
-                                                    data-toggle="modal" data-target="#modalProgreso12v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso12v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                             @if ($atm->atm_status == -12)
@@ -610,7 +597,7 @@
                                                     </div>
                                                 </div>
                                                 <a class="btn btn-secondary" title="Ver Progreso" href="#" id="progreso13"
-                                                    data-toggle="modal" data-target="#modalProgreso13v2"><i
+                                                    data-bs-toggle="modal" data-bs-target="#modalProgreso13v2"><i
                                                         class="fa fa-eye"></i></a>
                                             @endif
                                         </td>
@@ -1078,13 +1065,30 @@
 
         body.dark .table thead tr th {
             max-width: 120px !important; /* Aumentar el ancho máximo */
-            white-space: normal; /* Evitar el ajuste de línea */
+            white-space: normal !important; /* Evitar el ajuste de línea */
         }
 
         body.dark .table tbody tr td {
             max-width: 120px !important; /* Aumentar el ancho máximo */
-            white-space: normal; /* Evitar el ajuste de línea */
+            white-space: normal !important; /* Evitar el ajuste de línea */
         }
+
+        body.dark .btn-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilos personalizados para la barra de progreso */
+        .custom-progress-bar {
+            background-color: #007BFF; /* Fondo azul */
+            font-weight: bold; /* Texto en negrita */
+            border: 1px solid #0056b3; /* Borde con color */
+            border-radius: 8px; /* Radio de esquina */
+            height: 20px; /* Ajusta la altura de la barra */
+            font-size: 14px; /* Tamaño del texto */
+        }
+
+
 
     </style>
 @endsection

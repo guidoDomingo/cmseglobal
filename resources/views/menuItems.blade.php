@@ -519,7 +519,47 @@
         "name": "Servicios con más demanda",
         "link": "{{ route('cms_services_with_more_returns_index') }}",
         "requiredPermission": ["cms_services_with_more_returns"]
-    }
+    },
+    {
+        "name": "Saldos en línea",
+        "link": "{{ route('reports.saldos') }}",
+        "requiredPermission": ["saldos_linea"]
+    },
+    {
+        "name": "Control Contable",
+        "link": "{{ route('saldos.contable') }}",
+        "requiredPermission": ["saldos_linea"]
+    },
+    {
+        "name": "Teléfonos",
+        "link": "{{ route('ussd_phone_report') }}",
+        "requiredPermission": ["ussd_phone_report"]
+    },
+    {
+        "name": "Menú y Opciones",
+        "link": "{{ route('ussd_option_report') }}",
+        "requiredPermission": ["ussd_option_report"]
+    },
+    {
+        "name": "Transacciones",
+        "link": "{{ route('ussd_transaction_report') }}",
+        "requiredPermission": ["ussd_transaction_report"]
+    },
+    {
+        "name": "Lista negra",
+        "link": "{{ route('ussd_black_list_report') }}",
+        "requiredPermission": ["ussd_black_list_report"]
+    },
+    {
+        "name": "Conciliador de boletas",
+        "link": "{{ route('ballot_conciliator') }}",
+        "requiredPermission": ["ballot_conciliator"]
+    },
+    {
+        "name": "Conciliador de transacciones",
+        "link": "{{ route('transaction_conciliator') }}",
+        "requiredPermission": ["transaction_conciliator"]
+    },
 
     // Agrega más elementos del menú aquí
 ];
@@ -543,54 +583,7 @@
             return item.requiredPermission.some(permission => userPermisosArray.includes(permission));
         });
 
-        /*EVENTO DEL TECLADO*/
-
-            let selectedIndex = -1; // Inicialmente, ningún elemento está seleccionado
-
-            searchInput.addEventListener('keydown', (event) => {
-                const items = menuList.querySelectorAll('a');
-                console.log("items",items);
-                // Navegar con las teclas de flecha
-                if (event.key === 'ArrowDown') {
-                    console.log("arriba");
-                    if (selectedIndex < items.length - 1) {
-                        selectedIndex++;
-                    }
-                    highlightItem(items);
-                } else if (event.key === 'ArrowUp') {
-                     console.log("abajo");
-                    if (selectedIndex > 0) {
-                        selectedIndex--;
-                    }
-                    highlightItem(items);
-                } else if (event.key === 'Enter' && selectedIndex >= 0) {
-                    // Navegar al enlace del elemento seleccionado cuando se presiona "Enter"
-                    window.location.href = items[selectedIndex].href;
-                }
-            });
-
-            function highlightItem(items) {
-                // Quitar el resaltado de todos los elementos
-                items.forEach(item => item.classList.remove('highlighted'));
-                
-                // Resaltar el elemento seleccionado
-                if (selectedIndex >= 0) {
-                    items[selectedIndex].classList.add('highlighted');
-                }
-            }
-
-            //function clearList(list) {
-                //while (list.firstChild) {
-                  //  list.removeChild(list.firstChild);
-               // }
-                // Resetear el índice seleccionado cada vez que la lista se limpia
-               // selectedIndex = -1;
-            //}
-
-
-
-
-        /*FIN DEL EVENTO DEL TECLADO*/
+        
 
         searchInput.addEventListener('input', () => {
 
@@ -636,4 +629,68 @@
         }
 
 
+        /*EVENTO DEL TECLADO*/
+
+            let selectedIndex = -1; // Inicialmente, ningún elemento está seleccionado
+
+            let items = [];
+
+            searchInput.addEventListener('keydown', (event) => {
+                items = menuList.querySelectorAll('a');
+
+                if (event.key === 'ArrowDown') {
+                    event.preventDefault();
+                    selectedIndex = (selectedIndex + 1) % filteredMenuItems.length;
+                   
+                    updateHighlightedItem(items[selectedIndex]);
+                    scrollIntoView(items[selectedIndex]);
+
+                } else if (event.key === 'ArrowUp') {
+                    event.preventDefault();
+                    selectedIndex = (selectedIndex - 1 + filteredMenuItems.length) % filteredMenuItems.length;
+                   
+                    updateHighlightedItem(items[selectedIndex]);
+                    scrollIntoView(items[selectedIndex]);
+                    
+                } else if (event.key === 'Enter' && selectedIndex >= 0) {
+                    event.preventDefault(); 
+                    console.log(items[selectedIndex].href);
+                    window.location.href = items[selectedIndex].href;
+                }
+            });
+
+            function updateHighlightedItem(selectedItem) {
+                console.log(selectedItem);
+                // Quitar el resaltado del elemento previamente resaltado
+      
+                items.forEach((data) => {
+                    data.classList.remove('highlighted');
+                });
+
+                
+
+                // Resaltar el elemento seleccionado
+                selectedItem.classList.add('highlighted');
+            }
+
+            function scrollIntoView(element) {
+                const elementRect = element.getBoundingClientRect();
+                const menuListRect = menuList.getBoundingClientRect();
+
+                if (elementRect.top < menuListRect.top) {
+                    // Elemento fuera de la parte superior de la lista
+                    menuList.scrollTop -= (menuListRect.top - elementRect.top);
+                } else if (elementRect.bottom > menuListRect.bottom) {
+                    // Elemento fuera de la parte inferior de la lista
+                    menuList.scrollTop += (elementRect.bottom - menuListRect.bottom);
+                }
+            }
+
+
+
+
+        /*FIN DEL EVENTO DEL TECLADO*/
+
+
 </script>
+

@@ -117,7 +117,7 @@ input[type="submit"] {
   .pagination li {
     list-style: none;
     display: inline;
-    margin: 0 5px; /* Espacio entre los elementos */
+    margin: 0 0px; /* Espacio entre los elementos */
   }
   
   .pagination li a {
@@ -143,6 +143,13 @@ input[type="submit"] {
   .pagination-custom_outline {
     margin-top: 31px;
   }
+
+  /* Estilo para resaltar el elemento seleccionado */
+  body.dark .highlighted {
+        background-color: #f0f0f0; /* Color de fondo resaltado */
+        color: #333; /* Color del texto resaltado */
+  }
+
 
   /* .box-body {
     background-color: red !important;

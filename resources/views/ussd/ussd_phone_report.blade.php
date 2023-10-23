@@ -576,6 +576,20 @@
         .dark .box-footer {
             background-color: #191E3A;
 		}
+
+        body.dark .box-body {
+            overflow: unset !important; 
+        }
+
+        body.dark .table thead tr th {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
+
+        body.dark .table tbody tr td {
+            max-width: 120px !important; /* Aumentar el ancho máximo */
+            white-space: normal; /* Evitar el ajuste de línea */
+        }
     </style>
 @endsection
 

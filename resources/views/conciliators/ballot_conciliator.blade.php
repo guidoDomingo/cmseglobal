@@ -44,7 +44,7 @@ Conciliador de boletas
         <div class="row">
             <div class="col-md-5">
                 <div class="callout callout-default"
-                    style="border: 1px solid #d2d6de; border-width: 1px 1px 1px 4px; background:white">
+                    style="border: 1px solid #d2d6de; border-width: 1px 1px 1px 4px; background:#191E3A">
                     <h4>Información y Mensajes</h4>
                     @include('partials._flashes')
                     @include('partials._messages')
@@ -61,7 +61,7 @@ Conciliador de boletas
                 </div>
 
                 <div class="callout callout-default"
-                    style="border: 1px solid #d2d6de; border-width: 1px 1px 1px 4px; background:white">
+                    style="border: 1px solid #d2d6de; border-width: 1px 1px 1px 4px; background:#191E3A">
                     <h4>Seleccionar archivos</h4><small>Máximo 15 archivos.</small>
 
                     {!! Form::open(['route' => 'ballot_conciliator_create', 'method' => 'POST', 'role' => 'form', 'id' => 'ballot_conciliator_form_create', 'enctype' => 'multipart/form-data']) !!}
@@ -73,12 +73,10 @@ Conciliador de boletas
 
                             <div class="form-group">
                                 {!! Form::Label('timestamp', 'Rango de fecha a Conciliar:', ['style' => 'float:left']) !!}
-                                <div class="input-group" style="display: inline-table">
-                                    <div class="input-group-text">
-                                        <i class="fa fa-clock-o"></i>
-                                    </div>
-
-                                    {!! Form::text('timestamp', null, ['class' => 'form-control', 'id' => 'timestamp', 'type' => 'text', 'style' => 'display:block']) !!}
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa fa-clock-o"></i></span>
+                                
+                                    {!! Form::text('timestamp', null, ['class' => 'form-control pull-right', 'id' => 'timestamp', 'type' => 'text', 'style' => 'display:block']) !!}
                                 </div>
                             </div>
                         </div>

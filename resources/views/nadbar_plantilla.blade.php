@@ -11,7 +11,7 @@
                     </a>
                 </li>
                 <li class="nav-item theme-text">
-                    <a href="index.html" class="nav-link"> EGLOBAL </a>
+                    <a href="/" class="nav-link"> EGLOBAL </a>
                 </li>
             </ul>
 
@@ -19,20 +19,23 @@
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
                 <form class="form-inline search-full form-inline search" role="search">
                     <div class="search-bar">
-                        <input type="text" id="searchInput" class="form-control search-form-control  ml-lg-auto" placeholder="Search...">
+                        <input type="text" id="searchInput" class="form-control search-form-control ml-lg-auto" placeholder="Search...">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x search-close"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                     </div>
+                    <label class="badge badge-secondary">Ctrl + /</label>
                 </form>
-                <span class="badge badge-secondary">Ctrl + /</span>
+           
 
-                {{-- <ul id="menuList" class="list-group ">
-          
-                </ul> --}}
 
                 
-                <div id="menuList" class="list-group list-group-buscador">
 
+                
+                <div class="container">
+                    <div id="menuList" class="list-group list-group-buscador">
+                        <!-- Tus elementos de lista -->
+                    </div>
                 </div>
+
         
                 
             </div>

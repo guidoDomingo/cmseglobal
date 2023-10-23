@@ -1139,6 +1139,128 @@
                     </li>
                 @endif
 
+
+                @if (\Sentinel::getUser()->hasAccess('saldos_linea'))
+                    <li class="sub-submenu dropend ">
+                        <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false"
+                            class="dropdown-toggle collapsed"><i class="fa fa-cubes"></i>Saldos en línea<svg
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-chevron-right">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg> </a>
+                        <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1">
+
+                            <li @if (Request::is('reports/saldos*')) class="active" @endif>
+                                <a href="{{ route('reports.saldos') }}">
+                                    <i class="fa fa-bar-chart"></i><span>Saldos en línea</span>
+                                </a>
+                            </li>
+                            <li @if (Request::is('saldos/contable')) class="active" @endif>
+                                <a href="{{ route('saldos.contable') }}">
+                                    <i class="fa fa-server"></i><span>Control Contable</span>
+                                </a>
+                            </li>
+
+                        </ul>
+
+                    </li>
+                @endif
+
+                @if (\Sentinel::getUser()->hasAccess('ussd'))
+                    @if (\Sentinel::getUser()->hasAccess('ussd_reports'))
+                        <li class="sub-submenu dropend ">
+                            <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false"
+                                class="dropdown-toggle collapsed"><i class="fa fa-cubes"></i>USSD<svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg> </a>
+                            <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1">
+
+                                @if (\Sentinel::getUser()->hasAccess('ussd_phone_report'))
+                                    <li @if (Request::is('ussd/phone/ussd_phone_report*')) class="active" @endif>
+                                        <a href="{{ route('ussd_phone_report') }}">
+                                            <i class="fa fa-asterisk"></i><span>Teléfonos</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (\Sentinel::getUser()->hasAccess('ussd_option_report'))
+                                    <li @if (Request::is('ussd/option/ussd_option_report*')) class="active" @endif>
+                                        <a href="{{ route('ussd_option_report') }}">
+                                            <i class="fa fa-asterisk"></i><span>Menú y Opciones</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                <!--
+                                @if (\Sentinel::getUser()->hasAccess('ussd_menu_report'))
+                                    <li @if (Request::is('ussd/menu/ussd_menu_report*')) class="active" @endif>
+                                        <a href="{{ route('ussd_menu_report') }}">
+                                            <i class="fa fa-asterisk"></i><span>Menú</span>
+                                        </a>
+                                    </li>
+                                @endif
+                                -->
+
+                                @if (\Sentinel::getUser()->hasAccess('ussd_transaction_report'))
+                                    <li @if (Request::is('ussd/transaction/ussd_transaction_report*')) class="active" @endif>
+                                        <a href="{{ route('ussd_transaction_report') }}">
+                                            <i class="fa fa-asterisk"></i><span>Transacciones</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (\Sentinel::getUser()->hasAccess('ussd_black_list_report'))
+                                    <li @if (Request::is('ussd/black_list/ussd_black_list_report*')) class="active" @endif>
+                                        <a href="{{ route('ussd_black_list_report') }}">
+                                            <i class="fa fa-asterisk"></i><span>Lista negra</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            </ul>
+
+                        </li>
+                    @endif
+                @endif
+
+                @if (\Sentinel::getUser()->hasAccess('conciliators'))
+                    @if (\Sentinel::getUser()->hasAccess('ussd_reports'))
+                        <li class="sub-submenu dropend ">
+                            <a href="#lista1" data-bs-toggle="dropdown" aria-expanded="false"
+                                class="dropdown-toggle collapsed"><i class="fa fa-cubes"></i>Conciliadores<svg
+                                    xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-chevron-right">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg> </a>
+                            <ul class="dropdown-menu list-unstyled sub-submenu" id="lista1">
+
+                                @if (\Sentinel::getUser()->hasAccess('ballot_conciliator'))
+                                    <li @if (Request::is('conciliators/ballot/ballot_conciliator*')) class="active" @endif>
+                                        <a href="{{ route('ballot_conciliator') }}">
+                                            <i class="fa fa-file"></i><span>Conciliador de boletas</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (\Sentinel::getUser()->hasAccess('transaction_conciliator'))
+                                    <li @if (Request::is('conciliators/transaction/transaction_conciliator*')) class="active" @endif>
+                                        <a href="{{ route('transaction_conciliator') }}">
+                                            <i class="fa fa-file"></i><span>Conciliador de transacciones</span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                            </ul>
+
+                        </li>
+                    @endif
+                @endif
+
             </ul>
         </li>
     @endif

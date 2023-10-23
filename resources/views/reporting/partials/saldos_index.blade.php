@@ -301,4 +301,11 @@
 @endsection
 @section('aditional_css')
     <link href="/bower_components/admin-lte/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+    <style>
+
+        .tab-content {
+            background-color: #191E3A !important;
+        }
+
+    </style>
 @endsection

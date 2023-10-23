@@ -71,8 +71,48 @@
             padding: 10px;
             margin: 8px;
             z-index: 2;
-            width: 100%;
         }
+
+        #menuList {
+            max-height: 300px; /* Limita la altura máxima de la lista */
+            max-width: 500px; /* Limita la altura máxima de la lista */
+            overflow-y: scroll; /* Agrega una barra de desplazamiento vertical cuando sea necesario */
+            border: 1px solid #ccc; /* Agrega un borde */
+        }
+
+        #menuList::-webkit-scrollbar {
+            width: 10px; /* Ancho de la barra de desplazamiento */
+        }
+
+        #menuList::-webkit-scrollbar-track {
+            background-color: #060818; /* Color de fondo de la pista de desplazamiento */
+        }
+
+        #menuList::-webkit-scrollbar-thumb {
+            background-color: #191E3A; /* Color de la barra de desplazamiento */
+        }
+
+        .list-group-item {
+            cursor: pointer; /* Cambia el cursor al pasar sobre los elementos */
+            transition: background-color 0.2s; /* Agrega una transición de color de fondo */
+        }
+
+        .list-group-item:hover {
+            background-color: #f5f5f5; /* Cambia el color de fondo al pasar el mouse por encima */
+        }
+
+        /* Estilos para dispositivos móviles (ancho de pantalla menor o igual a 768px) */
+        @media (max-width: 768px) {
+            #menuList {
+                width: 100%; /* Hacer que la lista ocupe todo el ancho disponible */
+            }
+            .list-group-buscador {
+                position: relative; /* Cambiar la posición a relativa en dispositivos móviles */
+                z-index: 99;
+            }
+        }
+
+        
 
         #sidebar ul.menu-categories ul.submenu > li a {
             justify-content: flex-start !important;
@@ -117,7 +157,11 @@
         .highlighted {
             background-color: #d1d1d1;  /* O cualquier otro color que desees */
         }
-        
+
+        .search-animated {
+            width: 370px;
+        }
+
 
     </style>
 
